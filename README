@@ -1,0 +1,41 @@
+wallaroo
+********
+
+Welcome to wallaroo!
+
+This is the source code for the wallaroo project. The main project page is at:
+http://wallaroo.googlecode.com/
+
+All of our documentation is on the project wiki:
+http://code.google.com/p/wallaroo/w/list
+
+
+Introduction
+============
+
+<TODO>
+
+Installation
+============
+
+This repository contains the wallaroo framework.
+
+See INSTALL for (generic) installation instructions.
+
+
+The Wallaroo Distribution
+=========================
+
+This is a sketch of the resulting directory structure:
+
+wallaroo\ ....................................The “wallaroo root directory”
+   README .............................Generic documentation about wallaroo
+   INSTALL ......................................Installation documentation
+   ChangeLog ........................................The log of the changes
+   Version ...........................This file contains the version number
+   wallaroo\ .....................................All Wallaroo Header files
+   samples\ ..............................................Examples and test
+    mineplant\ ............The "originating" example from Carlo Pescio blog
+    minimal\................................................A basic example
+    …more samples…
+   doc\ ..................................A subset of Wallaroo library docs

@@ -1,0 +1,43 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.exe
+
+
+# Compiled Dynamic libraries
+*.so
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Project files
+*.ncb
+*.user
+
+# Specifics
+/samples/container/Debug
+/samples/container/Release
+/samples/container/container_sample
+/samples/distributed/Debug
+/samples/distributed/Release
+/samples/eventbus/Debug
+/samples/eventbus/Release
+
+# Others
+*.idb
+*.log
+*.map
+*.mk
+*.pdb
+*.pyc
+*.scons*
+*.suo
+*.xcodeproj
+#*#
+*~
