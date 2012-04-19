@@ -9,9 +9,9 @@ Requirements
 Installation
 ============
 
-Wallaroo library is header-only: it consists entirely of header files containing 
-templates and inline functions, and require no separately-compiled library binaries
-or special treatment when linking.
+Wallaroo library is header-only: it consists entirely of header files 
+containing templates and inline functions, and require no separately-compiled 
+library binaries or special treatment when linking.
 
 Extract the archive wherever you want.
 This is a sketch of the resulting directory structure:
@@ -23,32 +23,34 @@ wallaroo\ ....................................The “wallaroo root directory”
    Version ...........................This file contains the version number
    wallaroo\ .....................................All Wallaroo Header files
    samples\ ..............................................Examples and test
-    mineplant\ ............The "originating" example from Carlo Pescio blog
-    minimal\................................................A basic example
-    …more samples…
+      mineplant\ ..........The "originating" example from Carlo Pescio blog
+      minimal\..............................................A basic example
+      ...more samples...
    doc\ ..................................A subset of Wallaroo library docs
 
-Now you must only remember to insert the wallaroo path when compiling your source code.
+Now you must only remember to insert the wallaroo path when compiling your 
+source code.
 
 Usage
 =====
 
 It's important to note the following:
 
-The path to the wallaroo root directory (often C:\Program Files\wallaroo) is sometimes referred to as 
-$WALLAROO_ROOT in documentation and mailing lists.
+The path to the wallaroo root directory (often C:\Program Files\wallaroo) is 
+sometimes referred to as $WALLAROO_ROOT in documentation and mailing lists.
 
-To compile anything in Wallaroo, you need a directory containing the wallaroo\ subdirectory in your 
-#include path.
+To compile anything in Wallaroo, you need a directory containing the wallaroo\ 
+subdirectory in your #include path.
 
-Since all of Wallaroo's header files have the .h extension, and live in the wallaroo\ subdirectory of the
-wallaroo root, your Wallaroo #include directives will look like:
+Since all of Wallaroo's header files have the .h extension, and live in the 
+wallaroo\ subdirectory of the wallaroo root, your Wallaroo #include directives 
+will look like:
   #include <wallaroo/whatever.h>
 or
   #include "wallaroo/whatever.h"
-depending on your preference regarding the use of angle bracket includes. Even Windows users can
-(and, for portability reasons, probably should) use forward slashes in #include directives;
-your compiler doesn't care.
+depending on your preference regarding the use of angle bracket includes. 
+Even Windows users can (and, for portability reasons, probably should) use 
+forward slashes in #include directives; your compiler doesn't care.
 
 
 Compilation of the samples

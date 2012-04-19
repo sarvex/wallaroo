@@ -18,7 +18,7 @@ Introduction
 Installation
 ============
 
-This repository contains the wallaroo framework.
+This repository contains the wallaroo library.
 
 See INSTALL for (generic) installation instructions.
 
@@ -28,14 +28,14 @@ The Wallaroo Distribution
 
 This is a sketch of the resulting directory structure:
 
-wallaroo\ ....................................The “wallaroo root directory”
+wallaroo\ ....................................The "wallaroo root directory"
    README .............................Generic documentation about wallaroo
    INSTALL ......................................Installation documentation
    ChangeLog ........................................The log of the changes
    Version ...........................This file contains the version number
    wallaroo\ .....................................All Wallaroo Header files
    samples\ ..............................................Examples and test
-    mineplant\ ............The "originating" example from Carlo Pescio blog
-    minimal\................................................A basic example
-    …more samples…
+      mineplant\ ..........The "originating" example from Carlo Pescio blog
+      minimal\..............................................A basic example
+      ...more samples...
    doc\ ..................................A subset of Wallaroo library docs
