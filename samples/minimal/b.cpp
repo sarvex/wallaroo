@@ -27,14 +27,19 @@
 REGISTER( B, void, void )
 
 B::B()  :
-    c( "x", this )
+    c( "x", this ),
+    cList( "xList", this )
 {
 }
 
 void B::F()
 {
-    std::cout << "B::F" << std::endl;
+    std::cout << "B::F method begin" << std::endl;
+    std::cout << "invoking x -> G():" << std::endl;
     c -> G();
+    std::cout << "iterating over xList:" << std::endl;
+    // TODO
+    std::cout << "B::F method end" << std::endl;
 }
 
 B::~B()

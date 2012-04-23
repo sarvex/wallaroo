@@ -26,6 +26,7 @@
 
 #include "class.h"
 #include "wireableclassptr.h"
+#include "wireableclassptrlist.h"
 #include "wireableclass.h"
 
 #endif

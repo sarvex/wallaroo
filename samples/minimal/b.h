@@ -37,6 +37,7 @@ public:
     virtual ~B();
 private:
     WireableClassPtr< C > c;
+    WireableClassPtrList< C > cList;
 };
 
 #endif

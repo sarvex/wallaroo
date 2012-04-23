@@ -21,27 +21,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "wallaroo/catalog.h"
-#include "a.h"
+#ifndef WIREABLECLASSPTRLIST_H_
+#define WIREABLECLASSPTRLIST_H_
 
-int main( int argc, char* argv[] )
+#include <string>
+#include <cassert>
+#include <list>
+//#include <boost/shared_ptr.hpp>
+#include "configurableassociation.h"
+#include "wireableclass.h"
+
+template < class T >
+class WireableClassPtrList : public ConfigurableAssociation
 {
-    Catalog catalog;
+public:
+    WireableClassPtrList( const std::string& id, WireableClass* tree )
+    {
+        tree -> Register( id, this );
+    }
+    void Assign( WireableClass* wireable ) throw ( std::bad_cast )
+    {
+        // obj = boost::dynamic_pointer_cast< T >( wireable );
+        T* obj = dynamic_cast< T* >( wireable );
+        if ( obj == NULL ) // bad type!
+            throw std::bad_cast();
+        else
+            objects.push_back( obj );
+    }
+private:
+    std::list< T* > objects;
+};
 
-    catalog.Create( "c", "C" );
-    catalog.Create( "c1", "C" );
-    catalog.Create( "c2", "C" );
-    catalog.Create( "a", "B" );
-    A* a = catalog[ "a" ];
-
-    catalog[ "a" ].Wire( "x", catalog[ "c" ] );
-
-    catalog[ "a" ].Wire( "xList", catalog[ "c1" ] );
-    catalog[ "a" ].Wire( "xList", catalog[ "c2" ] );
-
-    a -> F();
-
-    system( "PAUSE" );
-
-    return 0;
-}
+#endif
