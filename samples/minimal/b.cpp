@@ -22,6 +22,8 @@
  ******************************************************************************/
 
 #include <iostream>
+#include <functional>
+#include <algorithm>
 #include "b.h"
 
 REGISTER( B, void, void )
@@ -38,7 +40,7 @@ void B::F()
     std::cout << "invoking x -> G():" << std::endl;
     c -> G();
     std::cout << "iterating over xList:" << std::endl;
-    // TODO
+    std::for_each( cList.begin(), cList.end(), std::mem_fun( &C::G ) );
     std::cout << "B::F method end" << std::endl;
 }
 

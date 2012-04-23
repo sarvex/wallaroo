@@ -32,7 +32,9 @@
 #include "wireableclass.h"
 
 template < class T >
-class WireableClassPtrList : public ConfigurableAssociation
+class WireableClassPtrList : 
+    public ConfigurableAssociation,
+    public std::list< T* >
 {
 public:
     WireableClassPtrList( const std::string& id, WireableClass* tree )
@@ -46,10 +48,8 @@ public:
         if ( obj == NULL ) // bad type!
             throw std::bad_cast();
         else
-            objects.push_back( obj );
+            push_back( obj );
     }
-private:
-    std::list< T* > objects;
 };
 
 #endif
