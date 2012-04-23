@@ -21,29 +21,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <iostream>
-#include <algorithm>
-#include "b.h"
+#ifndef ALARM_H_
+#define ALARM_H_
 
-REGISTER( B, void, void )
+#include "digitaloutput.h"
+#include "wallaroo/registered.h"
 
-B::B()  :
-    c( "x", this ),
-    cList( "xList", this )
+REGISTERED_CLASS( Alarm, void, void ), public WireableClass
+// class Alarm : public WireableClass
 {
-}
+public:
+    Alarm();
+    virtual void On();
+    virtual void Off();
+private:
+    WireableClassPtr< DigitalOutput > output;
+};
 
-void B::F()
-{
-    std::cout << "B::F method begin" << std::endl;
-    std::cout << "invoking x -> G():" << std::endl;
-    c -> G();
-    std::cout << "iterating over xList:" << std::endl;
-    std::for_each( cList.begin(), cList.end(), std::mem_fun( &C::G ) );
-    std::cout << "B::F method end" << std::endl;
-}
 
-B::~B()
-{
-}
-
+#endif

@@ -21,29 +21,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <iostream>
-#include <algorithm>
-#include "b.h"
+#include "alarm.h"
 
-REGISTER( B, void, void )
+REGISTER( Alarm, void, void )
 
-B::B()  :
-    c( "x", this ),
-    cList( "xList", this )
+Alarm::Alarm() :
+  output( "output", this )
 {
 }
 
-void B::F()
+void Alarm::On()
 {
-    std::cout << "B::F method begin" << std::endl;
-    std::cout << "invoking x -> G():" << std::endl;
-    c -> G();
-    std::cout << "iterating over xList:" << std::endl;
-    std::for_each( cList.begin(), cList.end(), std::mem_fun( &C::G ) );
-    std::cout << "B::F method end" << std::endl;
+    output -> Write( true );
 }
 
-B::~B()
+void Alarm::Off()
 {
+    output -> Write( false );
 }
 

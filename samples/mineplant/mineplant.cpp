@@ -41,8 +41,15 @@ MinePlant::MinePlant()
     catalog.Create( "engine", "PumpEngine" );
 #else
     catalog.Create( "engine", "SafeEngine" );
-    catalog.Create1( "gasSensor", "ThresholdGasSensor", 5u );
-    catalog.Create1( "gasInput", "ConstAnalogInput", std::string( "/dev/lpt3") );
+    catalog.Create1( "airFlowSensor", "ThresholdGasSensor", 5u );
+    catalog.Create1( "COSensor", "ThresholdGasSensor", 25u );
+    catalog.Create1( "methaneSensor", "ThresholdGasSensor", 10u );
+    catalog.Create1( "airFlowInput", "ConstAnalogInput", std::string( "/dev/lpt3") );
+    catalog.Create1( "COInput", "ConstAnalogInput", std::string( "/dev/lpt4") );
+    catalog.Create1( "methaneInput", "ConstAnalogInput", std::string( "/dev/lpt5") );
+    catalog.Create2( "alarmOutput", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 1u );
+    catalog.Create( "gasAlarm", "GasAlarm" );
+    catalog.Create( "alarm", "Alarm" );
 #endif
     catalog.Create( "pump", "SumpPump" );
     pump = catalog[ "pump" ];
@@ -59,9 +66,19 @@ MinePlant::MinePlant()
     catalog[ "probe" ].Wire( "highSensor", catalog[ "highSensor" ] );
 
     catalog[ "engine" ].Wire( "output", catalog[ "output" ] );
+
 #ifndef NO_GAS_CHECK
-    catalog[ "engine" ].Wire( "sensor", catalog[ "gasSensor" ] );
-    catalog[ "gasSensor" ].Wire( "input", catalog[ "gasInput" ] );
+    catalog[ "airFlowSensor" ].Wire( "input", catalog[ "airFlowInput" ] );
+    catalog[ "COSensor" ].Wire( "input", catalog[ "COInput" ] );
+    catalog[ "methaneSensor" ].Wire( "input", catalog[ "methaneInput" ] );
+
+    catalog[ "engine" ].Wire( "sensor", catalog[ "methaneSensor" ] );
+
+    catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "airFlowSensor" ] );
+    catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "COSensor" ] );
+    catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "methaneSensor" ] );
+
+    catalog[ "gasAlarm" ].Wire( "alarm", catalog[ "alarm" ] );
 #endif
 
     catalog[ "pump" ].Wire( "probe", catalog[ "probe" ] );

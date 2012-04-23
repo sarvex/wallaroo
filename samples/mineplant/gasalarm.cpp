@@ -21,29 +21,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <iostream>
-#include <algorithm>
-#include "b.h"
+#include "gasalarm.h"
 
-REGISTER( B, void, void )
+REGISTER( GasAlarm, void, void )
 
-B::B()  :
-    c( "x", this ),
-    cList( "xList", this )
+GasAlarm::GasAlarm() :
+  sensors( "sensors", this ),
+  alarm( "alarm", this )
 {
 }
 
-void B::F()
+void GasAlarm::Watch()
 {
-    std::cout << "B::F method begin" << std::endl;
-    std::cout << "invoking x -> G():" << std::endl;
-    c -> G();
-    std::cout << "iterating over xList:" << std::endl;
-    std::for_each( cList.begin(), cList.end(), std::mem_fun( &C::G ) );
-    std::cout << "B::F method end" << std::endl;
-}
+    for ( SensorList::iterator i = sensors.begin(); i != sensors.end(); ++i )
+    {
+        if ( ( *i ) -> IsCritical() )
+        {
+            alarm -> On();
+            return;
+        }
+    }
 
-B::~B()
-{
+    alarm -> Off();
 }
-

@@ -163,6 +163,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\alarm.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\consoledigitaloutput.cpp"
 				>
 			</File>
@@ -172,6 +176,10 @@
 			</File>
 			<File
 				RelativePath=".\constdigitalinput.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gasalarm.cpp"
 				>
 			</File>
 			<File
@@ -217,6 +225,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\alarm.h"
+				>
+			</File>
+			<File
 				RelativePath=".\analoginput.h"
 				>
 			</File>
@@ -238,6 +250,10 @@
 			</File>
 			<File
 				RelativePath=".\digitaloutput.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gasalarm.h"
 				>
 			</File>
 			<File

@@ -21,29 +21,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <iostream>
-#include <algorithm>
-#include "b.h"
+#ifndef GASALARM_H_
+#define GASALARM_H_
 
-REGISTER( B, void, void )
+#include "gassensor.h"
+#include "alarm.h"
+#include "wallaroo/registered.h"
 
-B::B()  :
-    c( "x", this ),
-    cList( "xList", this )
+REGISTERED_CLASS( GasAlarm, void, void ), public WireableClass
+// class GasAlarm : public WireableClass
 {
-}
+public:
+    GasAlarm();
+    virtual void Watch();
+private:
+    typedef WireableClassPtrList< GasSensor > SensorList;
+    SensorList sensors;
+    WireableClassPtr< Alarm > alarm;
+};
 
-void B::F()
-{
-    std::cout << "B::F method begin" << std::endl;
-    std::cout << "invoking x -> G():" << std::endl;
-    c -> G();
-    std::cout << "iterating over xList:" << std::endl;
-    std::for_each( cList.begin(), cList.end(), std::mem_fun( &C::G ) );
-    std::cout << "B::F method end" << std::endl;
-}
 
-B::~B()
-{
-}
-
+#endif
