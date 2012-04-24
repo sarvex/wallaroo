@@ -26,6 +26,8 @@
 
 #include "sumppump.h"
 
+using namespace wallaroo;
+
 class MinePlant
 {
 public:

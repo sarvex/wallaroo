@@ -28,6 +28,8 @@
 #include "analoginput.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( ThresholdGasSensor, unsigned int, void ), public GasSensor
 // class ThresholdGasSensor : public GasSensor
 {

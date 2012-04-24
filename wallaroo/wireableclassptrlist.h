@@ -31,6 +31,9 @@
 #include "configurableassociation.h"
 #include "wireableclass.h"
 
+namespace wallaroo
+{
+
 template < class T >
 class WireableClassPtrList : 
     public ConfigurableAssociation,
@@ -51,5 +54,7 @@ public:
             push_back( obj );
     }
 };
+
+} // namespace
 
 #endif

@@ -28,6 +28,8 @@
 #include "analoginput.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( ConstAnalogInput, std::string, void ), public AnalogInput
 //class ConstAnalogInput : public AnalogInput
 {

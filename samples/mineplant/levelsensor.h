@@ -27,6 +27,8 @@
 #include "digitalinput.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( LevelSensor, void, void ), public WireableClass
 // class LevelSensor : public WireableClass
 {

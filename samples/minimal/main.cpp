@@ -24,6 +24,8 @@
 #include "wallaroo/catalog.h"
 #include "a.h"
 
+using namespace wallaroo;
+
 int main( int argc, char* argv[] )
 {
     Catalog catalog;

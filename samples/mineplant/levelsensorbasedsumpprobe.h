@@ -28,6 +28,8 @@
 #include "sumpprobe.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( LevelSensorBasedSumpProbe, void, void ), SumpProbe
 {
 public:

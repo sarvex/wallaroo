@@ -30,6 +30,9 @@
 #include "configurableassociation.h"
 #include "wireableclass.h"
 
+namespace wallaroo
+{
+
 template < class T >
 class WireableClassPtr : public ConfigurableAssociation
 {
@@ -59,5 +62,7 @@ public:
 private:
     T* object;
 };
+
+} // namespace
 
 #endif

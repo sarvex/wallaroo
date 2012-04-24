@@ -27,6 +27,8 @@
 #include "digitaloutput.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( PumpEngine, void, void ), public WireableClass
 /*
 class PumpEngine : 

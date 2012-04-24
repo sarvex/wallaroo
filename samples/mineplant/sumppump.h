@@ -28,6 +28,8 @@
 #include "pumpengine.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( SumpPump, void, void ), public WireableClass
 // class SumpPump : public WireableClass
 {

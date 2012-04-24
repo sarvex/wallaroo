@@ -29,6 +29,8 @@
 #include <memory>
 #include <list>
 
+namespace wallaroo
+{
 
 template < class I, class P1, class P2 > class Registry;
 template < class I, class P1, class P2 > class RegEntry;
@@ -256,6 +258,8 @@ class RegEntry
             Class< I, P1, P2 >::Register( s, f );
         }
 };
+
+} // namespace
 
 #define REGISTER( C, P1, P2 ) \
     static const RegEntry< WireableClass, P1, P2 > r( #C, &Registered<C,WireableClass,P1,P2>::NewInstance ) ;

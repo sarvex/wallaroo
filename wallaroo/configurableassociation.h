@@ -24,6 +24,9 @@
 #ifndef CONFIGURABLEASSOCIATION_H_
 #define CONFIGURABLEASSOCIATION_H_
 
+namespace wallaroo
+{
+
 // forward declaration:
 class WireableClass;
 
@@ -33,5 +36,7 @@ public:
     virtual void Assign( WireableClass* obj ) = 0;
     virtual ~ConfigurableAssociation() {}
 };
+
+} // namespace
 
 #endif

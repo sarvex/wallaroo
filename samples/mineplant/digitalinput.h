@@ -26,6 +26,8 @@
 
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 class DigitalInput : public WireableClass
 {
 public:

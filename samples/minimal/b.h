@@ -28,6 +28,8 @@
 #include "a.h"
 #include "c.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( B, void, void ), public A
 //class B : public A
 {

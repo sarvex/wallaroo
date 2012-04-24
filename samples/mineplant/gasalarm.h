@@ -28,6 +28,8 @@
 #include "alarm.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( GasAlarm, void, void ), public WireableClass
 // class GasAlarm : public WireableClass
 {

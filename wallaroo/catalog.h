@@ -32,6 +32,10 @@
 #include "wireableclass.h"
 #include "class.h"
 
+namespace wallaroo
+{
+
+
 class ObjectShell
 {
 public:
@@ -103,5 +107,7 @@ private:
     Objects objects;
 };
 
+
+} // namespace
 
 #endif

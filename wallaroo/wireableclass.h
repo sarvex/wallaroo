@@ -28,6 +28,10 @@
 #include <map>
 #include "configurableassociation.h"
 
+namespace wallaroo
+{
+
+
 class WireableClass
 {
 public:
@@ -46,5 +50,7 @@ private:
     typedef std::map< std::string, ConfigurableAssociation* > Roles;
     Roles roles;
 };
+
+} // namespace
 
 #endif

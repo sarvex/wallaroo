@@ -28,6 +28,8 @@
 #include "levelprobe.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( LevelProbeBasedSumpProbe, unsigned int, unsigned int ), public SumpProbe
 // class LevelProbeBasedSumpProbe : public SumpProbe
 {

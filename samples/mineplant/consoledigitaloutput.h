@@ -28,6 +28,8 @@
 #include "digitaloutput.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( ConsoleDigitalOutput, std::string, unsigned int ), public DigitalOutput
 //class ConsoleDigitalOutput : public DigitalOutput
 {

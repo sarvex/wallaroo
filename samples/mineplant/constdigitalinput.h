@@ -28,6 +28,8 @@
 #include "digitalinput.h"
 #include "wallaroo/registered.h"
 
+using namespace wallaroo;
+
 REGISTERED_CLASS( ConstDigitalInput, std::string, unsigned int ), public DigitalInput
 // class ConstDigitalInput : public DigitalInput
 {
