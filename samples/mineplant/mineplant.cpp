@@ -49,6 +49,7 @@ MinePlant::MinePlant()
     catalog.Create1( "methaneInput", "ConstAnalogInput", std::string( "/dev/lpt5") );
     catalog.Create2( "alarmOutput", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 1u );
     catalog.Create( "gasAlarm", "GasAlarm" );
+	gasAlarm = catalog[ "gasAlarm" ];
     catalog.Create( "alarm", "Alarm" );
 #endif
     catalog.Create( "pump", "SumpPump" );
@@ -74,6 +75,8 @@ MinePlant::MinePlant()
 
     catalog[ "engine" ].Wire( "sensor", catalog[ "methaneSensor" ] );
 
+	catalog[ "alarm" ].Wire( "output", catalog[ "alarmOutput" ] );
+
     catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "airFlowSensor" ] );
     catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "COSensor" ] );
     catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "methaneSensor" ] );
@@ -92,5 +95,10 @@ MinePlant::MinePlant()
 void MinePlant::Run()
 {
     while ( true )
+	{
         pump -> Drain();
+#ifndef NO_GAS_CHECK
+		gasAlarm -> Watch();
+#endif
+	}
 }

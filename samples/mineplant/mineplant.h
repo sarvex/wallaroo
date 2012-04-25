@@ -25,6 +25,7 @@
 #define MINEPLANT_H_
 
 #include "sumppump.h"
+#include "gasalarm.h"
 
 using namespace wallaroo;
 
@@ -36,6 +37,7 @@ public:
     virtual ~MinePlant() {}
 private:
     SumpPump* pump;
+	GasAlarm* gasAlarm;
 };
 
 #endif
