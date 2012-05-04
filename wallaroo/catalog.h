@@ -28,6 +28,7 @@
 #include <map>
 #include <typeinfo>
 #include <cassert>
+#include <stdexcept>
 //#include <boost/shared_ptr.hpp>
 #include "wireableclass.h"
 #include "class.h"
@@ -44,7 +45,7 @@ public:
     {
         assert( obj != NULL );
     }
-    void Wire( const std::string& role, ObjectShell& resource )
+    void Wire( const std::string& role, ObjectShell resource )
     {
         object -> Wire( role, resource.object );
     }

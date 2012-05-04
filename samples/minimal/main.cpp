@@ -21,6 +21,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
+#include <iostream>
 #include "wallaroo/catalog.h"
 #include "a.h"
 
@@ -43,7 +44,8 @@ int main( int argc, char* argv[] )
 
     a -> F();
 
-    system( "PAUSE" );
+    std::cout << "Press Enter to end the program." << std::endl;
+    std::cin.get();
 
     return 0;
 }

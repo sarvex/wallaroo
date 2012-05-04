@@ -30,7 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( LevelSensorBasedSumpProbe, void, void ), SumpProbe
+REGISTERED_CLASS( LevelSensorBasedSumpProbe, void, void ), public SumpProbe
 {
 public:
     LevelSensorBasedSumpProbe();

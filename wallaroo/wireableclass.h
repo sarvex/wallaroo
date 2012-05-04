@@ -26,6 +26,7 @@
 
 #include <string>
 #include <map>
+#include <stdexcept>
 #include "configurableassociation.h"
 
 namespace wallaroo

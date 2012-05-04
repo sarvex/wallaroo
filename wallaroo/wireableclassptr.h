@@ -26,6 +26,7 @@
 
 #include <string>
 #include <cassert>
+#include <typeinfo>
 //#include <boost/shared_ptr.hpp>
 #include "configurableassociation.h"
 #include "wireableclass.h"
