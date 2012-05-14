@@ -1,0 +1,54 @@
+<!--
+catalog.Create( "c", "C" );
+catalog.Create( "c1", "C" );
+catalog.Create( "c2", "C" );
+catalog.Create( "a", "B" );
+
+catalog[ "a" ].Wire( "x", catalog[ "c" ] );
+
+catalog[ "a" ].Wire( "xList", catalog[ "c1" ] );
+catalog[ "a" ].Wire( "xList", catalog[ "c2" ] );
+-->
+
+<catalog>
+
+  <object>
+    <name>c</name>
+    <class>C</class>
+  </object>
+
+  <object>
+    <name>c1</name>
+    <class>C</class>
+  </object>
+
+  <object>
+    <name>c2</name>
+    <class>C</class>
+  </object>
+
+  <object>
+    <name>a</name>
+    <class>B</class>
+  </object>
+
+  <relation>
+    <source>a</source>
+    <dest>c</dest>
+    <role>x</role>
+  </relation>
+
+  <relation>
+    <source>a</source>
+    <dest>c1</dest>
+    <role>xList</role>
+  </relation>
+
+  <relation>
+    <source>a</source>
+    <dest>c2</dest>
+    <role>xList</role>
+  </relation>
+
+</catalog>
+
