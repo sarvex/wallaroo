@@ -38,7 +38,7 @@ namespace wallaroo
 class XmlWiringFile
 {
 public:
-    XmlWiringFile( const std::string& fileName )
+    explicit XmlWiringFile( const std::string& fileName )
     {
         try
         {
@@ -51,22 +51,28 @@ public:
     }
     void Fill( Catalog& catalog )
     {
-        // TODO: controllare le eccezioni!!!
-        BOOST_FOREACH( ptree::value_type &v, tree.get_child( "catalog" ) )
+        try
         {
-            if ( v.first == "object" )
+            BOOST_FOREACH( ptree::value_type &v, tree.get_child( "catalog" ) )
             {
-                const std::string name = v.second.get< std::string >( "name" );
-                const std::string cl = v.second.get< std::string >( "class" );
-                catalog.Create( name, cl );
+                if ( v.first == "object" )
+                {
+                    const std::string name = v.second.get< std::string >( "name" );
+                    const std::string cl = v.second.get< std::string >( "class" );
+                    catalog.Create( name, cl );
+                }
+                else if ( v.first == "relation" )
+                {
+                    const std::string source = v.second.get< std::string >( "source" );
+                    const std::string dest = v.second.get< std::string >( "dest" );
+                    const std::string role = v.second.get< std::string >( "role" );
+                    catalog[ source ].Wire( role, catalog[ dest ] );
+                }
             }
-            else if ( v.first == "relation" )
-            {
-                const std::string source = v.second.get< std::string >( "source" );
-                const std::string dest = v.second.get< std::string >( "dest" );
-                const std::string role = v.second.get< std::string >( "role" );
-                catalog[ source ].Wire( role, catalog[ dest ] );
-            }
+        }
+        catch ( const ptree_error& e )
+        {
+            throw std::range_error( e.what() );
         }
     }
 private:
