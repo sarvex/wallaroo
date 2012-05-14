@@ -21,18 +21,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "levelprobebasedsumpprobe.h"
+#include "continuoussumpprobe.h"
 
-REGISTER( LevelProbeBasedSumpProbe, unsigned int, unsigned int )
+REGISTER( ContinuousSumpProbe, unsigned int, unsigned int )
 
-LevelProbeBasedSumpProbe::LevelProbeBasedSumpProbe( unsigned int _lowLevel, unsigned int _highLevel ) :
+ContinuousSumpProbe::ContinuousSumpProbe( unsigned int _lowLevel, unsigned int _highLevel ) :
   probe( "probe", this ),
   lowLevel( _lowLevel ),
   highLevel( _highLevel )
 {
 }
 
-bool LevelProbeBasedSumpProbe::MustDrain()
+bool ContinuousSumpProbe::MustDrain()
 {
     if ( mustDrain && probe -> Level() < lowLevel )
         mustDrain = false;
@@ -42,6 +42,6 @@ bool LevelProbeBasedSumpProbe::MustDrain()
     return mustDrain;
 }
 
-LevelProbeBasedSumpProbe::~LevelProbeBasedSumpProbe()
+ContinuousSumpProbe::~ContinuousSumpProbe()
 {
 }

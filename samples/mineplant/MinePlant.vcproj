@@ -183,7 +183,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\levelprobebasedsumpprobe.cpp"
+				RelativePath=".\continuoussumpprobe.cpp"
 				>
 			</File>
 			<File
@@ -191,7 +191,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\levelsensorbasedsumpprobe.cpp"
+				RelativePath=".\twolevelsumpprobe.cpp"
 				>
 			</File>
 			<File
@@ -265,7 +265,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\levelprobebasedsumpprobe.h"
+				RelativePath=".\continuoussumpprobe.h"
 				>
 			</File>
 			<File
@@ -273,7 +273,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\levelsensorbasedsumpprobe.h"
+				RelativePath=".\twolevelsumpprobe.h"
 				>
 			</File>
 			<File

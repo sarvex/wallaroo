@@ -30,12 +30,12 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( LevelSensorBasedSumpProbe, void, void ), public SumpProbe
+REGISTERED_CLASS( TwoLevelSumpProbe, void, void ), public SumpProbe
 {
 public:
-    LevelSensorBasedSumpProbe();
+    TwoLevelSumpProbe();
     virtual bool MustDrain();
-    virtual ~LevelSensorBasedSumpProbe();
+    virtual ~TwoLevelSumpProbe();
 private:
     WireableClassPtr< LevelSensor > lowSensor;
     WireableClassPtr< LevelSensor > highSensor;

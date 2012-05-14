@@ -23,8 +23,8 @@
 
 CC=g++
 CFLAGS=-Wall -I../..
-DEPS = alarm.h digitalinput.h levelprobebasedsumpprobe.h pumpengine.h analoginput.h digitaloutput.h levelprobe.h safeengine.h consoledigitaloutput.h gasalarm.h levelsensorbasedsumpprobe.h sumpprobe.h constanaloginput.h gassensor.h levelsensor.h sumppump.h constdigitalinput.h inputconsole.h mineplant.h thresholdgassensor.h
-OBJ = alarm.o gasalarm.o main.o sumppump.o consoledigitaloutput.o levelprobebasedsumpprobe.o mineplant.o thresholdgassensor.o constanaloginput.o levelsensorbasedsumpprobe.o pumpengine.o constdigitalinput.o levelsensor.o safeengine.o
+DEPS = alarm.h digitalinput.h continuoussumpprobe.h pumpengine.h analoginput.h digitaloutput.h levelprobe.h safeengine.h consoledigitaloutput.h gasalarm.h twolevelsumpprobe.h sumpprobe.h constanaloginput.h gassensor.h levelsensor.h sumppump.h constdigitalinput.h inputconsole.h mineplant.h thresholdgassensor.h
+OBJ = alarm.o gasalarm.o main.o sumppump.o consoledigitaloutput.o continuoussumpprobe.o mineplant.o thresholdgassensor.o constanaloginput.o twolevelsumpprobe.o pumpengine.o constdigitalinput.o levelsensor.o safeengine.o
 EXE=mineplant
 
 %.o: %.cpp $(DEPS)
