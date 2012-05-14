@@ -35,7 +35,7 @@ MinePlant::MinePlant()
     catalog.Create2( "highLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 1u );
     catalog.Create( "lowSensor", "LevelSensor" );
     catalog.Create( "highSensor", "LevelSensor" );
-    catalog.Create( "probe", "LevelSensorBasedSumpProbe" );
+    catalog.Create( "probe", "TwoLevelSumpProbe" );
     catalog.Create2( "output", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 0u );
 #ifdef NO_GAS_CHECK
     catalog.Create( "engine", "PumpEngine" );

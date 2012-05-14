@@ -21,18 +21,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "levelsensorbasedsumpprobe.h"
+#include "twolevelsumpprobe.h"
 
-REGISTER( LevelSensorBasedSumpProbe, void, void )
+REGISTER( TwoLevelSumpProbe, void, void )
 
-LevelSensorBasedSumpProbe::LevelSensorBasedSumpProbe() :
+TwoLevelSumpProbe::TwoLevelSumpProbe() :
   lowSensor( "lowSensor", this ),
   highSensor( "highSensor", this )
 {
     mustDrain = false;
 }
 
-bool LevelSensorBasedSumpProbe::MustDrain()
+bool TwoLevelSumpProbe::MustDrain()
 {
     if ( mustDrain && ! lowSensor -> IsOn() )
         mustDrain = false;
@@ -42,6 +42,6 @@ bool LevelSensorBasedSumpProbe::MustDrain()
     return mustDrain;
 }
 
-LevelSensorBasedSumpProbe::~LevelSensorBasedSumpProbe()
+TwoLevelSumpProbe::~TwoLevelSumpProbe()
 {
 }

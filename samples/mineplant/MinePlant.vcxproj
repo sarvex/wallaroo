@@ -78,9 +78,9 @@
     <ClCompile Include="constanaloginput.cpp" />
     <ClCompile Include="constdigitalinput.cpp" />
     <ClCompile Include="gasalarm.cpp" />
-    <ClCompile Include="levelprobebasedsumpprobe.cpp" />
+    <ClCompile Include="continuoussumpprobe.cpp" />
     <ClCompile Include="levelsensor.cpp" />
-    <ClCompile Include="levelsensorbasedsumpprobe.cpp" />
+    <ClCompile Include="twolevelsumpprobe.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mineplant.cpp" />
     <ClCompile Include="pumpengine.cpp" />
@@ -99,9 +99,9 @@
     <ClInclude Include="gasalarm.h" />
     <ClInclude Include="gassensor.h" />
     <ClInclude Include="levelprobe.h" />
-    <ClInclude Include="levelprobebasedsumpprobe.h" />
+    <ClInclude Include="continuoussumpprobe.h" />
     <ClInclude Include="levelsensor.h" />
-    <ClInclude Include="levelsensorbasedsumpprobe.h" />
+    <ClInclude Include="twolevelsumpprobe.h" />
     <ClInclude Include="mineplant.h" />
     <ClInclude Include="pumpengine.h" />
     <ClInclude Include="safeengine.h" />

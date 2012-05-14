@@ -30,13 +30,13 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( LevelProbeBasedSumpProbe, unsigned int, unsigned int ), public SumpProbe
-// class LevelProbeBasedSumpProbe : public SumpProbe
+REGISTERED_CLASS( ContinuousSumpProbe, unsigned int, unsigned int ), public SumpProbe
+// class ContinuousSumpProbe : public SumpProbe
 {
 public:
-    LevelProbeBasedSumpProbe( unsigned int _lowLevel, unsigned int _highLevel );
+    ContinuousSumpProbe( unsigned int _lowLevel, unsigned int _highLevel );
     virtual bool MustDrain();
-    virtual ~LevelProbeBasedSumpProbe();
+    virtual ~ContinuousSumpProbe();
 private:
     WireableClassPtr< LevelProbe > probe;
     const unsigned int lowLevel;
