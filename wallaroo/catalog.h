@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef CATALOG_H_
-#define CATALOG_H_
+#ifndef WALLAROO_CATALOG_H_
+#define WALLAROO_CATALOG_H_
 
 #include <string>
 #include <map>
@@ -36,49 +36,90 @@
 namespace wallaroo
 {
 
+namespace detail
+{
 
 class ObjectShell
 {
 public:
+
     ObjectShell( WireableClass* obj ) : 
       object( obj ) 
     {
         assert( obj != NULL );
     }
+
     void Wire( const std::string& role, ObjectShell resource )
     {
         object -> Wire( role, resource.object );
     }
+
+    /** Converts the contained object to the type T
+    * @return the converted object.
+    * @throw std::bad_cast if the contained object is not a subclass of T
+    */
     template < class T >
-    operator T*() throw ( std::bad_cast )
+    operator T*()
     {
         //T* result = boost::dynamic_pointer_cast< T >( object );
         T* result = dynamic_cast< T* >( object );
         if ( result == NULL ) throw std::bad_cast();
         return result;
     }
+
 private:
     WireableClass* object;
 };
 
+}
 
+
+
+/**
+ * Catalog of the objects available for the application.
+ *
+ * It can create the instances from the name of a registered class
+ * or add the instances.
+ *
+ * Each item in the catalog is identified by a @c id, with which
+ * you can do a lookup.
+ */
 class Catalog
 {
 public:
-    ObjectShell operator [] ( const std::string& itemId ) throw ( std::range_error )
+    /** Look for the element @c itemId in the catalog.
+    * @param itemId the name of the element
+    * @return the element.
+    * @throw std::range_error if the element does not exist in the catalog.
+    */
+    detail::ObjectShell operator [] ( const std::string& itemId )
     {
         Objects::iterator i = objects.find( itemId );
         if ( i == objects.end() ) throw std::range_error( itemId + " not found in the catalog" );
-        return ObjectShell( i -> second );
+        return detail::ObjectShell( i -> second );
     }
-    void Add( const std::string& id, WireableClass* obj ) throw ( std::range_error )
+
+    /** Add an element to the catalog
+    * @param id the name of the element to add
+    * @param obj the element to add
+    * @throw std::range_error if an element with the name @c id is already in the catalog
+    */
+    void Add( const std::string& id, WireableClass* obj )
     {
         std::pair< Objects::iterator, bool > result = 
             objects.insert( std::make_pair( id, obj ) );
         if ( ! result.second ) throw std::range_error( id + " already in the catalog" );
     }
+
+    /** Instantiate a class with a 2 parameters constructor and add it to the catalog
+    * @param id the name of the element to create and add
+    * @param className the name of the class to instantiate
+    * @param p1 The first parameter of the class constructor
+    * @param p2 The second parameter of the class constructor
+    * @throw std::range_error if an element with the name @c id is already in the catalog or the @c className class has not been registered
+    */
     template < class P1, class P2 >
-    void Create2( const std::string& id, const std::string& className, const P1& p1, const P2& p2 ) throw ( std::range_error )
+    void Create2( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
     {
         typedef Class< WireableClass, P1, P2 > C;
         C c = C::ForName( className );
@@ -86,8 +127,15 @@ public:
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj.release() );
     }
+
+    /** Instantiate a class with a 1 parameters constructor and add it to the catalog
+    * @param id the name of the element to create and add
+    * @param className the name of the class to instantiate
+    * @param p1 The parameter of the class constructor
+    * @throw std::range_error if an element with the name @c id is already in the catalog or the @c className class has not been registered
+    */
     template < class P >
-    void Create1( const std::string& id, const std::string& className, const P& p ) throw ( std::range_error )
+    void Create1( const std::string& id, const std::string& className, const P& p )
     {
         typedef Class< WireableClass, P, void > C;
         C c = C::ForName( className );
@@ -95,7 +143,13 @@ public:
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj.release() );
     }
-    void Create( const std::string& id, const std::string& className ) throw ( std::range_error )
+
+    /** Instantiate a class with 0 parameters constructor and add it to the catalog
+    * @param id the name of the element to create and add
+    * @param className the name of the class to instantiate
+    * @throw std::range_error if an element with the name @c id is already in the catalog or the @c className class has not been registered
+    */
+    void Create( const std::string& id, const std::string& className )
     {
         typedef Class< WireableClass, void, void > C;
         C c = C::ForName( className );
@@ -103,6 +157,7 @@ public:
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj.release() );
     }
+
 private:
     typedef std::map< std::string, WireableClass* > Objects;
     Objects objects;
