@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef CONFIGURABLEASSOCIATION_H_
-#define CONFIGURABLEASSOCIATION_H_
+#ifndef WALLAROO_CONFIGURABLEASSOCIATION_H_
+#define WALLAROO_CONFIGURABLEASSOCIATION_H_
 
 namespace wallaroo
 {

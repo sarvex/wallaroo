@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef REGISTEREDCLASS_H_
-#define REGISTEREDCLASS_H_
+#ifndef WALLAROO_REGISTEREDCLASS_H_
+#define WALLAROO_REGISTEREDCLASS_H_
 
 #include "class.h"
 #include "wireableclassptr.h"

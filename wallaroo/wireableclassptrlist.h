@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WIREABLECLASSPTRLIST_H_
-#define WIREABLECLASSPTRLIST_H_
+#ifndef WALLAROO_WIREABLECLASSPTRLIST_H_
+#define WALLAROO_WIREABLECLASSPTRLIST_H_
 
 #include <string>
 #include <cassert>
@@ -45,7 +45,12 @@ public:
     {
         tree -> Register( id, this );
     }
-    void Assign( WireableClass* wireable ) throw ( std::bad_cast )
+
+    /** Insert an object into this smart pointer list
+    * @param wireable The object to insert
+    * @throw std::bad_cast If @c wireable is not a subclass of @c T
+    */
+    void Assign( WireableClass* wireable )
     {
         // obj = boost::dynamic_pointer_cast< T >( wireable );
         T* obj = dynamic_cast< T* >( wireable );

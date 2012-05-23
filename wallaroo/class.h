@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef CLASS_H_
-#define CLASS_H_
+#ifndef WALLAROO_CLASS_H_
+#define WALLAROO_CLASS_H_
 
 #include <string>
 #include <map>
@@ -268,4 +268,4 @@ class RegEntry
     class C : public Registered< C, WireableClass, P1, P2 >
 
 
-#endif // CLASS_H_
+#endif // WALLAROO_CLASS_H_

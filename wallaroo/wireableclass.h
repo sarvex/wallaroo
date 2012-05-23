@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WIREABLECLASS_H_
-#define WIREABLECLASS_H_
+#ifndef WALLAROO_WIREABLECLASS_H_
+#define WALLAROO_WIREABLECLASS_H_
 
 #include <string>
 #include <map>
@@ -36,17 +36,23 @@ namespace wallaroo
 class WireableClass
 {
 public:
-    virtual void Wire( const std::string& role, WireableClass* resource ) throw ( std::range_error )
+    /** Link the role @c role of this object to the object @c resource.
+     * @throw std::range_error if @c role does not exist in this class.
+     */
+    virtual void Wire( const std::string& role, WireableClass* resource )
     {
         Roles::iterator i = roles.find( role );
         if ( i == roles.end() ) throw std::range_error( role + " not found in the class" );
         ( i -> second ) -> Assign( resource );
     }
+
     void Register( const std::string& id, ConfigurableAssociation* node )
     {
         roles[ id ] = node;
     }
+
     virtual ~WireableClass() {}
+
 private:
     typedef std::map< std::string, ConfigurableAssociation* > Roles;
     Roles roles;

@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WIREABLECLASSPTR_H_
-#define WIREABLECLASSPTR_H_
+#ifndef WALLAROO_WIREABLECLASSPTR_H_
+#define WALLAROO_WIREABLECLASSPTR_H_
 
 #include <string>
 #include <cassert>
@@ -38,28 +38,37 @@ template < class T >
 class WireableClassPtr : public ConfigurableAssociation
 {
 public:
+
     WireableClassPtr( const std::string& id, WireableClass* tree ) :
       object( NULL )
     {
         tree -> Register( id, this );
     }
-    void Assign( WireableClass* obj ) throw ( std::bad_cast )
+    
+    /** Assign an object to this smart pointer
+    * @param obj The object to assign
+    * @throw std::bad_cast If @c obj is not a subclass of @c T
+    */
+    void Assign( WireableClass* obj )
     {
         //object = boost::dynamic_pointer_cast< T >( obj );
         object = dynamic_cast< T* >( obj );
         if ( object == NULL ) // bad type!
             throw std::bad_cast();
     }
+
     T* operator -> ()
     {
         assert( object != NULL );
         return object;
     }
+
     const T* operator -> () const
     {
         assert( object != NULL );
         return object;
     }
+
 private:
     T* object;
 };

@@ -54,7 +54,7 @@ public:
         object -> Wire( role, resource.object );
     }
 
-    /** Converts the contained object to the type T
+    /** Convert the contained object to the type T
     * @return the converted object.
     * @throw std::bad_cast if the contained object is not a subclass of T
     */
