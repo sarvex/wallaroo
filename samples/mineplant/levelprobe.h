@@ -29,7 +29,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( LevelProbe, void, void ), public WireableClass
+REGISTERED_CLASS( LevelProbe, void, void ), public Device
 // class LevelProbe
 {
 public:
@@ -43,7 +43,7 @@ public:
     }
     virtual ~LevelProbe() {}
 private:
-    WireableClassPtr< AnalogInput > input;
+    Plug< AnalogInput > input;
 };
 
 #endif

@@ -28,7 +28,7 @@
 
 using namespace wallaroo;
 
-class DigitalInput : public WireableClass
+class DigitalInput : public Device
 {
 public:
     virtual bool Read() const = 0;

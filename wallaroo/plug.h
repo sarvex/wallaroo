@@ -21,56 +21,56 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_WIREABLECLASSPTR_H_
-#define WALLAROO_WIREABLECLASSPTR_H_
+#ifndef WALLAROO_PLUG_H_
+#define WALLAROO_PLUG_H_
 
 #include <string>
 #include <cassert>
 #include <typeinfo>
 //#include <boost/shared_ptr.hpp>
-#include "configurableassociation.h"
-#include "wireableclass.h"
+#include "connector.h"
+#include "device.h"
 
 namespace wallaroo
 {
 
 template < class T >
-class WireableClassPtr : public ConfigurableAssociation
+class Plug : public Connector
 {
 public:
 
-    WireableClassPtr( const std::string& id, WireableClass* tree ) :
-      object( NULL )
+    Plug( const std::string& id, Device* device ) :
+      device( NULL )
     {
-        tree -> Register( id, this );
+        device -> Register( id, this );
     }
     
-    /** Assign an object to this smart pointer
-    * @param obj The object to assign
-    * @throw std::bad_cast If @c obj is not a subclass of @c T
+    /** Insert a device into this plug
+    * @param deviceToPlug The device to plug
+    * @throw std::bad_cast If @c deviceToPlug is not a subclass of @c T
     */
-    void Assign( WireableClass* obj )
+    void Assign( Device* deviceToPlug )
     {
-        //object = boost::dynamic_pointer_cast< T >( obj );
-        object = dynamic_cast< T* >( obj );
-        if ( object == NULL ) // bad type!
+        // device = boost::dynamic_pointer_cast< T >( deviceToPlug );
+        device = dynamic_cast< T* >( deviceToPlug );
+        if ( device == NULL ) // bad type!
             throw std::bad_cast();
     }
 
     T* operator -> ()
     {
-        assert( object != NULL );
-        return object;
+        assert( device != NULL );
+        return device;
     }
 
     const T* operator -> () const
     {
-        assert( object != NULL );
-        return object;
+        assert( device != NULL );
+        return device;
     }
 
 private:
-    T* object;
+    T* device;
 };
 
 } // namespace

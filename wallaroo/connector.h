@@ -21,44 +21,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_WIREABLECLASSPTRLIST_H_
-#define WALLAROO_WIREABLECLASSPTRLIST_H_
-
-#include <string>
-#include <cassert>
-#include <list>
-#include <typeinfo>
-//#include <boost/shared_ptr.hpp>
-#include "configurableassociation.h"
-#include "wireableclass.h"
+#ifndef WALLAROO_CONNECTOR_H_
+#define WALLAROO_CONNECTOR_H_
 
 namespace wallaroo
 {
 
-template < class T >
-class WireableClassPtrList : 
-    public ConfigurableAssociation,
-    public std::list< T* >
+// forward declaration:
+class Device;
+
+class Connector
 {
 public:
-    WireableClassPtrList( const std::string& id, WireableClass* tree )
-    {
-        tree -> Register( id, this );
-    }
-
-    /** Insert an object into this smart pointer list
-    * @param wireable The object to insert
-    * @throw std::bad_cast If @c wireable is not a subclass of @c T
-    */
-    void Assign( WireableClass* wireable )
-    {
-        // obj = boost::dynamic_pointer_cast< T >( wireable );
-        T* obj = dynamic_cast< T* >( wireable );
-        if ( obj == NULL ) // bad type!
-            throw std::bad_cast();
-        else
-            push_back( obj );
-    }
+    virtual void Assign( Device* device ) = 0;
+    virtual ~Connector() {}
 };
 
 } // namespace

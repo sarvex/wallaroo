@@ -28,7 +28,7 @@
 
 using namespace wallaroo;
 
-class GasSensor : public WireableClass
+class GasSensor : public Device
 {
 public:
     virtual bool IsCritical() const = 0;

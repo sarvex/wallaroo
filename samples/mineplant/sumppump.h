@@ -30,15 +30,15 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( SumpPump, void, void ), public WireableClass
-// class SumpPump : public WireableClass
+REGISTERED_CLASS( SumpPump, void, void ), public Device
+// class SumpPump : public Device
 {
 public:
     SumpPump();
     virtual void Drain();
 private:
-    WireableClassPtr< SumpProbe > probe;
-    WireableClassPtr< PumpEngine > engine;
+    Plug< SumpProbe > probe;
+    Plug< PumpEngine > engine;
 };
 
 

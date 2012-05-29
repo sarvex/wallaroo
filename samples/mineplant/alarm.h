@@ -29,15 +29,15 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( Alarm, void, void ), public WireableClass
-// class Alarm : public WireableClass
+REGISTERED_CLASS( Alarm, void, void ), public Device
+// class Alarm : public Device
 {
 public:
     Alarm();
     virtual void On();
     virtual void Off();
 private:
-    WireableClassPtr< DigitalOutput > output;
+    Plug< DigitalOutput > output;
 };
 
 

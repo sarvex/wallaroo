@@ -29,15 +29,15 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( LevelSensor, void, void ), public WireableClass
-// class LevelSensor : public WireableClass
+REGISTERED_CLASS( LevelSensor, void, void ), public Device
+// class LevelSensor : public Device
 {
 public:
     LevelSensor();
     virtual bool IsOn() const;
     virtual ~LevelSensor();
 private:
-    WireableClassPtr< DigitalInput > input;
+    Plug< DigitalInput > input;
 };
 
 #endif

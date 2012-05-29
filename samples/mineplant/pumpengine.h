@@ -29,11 +29,11 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( PumpEngine, void, void ), public WireableClass
+REGISTERED_CLASS( PumpEngine, void, void ), public Device
 /*
 class PumpEngine : 
-    public WireableClass,
-    public Registered< PumpEngine, WireableClass, void, void >
+    public Device,
+    public Registered< PumpEngine, Device, void, void >
 */
 {
 public:
@@ -42,7 +42,7 @@ public:
     virtual void Off();
     virtual ~PumpEngine();
 private:
-    WireableClassPtr< DigitalOutput > output;
+    Plug< DigitalOutput > output;
 };
 
 #endif

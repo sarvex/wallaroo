@@ -38,8 +38,8 @@ public:
     virtual void F();
     virtual ~B();
 private:
-    WireableClassPtr< C > c;
-    WireableClassPtrList< C > cList;
+    Plug< C > c;
+    MultiplePlug< C > cList;
 };
 
 #endif

@@ -39,7 +39,7 @@ public:
     virtual void Off();
     virtual ~SafeEngine();
 private:
-    WireableClassPtr< GasSensor > sensor;
+    Plug< GasSensor > sensor;
 };
 
 #endif

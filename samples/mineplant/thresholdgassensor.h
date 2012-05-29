@@ -38,7 +38,7 @@ public:
     virtual bool IsCritical() const;
     virtual ~ThresholdGasSensor();
 private:
-    WireableClassPtr< AnalogInput > input;
+    Plug< AnalogInput > input;
     const unsigned int threshold;
 };
 

@@ -28,7 +28,7 @@
 
 using namespace wallaroo;
 
-class A : public WireableClass
+class A : public Device
 {
 public:
     virtual void F() = 0;

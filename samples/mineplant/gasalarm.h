@@ -30,16 +30,16 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( GasAlarm, void, void ), public WireableClass
-// class GasAlarm : public WireableClass
+REGISTERED_CLASS( GasAlarm, void, void ), public Device
+// class GasAlarm : public Device
 {
 public:
     GasAlarm();
     virtual void Watch();
 private:
-    typedef WireableClassPtrList< GasSensor > SensorList;
+    typedef MultiplePlug< GasSensor > SensorList;
     SensorList sensors;
-    WireableClassPtr< Alarm > alarm;
+    Plug< Alarm > alarm;
 };
 
 

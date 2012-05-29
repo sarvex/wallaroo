@@ -30,7 +30,7 @@
 #include <cassert>
 #include <stdexcept>
 //#include <boost/shared_ptr.hpp>
-#include "wireableclass.h"
+#include "device.h"
 #include "class.h"
 
 namespace wallaroo
@@ -43,32 +43,32 @@ class ObjectShell
 {
 public:
 
-    ObjectShell( WireableClass* obj ) : 
-      object( obj ) 
+    ObjectShell( Device* dev ) : 
+      device( dev ) 
     {
-        assert( obj != NULL );
+        assert( device != NULL );
     }
 
     void Wire( const std::string& role, ObjectShell resource )
     {
-        object -> Wire( role, resource.object );
+        device -> Wire( role, resource.device );
     }
 
-    /** Convert the contained object to the type T
-    * @return the converted object.
-    * @throw std::bad_cast if the contained object is not a subclass of T
+    /** Convert the contained device to the type T
+    * @return the converted device.
+    * @throw std::bad_cast if the contained device is not a subclass of T
     */
     template < class T >
     operator T*()
     {
-        //T* result = boost::dynamic_pointer_cast< T >( object );
-        T* result = dynamic_cast< T* >( object );
+        //T* result = boost::dynamic_pointer_cast< T >( device );
+        T* result = dynamic_cast< T* >( device );
         if ( result == NULL ) throw std::bad_cast();
         return result;
     }
 
 private:
-    WireableClass* object;
+    Device* device;
 };
 
 }
@@ -76,7 +76,7 @@ private:
 
 
 /**
- * Catalog of the objects available for the application.
+ * Catalog of the devices available for the application.
  *
  * It can create the instances from the name of a registered class
  * or add the instances.
@@ -94,20 +94,20 @@ public:
     */
     detail::ObjectShell operator [] ( const std::string& itemId )
     {
-        Objects::iterator i = objects.find( itemId );
-        if ( i == objects.end() ) throw std::range_error( itemId + " not found in the catalog" );
+        Devices::iterator i = devices.find( itemId );
+        if ( i == devices.end() ) throw std::range_error( itemId + " not found in the catalog" );
         return detail::ObjectShell( i -> second );
     }
 
-    /** Add an element to the catalog
-    * @param id the name of the element to add
-    * @param obj the element to add
-    * @throw std::range_error if an element with the name @c id is already in the catalog
+    /** Add a device to the catalog
+    * @param id the name of the device to add
+    * @param device the device to add
+    * @throw std::range_error if a device with the name @c id is already in the catalog
     */
-    void Add( const std::string& id, WireableClass* obj )
+    void Add( const std::string& id, Device* dev )
     {
-        std::pair< Objects::iterator, bool > result = 
-            objects.insert( std::make_pair( id, obj ) );
+        std::pair< Devices::iterator, bool > result = 
+            devices.insert( std::make_pair( id, dev ) );
         if ( ! result.second ) throw std::range_error( id + " already in the catalog" );
     }
 
@@ -121,9 +121,9 @@ public:
     template < class P1, class P2 >
     void Create2( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
     {
-        typedef Class< WireableClass, P1, P2 > C;
+        typedef Class< Device, P1, P2 > C;
         C c = C::ForName( className );
-        std::auto_ptr< WireableClass > obj = c.NewInstance( p1, p2 );
+        std::auto_ptr< Device > obj = c.NewInstance( p1, p2 );
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj.release() );
     }
@@ -137,9 +137,9 @@ public:
     template < class P >
     void Create1( const std::string& id, const std::string& className, const P& p )
     {
-        typedef Class< WireableClass, P, void > C;
+        typedef Class< Device, P, void > C;
         C c = C::ForName( className );
-        std::auto_ptr< WireableClass > obj = c.NewInstance( p );
+        std::auto_ptr< Device > obj = c.NewInstance( p );
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj.release() );
     }
@@ -151,16 +151,16 @@ public:
     */
     void Create( const std::string& id, const std::string& className )
     {
-        typedef Class< WireableClass, void, void > C;
+        typedef Class< Device, void, void > C;
         C c = C::ForName( className );
-        std::auto_ptr< WireableClass > obj = c.NewInstance();
+        std::auto_ptr< Device > obj = c.NewInstance();
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj.release() );
     }
 
 private:
-    typedef std::map< std::string, WireableClass* > Objects;
-    Objects objects;
+    typedef std::map< std::string, Device* > Devices;
+    Devices devices;
 };
 
 

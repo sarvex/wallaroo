@@ -25,8 +25,8 @@
 #define WALLAROO_REGISTEREDCLASS_H_
 
 #include "class.h"
-#include "wireableclassptr.h"
-#include "wireableclassptrlist.h"
-#include "wireableclass.h"
+#include "plug.h"
+#include "multipleplug.h"
+#include "device.h"
 
 #endif

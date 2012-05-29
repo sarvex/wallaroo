@@ -28,7 +28,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( C, void, void ), public WireableClass
+REGISTERED_CLASS( C, void, void ), public Device
 // class C
 {
 public:

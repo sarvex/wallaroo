@@ -262,10 +262,10 @@ class RegEntry
 } // namespace
 
 #define REGISTER( C, P1, P2 ) \
-    static const RegEntry< WireableClass, P1, P2 > r( #C, &Registered<C,WireableClass,P1,P2>::NewInstance ) ;
+    static const RegEntry< Device, P1, P2 > r( #C, &Registered<C,Device,P1,P2>::NewInstance ) ;
 
 #define REGISTERED_CLASS( C, P1, P2 ) \
-    class C : public Registered< C, WireableClass, P1, P2 >
+    class C : public Registered< C, Device, P1, P2 >
 
 
 #endif // WALLAROO_CLASS_H_

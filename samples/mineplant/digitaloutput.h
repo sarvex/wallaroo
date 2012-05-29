@@ -28,7 +28,7 @@
 
 using namespace wallaroo;
 
-class DigitalOutput : public WireableClass
+class DigitalOutput : public Device
 {
 public:
     virtual void Write( bool value ) = 0;

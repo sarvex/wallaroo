@@ -37,8 +37,8 @@ public:
     virtual bool MustDrain();
     virtual ~TwoLevelSumpProbe();
 private:
-    WireableClassPtr< LevelSensor > lowSensor;
-    WireableClassPtr< LevelSensor > highSensor;
+    Plug< LevelSensor > lowSensor;
+    Plug< LevelSensor > highSensor;
     bool mustDrain;
 };
 

@@ -21,20 +21,41 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_CONFIGURABLEASSOCIATION_H_
-#define WALLAROO_CONFIGURABLEASSOCIATION_H_
+#ifndef WALLAROO_DEVICE_H_
+#define WALLAROO_DEVICE_H_
+
+#include <string>
+#include <map>
+#include <stdexcept>
+#include "connector.h"
 
 namespace wallaroo
 {
 
-// forward declaration:
-class WireableClass;
 
-class ConfigurableAssociation
+class Device
 {
 public:
-    virtual void Assign( WireableClass* obj ) = 0;
-    virtual ~ConfigurableAssociation() {}
+    /** Link the plug @c plug of this device to the device @c deviceToPlug.
+     * @throw std::range_error if @c plug does not exist in this class.
+     */
+    virtual void Wire( const std::string& plug, Device* deviceToPlug )
+    {
+        Plugs::iterator i = plugs.find( plug );
+        if ( i == plugs.end() ) throw std::range_error( plug + " not found in the class" );
+        ( i -> second ) -> Assign( deviceToPlug );
+    }
+
+    void Register( const std::string& id, Connector* plug )
+    {
+        plugs[ id ] = plug;
+    }
+
+    virtual ~Device() {}
+
+private:
+    typedef std::map< std::string, Connector* > Plugs;
+    Plugs plugs;
 };
 
 } // namespace

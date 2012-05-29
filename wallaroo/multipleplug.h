@@ -21,41 +21,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_WIREABLECLASS_H_
-#define WALLAROO_WIREABLECLASS_H_
+#ifndef WALLAROO_MULTIPLEPLUG_H_
+#define WALLAROO_MULTIPLEPLUG_H_
 
 #include <string>
-#include <map>
-#include <stdexcept>
-#include "configurableassociation.h"
+#include <cassert>
+#include <list>
+#include <typeinfo>
+//#include <boost/shared_ptr.hpp>
+#include "connector.h"
+#include "device.h"
 
 namespace wallaroo
 {
 
-
-class WireableClass
+template < class T >
+class MultiplePlug : 
+    public Connector,
+    public std::list< T* >
 {
 public:
-    /** Link the role @c role of this object to the object @c resource.
-     * @throw std::range_error if @c role does not exist in this class.
-     */
-    virtual void Wire( const std::string& role, WireableClass* resource )
+    MultiplePlug( const std::string& id, Device* device )
     {
-        Roles::iterator i = roles.find( role );
-        if ( i == roles.end() ) throw std::range_error( role + " not found in the class" );
-        ( i -> second ) -> Assign( resource );
+        device -> Register( id, this );
     }
 
-    void Register( const std::string& id, ConfigurableAssociation* node )
+    /** Connect a device into this multiple plug
+    * @param device The object to insert
+    * @throw std::bad_cast If @c device is not a subclass of @c T
+    */
+    void Assign( Device* device )
     {
-        roles[ id ] = node;
+        // obj = boost::dynamic_pointer_cast< T >( device );
+        T* obj = dynamic_cast< T* >( device );
+        if ( obj == NULL ) // bad type!
+            throw std::bad_cast();
+        else
+            push_back( obj );
     }
-
-    virtual ~WireableClass() {}
-
-private:
-    typedef std::map< std::string, ConfigurableAssociation* > Roles;
-    Roles roles;
 };
 
 } // namespace

@@ -28,7 +28,7 @@
 
 using namespace wallaroo;
 
-class SumpProbe : public WireableClass
+class SumpProbe : public Device
 {
 public:
     virtual bool MustDrain() = 0;
