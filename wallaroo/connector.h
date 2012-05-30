@@ -33,7 +33,7 @@ class Device;
 class Connector
 {
 public:
-    virtual void Assign( Device* device ) = 0;
+    virtual void PlugInto( Device* device ) = 0;
     virtual ~Connector() {}
 };
 

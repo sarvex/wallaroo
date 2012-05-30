@@ -45,14 +45,14 @@ public:
         device -> Register( id, this );
     }
     
-    /** Insert a device into this plug
-    * @param deviceToPlug The device to plug
-    * @throw std::bad_cast If @c deviceToPlug is not a subclass of @c T
+    /** Plug this plug into a device
+    * @param dev The device you want insert this plug into
+    * @throw std::bad_cast If @c dev is not a subclass of @c T
     */
-    void Assign( Device* deviceToPlug )
+    void PlugInto( Device* dev )
     {
-        // device = boost::dynamic_pointer_cast< T >( deviceToPlug );
-        device = dynamic_cast< T* >( deviceToPlug );
+        // device = boost::dynamic_pointer_cast< T >( dev );
+        device = dynamic_cast< T* >( dev );
         if ( device == NULL ) // bad type!
             throw std::bad_cast();
     }

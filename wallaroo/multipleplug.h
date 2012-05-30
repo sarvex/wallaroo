@@ -47,10 +47,10 @@ public:
     }
 
     /** Connect a device into this multiple plug
-    * @param device The object to insert
+    * @param device The device to connect
     * @throw std::bad_cast If @c device is not a subclass of @c T
     */
-    void Assign( Device* device )
+    void PlugInto( Device* device )
     {
         // obj = boost::dynamic_pointer_cast< T >( device );
         T* obj = dynamic_cast< T* >( device );

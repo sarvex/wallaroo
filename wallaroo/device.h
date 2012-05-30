@@ -36,14 +36,15 @@ namespace wallaroo
 class Device
 {
 public:
-    /** Link the plug @c plug of this device to the device @c deviceToPlug.
-     * @throw std::range_error if @c plug does not exist in this class.
+    /** Plug the plug @c plug of this device into the device @c device.
+     * @throw std::range_error if @c plug does not exist in this device.
      */
-    virtual void Wire( const std::string& plug, Device* deviceToPlug )
+    virtual void Wire( const std::string& plug, Device* device )
     {
         Plugs::iterator i = plugs.find( plug );
-        if ( i == plugs.end() ) throw std::range_error( plug + " not found in the class" );
-        ( i -> second ) -> Assign( deviceToPlug );
+        if ( i == plugs.end() ) 
+            throw std::range_error( plug + " not found in the class" );
+        ( i -> second ) -> PlugInto( device );
     }
 
     void Register( const std::string& id, Connector* plug )
