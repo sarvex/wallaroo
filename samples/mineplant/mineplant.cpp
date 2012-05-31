@@ -60,35 +60,35 @@ MinePlant::MinePlant()
     assert( p == pump );
 #endif
 
-    catalog[ "lowSensor" ].Wire( "input", catalog[ "lowLevelInput" ] );
-    catalog[ "highSensor" ].Wire( "input", catalog[ "highLevelInput" ] );
+    catalog[ "lowSensor" ].Plug( "input" ).Into( catalog[ "lowLevelInput" ] );
+    catalog[ "highSensor" ].Plug( "input" ).Into( catalog[ "highLevelInput" ] );
 
-    catalog[ "probe" ].Wire( "lowSensor", catalog[ "lowSensor" ] );
-    catalog[ "probe" ].Wire( "highSensor", catalog[ "highSensor" ] );
+    catalog[ "probe" ].Plug( "lowSensor" ).Into( catalog[ "lowSensor" ] );
+    catalog[ "probe" ].Plug( "highSensor" ).Into( catalog[ "highSensor" ] );
 
-    catalog[ "engine" ].Wire( "output", catalog[ "output" ] );
+    catalog[ "engine" ].Plug( "output" ).Into( catalog[ "output" ] );
 
 #ifndef NO_GAS_CHECK
-    catalog[ "airFlowSensor" ].Wire( "input", catalog[ "airFlowInput" ] );
-    catalog[ "COSensor" ].Wire( "input", catalog[ "COInput" ] );
-    catalog[ "methaneSensor" ].Wire( "input", catalog[ "methaneInput" ] );
+    catalog[ "airFlowSensor" ].Plug( "input" ).Into( catalog[ "airFlowInput" ] );
+    catalog[ "COSensor" ].Plug( "input" ).Into( catalog[ "COInput" ] );
+    catalog[ "methaneSensor" ].Plug( "input" ).Into( catalog[ "methaneInput" ] );
 
-    catalog[ "engine" ].Wire( "sensor", catalog[ "methaneSensor" ] );
+    catalog[ "engine" ].Plug( "sensor" ).Into( catalog[ "methaneSensor" ] );
 
-	catalog[ "alarm" ].Wire( "output", catalog[ "alarmOutput" ] );
+	catalog[ "alarm" ].Plug( "output" ).Into( catalog[ "alarmOutput" ] );
 
-    catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "airFlowSensor" ] );
-    catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "COSensor" ] );
-    catalog[ "gasAlarm" ].Wire( "sensors", catalog[ "methaneSensor" ] );
+    catalog[ "gasAlarm" ].Plug( "sensors" ).Into( catalog[ "airFlowSensor" ] );
+    catalog[ "gasAlarm" ].Plug( "sensors" ).Into( catalog[ "COSensor" ] );
+    catalog[ "gasAlarm" ].Plug( "sensors" ).Into( catalog[ "methaneSensor" ] );
 
-    catalog[ "gasAlarm" ].Wire( "alarm", catalog[ "alarm" ] );
+    catalog[ "gasAlarm" ].Plug( "alarm" ).Into( catalog[ "alarm" ] );
 #endif
 
-    catalog[ "pump" ].Wire( "probe", catalog[ "probe" ] );
+    catalog[ "pump" ].Plug( "probe" ).Into( catalog[ "probe" ] );
 #if 1 // correct
-    catalog[ "pump" ].Wire( "engine", catalog[ "engine" ] );
+    catalog[ "pump" ].Plug( "engine" ).Into( catalog[ "engine" ] );
 #else // bad type
-    catalog[ "pump" ].Wire( "engine", catalog[ "probe" ] );
+    catalog[ "pump" ].Plug( "engine" ).Into( catalog[ "probe" ] );
 #endif
 }
 

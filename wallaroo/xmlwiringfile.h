@@ -66,7 +66,7 @@ public:
                     const std::string source = v.second.get< std::string >( "source" );
                     const std::string dest = v.second.get< std::string >( "dest" );
                     const std::string role = v.second.get< std::string >( "role" );
-                    catalog[ source ].Wire( role, catalog[ dest ] );
+                    catalog[ source ].Plug( role ).Into( catalog[ dest ] );
                 }
             }
         }

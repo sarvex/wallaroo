@@ -39,20 +39,42 @@ namespace wallaroo
 namespace detail
 {
 
-class ObjectShell
+class DeviceShell; // forward declaration
+
+class PlugShell
+{
+public:
+    PlugShell( Device* dev, const std::string& plug ) :
+      device( dev ),
+      plugName( plug )
+    {}
+    void Into( DeviceShell destination );
+private:
+    Device* device;
+    const std::string plugName;
+};
+
+class DeviceShell
 {
 public:
 
-    ObjectShell( Device* dev ) : 
+    DeviceShell( Device* dev ) : 
       device( dev ) 
     {
         assert( device != NULL );
     }
 
+#if 0
     void Wire( const std::string& role, ObjectShell resource )
     {
         device -> Wire( role, resource.device );
     }
+#else
+    PlugShell Plug( const std::string& plugName )
+    {
+        return PlugShell( device, plugName );
+    }
+#endif
 
     /** Convert the contained device to the type T
     * @return the converted device.
@@ -68,10 +90,18 @@ public:
     }
 
 private:
+    friend class PlugShell;
     Device* device;
 };
 
+
+inline void PlugShell::Into( DeviceShell destination )
+{
+    device -> Wire( plugName, destination.device );
 }
+
+
+} // namespace detail
 
 
 
@@ -92,11 +122,11 @@ public:
     * @return the element.
     * @throw std::range_error if the element does not exist in the catalog.
     */
-    detail::ObjectShell operator [] ( const std::string& itemId )
+    detail::DeviceShell operator [] ( const std::string& itemId )
     {
         Devices::iterator i = devices.find( itemId );
         if ( i == devices.end() ) throw std::range_error( itemId + " not found in the catalog" );
-        return detail::ObjectShell( i -> second );
+        return detail::DeviceShell( i -> second );
     }
 
     /** Add a device to the catalog

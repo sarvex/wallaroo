@@ -37,10 +37,10 @@ int main( int argc, char* argv[] )
     catalog.Create( "a", "B" );
     A* a = catalog[ "a" ];
 
-    catalog[ "a" ].Wire( "x", catalog[ "c" ] );
+    catalog[ "a" ].Plug( "x" ).Into( catalog[ "c" ] );
 
-    catalog[ "a" ].Wire( "xList", catalog[ "c1" ] );
-    catalog[ "a" ].Wire( "xList", catalog[ "c2" ] );
+    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c1" ] );
+    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c2" ] );
 
     a -> F();
 
