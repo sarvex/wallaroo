@@ -64,17 +64,10 @@ public:
         assert( device != NULL );
     }
 
-#if 0
-    void Wire( const std::string& role, ObjectShell resource )
-    {
-        device -> Wire( role, resource.device );
-    }
-#else
     PlugShell Plug( const std::string& plugName )
     {
         return PlugShell( device, plugName );
     }
-#endif
 
     /** Convert the contained device to the type T
     * @return the converted device.
@@ -149,7 +142,7 @@ public:
     * @throw std::range_error if an element with the name @c id is already in the catalog or the @c className class has not been registered
     */
     template < class P1, class P2 >
-    void Create2( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
+    void Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
     {
         typedef Class< Device, P1, P2 > C;
         C c = C::ForName( className );
@@ -165,7 +158,7 @@ public:
     * @throw std::range_error if an element with the name @c id is already in the catalog or the @c className class has not been registered
     */
     template < class P >
-    void Create1( const std::string& id, const std::string& className, const P& p )
+    void Create( const std::string& id, const std::string& className, const P& p )
     {
         typedef Class< Device, P, void > C;
         C c = C::ForName( className );

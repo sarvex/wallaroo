@@ -31,23 +31,23 @@ MinePlant::MinePlant()
 {
     Catalog catalog;
 
-    catalog.Create2( "lowLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 0u );
-    catalog.Create2( "highLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 1u );
+    catalog.Create( "lowLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 0u );
+    catalog.Create( "highLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 1u );
     catalog.Create( "lowSensor", "LevelSensor" );
     catalog.Create( "highSensor", "LevelSensor" );
     catalog.Create( "probe", "TwoLevelSumpProbe" );
-    catalog.Create2( "output", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 0u );
+    catalog.Create( "output", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 0u );
 #ifdef NO_GAS_CHECK
     catalog.Create( "engine", "PumpEngine" );
 #else
     catalog.Create( "engine", "SafeEngine" );
-    catalog.Create1( "airFlowSensor", "ThresholdGasSensor", 5u );
-    catalog.Create1( "COSensor", "ThresholdGasSensor", 25u );
-    catalog.Create1( "methaneSensor", "ThresholdGasSensor", 10u );
-    catalog.Create1( "airFlowInput", "ConstAnalogInput", std::string( "/dev/lpt3") );
-    catalog.Create1( "COInput", "ConstAnalogInput", std::string( "/dev/lpt4") );
-    catalog.Create1( "methaneInput", "ConstAnalogInput", std::string( "/dev/lpt5") );
-    catalog.Create2( "alarmOutput", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 1u );
+    catalog.Create( "airFlowSensor", "ThresholdGasSensor", 5u );
+    catalog.Create( "COSensor", "ThresholdGasSensor", 25u );
+    catalog.Create( "methaneSensor", "ThresholdGasSensor", 10u );
+    catalog.Create( "airFlowInput", "ConstAnalogInput", std::string( "/dev/lpt3") );
+    catalog.Create( "COInput", "ConstAnalogInput", std::string( "/dev/lpt4") );
+    catalog.Create( "methaneInput", "ConstAnalogInput", std::string( "/dev/lpt5") );
+    catalog.Create( "alarmOutput", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 1u );
     catalog.Create( "gasAlarm", "GasAlarm" );
 	gasAlarm = catalog[ "gasAlarm" ];
     catalog.Create( "alarm", "Alarm" );
@@ -102,3 +102,4 @@ void MinePlant::Run()
 #endif
 	}
 }
+
