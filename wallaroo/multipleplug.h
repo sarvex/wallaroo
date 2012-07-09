@@ -41,9 +41,9 @@ class MultiplePlug :
     public std::list< T* >
 {
 public:
-    MultiplePlug( const std::string& id, Device* device )
+    MultiplePlug( const std::string& id, Device* multiplePlugOwner )
     {
-        device -> Register( id, this );
+        multiplePlugOwner -> Register( id, this );
     }
 
     /** Connect a device into this multiple plug

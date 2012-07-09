@@ -39,10 +39,10 @@ class Plug : public Connector
 {
 public:
 
-    Plug( const std::string& id, Device* device ) :
-      device( NULL )
+    Plug( const std::string& plugName, Device* plugOwner ) :
+        device( NULL )
     {
-        device -> Register( id, this );
+        plugOwner -> Register( plugName, this );
     }
     
     /** Plug this plug into a device
