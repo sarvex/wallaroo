@@ -35,7 +35,7 @@ int main( int argc, char* argv[] )
     catalog.Create( "c1", "C" );
     catalog.Create( "c2", "C" );
     catalog.Create( "a", "B" );
-    A* a = catalog[ "a" ];
+    boost::shared_ptr< A > a = catalog[ "a" ];
 
     catalog[ "a" ].Plug( "x" ).Into( catalog[ "c" ] );
 

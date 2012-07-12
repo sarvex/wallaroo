@@ -24,6 +24,8 @@
 #ifndef WALLAROO_CONNECTOR_H_
 #define WALLAROO_CONNECTOR_H_
 
+#include <boost/shared_ptr.hpp>
+
 namespace wallaroo
 {
 
@@ -33,7 +35,7 @@ class Device;
 class Connector
 {
 public:
-    virtual void PlugInto( Device* device ) = 0;
+    virtual void PlugInto( boost::shared_ptr< Device > dev ) = 0;
     virtual ~Connector() {}
 };
 

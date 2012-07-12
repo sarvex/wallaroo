@@ -27,7 +27,7 @@
 #include <string>
 #include <cassert>
 #include <typeinfo>
-//#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 #include "connector.h"
 #include "device.h"
 
@@ -39,8 +39,10 @@ class Plug : public Connector
 {
 public:
 
-    Plug( const std::string& plugName, Device* plugOwner ) :
-        device( NULL )
+    typedef boost::weak_ptr< T > WeakPtr;
+    typedef boost::shared_ptr< T > SharedPtr;
+
+    Plug( const std::string& plugName, Device* plugOwner )
     {
         plugOwner -> Register( plugName, this );
     }
@@ -49,18 +51,20 @@ public:
     * @param dev The device you want insert this plug into
     * @throw std::bad_cast If @c dev is not a subclass of @c T
     */
-    void PlugInto( Device* dev )
+    void PlugInto( boost::shared_ptr< Device > dev )
     {
-        // device = boost::dynamic_pointer_cast< T >( dev );
-        device = dynamic_cast< T* >( dev );
-        if ( device == NULL ) // bad type!
+        boost::shared_ptr< T > _dev = boost::dynamic_pointer_cast< T >( dev );
+        if ( ! _dev ) // bad type!
             throw std::bad_cast();
+        else
+            device = _dev;
     }
 
-    T* operator -> ()
+    SharedPtr operator -> ()
     {
-        assert( device != NULL );
-        return device;
+        SharedPtr result = device.lock();
+        assert( result );
+        return result;
     }
 
     const T* operator -> () const
@@ -70,7 +74,7 @@ public:
     }
 
 private:
-    T* device;
+    WeakPtr device;
 };
 
 } // namespace

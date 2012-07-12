@@ -27,6 +27,7 @@
 #include <string>
 #include <map>
 #include <stdexcept>
+#include <boost/shared_ptr.hpp>
 #include "connector.h"
 
 namespace wallaroo
@@ -39,7 +40,7 @@ public:
     /** Plug the plug @c plugName of this device into the device @c device.
      * @throw std::range_error if @c plugName does not exist in this device.
      */
-    virtual void Wire( const std::string& plugName, Device* device )
+    virtual void Wire( const std::string& plugName, boost::shared_ptr< Device > device )
     {
         Plugs::iterator i = plugs.find( plugName );
         if ( i == plugs.end() ) 

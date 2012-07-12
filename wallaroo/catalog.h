@@ -29,39 +29,46 @@
 #include <typeinfo>
 #include <cassert>
 #include <stdexcept>
-//#include <boost/shared_ptr.hpp>
+#include <boost/shared_ptr.hpp>
 #include "device.h"
 #include "class.h"
 
 namespace wallaroo
 {
-
 namespace detail
 {
 
 class DeviceShell; // forward declaration
 
+// This is a service class that provides the "Into" part in the syntax:
+//   catalog[ "source" ].Plug( "plug" ).Into( catalog[ "destination" ] );
+// In particular, the method DeviceShell::Plug returns a PlugShell
+// that contains the references to the "source" device and its "plug".
 class PlugShell
 {
 public:
-    PlugShell( Device* dev, const std::string& plug ) :
-      device( dev ),
-      plugName( plug )
+    PlugShell( boost::shared_ptr< Device > dev, const std::string& plug ) :
+        device( dev ),
+        plugName( plug )
     {}
     void Into( DeviceShell destination );
 private:
-    Device* device;
+    boost::shared_ptr< Device > device;
     const std::string plugName;
 };
 
+// This is a service class that provides the "Plug" part in the syntax:
+//   catalog[ "source" ].Plug( "plug" ).Into( catalog[ "destination" ] );
+// In particular, the Catalog::operator[] returns a DeviceShell
+// that contains the reference to the "source" device.
 class DeviceShell
 {
 public:
 
-    DeviceShell( Device* dev ) : 
-      device( dev ) 
+    DeviceShell( boost::shared_ptr< Device > dev ) : 
+        device( dev ) 
     {
-        assert( device != NULL );
+        assert( device );
     }
 
     PlugShell Plug( const std::string& plugName )
@@ -74,17 +81,17 @@ public:
     * @throw std::bad_cast if the contained device is not a subclass of T
     */
     template < class T >
-    operator T*()
+    operator boost::shared_ptr< T >()
     {
-        //T* result = boost::dynamic_pointer_cast< T >( device );
-        T* result = dynamic_cast< T* >( device );
-        if ( result == NULL ) throw std::bad_cast();
+        boost::shared_ptr< T > result = boost::dynamic_pointer_cast< T >( device );
+        //T* result = dynamic_cast< T* >( device );
+        if ( ! result ) throw std::bad_cast();
         return result;
     }
 
 private:
     friend class PlugShell;
-    Device* device;
+    boost::shared_ptr< Device > device;
 };
 
 
@@ -127,11 +134,13 @@ public:
     * @param device the device to add
     * @throw std::range_error if a device with the name @c id is already in the catalog
     */
-    void Add( const std::string& id, Device* dev )
+    void Add( const std::string& id, std::auto_ptr< Device > dev )
     {
+        boost::shared_ptr< Device > toInsert( dev );
         std::pair< Devices::iterator, bool > result = 
-            devices.insert( std::make_pair( id, dev ) );
-        if ( ! result.second ) throw std::range_error( id + " already in the catalog" );
+            devices.insert( std::make_pair( id, toInsert ) );
+        if ( ! result.second )
+            throw std::range_error( id + " already in the catalog" );
     }
 
     /** Instantiate a class with a 2 parameters constructor and add it to the catalog
@@ -148,7 +157,7 @@ public:
         C c = C::ForName( className );
         std::auto_ptr< Device > obj = c.NewInstance( p1, p2 );
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
-        Add( id, obj.release() );
+        Add( id, obj );
     }
 
     /** Instantiate a class with a 1 parameters constructor and add it to the catalog
@@ -164,7 +173,7 @@ public:
         C c = C::ForName( className );
         std::auto_ptr< Device > obj = c.NewInstance( p );
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
-        Add( id, obj.release() );
+        Add( id, obj );
     }
 
     /** Instantiate a class with 0 parameters constructor and add it to the catalog
@@ -178,11 +187,11 @@ public:
         C c = C::ForName( className );
         std::auto_ptr< Device > obj = c.NewInstance();
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
-        Add( id, obj.release() );
+        Add( id, obj );
     }
 
 private:
-    typedef std::map< std::string, Device* > Devices;
+    typedef std::map< std::string, boost::shared_ptr< Device > > Devices;
     Devices devices;
 };
 

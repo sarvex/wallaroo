@@ -38,7 +38,7 @@ namespace wallaroo
 template < class T >
 class MultiplePlug : 
     public Connector,
-    public std::list< T* >
+    public std::list< boost::weak_ptr< T > >
 {
 public:
     MultiplePlug( const std::string& id, Device* multiplePlugOwner )
@@ -50,11 +50,10 @@ public:
     * @param device The device to connect
     * @throw std::bad_cast If @c device is not a subclass of @c T
     */
-    void PlugInto( Device* device )
+    void PlugInto( boost::shared_ptr< Device > device )
     {
-        // obj = boost::dynamic_pointer_cast< T >( device );
-        T* obj = dynamic_cast< T* >( device );
-        if ( obj == NULL ) // bad type!
+        boost::shared_ptr< T > obj = boost::dynamic_pointer_cast< T >( device );
+        if ( ! obj ) // bad type!
             throw std::bad_cast();
         else
             push_back( obj );
