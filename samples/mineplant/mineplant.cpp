@@ -22,15 +22,14 @@
  ******************************************************************************/
 
 #include "mineplant.h"
-#include "wallaroo/catalog.h"
+#include "sumppump.h"
+#include "gasalarm.h"
 
 // Define to compile a wiring without the check of the gas
 // #define NO_GAS_CHECK
 
 MinePlant::MinePlant()
 {
-    Catalog catalog;
-
     catalog.Create( "lowLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 0u );
     catalog.Create( "highLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 1u );
     catalog.Create( "lowSensor", "LevelSensor" );
@@ -49,16 +48,9 @@ MinePlant::MinePlant()
     catalog.Create( "methaneInput", "ConstAnalogInput", std::string( "/dev/lpt5") );
     catalog.Create( "alarmOutput", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 1u );
     catalog.Create( "gasAlarm", "GasAlarm" );
-	gasAlarm = catalog[ "gasAlarm" ];
     catalog.Create( "alarm", "Alarm" );
 #endif
     catalog.Create( "pump", "SumpPump" );
-    pump = catalog[ "pump" ];
-
-#if 0 // fa scattare un'eccezione
-    SumpPump* p = catalog[ "pippo" ];
-    assert( p == pump );
-#endif
 
     catalog[ "lowSensor" ].Plug( "input" ).Into( catalog[ "lowLevelInput" ] );
     catalog[ "highSensor" ].Plug( "input" ).Into( catalog[ "highLevelInput" ] );
@@ -94,6 +86,14 @@ MinePlant::MinePlant()
 
 void MinePlant::Run()
 {
+    boost::shared_ptr< SumpPump > pump = catalog[ "pump" ];
+    boost::shared_ptr< GasAlarm > gasAlarm = catalog[ "gasAlarm" ];
+
+#if 0 // fa scattare un'eccezione
+    boost::shared_ptr< SumpPump > p = catalog[ "pippo" ];
+    assert( p == pump );
+#endif
+
     while ( true )
 	{
         pump -> Drain();

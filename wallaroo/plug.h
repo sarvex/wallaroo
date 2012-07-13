@@ -34,6 +34,13 @@
 namespace wallaroo
 {
 
+/**
+ * This represents a "plug" of a "device" that
+ * you can "plug" into another "device".
+ *
+ * If the device1 has the plug1 plugged to device2, device1 will
+ * basically get a pointer to device2.
+ */
 template < class T >
 class Plug : public Connector
 {
@@ -67,10 +74,11 @@ public:
         return result;
     }
 
-    const T* operator -> () const
+    const SharedPtr operator -> () const
     {
-        assert( device != NULL );
-        return device;
+        const SharedPtr result = device.lock();
+        assert( result );
+        return result;
     }
 
 private:

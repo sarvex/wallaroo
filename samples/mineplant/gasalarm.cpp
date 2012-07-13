@@ -35,10 +35,14 @@ void GasAlarm::Watch()
 {
     for ( SensorList::iterator i = sensors.begin(); i != sensors.end(); ++i )
     {
-        if ( ( *i ) -> IsCritical() )
+        boost::shared_ptr< GasSensor > sensor = i -> lock();
+        if ( sensor )
         {
-            alarm -> On();
-            return;
+            if ( sensor -> IsCritical() )
+            {
+                alarm -> On();
+                return;
+            }
         }
     }
 

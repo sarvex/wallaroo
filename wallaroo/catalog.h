@@ -84,7 +84,6 @@ public:
     operator boost::shared_ptr< T >()
     {
         boost::shared_ptr< T > result = boost::dynamic_pointer_cast< T >( device );
-        //T* result = dynamic_cast< T* >( device );
         if ( ! result ) throw std::bad_cast();
         return result;
     }

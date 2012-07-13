@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../.."
+				AdditionalIncludeDirectories="../..;$(BOOST)"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -179,19 +179,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\gasalarm.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\continuoussumpprobe.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\levelsensor.cpp"
+				RelativePath=".\gasalarm.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\twolevelsumpprobe.cpp"
+				RelativePath=".\levelsensor.cpp"
 				>
 			</File>
 			<File
@@ -216,6 +212,10 @@
 			</File>
 			<File
 				RelativePath=".\thresholdgassensor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\twolevelsumpprobe.cpp"
 				>
 			</File>
 		</Filter>
@@ -245,6 +245,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\continuoussumpprobe.h"
+				>
+			</File>
+			<File
 				RelativePath=".\digitalinput.h"
 				>
 			</File>
@@ -265,15 +269,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\continuoussumpprobe.h"
-				>
-			</File>
-			<File
 				RelativePath=".\levelsensor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\twolevelsumpprobe.h"
 				>
 			</File>
 			<File
@@ -298,6 +294,10 @@
 			</File>
 			<File
 				RelativePath=".\thresholdgassensor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\twolevelsumpprobe.h"
 				>
 			</File>
 		</Filter>
