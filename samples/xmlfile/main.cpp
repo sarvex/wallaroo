@@ -37,7 +37,7 @@ int main( int argc, char* argv[] )
         XmlWiringFile file( "wiring.xml" );
         file.Fill( catalog );
 
-        A* a = catalog[ "a" ];
+        boost::shared_ptr< A > a = catalog[ "a" ];
 
         a -> F();
     }

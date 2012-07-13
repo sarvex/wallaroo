@@ -89,8 +89,8 @@ void MinePlant::Run()
     boost::shared_ptr< SumpPump > pump = catalog[ "pump" ];
     boost::shared_ptr< GasAlarm > gasAlarm = catalog[ "gasAlarm" ];
 
-#if 0 // fa scattare un'eccezione
-    boost::shared_ptr< SumpPump > p = catalog[ "pippo" ];
+#if 0 // throws an exception (the catalog does not contain a "not_found" item)
+    boost::shared_ptr< SumpPump > p = catalog[ "not_found" ];
     assert( p == pump );
 #endif
 
