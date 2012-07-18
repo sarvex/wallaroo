@@ -38,6 +38,10 @@ namespace wallaroo
 class XmlWiringFile
 {
 public:
+    /** Create an XmlWiringFile from the path specified as parameter.
+    * @param fileName the path of the file to parse
+    * @throw std::range_error if the file do not exist or its format is wrong.
+    */
     explicit XmlWiringFile( const std::string& fileName )
     {
         try
@@ -49,25 +53,19 @@ public:
             throw std::range_error( e.what() );
         }
     }
+
+    /** Fill the @c catalog with the objects and relations specified in the file.
+    * @param catalog The catalog target of the new items of the file.
+    * @throw std::range_error if the file contains a semantic error.
+    */
     void Fill( Catalog& catalog )
     {
         try
         {
             BOOST_FOREACH( ptree::value_type &v, tree.get_child( "catalog" ) )
             {
-                if ( v.first == "object" )
-                {
-                    const std::string name = v.second.get< std::string >( "name" );
-                    const std::string cl = v.second.get< std::string >( "class" );
-                    catalog.Create( name, cl );
-                }
-                else if ( v.first == "relation" )
-                {
-                    const std::string source = v.second.get< std::string >( "source" );
-                    const std::string dest = v.second.get< std::string >( "dest" );
-                    const std::string role = v.second.get< std::string >( "role" );
-                    catalog[ source ].Plug( role ).Into( catalog[ dest ] );
-                }
+                if ( v.first == "object" ) ParseObject( catalog, v.second );
+                else if ( v.first == "relation" ) ParseRelation( catalog, v.second );
             }
         }
         catch ( const ptree_error& e )
@@ -75,7 +73,110 @@ public:
             throw std::range_error( e.what() );
         }
     }
+
 private:
+
+    void ParseObject( Catalog& catalog, ptree& v )
+    {
+        const std::string name = v.get< std::string >( "name" );
+        const std::string cl = v.get< std::string >( "class" );
+
+        boost::optional< std::string > par1type = v.get_optional< std::string >( "par1.<xmlattr>.type" );
+        boost::optional< std::string > par2type = v.get_optional< std::string >( "par2.<xmlattr>.type" );
+
+        if ( par1type && par2type )
+        {
+            if ( *par1type == "string" )
+            {
+                const std::string par1 = v.get< std::string >( "par1" );
+                if ( *par2type == "string" )
+                {
+                    const std::string par2 = v.get< std::string >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }
+                else if ( *par2type == "int" )
+                {
+                    const int par2 = v.get< int >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }
+                else if ( *par2type == "unsgined int" )
+                {
+                    const unsigned int par2 = v.get< unsigned int >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }   
+            }
+            else if ( *par1type == "int" )
+            {
+                const int par1 = v.get< int >( "par1" );
+                if ( *par2type == "string" )
+                {
+                    const std::string par2 = v.get< std::string >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }
+                else if ( *par2type == "int" )
+                {
+                    const int par2 = v.get< int >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }
+                else if ( *par2type == "unsgined int" )
+                {
+                    const unsigned int par2 = v.get< unsigned int >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }   
+            }
+            else if ( *par1type == "unsigned int" )
+            {
+                const unsigned int par1 = v.get< unsigned int >( "par1" );
+                if ( *par2type == "string" )
+                {
+                    const std::string par2 = v.get< std::string >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }
+                else if ( *par2type == "int" )
+                {
+                    const int par2 = v.get< int >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }
+                else if ( *par2type == "unsgined int" )
+                {
+                    const unsigned int par2 = v.get< unsigned int >( "par2" );
+                    catalog.Create( name, cl, par1, par2 );
+                }   
+            }
+        }
+        else if ( par1type )
+        {
+            if ( *par1type == "string" )
+            {
+                const std::string par = v.get< std::string >( "par1" );
+                catalog.Create( name, cl, par );
+            }
+            else if ( *par1type == "int" )
+            {
+                const int par = v.get< int >( "par1" );
+                catalog.Create( name, cl, par );
+            }
+            else if ( *par1type == "unsigned int" )
+            {
+                const unsigned int par = v.get< unsigned int >( "par1" );
+                catalog.Create( name, cl, par );
+            }
+        }
+        else
+        {
+            catalog.Create( name, cl );
+        }
+    }
+
+    void ParseRelation( Catalog& catalog, ptree& v )
+    {
+        const std::string source = v.get< std::string >( "source" );
+        const std::string dest = v.get< std::string >( "dest" );
+        const std::string role = v.get< std::string >( "role" );
+
+        catalog[ source ].Plug( role ).Into( catalog[ dest ] );
+    }
+
     ptree tree;
 };
 

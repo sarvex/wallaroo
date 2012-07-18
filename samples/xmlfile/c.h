@@ -28,12 +28,15 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( C, void, void ), public Device
+REGISTERED_CLASS( C, std::string, void ), public Device
 // class C
 {
 public:
+    C( const std::string& msg );
     virtual void G();
     virtual ~C();
+private:
+    const std::string greetingMsg;
 };
 
 #endif

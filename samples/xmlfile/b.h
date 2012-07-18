@@ -30,16 +30,17 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( B, void, void ), public A
+REGISTERED_CLASS( B, unsigned int, void ), public A
 //class B : public A
 {
 public:
-    B();
+    B( unsigned int x );
     virtual void F();
     virtual ~B();
 private:
     Plug< C > c;
     MultiplePlug< C > cList;
+    const unsigned int par;
 };
 
 #endif

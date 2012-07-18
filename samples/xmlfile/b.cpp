@@ -25,17 +25,18 @@
 #include <algorithm>
 #include "b.h"
 
-REGISTER( B, void, void )
+REGISTER( B, unsigned int, void )
 
-B::B()  :
+B::B( unsigned int x )  :
     c( "x", this ),
-    cList( "xList", this )
+    cList( "xList", this ),
+    par( x )
 {
 }
 
 void B::F()
 {
-    std::cout << "B::F method begin" << std::endl;
+    std::cout << "B::F method begin (par=" << par << ")" << std::endl;
     std::cout << "invoking x -> G():" << std::endl;
     c -> G();
     std::cout << "iterating over xList:" << std::endl;

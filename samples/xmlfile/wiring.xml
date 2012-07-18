@@ -38,21 +38,25 @@ catalog[ "a" ].Wire( "xList", catalog[ "c2" ] );
   <object>
     <name>c</name>
     <class>C</class>
+    <par1 type="string">xxx</par1>
   </object>
 
   <object>
     <name>c1</name>
     <class>C</class>
+    <par1 type="string">yyy</par1>
   </object>
 
   <object>
     <name>c2</name>
     <class>C</class>
+    <par1 type="string">zzz</par1>
   </object>
 
   <object>
     <name>a</name>
     <class>B</class>
+    <par1 type="unsigned int">42</par1>
   </object>
 
   <relation>

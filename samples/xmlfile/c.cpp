@@ -24,11 +24,16 @@
 #include <iostream>
 #include "c.h"
 
-REGISTER( C, void, void )
+REGISTER( C, std::string, void )
+
+C::C( const std::string& msg )
+: greetingMsg( msg )
+{
+}
 
 void C::G()
 {
-    std::cout << "C::G" << std::endl;
+    std::cout << "C::G msg=" << greetingMsg << std::endl;
 }
 
 C::~C()
