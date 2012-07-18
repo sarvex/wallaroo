@@ -25,25 +25,36 @@
 #include "wallaroo/catalog.h"
 #include "a.h"
 
+// Wallaroo library is embedded in the wallaroo namespace
 using namespace wallaroo;
 
 int main( int argc, char* argv[] )
 {
+    // A catalog contains the objects used by our app
     Catalog catalog;
 
+    // You can create the objects you need in this way
     catalog.Create( "c", "C" );
     catalog.Create( "c1", "C" );
     catalog.Create( "c2", "C" );
     catalog.Create( "a", "B" );
+
+    // You can wire the objects.
+    catalog[ "a" ].Plug( "x" ).Into( catalog[ "c" ] );     // this means a.x = c
+    // You can also wire lists.
+    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c1" ] ); // this means a.xList.push_back( c1 )
+    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c2" ] ); // this means a.xList.push_back( c2 )
+
+    // You can retrieve an object from the catalog using
+    // the operator [].
+    // The catalog has the ownership of the objects contained
+    // so the operator [] returns a shared pointer
     boost::shared_ptr< A > a = catalog[ "a" ];
 
-    catalog[ "a" ].Plug( "x" ).Into( catalog[ "c" ] );
-
-    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c1" ] );
-    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c2" ] );
-
+    // Finally, you can use your objects in the standard way
     a -> F();
 
+    // Wait for exit acknowledge
     std::cout << "Press Enter to end the program." << std::endl;
     std::cin.get();
 

@@ -21,11 +21,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 ################################################################################
 
-CC=g++
-CFLAGS=-Wall -I../..
+CC = g++
+CFLAGS = -Wall -I../.. $(UCFLAGS)
 DEPS = a.h b.h c.h
 OBJ = b.o c.o main.o
-EXE=minimal
+EXE = minimal
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

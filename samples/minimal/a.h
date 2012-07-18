@@ -26,6 +26,7 @@
 
 #include "wallaroo/registered.h"
 
+// Wallaroo library is embedded in the wallaroo namespace
 using namespace wallaroo;
 
 class A : public Device

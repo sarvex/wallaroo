@@ -42,22 +42,22 @@ public:
      */
     virtual void Wire( const std::string& plugName, boost::shared_ptr< Device > device )
     {
-        Plugs::iterator i = plugs.find( plugName );
-        if ( i == plugs.end() ) 
+        Connectors::iterator i = connectors.find( plugName );
+        if ( i == connectors.end() ) 
             throw std::range_error( plugName + " not found in the class" );
         ( i -> second ) -> PlugInto( device );
     }
 
     void Register( const std::string& id, Connector* plug )
     {
-        plugs[ id ] = plug;
+        connectors[ id ] = plug;
     }
 
     virtual ~Device() {}
 
 private:
-    typedef std::map< std::string, Connector* > Plugs;
-    Plugs plugs;
+    typedef std::map< std::string, Connector* > Connectors;
+    Connectors connectors;
 };
 
 } // namespace

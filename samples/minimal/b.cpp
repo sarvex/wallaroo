@@ -40,10 +40,6 @@ void B::F()
     std::cout << "invoking x -> G():" << std::endl;
     c -> G();
     std::cout << "iterating over xList:" << std::endl;
-    //std::for_each( cList.begin(), cList.end(), std::mem_fun( &C::G ) );
-#if 0
-    std::for_each( cList.begin(), cList.end(), boost::bind( &C::G, _1 ) );
-#else
     for ( MultiplePlug< C >::iterator i = cList.begin(); i != cList.end(); ++i )
     {
         boost::shared_ptr< C > s = i -> lock();
@@ -52,7 +48,6 @@ void B::F()
         else
             std::cerr << "an element in MultiplePlug has been deleted!" << std::endl;
     }
-#endif
     std::cout << "B::F method end" << std::endl;
 }
 

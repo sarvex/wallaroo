@@ -28,7 +28,6 @@
 #include <cassert>
 #include <list>
 #include <typeinfo>
-//#include <boost/shared_ptr.hpp>
 #include "connector.h"
 #include "device.h"
 

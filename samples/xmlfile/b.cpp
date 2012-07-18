@@ -39,9 +39,6 @@ void B::F()
     std::cout << "invoking x -> G():" << std::endl;
     c -> G();
     std::cout << "iterating over xList:" << std::endl;
-#if 0
-    std::for_each( cList.begin(), cList.end(), std::mem_fun( &C::G ) );
-#else
     for ( MultiplePlug< C >::iterator i = cList.begin(); i != cList.end(); ++i )
     {
         boost::shared_ptr< C > cptr = i -> lock();
@@ -50,7 +47,6 @@ void B::F()
         else
             std::cerr << "an item in xList has been destroyed" << std::endl;
     }
-#endif
     std::cout << "B::F method end" << std::endl;
 }
 

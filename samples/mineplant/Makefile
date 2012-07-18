@@ -21,11 +21,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 ################################################################################
 
-CC=g++
-CFLAGS=-Wall -I../..
+CC = g++
+CFLAGS = -Wall -I../.. $(UCFLAGS)
 DEPS = alarm.h digitalinput.h continuoussumpprobe.h pumpengine.h analoginput.h digitaloutput.h levelprobe.h safeengine.h consoledigitaloutput.h gasalarm.h twolevelsumpprobe.h sumpprobe.h constanaloginput.h gassensor.h levelsensor.h sumppump.h constdigitalinput.h inputconsole.h mineplant.h thresholdgassensor.h
 OBJ = alarm.o gasalarm.o main.o sumppump.o consoledigitaloutput.o continuoussumpprobe.o mineplant.o thresholdgassensor.o constanaloginput.o twolevelsumpprobe.o pumpengine.o constdigitalinput.o levelsensor.o safeengine.o
-EXE=mineplant
+EXE = mineplant
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
