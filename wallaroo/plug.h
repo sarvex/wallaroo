@@ -30,6 +30,7 @@
 #include <boost/weak_ptr.hpp>
 #include "connector.h"
 #include "device.h"
+#include "exceptions.h"
 
 namespace wallaroo
 {
@@ -67,17 +68,25 @@ public:
             device = _dev;
     }
 
+    /** Give access to the embedded device.
+    * @throw DeletedDeviceError If the embedded device has been deleted.
+    */
     SharedPtr operator -> ()
     {
         SharedPtr result = device.lock();
-        assert( result );
+        if ( ! result ) 
+            throw DeletedDeviceError();
         return result;
     }
 
+    /** Give access to the embedded device as const.
+    * @throw DeletedDeviceError If the embedded device has been deleted.
+    */
     const SharedPtr operator -> () const
     {
         const SharedPtr result = device.lock();
-        assert( result );
+        if ( ! result )
+            throw DeletedDeviceError();
         return result;
     }
 

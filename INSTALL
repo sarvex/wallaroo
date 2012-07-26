@@ -4,7 +4,12 @@ Installation Instructions
 Requirements
 ============
 
-<TODO>
+Wallaroo relies on some of the famous boost libraries. You can donwload the
+latest version from www.boost.org, extract it wherever you want in your
+hard disk and include its path when compiling your application that 
+use Wallaroo.
+Since Wallaroo uses header only boost libraries, you don't need to compile
+boost.
 
 Installation
 ============
@@ -25,6 +30,7 @@ wallaroo\ ....................................The “wallaroo root directory”
    samples\ ..............................................Examples and test
       mineplant\ ..........The "originating" example from Carlo Pescio blog
       minimal\..............................................A basic example
+      xmlfile\...................................Usage of a xml wiring file
       ...more samples...
    doc\ ..................................A subset of Wallaroo library docs
 
@@ -33,6 +39,13 @@ source code.
 
 Usage
 =====
+
+To build your own project, the compiler needs to know the include path of 
+the boost and wallaroo libraries.
+
+So, if you use gcc, you can use the following syntax:
+	gcc -Wall -I<boost_path> -I<wallaroo_path> *.cpp -o <app_exe>
+
 
 It's important to note the following:
 
@@ -56,4 +69,25 @@ forward slashes in #include directives; your compiler doesn't care.
 Compilation of the samples
 ==========================
 
-<TODO>
+You can find some examples in the directory samples. Each example comes with:
+* makefile
+* scons file
+* visual studio 2008 solution file
+* visual studio 2010 solution file
+
+All methods require you to specify the boost library path. You can do it in
+the following ways:
+
+* Make
+	make UCFLAGS=-I<boost_path>
+example:
+	make UCFLAGS=-I/opt/boost_1_50_0/
+
+* Scons
+	scons incpath=<boost_path>
+example:
+	scons incpath=/opt/boost_1_50_0/
+
+* Visual Studio
+You must set the environment variable BOOST.
+

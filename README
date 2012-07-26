@@ -13,7 +13,20 @@ http://code.google.com/p/wallaroo/w/list
 Introduction
 ============
 
-<TODO>
+Wallaroo is a small library for configurable creation and wiring of C++
+classes.
+
+Using Wallaroo you will be able to separate the setup phase (object building
+and wiring) from the logic of your classes. In addition, you will be able to
+change the class of your objects without rebuilding anything: in this way you
+can change the behaviour of your application, or perform mock testing using
+the same executable.
+
+With Wallaroo you will be able to focus on the logic of your classes, without
+worrying about the wiring phase.
+
+This mechanism is called Dependency Injection (DI). Someone calls it
+Inversion of Control (IoC), but that is actually a different thing.
 
 Installation
 ============
@@ -37,5 +50,6 @@ wallaroo\ ....................................The "wallaroo root directory"
    samples\ ..............................................Examples and test
       mineplant\ ..........The "originating" example from Carlo Pescio blog
       minimal\..............................................A basic example
+      xmlfile\...................................Usage of a xml wiring file
       ...more samples...
    doc\ ..................................A subset of Wallaroo library docs
