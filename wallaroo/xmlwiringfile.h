@@ -35,6 +35,10 @@ using namespace boost::property_tree;
 namespace wallaroo
 {
 
+/** This class can parse an xml file containing a list of objects to
+* be created and their wiring.
+* Then it can populate a @c Catalog with that objects.
+*/
 class XmlWiringFile
 {
 public:

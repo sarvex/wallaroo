@@ -35,16 +35,23 @@ namespace wallaroo
 template < class I, class P1, class P2 > class Registry;
 template < class I, class P1, class P2 > class RegEntry;
 
-// è il descrittore di una classe con un costruttore
-// che prende un parametro di tipo P1 e uno di tipo P2
+/** It describes a class with a constructor that takes
+* two parameters of type @c P1 and @c P2 and implements
+* the interface @c I
+*/
 template < class I, class P1, class P2 >
 class Class
 {
     public :
 
         typedef std::auto_ptr< I > (*FactoryMethod)( P1, P2 ) ;
-
         typedef std::list< Class< I, P1, P2 > > ClassSet;
+        /** Create an instance of the class described by this object.
+        * @param p1 The first parameter to pass to the constructor
+        * @param p2 The second parameter to pass to the constructor
+        * @return a std::auto_ptr to the new instance (or the empty 
+        * std::auto_ptr if the descriptor is not valid)
+        */
         std::auto_ptr< I > NewInstance( const P1& p1, const P2& p2 )
         {
             if( fm != NULL )
@@ -52,11 +59,17 @@ class Class
             else
                 return( std::auto_ptr< I >() ) ;
         }
+        /** Return the name of the class described by this object
+        */
         const std::string& Name() const { return name; }
+        /** Return a list of all the @c Class< I, P1, P2 > registered.
+        */
         static ClassSet All()
         {
             return Reg().All();
         }
+        /** Return the @c Class< I, P1, P2 > registered with the name @c name.
+        */
         static Class ForName( const std::string& name )
         {
             return Reg().ForName( name );
@@ -84,16 +97,21 @@ class Class
         }
 };
 
-// è il descrittore di una classe con un costruttore
-// che prende un parametro di tipo P
+/** It describes a class with a constructor that takes
+* two parameters of type @c P1 and @c P2
+*/
 template < class I, class P >
 class Class< I, P, void >
 {
     public :
 
         typedef std::auto_ptr< I > (*FactoryMethod)( P ) ;
-
         typedef std::list< Class< I, P, void > > ClassSet;
+        /** Create an instance of the class described by this object.
+        * @param p The parameter to pass to the constructor
+        * @return a std::auto_ptr to the new instance (or the empty 
+        * std::auto_ptr if the descriptor is not valid)
+        */
         std::auto_ptr< I > NewInstance( const P& p )
         {
             if( fm != NULL )
@@ -101,11 +119,17 @@ class Class< I, P, void >
             else
                 return( std::auto_ptr< I >() ) ;
         }
+        /** Return the name of the class described by this object
+        */
         const std::string& Name() const { return name; }
+        /** Return a list of all the @c Class< I, P1, P2 > registered.
+        */
         static ClassSet All()
         {
             return Reg().All();
         }
+        /** Return the @c Class< I, P1, P2 > registered with the name @c name.
+        */
         static Class ForName( const std::string& name )
         {
             return Reg().ForName( name );
@@ -133,16 +157,19 @@ class Class< I, P, void >
         }
 };
 
-// specializzazione della classe Class nel caso di P=void
-// (per le classi con il costruttore di default)
+/** It describes a class with a default constructor.
+*/
 template < class I >
 class Class< I, void, void >
 {
     public :
 
         typedef std::auto_ptr< I > (*FactoryMethod)() ;
-
         typedef std::list< Class< I, void, void > > ClassSet;
+        /** Create an instance of the class described by this object.
+        * @return a std::auto_ptr to the new instance (or the empty 
+        * std::auto_ptr if the descriptor is not valid)
+        */
         std::auto_ptr< I > NewInstance()
         {
             if( fm != NULL )
@@ -150,11 +177,17 @@ class Class< I, void, void >
             else
                 return( std::auto_ptr< I >() ) ;
         }
+        /** Return the name of the class described by this object
+        */
         const std::string& Name() const { return name; }
+        /** Return a list of all the @c Class< I, P1, P2 > registered.
+        */
         static ClassSet All()
         {
             return Reg().All();
         }
+        /** Return the @c Class< I, P1, P2 > registered with the name @c name.
+        */
         static Class ForName( const std::string& name )
         {
             return Reg().ForName( name );
@@ -261,9 +294,21 @@ class RegEntry
 
 } // namespace
 
+/** This macro must be used in your header file for declaring a class that will be 
+* automatically registered and thus retrieved throug the method @c Class::ForName( C ).
+* @param C The class name
+* @param P1 The type of the first parameter of the class constructor (possibly void)
+* @param P2 The type of the second parameter of the class constructor (possibly void)
+*/
 #define REGISTER( C, P1, P2 ) \
     static const RegEntry< Device, P1, P2 > r( #C, &Registered<C,Device,P1,P2>::NewInstance ) ;
 
+/** This macro must be used in your implementation file for defining a class that will be
+* automatically registered and thus retrieved throug the method @c Class::ForName( C ).
+* @param C The class name
+* @param P1 The type of the first parameter of the class constructor (possibly void)
+* @param P2 The type of the second parameter of the class constructor (possibly void)
+*/
 #define REGISTERED_CLASS( C, P1, P2 ) \
     class C : public Registered< C, Device, P1, P2 >
 

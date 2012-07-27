@@ -32,9 +32,17 @@ namespace wallaroo
 // forward declaration:
 class Device;
 
+/**
+ * This represents the base class for everything
+ * you can "plug" into another "device".
+ */
 class Connector
 {
 public:
+    /** Plug this Connector into a device
+    * @param dev The device you want insert this Connector into
+    * @throw std::bad_cast If this Connector could not be inserted into device @c dev 
+    */
     virtual void PlugInto( boost::shared_ptr< Device > dev ) = 0;
     virtual ~Connector() {}
 };

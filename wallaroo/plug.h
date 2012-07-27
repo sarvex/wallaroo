@@ -50,9 +50,13 @@ public:
     typedef boost::weak_ptr< T > WeakPtr;
     typedef boost::shared_ptr< T > SharedPtr;
 
-    Plug( const std::string& plugName, Device* plugOwner )
+    /** Create a Plug and register it to its device for future wiring.
+    * @param name the name of this plug
+    * @param owner the device that contains this plug
+    */
+    Plug( const std::string& name, Device* owner )
     {
-        plugOwner -> Register( plugName, this );
+        owner -> Register( name, this );
     }
     
     /** Plug this plug into a device

@@ -34,15 +34,27 @@
 namespace wallaroo
 {
 
+/**
+ * This represents a connector consisting of many "plugs".
+ *
+ * It is a (i.e. it *derives* from) std::list< boost::weak_ptr< T >,
+ * so you can apply all the STL algorithms to it.
+ * Please note that it contains boost::weak_ptr, so when you access
+ * the elements, you should check for its validity.
+ */
 template < class T >
 class MultiplePlug : 
     public Connector,
     public std::list< boost::weak_ptr< T > >
 {
 public:
-    MultiplePlug( const std::string& id, Device* multiplePlugOwner )
+    /** Create a MultiplePlug and register it to its device for future wiring.
+    * @param name the name of this MultiplePlug
+    * @param owner the device that contains this MultiplePlug
+    */
+    MultiplePlug( const std::string& name, Device* owner )
     {
-        multiplePlugOwner -> Register( id, this );
+        owner -> Register( name, this );
     }
 
     /** Connect a device into this multiple plug

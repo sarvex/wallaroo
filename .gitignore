@@ -21,13 +21,15 @@
 *.user
 
 # Specifics
-/samples/container/Debug
-/samples/container/Release
-/samples/container/container_sample
-/samples/distributed/Debug
-/samples/distributed/Release
-/samples/eventbus/Debug
-/samples/eventbus/Release
+/samples/mineplant/Debug
+/samples/mineplant/Release
+/samples/mineplant/mineplant
+/samples/minimal/Debug
+/samples/minimal/Release
+/samples/minimal/minimal
+/samples/xmlfile/Debug
+/samples/xmlfile/Release
+/samples/xmlfile/xmlfile
 
 # Others
 *.idb

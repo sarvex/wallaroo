@@ -33,21 +33,26 @@
 namespace wallaroo
 {
 
-
+/**
+ * This represents a "device" that owns connectors.
+ * You can plug his connectors to other devices using the method @c Wire.
+ */
 class Device
 {
 public:
-    /** Plug the plug @c plugName of this device into the device @c device.
-     * @throw std::range_error if @c plugName does not exist in this device.
+    /** Plug the connector @c connector of this device into the device @c device.
+     * @throw std::range_error if @c connector does not exist in this device.
      */
-    virtual void Wire( const std::string& plugName, boost::shared_ptr< Device > device )
+    virtual void Wire( const std::string& connector, boost::shared_ptr< Device > device )
     {
-        Connectors::iterator i = connectors.find( plugName );
+        Connectors::iterator i = connectors.find( connector );
         if ( i == connectors.end() ) 
-            throw std::range_error( plugName + " not found in the class" );
+            throw std::range_error( connector + " not found in the class" );
         ( i -> second ) -> PlugInto( device );
     }
 
+    // this method should be invoked just by the connectors of this device
+    // to register itself into the connectors table.
     void Register( const std::string& id, Connector* plug )
     {
         connectors[ id ] = plug;
