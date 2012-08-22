@@ -42,10 +42,13 @@ namespace wallaroo
  * Please note that it contains boost::weak_ptr, so when you access
  * the elements, you should check for its validity.
  */
-template < class T >
+template < 
+	typename T,
+	template < typename E, typename Allocator = std::allocator< E > > class Container = std::list
+>
 class MultiplePlug : 
     public Connector,
-    public std::list< boost::weak_ptr< T > >
+    public Container< boost::weak_ptr< T > >
 {
 public:
     /** Create a MultiplePlug and register it to its device for future wiring.
