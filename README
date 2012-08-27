@@ -26,7 +26,7 @@ With Wallaroo you will be able to focus on the logic of your classes, without
 worrying about the wiring phase.
 
 This mechanism is called Dependency Injection (DI). Someone calls it
-Inversion of Control (IoC), but that is actually a different thing.
+Inversion of Control (IoC), but actually that has a broader meaning.
 
 Installation
 ============
