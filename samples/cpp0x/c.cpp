@@ -22,34 +22,16 @@
  ******************************************************************************/
 
 #include <iostream>
-#include "b.h"
+#include "c.h"
 
-REGISTER( B, void, void )
+REGISTER( C, void, void )
 
-B::B()  :
-    c( "x", this ),
-    cList( "xList", this )
+void C::G()
 {
+    std::cout << "C::G" << std::endl;
 }
 
-void B::F()
-{
-    std::cout << "B::F method begin" << std::endl;
-    std::cout << "invoking x -> G():" << std::endl;
-    c -> G();
-    std::cout << "iterating over xList:" << std::endl;
-    for ( MultiplePlug< C >::iterator i = cList.begin(); i != cList.end(); ++i )
-    {
-        boost::shared_ptr< C > s = i -> lock();
-        if ( s ) 
-            s -> G();
-        else
-            std::cerr << "an element in MultiplePlug has been deleted!" << std::endl;
-    }
-    std::cout << "B::F method end" << std::endl;
-}
-
-B::~B()
+C::~C()
 {
 }
 

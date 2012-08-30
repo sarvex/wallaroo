@@ -24,7 +24,7 @@
 #ifndef WALLAROO_CONNECTOR_H_
 #define WALLAROO_CONNECTOR_H_
 
-#include <boost/shared_ptr.hpp>
+#include "cxx0x.h"
 
 namespace wallaroo
 {
@@ -43,7 +43,7 @@ public:
     * @param dev The device you want insert this Connector into
     * @throw std::bad_cast If this Connector could not be inserted into device @c dev 
     */
-    virtual void PlugInto( boost::shared_ptr< Device > dev ) = 0;
+    virtual void PlugInto( cxx0x::shared_ptr< Device > dev ) = 0;
     virtual ~Connector() {}
 };
 

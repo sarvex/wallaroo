@@ -21,35 +21,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <iostream>
-#include "b.h"
+#ifndef WALLAROO_CXX0X_H_
+#define WALLAROO_CXX0X_H_
 
-REGISTER( B, void, void )
 
-B::B()  :
-    c( "x", this ),
-    cList( "xList", this )
-{
-}
+#ifdef __GXX_EXPERIMENTAL_CXX0X__
+    #define WALLAROO_HAS_CXX0X
+#endif
 
-void B::F()
-{
-    std::cout << "B::F method begin" << std::endl;
-    std::cout << "invoking x -> G():" << std::endl;
-    c -> G();
-    std::cout << "iterating over xList:" << std::endl;
-    for ( MultiplePlug< C >::iterator i = cList.begin(); i != cList.end(); ++i )
-    {
-        boost::shared_ptr< C > s = i -> lock();
-        if ( s ) 
-            s -> G();
-        else
-            std::cerr << "an element in MultiplePlug has been deleted!" << std::endl;
-    }
-    std::cout << "B::F method end" << std::endl;
-}
 
-B::~B()
-{
-}
+#ifdef WALLAROO_HAS_CXX0X
+    #include <memory>
+    namespace cxx0x = std;
+#else
+    #include <boost/tr1/memory.hpp>
+    namespace cxx0x = boost;
+#endif
 
+
+#endif

@@ -29,7 +29,7 @@
 #include <typeinfo>
 #include <cassert>
 #include <stdexcept>
-#include <boost/shared_ptr.hpp>
+#include "cxx0x.h"
 #include "device.h"
 #include "class.h"
 
@@ -47,13 +47,13 @@ class DeviceShell; // forward declaration
 class PlugShell
 {
 public:
-    PlugShell( boost::shared_ptr< Device > dev, const std::string& plug ) :
+    PlugShell( cxx0x::shared_ptr< Device > dev, const std::string& plug ) :
         device( dev ),
         plugName( plug )
     {}
     void Into( DeviceShell destination );
 private:
-    boost::shared_ptr< Device > device;
+    cxx0x::shared_ptr< Device > device;
     const std::string plugName;
 };
 
@@ -65,7 +65,7 @@ class DeviceShell
 {
 public:
 
-    DeviceShell( boost::shared_ptr< Device > dev ) : 
+    DeviceShell( cxx0x::shared_ptr< Device > dev ) : 
         device( dev ) 
     {
         assert( device );
@@ -81,16 +81,16 @@ public:
     * @throw std::bad_cast if the contained device is not a subclass of T
     */
     template < class T >
-    operator boost::shared_ptr< T >()
+    operator cxx0x::shared_ptr< T >()
     {
-        boost::shared_ptr< T > result = boost::dynamic_pointer_cast< T >( device );
+        cxx0x::shared_ptr< T > result = cxx0x::dynamic_pointer_cast< T >( device );
         if ( ! result ) throw std::bad_cast();
         return result;
     }
 
 private:
     friend class PlugShell;
-    boost::shared_ptr< Device > device;
+    cxx0x::shared_ptr< Device > device;
 };
 
 
@@ -133,9 +133,9 @@ public:
     * @param device the device to add
     * @throw std::range_error if a device with the name @c id is already in the catalog
     */
-    void Add( const std::string& id, std::auto_ptr< Device > dev )
+    void Add( const std::string& id, cxx0x::shared_ptr< Device > dev )
     {
-        boost::shared_ptr< Device > toInsert( dev );
+        cxx0x::shared_ptr< Device > toInsert( dev );
         std::pair< Devices::iterator, bool > result = 
             devices.insert( std::make_pair( id, toInsert ) );
         if ( ! result.second )
@@ -154,7 +154,7 @@ public:
     {
         typedef Class< Device, P1, P2 > C;
         C c = C::ForName( className );
-        std::auto_ptr< Device > obj = c.NewInstance( p1, p2 );
+        cxx0x::shared_ptr< Device > obj = c.NewInstance( p1, p2 );
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj );
     }
@@ -170,7 +170,7 @@ public:
     {
         typedef Class< Device, P, void > C;
         C c = C::ForName( className );
-        std::auto_ptr< Device > obj = c.NewInstance( p );
+        cxx0x::shared_ptr< Device > obj = c.NewInstance( p );
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj );
     }
@@ -184,13 +184,13 @@ public:
     {
         typedef Class< Device, void, void > C;
         C c = C::ForName( className );
-        std::auto_ptr< Device > obj = c.NewInstance();
+        cxx0x::shared_ptr< Device > obj = c.NewInstance();
         if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
         Add( id, obj );
     }
 
 private:
-    typedef std::map< std::string, boost::shared_ptr< Device > > Devices;
+    typedef std::map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
 };
 

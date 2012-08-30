@@ -26,8 +26,8 @@
 
 #include <string>
 #include <map>
-#include <memory>
 #include <list>
+#include "cxx0x.h"
 
 namespace wallaroo
 {
@@ -44,20 +44,20 @@ class Class
 {
     public :
 
-        typedef std::auto_ptr< I > (*FactoryMethod)( P1, P2 ) ;
+        typedef cxx0x::shared_ptr< I > (*FactoryMethod)( P1, P2 ) ;
         typedef std::list< Class< I, P1, P2 > > ClassSet;
         /** Create an instance of the class described by this object.
         * @param p1 The first parameter to pass to the constructor
         * @param p2 The second parameter to pass to the constructor
-        * @return a std::auto_ptr to the new instance (or the empty 
-        * std::auto_ptr if the descriptor is not valid)
+        * @return a shared_ptr to the new instance (or the empty 
+        * shared_ptr if the descriptor is not valid)
         */
-        std::auto_ptr< I > NewInstance( const P1& p1, const P2& p2 )
+        cxx0x::shared_ptr< I > NewInstance( const P1& p1, const P2& p2 )
         {
             if( fm != NULL )
                 return( fm( p1, p2 ) ) ;
             else
-                return( std::auto_ptr< I >() ) ;
+                return( cxx0x::shared_ptr< I >() ) ;
         }
         /** Return the name of the class described by this object
         */
@@ -105,19 +105,19 @@ class Class< I, P, void >
 {
     public :
 
-        typedef std::auto_ptr< I > (*FactoryMethod)( P ) ;
+        typedef cxx0x::shared_ptr< I > (*FactoryMethod)( P ) ;
         typedef std::list< Class< I, P, void > > ClassSet;
         /** Create an instance of the class described by this object.
         * @param p The parameter to pass to the constructor
-        * @return a std::auto_ptr to the new instance (or the empty 
-        * std::auto_ptr if the descriptor is not valid)
+        * @return a shared_ptr to the new instance (or the empty 
+        * shared_ptr if the descriptor is not valid)
         */
-        std::auto_ptr< I > NewInstance( const P& p )
+        cxx0x::shared_ptr< I > NewInstance( const P& p )
         {
             if( fm != NULL )
                 return( fm( p ) ) ;
             else
-                return( std::auto_ptr< I >() ) ;
+                return( cxx0x::shared_ptr< I >() ) ;
         }
         /** Return the name of the class described by this object
         */
@@ -164,18 +164,18 @@ class Class< I, void, void >
 {
     public :
 
-        typedef std::auto_ptr< I > (*FactoryMethod)() ;
+        typedef cxx0x::shared_ptr< I > (*FactoryMethod)() ;
         typedef std::list< Class< I, void, void > > ClassSet;
         /** Create an instance of the class described by this object.
-        * @return a std::auto_ptr to the new instance (or the empty 
-        * std::auto_ptr if the descriptor is not valid)
+         * @return a shared_ptr to the new instance (or the empty 
+         * shared_ptr if the descriptor is not valid)
         */
-        std::auto_ptr< I > NewInstance()
+        cxx0x::shared_ptr< I > NewInstance()
         {
             if( fm != NULL )
                 return( fm() ) ;
             else
-                return( std::auto_ptr< I >() ) ;
+                return( cxx0x::shared_ptr< I >() ) ;
         }
         /** Return the name of the class described by this object
         */
@@ -254,9 +254,9 @@ template< class T, class I, class P1, class P2 >
 class Registered
 {
     public :
-        static std::auto_ptr< I > NewInstance( P1 p1, P2 p2 )
+        static cxx0x::shared_ptr< I > NewInstance( P1 p1, P2 p2 )
         {
-            return( std::auto_ptr< I >( new T( p1, p2 ) ) ) ;
+            return( cxx0x::shared_ptr< I >( new T( p1, p2 ) ) ) ;
         }
 };
 
@@ -264,9 +264,9 @@ template< class T, class I, class P >
 class Registered< T, I, P, void >  
 {
     public :
-        static std::auto_ptr< I > NewInstance( P p )
+        static cxx0x::shared_ptr< I > NewInstance( P p )
         {
-            return( std::auto_ptr< I >( new T( p ) ) ) ;
+            return( cxx0x::shared_ptr< I >( new T( p ) ) ) ;
         }
 };
 
@@ -274,9 +274,9 @@ template< class T, class I >
 class Registered< T, I, void, void >
 {
     public :
-        static std::auto_ptr< I > NewInstance()
+        static cxx0x::shared_ptr< I > NewInstance()
         {
-            return( std::auto_ptr< I >( new T() ) ) ;
+            return( cxx0x::shared_ptr< I >( new T() ) ) ;
         }
 };
 

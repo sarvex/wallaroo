@@ -28,6 +28,7 @@
 #include <cassert>
 #include <list>
 #include <typeinfo>
+#include "cxx0x.h"
 #include "connector.h"
 #include "device.h"
 
@@ -37,9 +38,9 @@ namespace wallaroo
 /**
  * This represents a connector consisting of many "plugs".
  *
- * It is a (i.e. it *derives* from) std::list< boost::weak_ptr< T >,
+ * It is a (i.e. it *derives* from) std::list< weak_ptr< T >,
  * so you can apply all the STL algorithms to it.
- * Please note that it contains boost::weak_ptr, so when you access
+ * Please note that it contains weak_ptr, so when you access
  * the elements, you should check for its validity.
  */
 template < 
@@ -48,7 +49,7 @@ template <
 >
 class MultiplePlug : 
     public Connector,
-    public Container< boost::weak_ptr< T > >
+    public Container< cxx0x::weak_ptr< T > >
 {
 public:
     /** Create a MultiplePlug and register it to its device for future wiring.
@@ -64,9 +65,9 @@ public:
     * @param device The device to connect
     * @throw std::bad_cast If @c device is not a subclass of @c T
     */
-    void PlugInto( boost::shared_ptr< Device > device )
+    void PlugInto( cxx0x::shared_ptr< Device > device )
     {
-        boost::shared_ptr< T > obj = boost::dynamic_pointer_cast< T >( device );
+        cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( device );
         if ( ! obj ) // bad type!
             throw std::bad_cast();
         else

@@ -27,7 +27,7 @@
 #include <string>
 #include <map>
 #include <stdexcept>
-#include <boost/shared_ptr.hpp>
+#include "cxx0x.h"
 #include "connector.h"
 
 namespace wallaroo
@@ -43,7 +43,7 @@ public:
     /** Plug the connector @c connector of this device into the device @c device.
      * @throw std::range_error if @c connector does not exist in this device.
      */
-    virtual void Wire( const std::string& connector, boost::shared_ptr< Device > device )
+    virtual void Wire( const std::string& connector, cxx0x::shared_ptr< Device > device )
     {
         Connectors::iterator i = connectors.find( connector );
         if ( i == connectors.end() ) 
