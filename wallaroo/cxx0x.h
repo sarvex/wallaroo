@@ -29,6 +29,16 @@
     #define WALLAROO_HAS_CXX0X
 #endif
 
+#if defined(__cplusplus) && (__cplusplus  > 199711L)
+    #define WALLAROO_HAS_CXX0X
+#endif
+
+
+#ifdef WALLAROO_USE_BOOST
+    #undef WALLAROO_HAS_CXX0X
+#endif
+
+
 
 #ifdef WALLAROO_HAS_CXX0X
     #include <memory>
