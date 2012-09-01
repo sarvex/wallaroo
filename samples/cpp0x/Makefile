@@ -25,7 +25,7 @@ CC = g++
 CFLAGS = -std=c++0x -Wall -I../..
 DEPS = a.h b.h c.h
 OBJ = b.o c.o main.o
-EXE = minimal
+EXE = cpp0x
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

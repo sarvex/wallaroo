@@ -21,6 +21,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 ###############################################################################
 
-Program( 'minimal', Glob( '*.cpp' ), CPPPATH = [ '../..' ], CPPFLAGS = '-std=c++0x' )
+Program( 'cpp0x', Glob( '*.cpp' ), CPPPATH = [ '../..' ], CPPFLAGS = '-std=c++0x' )
 
 

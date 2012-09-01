@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="minimal"
+	Name="cpp0x"
 	ProjectGUID="{B9A8AC6C-711A-4337-8DD2-055E35194E92}"
-	RootNamespace="minimal"
+	RootNamespace="cpp0x"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
