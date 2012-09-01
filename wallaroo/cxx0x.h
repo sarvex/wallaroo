@@ -33,11 +33,22 @@
     #define WALLAROO_HAS_CXX0X
 #endif
 
+#if defined(nullptr_t)
+	#define WALLAROO_HAS_CXX0X
+#endif
 
-#ifdef WALLAROO_USE_BOOST
+#if defined(_MSC_VER) && (_MSC_VER >= 1600)
+	#define WALLAROO_HAS_CXX0X
+#endif
+
+
+#ifdef WALLAROO_FORCE_USE_BOOST
     #undef WALLAROO_HAS_CXX0X
 #endif
 
+#ifdef WALLAROO_FORCE_USE_STD
+	#define WALLAROO_HAS_CXX0X
+#endif
 
 
 #ifdef WALLAROO_HAS_CXX0X
@@ -45,7 +56,11 @@
     namespace cxx0x = std;
 #else
     #include <boost/tr1/memory.hpp>
-    namespace cxx0x = boost;
+    namespace cxx0x = std::tr1;
+	namespace boost
+	{
+		using namespace std::tr1;
+	}
 #endif
 
 
