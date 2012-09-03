@@ -24,21 +24,24 @@
 #ifndef WALLAROO_CXX0X_H_
 #define WALLAROO_CXX0X_H_
 
-
+// gcc with -std=c++0x
 #ifdef __GXX_EXPERIMENTAL_CXX0X__
     #define WALLAROO_HAS_CXX0X
 #endif
 
+// the compiler declares it's C++11 standard compliant
 #if defined(__cplusplus) && (__cplusplus  > 199711L)
     #define WALLAROO_HAS_CXX0X
 #endif
 
+// if the compiler defines nullptr_t, it's C++11 compliant
 #if defined(nullptr_t)
-	#define WALLAROO_HAS_CXX0X
+    #define WALLAROO_HAS_CXX0X
 #endif
 
+// visual studio > 2010
 #if defined(_MSC_VER) && (_MSC_VER >= 1600)
-	#define WALLAROO_HAS_CXX0X
+    #define WALLAROO_HAS_CXX0X
 #endif
 
 
@@ -47,7 +50,7 @@
 #endif
 
 #ifdef WALLAROO_FORCE_USE_STD
-	#define WALLAROO_HAS_CXX0X
+    #define WALLAROO_HAS_CXX0X
 #endif
 
 
@@ -55,12 +58,9 @@
     #include <memory>
     namespace cxx0x = std;
 #else
-    #include <boost/tr1/memory.hpp>
-    namespace cxx0x = std::tr1;
-	namespace boost
-	{
-		using namespace std::tr1;
-	}
+    #include <boost/shared_ptr.hpp>
+    #include <boost/weak_ptr.hpp>
+    namespace cxx0x = boost;
 #endif
 
 
