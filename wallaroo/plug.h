@@ -27,7 +27,7 @@
 #include <string>
 #include <cassert>
 #include <typeinfo>
-#include <boost/weak_ptr.hpp>
+#include "cxx0x.h"
 #include "connector.h"
 #include "device.h"
 #include "exceptions.h"
@@ -47,8 +47,8 @@ class Plug : public Connector
 {
 public:
 
-    typedef boost::weak_ptr< T > WeakPtr;
-    typedef boost::shared_ptr< T > SharedPtr;
+    typedef cxx0x::weak_ptr< T > WeakPtr;
+    typedef cxx0x::shared_ptr< T > SharedPtr;
 
     /** Create a Plug and register it to its device for future wiring.
     * @param name the name of this plug
@@ -63,9 +63,9 @@ public:
     * @param dev The device you want insert this plug into
     * @throw std::bad_cast If @c dev is not a subclass of @c T
     */
-    void PlugInto( boost::shared_ptr< Device > dev )
+    void PlugInto( cxx0x::shared_ptr< Device > dev )
     {
-        boost::shared_ptr< T > _dev = boost::dynamic_pointer_cast< T >( dev );
+        cxx0x::shared_ptr< T > _dev = cxx0x::dynamic_pointer_cast< T >( dev );
         if ( ! _dev ) // bad type!
             throw std::bad_cast();
         else

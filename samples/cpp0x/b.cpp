@@ -40,7 +40,7 @@ void B::F()
     std::cout << "iterating over xList:" << std::endl;
     for ( MultiplePlug< C >::iterator i = cList.begin(); i != cList.end(); ++i )
     {
-        boost::shared_ptr< C > s = i -> lock();
+        std::shared_ptr< C > s = i -> lock();
         if ( s ) 
             s -> G();
         else

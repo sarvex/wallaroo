@@ -1,6 +1,7 @@
 <date>: Version <next>
 
         * MultiplePlug is template parametrized also on the container
+        * Support for C++11
         
 2012-07-27: Version 0.1.0
 
