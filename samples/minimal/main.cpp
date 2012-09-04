@@ -25,6 +25,7 @@
 #include "wallaroo/catalog.h"
 #include "a.h"
 
+
 // Wallaroo library is embedded in the wallaroo namespace
 using namespace wallaroo;
 
@@ -40,11 +41,16 @@ int main( int argc, char* argv[] )
     catalog.Create( "a", "B" );
 
     // You can wire the objects.
-    catalog[ "a" ].Plug( "x" ).Into( catalog[ "c" ] );     // this means a.x = c
+    // catalog[ "a" ].Plug( "x" ).Into( catalog[ "c" ] );     // this means a.x = c
+    use( catalog[ "c" ] ).as( "x" ).of( catalog[ "a" ] ) ; // this means a.x = c
     // You can also wire lists.
-    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c1" ] ); // this means a.xList.push_back( c1 )
-    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c2" ] ); // this means a.xList.push_back( c2 )
-
+    wallaroo_within( catalog )
+    {
+        //catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c1" ] ); // this means a.xList.push_back( c1 )
+        //catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c2" ] ); // this means a.xList.push_back( c2 )
+        use( "c1" ).as( "xList" ).of( "a" );
+        use( "c2" ).as( "xList" ).of( "a" );
+    }
     // You can retrieve an object from the catalog using
     // the operator [].
     // The catalog has the ownership of the objects contained

@@ -103,6 +103,8 @@ inline void PlugShell::Into( DeviceShell destination )
 } // namespace detail
 
 
+// ###
+class X; // forward declaration
 
 /**
  * Catalog of the devices available for the application.
@@ -189,11 +191,116 @@ public:
         Add( id, obj );
     }
 
+    ////////// ###
+    static Catalog*& GetCurrent()
+    {
+        static Catalog* current = NULL;
+        return current;
+    }
 private:
     typedef std::map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
+    // ###
+    friend class X;
+    static void SetCurrent( Catalog* c )
+    {
+        GetCurrent() = c;
+    }
 };
 
+////////////////////////////////////////////////////////////////////////
+// new DSL
+
+namespace detail
+{
+
+class UseAsExpression
+{
+public:
+    UseAsExpression( detail::DeviceShell& _destClass, const std::string& _attribute ) :
+      destClass( _destClass ),
+      attribute( _attribute )
+    {
+    }
+    void of( detail::DeviceShell& srcClass )
+    {
+        // perform the final assignment:
+        srcClass.Plug( attribute ).Into( destClass );
+    }
+    void of ( const std::string& srcClass )
+    {
+        // default container case
+        Catalog* current = Catalog::GetCurrent();
+        if ( ! current ) throw 69; // TODO ###
+        of( ( *current )[ srcClass ] );
+    }
+private:
+    detail::DeviceShell destClass;
+    std::string attribute;
+};
+
+class UseExpression
+{
+public:
+    explicit UseExpression( detail::DeviceShell& _destClass )
+        : destClass( _destClass )
+    {
+    }
+    UseAsExpression as( const std::string& attribute )
+    {
+        return UseAsExpression( destClass, attribute );
+    }
+private:
+    detail::DeviceShell destClass;
+};
+
+} // namespace detail
+
+detail::UseExpression use( detail::DeviceShell& destClass )
+{
+    return detail::UseExpression( destClass );
+}
+
+detail::UseExpression use( const std::string& destClass )
+{
+    // default container case
+    Catalog* current = Catalog::GetCurrent();
+    if ( ! current ) throw 69; // TODO ###
+    return use( ( *current )[ destClass ] );
+}
+
+////////////////////////////////////////////////////////////////////////
+
+class X
+{
+public:
+    X( Catalog& c ) :
+      firstTime( true )
+    {
+        previous = Catalog::GetCurrent();
+        Catalog::SetCurrent( &c );
+    }
+    ~X()
+    {
+        Catalog::SetCurrent( previous );
+    }
+    bool FirstTime()
+    {
+        return firstTime;
+    }
+    void Terminate()
+    {
+        firstTime = false;
+    }
+private:
+    bool firstTime;
+    Catalog* previous;
+};
+
+#define wallaroo_within( C ) \
+    for ( X x( C ); x.FirstTime(); x.Terminate() )
+
+////////////////////////////////////////////////////////////////////////
 
 } // namespace
 
