@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="minimal"
+	Name="test"
 	ProjectGUID="{B9A8AC6C-711A-4337-8DD2-055E35194E92}"
-	RootNamespace="minimal"
+	RootNamespace="test"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -40,8 +40,9 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../..;$(BOOST)"
+				AdditionalIncludeDirectories="..;$(BOOST)"
 				MinimalRebuild="true"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				WarningLevel="3"
@@ -58,6 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalLibraryDirectories="&quot;$(BOOST)\stage\lib&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -81,6 +83,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Auto run test"
+				CommandLine="&quot;$(TargetDir)\$(TargetName).exe&quot; --result_code=no --report_level=no"
 			/>
 		</Configuration>
 		<Configuration
@@ -163,7 +167,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\main.cpp"
+				RelativePath=".\driver.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test_creation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test_wiring.cpp"
 				>
 			</File>
 		</Filter>
@@ -172,34 +184,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\base.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\base.h"
-				>
-			</File>
-			<File
-				RelativePath=".\client.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\client.h"
-				>
-			</File>
-			<File
-				RelativePath=".\derived.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\derived.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

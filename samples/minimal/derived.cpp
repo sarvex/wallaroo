@@ -21,25 +21,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef B_H_
-#define B_H_
+#include <iostream>
+#include "derived.h"
 
-#include "wallaroo/registered.h"
-#include "a.h"
-#include "c.h"
+REGISTER( Derived, void, void )
 
-using namespace wallaroo;
-
-REGISTERED_CLASS( B, void, void ), public A
-//class B : public A
+Derived::Derived()
 {
-public:
-    B();
-    virtual void F();
-    virtual ~B();
-private:
-    Plug< C > c;
-    MultiplePlug< C > cList;
-};
+    std::cout << this << " Derived::Derived()" << std::endl;
+}
 
-#endif
+void Derived::F()
+{
+    std::cout << this << " Derived::F()" << std::endl;
+}
+
+Derived::~Derived()
+{
+}
+

@@ -21,17 +21,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <iostream>
-#include "c.h"
+#ifndef BASE_H_
+#define BASE_H_
 
-REGISTER( C, void, void )
+#include "wallaroo/registered.h"
+#include "interface.h"
 
-void C::G()
+using namespace wallaroo;
+
+REGISTERED_CLASS( Base, void, void ), public Interface
+//class Base : public Interface
 {
-    std::cout << "C::G" << std::endl;
-}
+public:
+    Base();
+    virtual void F();
+    virtual ~Base();
+};
 
-C::~C()
-{
-}
-
+#endif

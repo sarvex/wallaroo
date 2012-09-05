@@ -74,14 +74,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="b.cpp" />
-    <ClCompile Include="c.cpp" />
+    <ClCompile Include="base.cpp" />
+    <ClCompile Include="derived.cpp" />
+    <ClCompile Include="client.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="a.h" />
-    <ClInclude Include="b.h" />
-    <ClInclude Include="c.h" />
+    <ClInclude Include="interface.h" />
+    <ClInclude Include="base.h" />
+    <ClInclude Include="derived.h" />
+    <ClInclude Include="client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

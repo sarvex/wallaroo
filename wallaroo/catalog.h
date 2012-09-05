@@ -256,12 +256,12 @@ private:
 
 } // namespace detail
 
-detail::UseExpression use( detail::DeviceShell& destClass )
+inline detail::UseExpression use( detail::DeviceShell& destClass )
 {
     return detail::UseExpression( destClass );
 }
 
-detail::UseExpression use( const std::string& destClass )
+inline detail::UseExpression use( const std::string& destClass )
 {
     // default container case
     Catalog* current = Catalog::GetCurrent();

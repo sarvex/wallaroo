@@ -21,19 +21,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef C_H_
-#define C_H_
+#ifndef DERIVED_H_
+#define DERIVED_H_
 
 #include "wallaroo/registered.h"
+#include "base.h"
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( C, void, void ), public Device
-// class C
+REGISTERED_CLASS( Derived, void, void ), public Base
+//class Derived : public Base
 {
 public:
-    virtual void G();
-    virtual ~C();
+    Derived();
+    virtual void F();
+    virtual ~Derived();
 };
 
 #endif

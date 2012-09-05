@@ -21,20 +21,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef A_H_
-#define A_H_
+#include <iostream>
+#include "client.h"
 
-#include "wallaroo/registered.h"
+REGISTER( Client, void, void )
 
-
-// Wallaroo library is embedded in the wallaroo namespace
-using namespace wallaroo;
-
-class A : public Device
+Client::Client() :
+    x( "x", this ),
+    xList( "xList", this )
 {
-public:
-    virtual void F() = 0;
-    virtual ~A() {}
-};
+    std::cout << this << " Client::Client()" << std::endl;
+}
 
-#endif
+void Client::G()
+{
+    std::cout << this << " Client::G()" << std::endl;
+
+    x -> F();
+
+    for ( MultiplePlug< Interface >::iterator i = xList.begin(); i != xList.end(); ++i )
+    {
+        boost::shared_ptr< Interface > s = i -> lock();
+        if ( s ) 
+            s -> F();
+        else
+            std::cerr << "an element in MultiplePlug has been deleted!" << std::endl;
+    }
+}
+
+Client::~Client()
+{
+}
+

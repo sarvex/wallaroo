@@ -23,7 +23,8 @@
 
 #include <iostream>
 #include "wallaroo/catalog.h"
-#include "a.h"
+#include "interface.h"
+#include "client.h"
 
 
 // Wallaroo library is embedded in the wallaroo namespace
@@ -35,30 +36,39 @@ int main( int argc, char* argv[] )
     Catalog catalog;
 
     // You can create the objects you need in this way
-    catalog.Create( "c", "C" );
-    catalog.Create( "c1", "C" );
-    catalog.Create( "c2", "C" );
-    catalog.Create( "a", "B" );
+    catalog.Create( "c", "Client" );
+    catalog.Create( "c1", "Client" );
+    catalog.Create( "c2", "Client" );
+    catalog.Create( "base1", "Base" );
+    catalog.Create( "base2", "Base" );
+    catalog.Create( "derived1", "Derived" );
+    catalog.Create( "derived2", "Derived" );
 
     // You can wire the objects.
-    // catalog[ "a" ].Plug( "x" ).Into( catalog[ "c" ] );     // this means a.x = c
-    use( catalog[ "c" ] ).as( "x" ).of( catalog[ "a" ] ) ; // this means a.x = c
-    // You can also wire lists.
+    // old syntax (deprecated):
+    catalog[ "c" ].Plug( "x" ).Into( catalog[ "base1" ] );     // this means c.x = base1
+    // preferred syntax (the catalog is specified)
+    use( catalog[ "base2" ] ).as( "x" ).of( catalog[ "c1" ] ) ; // this means c1.x = base2
+    // preferred syntax (the catalog is specified once)
     wallaroo_within( catalog )
     {
-        //catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c1" ] ); // this means a.xList.push_back( c1 )
-        //catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c2" ] ); // this means a.xList.push_back( c2 )
-        use( "c1" ).as( "xList" ).of( "a" );
-        use( "c2" ).as( "xList" ).of( "a" );
+        use( "derived1" ).as( "x" ).of( "c2" );  // this means c2.x = derived1
+        // You can also wire lists.
+        use( "base1" ).as( "xList" ).of( "c" ); // this means c.xList.push_back( base1 )
+        use( "derived1" ).as( "xList" ).of( "c" ); // this means c.xList.push_back( derived1 )
+        use( "derived2" ).as( "xList" ).of( "c" ); // this means c.xList.push_back( derived2 )
     }
+
     // You can retrieve an object from the catalog using
     // the operator [].
     // The catalog has the ownership of the objects contained
     // so the operator [] returns a shared pointer
-    boost::shared_ptr< A > a = catalog[ "a" ];
+    boost::shared_ptr< Client > c = catalog[ "c" ];
+    boost::shared_ptr< Interface > i = catalog[ "derived2" ];
 
     // Finally, you can use your objects in the standard way
-    a -> F();
+    c -> G();
+    i -> F();
 
     // Wait for exit acknowledge
     std::cout << "Press Enter to end the program." << std::endl;

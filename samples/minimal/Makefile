@@ -23,8 +23,8 @@
 
 CC = g++
 CFLAGS = -Wall -I../.. $(UCFLAGS)
-DEPS = a.h b.h c.h
-OBJ = b.o c.o main.o
+DEPS = interface.h base.h derived.h client.h
+OBJ = base.o derived.o client.o main.o
 EXE = minimal
 
 %.o: %.cpp $(DEPS)
