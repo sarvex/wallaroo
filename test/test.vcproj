@@ -61,6 +61,7 @@
 				Name="VCLinkerTool"
 				AdditionalLibraryDirectories="&quot;$(BOOST)\stage\lib&quot;"
 				GenerateDebugInformation="true"
+				SubSystem="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -84,7 +85,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Auto run test"
-				CommandLine="&quot;$(TargetDir)\$(TargetName).exe&quot; --result_code=no --report_level=no"
+				CommandLine="&quot;$(TargetDir)\$(TargetName).exe&quot; --result_code=no --report_level=short"
 			/>
 		</Configuration>
 		<Configuration
@@ -169,6 +170,13 @@
 			<File
 				RelativePath=".\driver.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\test_creation.cpp"
@@ -177,6 +185,13 @@
 			<File
 				RelativePath=".\test_wiring.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
