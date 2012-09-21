@@ -37,7 +37,7 @@ public:
     GasAlarm();
     virtual void Watch();
 private:
-    typedef MultiplePlug< GasSensor > SensorList;
+    typedef Plug< GasSensor, multiple > SensorList;
     SensorList sensors;
     Plug< Alarm > alarm;
 };

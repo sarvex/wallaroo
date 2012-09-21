@@ -38,7 +38,7 @@ public:
     virtual ~Client();
 private:
     Plug< Interface > x;
-    MultiplePlug< Interface > xList;
+    Plug< Interface, multiple > xList;
 };
 
 #endif

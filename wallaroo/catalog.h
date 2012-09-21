@@ -100,11 +100,11 @@ inline void PlugShell::Into( DeviceShell destination )
 }
 
 
+// ###
+class Context; // forward declaration
+
 } // namespace detail
 
-
-// ###
-class X; // forward declaration
 
 /**
  * Catalog of the devices available for the application.
@@ -201,7 +201,7 @@ private:
     typedef std::map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
     // ###
-    friend class X;
+    friend class detail::Context;
     static void SetCurrent( Catalog* c )
     {
         GetCurrent() = c;
@@ -227,11 +227,14 @@ public:
         // perform the final assignment:
         srcClass.Plug( attribute ).Into( destClass );
     }
+    /*
+    * @throw std::range_error if the current catalog has not been selected with @c wallaroo_within
+    */
     void of ( const std::string& srcClass )
     {
         // default container case
         Catalog* current = Catalog::GetCurrent();
-        if ( ! current ) throw 69; // TODO ###
+        if ( ! current ) throw std::range_error( "current catalog not set" );
         of( ( *current )[ srcClass ] );
     }
 private:
@@ -261,26 +264,32 @@ inline detail::UseExpression use( detail::DeviceShell& destClass )
     return detail::UseExpression( destClass );
 }
 
+/*
+* @throw std::range_error if the current catalog has not been selected with @c wallaroo_within
+*/
 inline detail::UseExpression use( const std::string& destClass )
 {
     // default container case
     Catalog* current = Catalog::GetCurrent();
-    if ( ! current ) throw 69; // TODO ###
+    if ( ! current ) throw std::range_error( "current catalog not set" );
     return use( ( *current )[ destClass ] );
 }
 
 ////////////////////////////////////////////////////////////////////////
 
-class X
+namespace detail
+{
+
+class Context
 {
 public:
-    X( Catalog& c ) :
+    Context( Catalog& c ) :
       firstTime( true )
     {
         previous = Catalog::GetCurrent();
         Catalog::SetCurrent( &c );
     }
-    ~X()
+    ~Context()
     {
         Catalog::SetCurrent( previous );
     }
@@ -297,8 +306,10 @@ private:
     Catalog* previous;
 };
 
+} // namespace detail
+
 #define wallaroo_within( C ) \
-    for ( X x( C ); x.FirstTime(); x.Terminate() )
+    for ( detail::Context context( C ); context.FirstTime(); context.Terminate() )
 
 ////////////////////////////////////////////////////////////////////////
 

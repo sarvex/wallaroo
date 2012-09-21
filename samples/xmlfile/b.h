@@ -39,7 +39,7 @@ public:
     virtual ~B();
 private:
     Plug< C > c;
-    MultiplePlug< C > cList;
+    Plug< C, multiple > cList;
     const unsigned int par;
 };
 

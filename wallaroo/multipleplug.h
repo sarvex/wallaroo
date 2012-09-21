@@ -24,9 +24,13 @@
 #ifndef WALLAROO_MULTIPLEPLUG_H_
 #define WALLAROO_MULTIPLEPLUG_H_
 
+#if 0
+
 #include <string>
 #include <cassert>
 #include <list>
+#include <vector>
+#include <deque>
 #include <typeinfo>
 #include "cxx0x.h"
 #include "connector.h"
@@ -75,6 +79,81 @@ public:
     }
 };
 
+// TODO ### we don't have template typedef yet!
+#define AttributeContainer MultiplePlug
+
+
+// TODO ### TEST
+
+
+template < typename T >
+class List : public std::list< cxx0x::weak_ptr< T > > {};
+
+template < typename T >
+class Vector : public std::vector< cxx0x::weak_ptr< T > > {};
+
+template < typename T >
+class Deque : public std::deque< cxx0x::weak_ptr< T > > {};
+
+
+
+template < typename T >
+class Plug< List< T > > : public Connector, public List< T >
+{
+public:
+    Plug( const std::string& name, Device* owner )
+    {
+        owner -> Register( name, this );
+    }
+    void PlugInto( cxx0x::shared_ptr< Device > device )
+    {
+        cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( device );
+        if ( ! obj ) // bad type!
+            throw std::bad_cast();
+        else
+            push_back( obj );
+    }
+};
+
+template < typename T >
+class Plug< Vector< T > > : public Connector, public Vector< T >
+{
+public:
+    Plug( const std::string& name, Device* owner )
+    {
+        owner -> Register( name, this );
+    }
+    void PlugInto( cxx0x::shared_ptr< Device > device )
+    {
+        cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( device );
+        if ( ! obj ) // bad type!
+            throw std::bad_cast();
+        else
+            push_back( obj );
+    }
+};
+
+template < typename T >
+class Plug< Deque< T > > : public Connector, public Deque< T >
+{
+public:
+    Plug( const std::string& name, Device* owner )
+    {
+        owner -> Register( name, this );
+    }
+    void PlugInto( cxx0x::shared_ptr< Device > device )
+    {
+        cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( device );
+        if ( ! obj ) // bad type!
+            throw std::bad_cast();
+        else
+            push_back( obj );
+    }
+};
+
 } // namespace
+
+
+#endif
 
 #endif

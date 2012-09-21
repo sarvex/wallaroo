@@ -63,10 +63,31 @@ public:
     virtual int F() { return x -> F(); }
     virtual ~CC() {}
 private:
-    Plug< I > x;
+    Attribute< I > x;
 };
 
 REGISTER( CC, void, void )
+
+REGISTERED_CLASS( DD, void, void ), public Device
+{
+public:
+    DD() : x( "x", this ) {}
+    virtual int F()
+    { 
+        int sum = 0;
+        for ( Container::iterator i = x.begin(); i != x.end(); ++i )
+        {
+            sum += i -> lock() -> F();
+        }
+        return sum; 
+    }
+    virtual ~DD() {}
+private:
+    typedef Attribute< I, multiple > Container;
+    Container x;
+};
+
+REGISTER( DD, void, void )
 
 // tests
 
@@ -96,6 +117,44 @@ BOOST_AUTO_TEST_CASE( wiringOk )
 
     boost::shared_ptr< CC > c2 = catalog[ "c2" ];
     BOOST_CHECK( c2 -> F() == 5 );
+}
+
+BOOST_AUTO_TEST_CASE( wiringKo )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c1", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "c1" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c2", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "c2" ] );
+
+    // bad type
+    BOOST_CHECK_THROW( use( catalog[ "c2" ] ).as( "x" ).of( catalog[ "c1" ] ), std::bad_cast );
+
+    // src does not exist in the catalog
+    BOOST_CHECK_THROW( use( catalog[ "b" ] ).as( "x" ).of( catalog[ "does_not_exist" ] ), std::range_error );
+    // dst does not exist in the catalog
+    BOOST_CHECK_THROW( use( catalog[ "does_not_exist" ] ).as( "x" ).of( catalog[ "c2" ] ), std::range_error );
+    // attribute does not exist in the src
+    BOOST_CHECK_THROW( use( catalog[ "a" ] ).as( "does_not_exist" ).of( catalog[ "c2" ] ), std::range_error );
+
+    wallaroo_within( catalog )
+    {
+        // src does not exist in the catalog
+        BOOST_CHECK_THROW( use( "b" ).as( "x" ).of( "does_not_exist" ), std::range_error );
+        // dst does not exist in the catalog
+        BOOST_CHECK_THROW( use( "does_not_exist" ).as( "x" ).of( "c2" ), std::range_error );
+        // attribute does not exist in the src
+        BOOST_CHECK_THROW( use( "a" ).as( "does_not_exist" ).of( "c2" ), std::range_error );
+    }
+
+    // no catalog selected:
+    BOOST_CHECK_THROW( use( "b" ).as( "x" ).of( "c1" ), std::range_error );
+
 }
 
 BOOST_AUTO_TEST_CASE( multipleCatalogs )
@@ -176,6 +235,30 @@ BOOST_AUTO_TEST_CASE( nestedCatalogs )
 
     boost::shared_ptr< CC > c11 = catalog1[ "c11" ];
     BOOST_CHECK( c11 -> F() == 5 );
+}
+
+BOOST_AUTO_TEST_CASE( listWiring )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a1", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a1" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a2", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a2" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "d", "DD" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "d" ] );
+
+    wallaroo_within( catalog )
+    {
+        BOOST_REQUIRE_NO_THROW( use( "a1" ).as( "x" ).of( "d" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a2" ).as( "x" ).of( "d" ) );
+        BOOST_REQUIRE_NO_THROW( use( "b" ).as( "x" ).of( "d" ) );
+    }
+
+    boost::shared_ptr< DD > d = catalog[ "d" ];
+    BOOST_CHECK( d -> F() == 20 );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

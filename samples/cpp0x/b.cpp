@@ -38,7 +38,7 @@ void B::F()
     std::cout << "invoking x -> G():" << std::endl;
     c -> G();
     std::cout << "iterating over xList:" << std::endl;
-    for ( MultiplePlug< C >::iterator i = cList.begin(); i != cList.end(); ++i )
+    for ( Plug< C, multiple >::iterator i = cList.begin(); i != cList.end(); ++i )
     {
         std::shared_ptr< C > s = i -> lock();
         if ( s ) 

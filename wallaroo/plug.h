@@ -25,7 +25,6 @@
 #define WALLAROO_PLUG_H_
 
 #include <string>
-#include <cassert>
 #include <typeinfo>
 #include "cxx0x.h"
 #include "connector.h"
@@ -35,6 +34,10 @@
 namespace wallaroo
 {
 
+class optional {};
+class mandatory {};
+class multiple {};
+
 /**
  * This represents a "plug" of a "device" that
  * you can "plug" into another "device".
@@ -42,8 +45,8 @@ namespace wallaroo
  * If the device1 has the plug1 plugged to device2, device1 will
  * basically get a pointer to device2.
  */
-template < class T >
-class Plug : public Connector
+template < typename T, typename P = mandatory >
+class Plug  : public Connector
 {
 public:
 
@@ -98,6 +101,39 @@ private:
     WeakPtr device;
 };
 
-} // namespace
+
+template < typename T >
+class Plug< T, multiple > : public Connector, public std::list< cxx0x::weak_ptr< T > >
+{
+public:
+    /** Create a Plug and register it to its device for future wiring.
+    * @param name the name of this Plug
+    * @param owner the device that contains this Plug
+    */
+    Plug( const std::string& name, Device* owner )
+    {
+        owner -> Register( name, this );
+    }
+
+    /** Connect a device into this multiple plug
+    * @param device The device to connect
+    * @throw std::bad_cast If @c device is not a subclass of @c T
+    */
+    void PlugInto( cxx0x::shared_ptr< Device > device )
+    {
+        cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( device );
+        if ( ! obj ) // bad type!
+            throw std::bad_cast();
+        else
+            push_back( obj );
+    }
+
+};
+
+
+// TODO ### we don't have template typedef yet!
+#define Attribute Plug
+
+}
 
 #endif
