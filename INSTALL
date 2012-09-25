@@ -31,6 +31,7 @@ wallaroo\ ....................................The “wallaroo root directory”
       minimal\..............................................A basic example
       xmlfile\...................................Usage of a xml wiring file
       ...more samples...
+   test\ ................................... Automatic tests of the library
    doc\ ..................................A subset of Wallaroo library docs
 
 Now you must only remember to insert the wallaroo and boost path when 

@@ -44,7 +44,7 @@ public:
     * @throw std::bad_cast If this Connector could not be inserted into device @c dev 
     */
     virtual void PlugInto( cxx0x::shared_ptr< Device > dev ) = 0;
-    virtual ~Connector() {}
+    virtual ~Connector() {} // note: maybe this dtor can become not virtual?
 };
 
 } // namespace

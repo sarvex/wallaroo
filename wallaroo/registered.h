@@ -26,7 +26,6 @@
 
 #include "class.h"
 #include "plug.h"
-#include "multipleplug.h"
 #include "device.h"
 
 #endif

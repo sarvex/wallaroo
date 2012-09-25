@@ -41,7 +41,7 @@ The Wallaroo Distribution
 
 This is a sketch of the resulting directory structure:
 
-wallaroo\ ....................................The "wallaroo root directory"
+wallaroo\ ....................................The “wallaroo root directory”
    README .............................Generic documentation about wallaroo
    INSTALL ......................................Installation documentation
    ChangeLog ........................................The log of the changes
@@ -52,4 +52,5 @@ wallaroo\ ....................................The "wallaroo root directory"
       minimal\..............................................A basic example
       xmlfile\...................................Usage of a xml wiring file
       ...more samples...
+   test\ ................................... Automatic tests of the library
    doc\ ..................................A subset of Wallaroo library docs
