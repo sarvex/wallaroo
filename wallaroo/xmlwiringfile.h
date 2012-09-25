@@ -44,7 +44,7 @@ class XmlWiringFile
 public:
     /** Create an XmlWiringFile from the path specified as parameter.
     * @param fileName the path of the file to parse
-    * @throw std::range_error if the file do not exist or its format is wrong.
+    * @throw WrongFile if the file does not exist or its format is wrong.
     */
     explicit XmlWiringFile( const std::string& fileName )
     {
@@ -54,13 +54,13 @@ public:
         }
         catch ( const xml_parser_error& e )
         {
-            throw std::range_error( e.what() );
+            throw WrongFile( e.what() );
         }
     }
 
     /** Fill the @c catalog with the objects and relations specified in the file.
     * @param catalog The catalog target of the new items of the file.
-    * @throw std::range_error if the file contains a semantic error.
+    * @throw WrongFile if the file contains a semantic error.
     */
     void Fill( Catalog& catalog )
     {
@@ -74,7 +74,7 @@ public:
         }
         catch ( const ptree_error& e )
         {
-            throw std::range_error( e.what() );
+            throw WrongFile( e.what() );
         }
     }
 

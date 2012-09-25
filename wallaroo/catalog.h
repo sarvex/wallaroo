@@ -28,7 +28,6 @@
 #include <map>
 #include <typeinfo>
 #include <cassert>
-#include <stdexcept>
 #include "cxx0x.h"
 #include "device.h"
 #include "class.h"
@@ -78,13 +77,13 @@ public:
 
     /** Convert the contained device to the type T
     * @return the converted device.
-    * @throw std::bad_cast if the contained device is not a subclass of T
+    * @throw WrongType if the contained device is not a subclass of T
     */
     template < class T >
     operator cxx0x::shared_ptr< T >()
     {
         cxx0x::shared_ptr< T > result = cxx0x::dynamic_pointer_cast< T >( device );
-        if ( ! result ) throw std::bad_cast();
+        if ( ! result ) throw WrongType();
         return result;
     }
 
@@ -121,19 +120,19 @@ public:
     /** Look for the element @c itemId in the catalog.
     * @param itemId the name of the element
     * @return the element.
-    * @throw std::range_error if the element does not exist in the catalog.
+    * @throw ElementNotFound if the element does not exist in the catalog.
     */
     detail::DeviceShell operator [] ( const std::string& itemId )
     {
         Devices::iterator i = devices.find( itemId );
-        if ( i == devices.end() ) throw std::range_error( itemId + " not found in the catalog" );
+        if ( i == devices.end() ) throw ElementNotFound( itemId );
         return detail::DeviceShell( i -> second );
     }
 
     /** Add a device to the catalog
     * @param id the name of the device to add
     * @param device the device to add
-    * @throw std::range_error if a device with the name @c id is already in the catalog
+    * @throw DuplicatedElement if a device with the name @c id is already in the catalog
     */
     void Add( const std::string& id, cxx0x::shared_ptr< Device > dev )
     {
@@ -141,7 +140,7 @@ public:
         std::pair< Devices::iterator, bool > result = 
             devices.insert( std::make_pair( id, toInsert ) );
         if ( ! result.second )
-            throw std::range_error( id + " already in the catalog" );
+            throw DuplicatedElement( id );
     }
 
     /** Instantiate a class with a 2 parameters constructor and add it to the catalog
@@ -149,7 +148,8 @@ public:
     * @param className the name of the class to instantiate
     * @param p1 The first parameter of the class constructor
     * @param p2 The second parameter of the class constructor
-    * @throw std::range_error if an element with the name @c id is already in the catalog or the @c className class has not been registered
+    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
+    * @throw ElementNotFound if @c className class has not been registered
     */
     template < class P1, class P2 >
     void Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
@@ -157,7 +157,7 @@ public:
         typedef Class< Device, P1, P2 > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance( p1, p2 );
-        if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
+        if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
     }
 
@@ -165,7 +165,8 @@ public:
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
     * @param p1 The parameter of the class constructor
-    * @throw std::range_error if an element with the name @c id is already in the catalog or the @c className class has not been registered
+    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
+    * @throw ElementNotFound if @c className class has not been registered
     */
     template < class P >
     void Create( const std::string& id, const std::string& className, const P& p )
@@ -173,21 +174,22 @@ public:
         typedef Class< Device, P, void > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance( p );
-        if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
+        if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
     }
 
     /** Instantiate a class with 0 parameters constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
-    * @throw std::range_error if an element with the name @c id is already in the catalog or the @c className class has not been registered
+    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
+    * @throw ElementNotFound if @c className class has not been registered
     */
     void Create( const std::string& id, const std::string& className )
     {
         typedef Class< Device, void, void > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance();
-        if ( obj.get() == NULL ) throw std::range_error( className + " not registered" );
+        if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
     }
 
@@ -228,13 +230,13 @@ public:
         srcClass.Plug( attribute ).Into( destClass );
     }
     /*
-    * @throw std::range_error if the current catalog has not been selected with @c wallaroo_within
+    * @throw CatalogNotSpecified if the current catalog has not been selected with @c wallaroo_within
     */
     void of ( const std::string& srcClass )
     {
         // default container case
         Catalog* current = Catalog::GetCurrent();
-        if ( ! current ) throw std::range_error( "current catalog not set" );
+        if ( ! current ) throw CatalogNotSpecified();
         of( ( *current )[ srcClass ] );
     }
 private:
@@ -265,13 +267,14 @@ inline detail::UseExpression use( detail::DeviceShell& destClass )
 }
 
 /*
-* @throw std::range_error if the current catalog has not been selected with @c wallaroo_within
+* @throw CatalogNotSpecified if the current catalog has not been selected including
+* this function in a wallaroo_within section
 */
 inline detail::UseExpression use( const std::string& destClass )
 {
     // default container case
     Catalog* current = Catalog::GetCurrent();
-    if ( ! current ) throw std::range_error( "current catalog not set" );
+    if ( ! current ) throw CatalogNotSpecified();
     return use( ( *current )[ destClass ] );
 }
 

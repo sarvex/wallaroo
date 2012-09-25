@@ -68,7 +68,14 @@ BOOST_AUTO_TEST_CASE( creationOk )
 BOOST_AUTO_TEST_CASE( creationUnexistentObj )
 {
     Catalog catalog;
-    BOOST_CHECK_THROW( catalog.Create( "a", "Unknown" ), std::range_error );
+    BOOST_CHECK_THROW( catalog.Create( "a", "Unknown" ), ElementNotFound );
+}
+
+BOOST_AUTO_TEST_CASE( duplicatedElement )
+{
+    Catalog catalog;
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A" ) );
+    BOOST_CHECK_THROW( catalog.Create( "a", "B", 10, std::string( "hello" ) ), DuplicatedElement );
 }
 
 BOOST_AUTO_TEST_CASE( retrieveOk )
@@ -83,7 +90,7 @@ BOOST_AUTO_TEST_CASE( retrieveOk )
 BOOST_AUTO_TEST_CASE( retrieveKo )
 {
     Catalog catalog;
-    BOOST_CHECK_THROW( catalog[ "b" ], std::range_error );
+    BOOST_CHECK_THROW( catalog[ "b" ], ElementNotFound );
 }
 
 BOOST_AUTO_TEST_CASE( multipleParametersOk )

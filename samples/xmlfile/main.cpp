@@ -41,7 +41,7 @@ int main( int argc, char* argv[] )
 
         a -> F();
     }
-    catch ( const std::range_error& e )
+    catch ( const std::exception& e )
     {
         std::cerr << e.what() << std::endl;
     }

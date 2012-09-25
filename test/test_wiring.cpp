@@ -175,27 +175,27 @@ BOOST_AUTO_TEST_CASE( wiringKo )
     BOOST_REQUIRE_NO_THROW( catalog[ "c2" ] );
 
     // bad type
-    BOOST_CHECK_THROW( use( catalog[ "c2" ] ).as( "x" ).of( catalog[ "c1" ] ), std::bad_cast );
+    BOOST_CHECK_THROW( use( catalog[ "c2" ] ).as( "x" ).of( catalog[ "c1" ] ), WrongType );
 
     // src does not exist in the catalog
-    BOOST_CHECK_THROW( use( catalog[ "b" ] ).as( "x" ).of( catalog[ "does_not_exist" ] ), std::range_error );
+    BOOST_CHECK_THROW( use( catalog[ "b" ] ).as( "x" ).of( catalog[ "does_not_exist" ] ), ElementNotFound );
     // dst does not exist in the catalog
-    BOOST_CHECK_THROW( use( catalog[ "does_not_exist" ] ).as( "x" ).of( catalog[ "c2" ] ), std::range_error );
+    BOOST_CHECK_THROW( use( catalog[ "does_not_exist" ] ).as( "x" ).of( catalog[ "c2" ] ), ElementNotFound );
     // attribute does not exist in the src
-    BOOST_CHECK_THROW( use( catalog[ "a" ] ).as( "does_not_exist" ).of( catalog[ "c2" ] ), std::range_error );
+    BOOST_CHECK_THROW( use( catalog[ "a" ] ).as( "does_not_exist" ).of( catalog[ "c2" ] ), ElementNotFound );
 
     wallaroo_within( catalog )
     {
         // src does not exist in the catalog
-        BOOST_CHECK_THROW( use( "b" ).as( "x" ).of( "does_not_exist" ), std::range_error );
+        BOOST_CHECK_THROW( use( "b" ).as( "x" ).of( "does_not_exist" ), ElementNotFound );
         // dst does not exist in the catalog
-        BOOST_CHECK_THROW( use( "does_not_exist" ).as( "x" ).of( "c2" ), std::range_error );
+        BOOST_CHECK_THROW( use( "does_not_exist" ).as( "x" ).of( "c2" ), ElementNotFound );
         // attribute does not exist in the src
-        BOOST_CHECK_THROW( use( "a" ).as( "does_not_exist" ).of( "c2" ), std::range_error );
+        BOOST_CHECK_THROW( use( "a" ).as( "does_not_exist" ).of( "c2" ), ElementNotFound );
     }
 
     // no catalog selected:
-    BOOST_CHECK_THROW( use( "b" ).as( "x" ).of( "c1" ), std::range_error );
+    BOOST_CHECK_THROW( use( "b" ).as( "x" ).of( "c1" ), CatalogNotSpecified );
 
 }
 

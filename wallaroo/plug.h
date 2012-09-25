@@ -68,13 +68,13 @@ public:
     
     /** Plug this plug into a device
     * @param dev The device you want insert this plug into
-    * @throw std::bad_cast If @c dev is not a subclass of @c T
+    * @throw WrongType If @c dev is not a subclass of @c T
     */
     void PlugInto( cxx0x::shared_ptr< Device > dev )
     {
         cxx0x::shared_ptr< T > _dev = cxx0x::dynamic_pointer_cast< T >( dev );
         if ( ! _dev ) // bad type!
-            throw std::bad_cast();
+            throw WrongType();
         else
             device = _dev;
     }
@@ -124,13 +124,13 @@ public:
 
     /** Connect a device into this multiple plug
     * @param device The device to connect
-    * @throw std::bad_cast If @c device is not a subclass of @c T
+    * @throw WrongType If @c device is not a subclass of @c T
     */
     void PlugInto( cxx0x::shared_ptr< Device > device )
     {
         cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( device );
         if ( ! obj ) // bad type!
-            throw std::bad_cast();
+            throw WrongType();
         else
             push_back( obj );
     }

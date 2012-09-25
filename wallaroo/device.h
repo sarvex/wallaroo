@@ -26,7 +26,7 @@
 
 #include <string>
 #include <map>
-#include <stdexcept>
+#include "exceptions.h"
 #include "cxx0x.h"
 #include "connector.h"
 
@@ -41,13 +41,13 @@ class Device
 {
 public:
     /** Plug the connector @c connector of this device into the device @c device.
-     * @throw std::range_error if @c connector does not exist in this device.
+     * @throw ElementNotFound if @c connector does not exist in this device.
      */
     virtual void Wire( const std::string& connector, cxx0x::shared_ptr< Device > device )
     {
         Connectors::iterator i = connectors.find( connector );
         if ( i == connectors.end() ) 
-            throw std::range_error( connector + " not found in the class" );
+            throw ElementNotFound( connector );
         ( i -> second ) -> PlugInto( device );
     }
 

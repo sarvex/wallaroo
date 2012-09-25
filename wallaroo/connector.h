@@ -41,7 +41,7 @@ class Connector
 public:
     /** Plug this Connector into a device
     * @param dev The device you want insert this Connector into
-    * @throw std::bad_cast If this Connector could not be inserted into device @c dev 
+    * @throw WrongType If this Connector could not be inserted into device @c dev 
     */
     virtual void PlugInto( cxx0x::shared_ptr< Device > dev ) = 0;
     virtual ~Connector() {} // note: maybe this dtor can become not virtual?

@@ -68,6 +68,108 @@ public:
 };
 
 
+/** Error indicating that a @c use expression has been used outside a 
+*   wallaroo_within section. Derives from WallarooError.
+*/
+class CatalogNotSpecified : public WallarooError
+{
+public:
+    /// Instantiate a CatalogNotSpecified
+    CatalogNotSpecified() :
+        WallarooError( "The catalog has not been specified. You must use a wallaroo_within section." )
+    {
+    }
+
+    ~CatalogNotSpecified() throw()
+    {
+    }
+};
+
+
+/** Error indicating that a cast has been performed with the wrong types.
+*   Derives from WallarooError.
+*/
+class WrongType : public WallarooError
+{
+public:
+    /// Instantiate a WrongType
+    WrongType() :
+        WallarooError( "The type is wrong for the cast." )
+    {
+    }
+
+    ~WrongType() throw()
+    {
+    }
+};
+
+
+/** Error indicating that an item was not found in the catalog or in the class.
+*   Derives from WallarooError.
+*/
+class ElementNotFound : public WallarooError
+{
+public:
+    /// Instantiate a ElementNotFound
+    ElementNotFound( const std::string& _element ) :
+        WallarooError( _element + " not found in the container" ),
+        element( _element )
+    {
+    }
+    ~ElementNotFound() throw()
+    {
+    }
+    const std::string& Element() const
+    {
+        return element;
+    }
+private:
+    const std::string element;
+};
+
+
+/** Error indicating that an item was already inserted in the catalog or in the class.
+*   Derives from WallarooError.
+*/
+class DuplicatedElement : public WallarooError
+{
+public:
+    /// Instantiate a DuplicatedElement
+    DuplicatedElement( const std::string& _element ) :
+        WallarooError( _element  + " already in the container" ),
+        element( _element )
+    {
+    }
+    ~DuplicatedElement() throw()
+    {
+    }
+    const std::string& Element() const
+    {
+        return element;
+    }
+private:
+    const std::string element;
+};
+
+
+/** Error indicating that the file does not exist or contains a semantic error.
+*   Derives from WallarooError.
+*/
+class WrongFile : public WallarooError
+{
+public:
+    /// Instantiate a WrongFile
+    explicit WrongFile( const std::string& msg ) :
+        WallarooError( msg )
+    {
+    }
+
+    ~WrongFile() throw()
+    {
+    }
+};
+
+
 } // namespace
 
 #endif
