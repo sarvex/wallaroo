@@ -31,6 +31,7 @@
 #include <list>
 
 using namespace wallaroo;
+using namespace cxx0x;
 
 // some classes:
 
@@ -67,7 +68,7 @@ public:
     virtual int F() { return x -> F(); }
     virtual ~CC() {}
 private:
-    Attribute< I > x;
+    Plug< I > x;
 };
 
 REGISTER( CC, void, void )
@@ -87,7 +88,7 @@ public:
     }
     virtual ~DD() {}
 private:
-    typedef Attribute< I, collection > Container;
+    typedef Plug< I, collection > Container;
     Container x;
 };
 
@@ -120,9 +121,9 @@ public:
     }
     virtual ~EE() {}
 private:
-    typedef Attribute< I, collection, std::list > Container1;
-    typedef Attribute< I, collection, std::vector > Container2;
-    typedef Attribute< I, collection, std::deque > Container3;
+    typedef Plug< I, collection, std::list > Container1;
+    typedef Plug< I, collection, std::vector > Container2;
+    typedef Plug< I, collection, std::deque > Container3;
     Container1 x1;
     Container2 x2;
     Container3 x3;
@@ -153,10 +154,10 @@ BOOST_AUTO_TEST_CASE( wiringOk )
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "x" ).of( "c2" ) );
     }
 
-    boost::shared_ptr< CC > c1 = catalog[ "c1" ];
+    shared_ptr< CC > c1 = catalog[ "c1" ];
     BOOST_CHECK( c1 -> F() == 10 );
 
-    boost::shared_ptr< CC > c2 = catalog[ "c2" ];
+    shared_ptr< CC > c2 = catalog[ "c2" ];
     BOOST_CHECK( c2 -> F() == 5 );
 }
 
@@ -229,13 +230,13 @@ BOOST_AUTO_TEST_CASE( multipleCatalogs )
 
     BOOST_REQUIRE_NO_THROW( use( catalog1[ "a1" ] ).as( "x" ).of( catalog2[ "c22" ] ) );
 
-    boost::shared_ptr< CC > c1 = catalog1[ "c1" ];
+    shared_ptr< CC > c1 = catalog1[ "c1" ];
     BOOST_CHECK( c1 -> F() == 10 );
 
-    boost::shared_ptr< CC > c2 = catalog2[ "c2" ];
+    shared_ptr< CC > c2 = catalog2[ "c2" ];
     BOOST_CHECK( c2 -> F() == 5 );
 
-    boost::shared_ptr< CC > c22 = catalog2[ "c22" ];
+    shared_ptr< CC > c22 = catalog2[ "c22" ];
     BOOST_CHECK( c22 -> F() == 5 );
 }
 
@@ -268,13 +269,13 @@ BOOST_AUTO_TEST_CASE( nestedCatalogs )
         BOOST_REQUIRE_NO_THROW( use( "a1" ).as( "x" ).of( "c11" ) );
     }
 
-    boost::shared_ptr< CC > c1 = catalog1[ "c1" ];
+    shared_ptr< CC > c1 = catalog1[ "c1" ];
     BOOST_CHECK( c1 -> F() == 10 );
 
-    boost::shared_ptr< CC > c2 = catalog2[ "c2" ];
+    shared_ptr< CC > c2 = catalog2[ "c2" ];
     BOOST_CHECK( c2 -> F() == 5 );
 
-    boost::shared_ptr< CC > c11 = catalog1[ "c11" ];
+    shared_ptr< CC > c11 = catalog1[ "c11" ];
     BOOST_CHECK( c11 -> F() == 5 );
 }
 
@@ -298,7 +299,7 @@ BOOST_AUTO_TEST_CASE( listWiring )
         BOOST_REQUIRE_NO_THROW( use( "b" ).as( "x" ).of( "d" ) );
     }
 
-    boost::shared_ptr< DD > d = catalog[ "d" ];
+    shared_ptr< DD > d = catalog[ "d" ];
     BOOST_CHECK( d -> F() == 20 );
 }
 
@@ -330,7 +331,7 @@ BOOST_AUTO_TEST_CASE( containersWiring )
         BOOST_REQUIRE_NO_THROW( use( "b" ).as( "x3" ).of( "e" ) );
     }
 
-    boost::shared_ptr< EE > e = catalog[ "e" ];
+    shared_ptr< EE > e = catalog[ "e" ];
     BOOST_CHECK( e -> F() == 60 );
 
     // check at compile time the containers are the right type

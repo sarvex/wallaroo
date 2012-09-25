@@ -137,10 +137,6 @@ public:
 
 };
 
-
-// TODO ### we don't have template typedef yet!
-#define Attribute Plug
-
 }
 
 #endif

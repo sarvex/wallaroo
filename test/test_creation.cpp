@@ -27,6 +27,7 @@
 #include "wallaroo/catalog.h"
 
 using namespace wallaroo;
+using namespace cxx0x;
 
 // some classes:
 
@@ -75,7 +76,7 @@ BOOST_AUTO_TEST_CASE( retrieveOk )
     Catalog catalog;
     BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
-    boost::shared_ptr< A > a = catalog[ "a" ];
+    shared_ptr< A > a = catalog[ "a" ];
     BOOST_CHECK( a -> F() == 5 );
 }
 

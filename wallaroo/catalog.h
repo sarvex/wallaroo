@@ -309,7 +309,7 @@ private:
 } // namespace detail
 
 #define wallaroo_within( C ) \
-    for ( detail::Context context( C ); context.FirstTime(); context.Terminate() )
+    for ( wallaroo::detail::Context context( C ); context.FirstTime(); context.Terminate() )
 
 ////////////////////////////////////////////////////////////////////////
 
