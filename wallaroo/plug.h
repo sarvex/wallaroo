@@ -36,7 +36,7 @@ namespace wallaroo
 
 class optional {};
 class mandatory {};
-class multiple {};
+class collection {};
 
 /**
  * This represents a "plug" of a "device" that
@@ -45,7 +45,11 @@ class multiple {};
  * If the device1 has the plug1 plugged to device2, device1 will
  * basically get a pointer to device2.
  */
-template < typename T, typename P = mandatory >
+template < 
+    typename T,
+    typename P = mandatory,
+    template < typename E, typename Allocator = std::allocator< E > > class Container = std::list
+>
 class Plug  : public Connector
 {
 public:
@@ -102,8 +106,11 @@ private:
 };
 
 
-template < typename T >
-class Plug< T, multiple > : public Connector, public std::list< cxx0x::weak_ptr< T > >
+template <
+    typename T,
+    template < typename E, typename Allocator = std::allocator< E > > class Container
+>
+class Plug< T, collection, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
 {
 public:
     /** Create a Plug and register it to its device for future wiring.

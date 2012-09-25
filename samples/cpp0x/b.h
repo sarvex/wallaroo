@@ -39,7 +39,7 @@ public:
     virtual ~B();
 private:
     Plug< C > c;
-    Plug< C, multiple > cList;
+    Plug< C, collection > cList;
 };
 
 #endif

@@ -39,7 +39,7 @@ void Client::G()
 
     x -> F();
 
-    for ( Plug< Interface, multiple >::iterator i = xList.begin(); i != xList.end(); ++i )
+    for ( Plug< Interface, collection >::iterator i = xList.begin(); i != xList.end(); ++i )
     {
         boost::shared_ptr< Interface > s = i -> lock();
         if ( s ) 

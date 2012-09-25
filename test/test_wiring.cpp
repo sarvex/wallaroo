@@ -26,6 +26,10 @@
 #include "wallaroo/registered.h"
 #include "wallaroo/catalog.h"
 
+#include <deque>
+#include <vector>
+#include <list>
+
 using namespace wallaroo;
 
 // some classes:
@@ -83,11 +87,48 @@ public:
     }
     virtual ~DD() {}
 private:
-    typedef Attribute< I, multiple > Container;
+    typedef Attribute< I, collection > Container;
     Container x;
 };
 
 REGISTER( DD, void, void )
+
+REGISTERED_CLASS( EE, void, void ), public Device
+{
+public:
+    EE() : 
+      x1( "x1", this ),
+      x2( "x2", this ),
+      x3( "x3", this )
+    {}
+    virtual int F()
+    { 
+        int sum = 0;
+        for ( Container1::iterator i = x1.begin(); i != x1.end(); ++i )
+        {
+            sum += i -> lock() -> F();
+        }
+        for ( Container2::iterator i = x2.begin(); i != x2.end(); ++i )
+        {
+            sum += i -> lock() -> F();
+        }
+        for ( Container3::iterator i = x3.begin(); i != x3.end(); ++i )
+        {
+            sum += i -> lock() -> F();
+        }
+        return sum; 
+    }
+    virtual ~EE() {}
+private:
+    typedef Attribute< I, collection, std::list > Container1;
+    typedef Attribute< I, collection, std::vector > Container2;
+    typedef Attribute< I, collection, std::deque > Container3;
+    Container1 x1;
+    Container2 x2;
+    Container3 x3;
+};
+
+REGISTER( EE, void, void )
 
 // tests
 
@@ -261,4 +302,42 @@ BOOST_AUTO_TEST_CASE( listWiring )
     BOOST_CHECK( d -> F() == 20 );
 }
 
+BOOST_AUTO_TEST_CASE( containersWiring )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a1", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a1" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a2", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a2" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "e", "EE" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "e" ] );
+
+    wallaroo_within( catalog )
+    {
+        BOOST_REQUIRE_NO_THROW( use( "a1" ).as( "x1" ).of( "e" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a2" ).as( "x1" ).of( "e" ) );
+        BOOST_REQUIRE_NO_THROW( use( "b" ).as( "x1" ).of( "e" ) );
+
+        BOOST_REQUIRE_NO_THROW( use( "a1" ).as( "x2" ).of( "e" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a2" ).as( "x2" ).of( "e" ) );
+        BOOST_REQUIRE_NO_THROW( use( "b" ).as( "x2" ).of( "e" ) );
+
+        BOOST_REQUIRE_NO_THROW( use( "a1" ).as( "x3" ).of( "e" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a2" ).as( "x3" ).of( "e" ) );
+        BOOST_REQUIRE_NO_THROW( use( "b" ).as( "x3" ).of( "e" ) );
+    }
+
+    boost::shared_ptr< EE > e = catalog[ "e" ];
+    BOOST_CHECK( e -> F() == 60 );
+
+    // check at compile time the containers are the right type
+    // (check that the right size derives from the left side)
+    std::deque< cxx0x::weak_ptr< I > >* dequePtr = ( Plug< I, collection, std::deque > * )0;
+    std::list< cxx0x::weak_ptr< I > >* listPtr = ( Plug< I, collection, std::list > * )0;
+    std::vector< cxx0x::weak_ptr< I > >* vectorPtr = ( Plug< I, collection, std::vector > * )0;
+    std::list< cxx0x::weak_ptr< I > >* defaultPtr = ( Plug< I, collection > * )0; // the default is std::list
+}
 BOOST_AUTO_TEST_SUITE_END()
