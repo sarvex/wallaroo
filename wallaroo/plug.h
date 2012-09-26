@@ -137,6 +137,22 @@ public:
 
 };
 
+
+// DEPRECATED: Backward compatibility only
+template < class T >
+class MultiplePlug : public Plug< T, collection >
+{
+public:
+    MultiplePlug( const std::string& name, Device* owner ) :
+        Plug( name, owner )
+    {}
+};
+// end DEPRECATED
+
+
 }
+
+
+
 
 #endif

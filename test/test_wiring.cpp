@@ -35,48 +35,47 @@ using namespace cxx0x;
 
 // some classes:
 
-//REGISTERED_CLASS( I, void, void ) /*, public Device*/
-class I : public Device
+class I2 : public Device
 {
 public:
     virtual int F() = 0;
-    virtual ~I() {}
+    virtual ~I2() {}
 };
 
-REGISTERED_CLASS( AA, void, void ), public I
+REGISTERED_CLASS( A2, void, void ), public I2
 {
 public:
     virtual int F() { return 5; }
-    virtual ~AA() {}
+    virtual ~A2() {}
 };
 
-REGISTER( AA, void, void )
+REGISTER( A2, void, void )
 
-REGISTERED_CLASS( BB, void, void ), public AA
+REGISTERED_CLASS( B2, void, void ), public A2
 {
 public:
     virtual int F() { return 10; }
-    virtual ~BB() {}
+    virtual ~B2() {}
 };
 
-REGISTER( BB, void, void )
+REGISTER( B2, void, void )
 
-REGISTERED_CLASS( CC, void, void ), public Device
+REGISTERED_CLASS( C2, void, void ), public Device
 {
 public:
-    CC() : x( "x", this ) {}
+    C2() : x( "x", this ) {}
     virtual int F() { return x -> F(); }
-    virtual ~CC() {}
+    virtual ~C2() {}
 private:
-    Plug< I > x;
+    Plug< I2 > x;
 };
 
-REGISTER( CC, void, void )
+REGISTER( C2, void, void )
 
-REGISTERED_CLASS( DD, void, void ), public Device
+REGISTERED_CLASS( D2, void, void ), public Device
 {
 public:
-    DD() : x( "x", this ) {}
+    D2() : x( "x", this ) {}
     virtual int F()
     { 
         int sum = 0;
@@ -86,18 +85,18 @@ public:
         }
         return sum; 
     }
-    virtual ~DD() {}
+    virtual ~D2() {}
 private:
-    typedef Plug< I, collection > Container;
+    typedef Plug< I2, collection > Container;
     Container x;
 };
 
-REGISTER( DD, void, void )
+REGISTER( D2, void, void )
 
-REGISTERED_CLASS( EE, void, void ), public Device
+REGISTERED_CLASS( E2, void, void ), public Device
 {
 public:
-    EE() : 
+    E2() : 
       x1( "x1", this ),
       x2( "x2", this ),
       x3( "x3", this )
@@ -119,17 +118,17 @@ public:
         }
         return sum; 
     }
-    virtual ~EE() {}
+    virtual ~E2() {}
 private:
-    typedef Plug< I, collection, std::list > Container1;
-    typedef Plug< I, collection, std::vector > Container2;
-    typedef Plug< I, collection, std::deque > Container3;
+    typedef Plug< I2, collection, std::list > Container1;
+    typedef Plug< I2, collection, std::vector > Container2;
+    typedef Plug< I2, collection, std::deque > Container3;
     Container1 x1;
     Container2 x2;
     Container3 x3;
 };
 
-REGISTER( EE, void, void )
+REGISTER( E2, void, void )
 
 // tests
 
@@ -139,13 +138,13 @@ BOOST_AUTO_TEST_CASE( wiringOk )
 {
     Catalog catalog;
 
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "c1", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c1", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "c1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "c2", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c2", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "c2" ] );
 
     wallaroo_within( catalog )
@@ -154,10 +153,10 @@ BOOST_AUTO_TEST_CASE( wiringOk )
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "x" ).of( "c2" ) );
     }
 
-    shared_ptr< CC > c1 = catalog[ "c1" ];
+    shared_ptr< C2 > c1 = catalog[ "c1" ];
     BOOST_CHECK( c1 -> F() == 10 );
 
-    shared_ptr< CC > c2 = catalog[ "c2" ];
+    shared_ptr< C2 > c2 = catalog[ "c2" ];
     BOOST_CHECK( c2 -> F() == 5 );
 }
 
@@ -165,13 +164,13 @@ BOOST_AUTO_TEST_CASE( wiringKo )
 {
     Catalog catalog;
 
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "c1", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c1", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "c1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "c2", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c2", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "c2" ] );
 
     // bad type
@@ -204,18 +203,18 @@ BOOST_AUTO_TEST_CASE( multipleCatalogs )
     Catalog catalog1;
     Catalog catalog2;
 
-    BOOST_REQUIRE_NO_THROW( catalog1.Create( "a1", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog1.Create( "a1", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog1[ "a1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog1.Create( "b1", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog1.Create( "b1", "B2" ) );
     BOOST_REQUIRE_NO_THROW( catalog1[ "b1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog1.Create( "c1", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog1.Create( "c1", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog1[ "c1" ] );
 
-    BOOST_REQUIRE_NO_THROW( catalog2.Create( "a2", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog2.Create( "a2", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog2[ "a2" ] );
-    BOOST_REQUIRE_NO_THROW( catalog2.Create( "c2", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog2.Create( "c2", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog2[ "c2" ] );
-    BOOST_REQUIRE_NO_THROW( catalog2.Create( "c22", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog2.Create( "c22", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog2[ "c22" ] );
 
     wallaroo_within( catalog1 )
@@ -230,13 +229,13 @@ BOOST_AUTO_TEST_CASE( multipleCatalogs )
 
     BOOST_REQUIRE_NO_THROW( use( catalog1[ "a1" ] ).as( "x" ).of( catalog2[ "c22" ] ) );
 
-    shared_ptr< CC > c1 = catalog1[ "c1" ];
+    shared_ptr< C2 > c1 = catalog1[ "c1" ];
     BOOST_CHECK( c1 -> F() == 10 );
 
-    shared_ptr< CC > c2 = catalog2[ "c2" ];
+    shared_ptr< C2 > c2 = catalog2[ "c2" ];
     BOOST_CHECK( c2 -> F() == 5 );
 
-    shared_ptr< CC > c22 = catalog2[ "c22" ];
+    shared_ptr< C2 > c22 = catalog2[ "c22" ];
     BOOST_CHECK( c22 -> F() == 5 );
 }
 
@@ -245,18 +244,18 @@ BOOST_AUTO_TEST_CASE( nestedCatalogs )
     Catalog catalog1;
     Catalog catalog2;
 
-    BOOST_REQUIRE_NO_THROW( catalog1.Create( "a1", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog1.Create( "a1", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog1[ "a1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog1.Create( "b1", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog1.Create( "b1", "B2" ) );
     BOOST_REQUIRE_NO_THROW( catalog1[ "b1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog1.Create( "c1", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog1.Create( "c1", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog1[ "c1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog1.Create( "c11", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog1.Create( "c11", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog1[ "c11" ] );
 
-    BOOST_REQUIRE_NO_THROW( catalog2.Create( "a2", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog2.Create( "a2", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog2[ "a2" ] );
-    BOOST_REQUIRE_NO_THROW( catalog2.Create( "c2", "CC" ) );
+    BOOST_REQUIRE_NO_THROW( catalog2.Create( "c2", "C2" ) );
     BOOST_REQUIRE_NO_THROW( catalog2[ "c2" ] );
 
     wallaroo_within( catalog1 )
@@ -269,13 +268,13 @@ BOOST_AUTO_TEST_CASE( nestedCatalogs )
         BOOST_REQUIRE_NO_THROW( use( "a1" ).as( "x" ).of( "c11" ) );
     }
 
-    shared_ptr< CC > c1 = catalog1[ "c1" ];
+    shared_ptr< C2 > c1 = catalog1[ "c1" ];
     BOOST_CHECK( c1 -> F() == 10 );
 
-    shared_ptr< CC > c2 = catalog2[ "c2" ];
+    shared_ptr< C2 > c2 = catalog2[ "c2" ];
     BOOST_CHECK( c2 -> F() == 5 );
 
-    shared_ptr< CC > c11 = catalog1[ "c11" ];
+    shared_ptr< C2 > c11 = catalog1[ "c11" ];
     BOOST_CHECK( c11 -> F() == 5 );
 }
 
@@ -283,13 +282,13 @@ BOOST_AUTO_TEST_CASE( listWiring )
 {
     Catalog catalog;
 
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "a1", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a1", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "a2", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a2", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a2" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "d", "DD" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "d", "D2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "d" ] );
 
     wallaroo_within( catalog )
@@ -299,7 +298,7 @@ BOOST_AUTO_TEST_CASE( listWiring )
         BOOST_REQUIRE_NO_THROW( use( "b" ).as( "x" ).of( "d" ) );
     }
 
-    shared_ptr< DD > d = catalog[ "d" ];
+    shared_ptr< D2 > d = catalog[ "d" ];
     BOOST_CHECK( d -> F() == 20 );
 }
 
@@ -307,13 +306,13 @@ BOOST_AUTO_TEST_CASE( containersWiring )
 {
     Catalog catalog;
 
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "a1", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a1", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a1" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "a2", "AA" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a2", "A2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a2" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "BB" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "e", "EE" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "e", "E2" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "e" ] );
 
     wallaroo_within( catalog )
@@ -331,14 +330,14 @@ BOOST_AUTO_TEST_CASE( containersWiring )
         BOOST_REQUIRE_NO_THROW( use( "b" ).as( "x3" ).of( "e" ) );
     }
 
-    shared_ptr< EE > e = catalog[ "e" ];
+    shared_ptr< E2 > e = catalog[ "e" ];
     BOOST_CHECK( e -> F() == 60 );
 
     // check at compile time the containers are the right type
     // (check that the right size derives from the left side)
-    std::deque< cxx0x::weak_ptr< I > >* dequePtr = ( Plug< I, collection, std::deque > * )0;
-    std::list< cxx0x::weak_ptr< I > >* listPtr = ( Plug< I, collection, std::list > * )0;
-    std::vector< cxx0x::weak_ptr< I > >* vectorPtr = ( Plug< I, collection, std::vector > * )0;
-    std::list< cxx0x::weak_ptr< I > >* defaultPtr = ( Plug< I, collection > * )0; // the default is std::list
+    std::deque< cxx0x::weak_ptr< I2 > >* dequePtr = ( Plug< I2, collection, std::deque > * )0;
+    std::list< cxx0x::weak_ptr< I2 > >* listPtr = ( Plug< I2, collection, std::list > * )0;
+    std::vector< cxx0x::weak_ptr< I2 > >* vectorPtr = ( Plug< I2, collection, std::vector > * )0;
+    std::list< cxx0x::weak_ptr< I2 > >* defaultPtr = ( Plug< I2, collection > * )0; // the default is std::list
 }
 BOOST_AUTO_TEST_SUITE_END()
