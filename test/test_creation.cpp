@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE( multipleParametersOk )
     Catalog catalog;
     BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B1", 10, std::string( "hello" ) ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
-    boost::shared_ptr< B1 > b = catalog[ "b" ];
+    shared_ptr< B1 > b = catalog[ "b" ];
     BOOST_CHECK( b -> GetX() == 10 );
     BOOST_CHECK( b -> GetY() == "hello" );
 }

@@ -70,7 +70,7 @@ public:
         assert( device );
     }
 
-    PlugShell Plug( const std::string& plugName )
+    PlugShell Plug( const std::string& plugName ) const
     {
         return PlugShell( device, plugName );
     }
@@ -224,7 +224,7 @@ public:
       attribute( _attribute )
     {
     }
-    void of( detail::DeviceShell& srcClass )
+    void of( const detail::DeviceShell& srcClass )
     {
         // perform the final assignment:
         srcClass.Plug( attribute ).Into( destClass );
@@ -247,7 +247,7 @@ private:
 class UseExpression
 {
 public:
-    explicit UseExpression( detail::DeviceShell& _destClass )
+    explicit UseExpression( const detail::DeviceShell& _destClass )
         : destClass( _destClass )
     {
     }
@@ -261,7 +261,7 @@ private:
 
 } // namespace detail
 
-inline detail::UseExpression use( detail::DeviceShell& destClass )
+inline detail::UseExpression use( const detail::DeviceShell& destClass )
 {
     return detail::UseExpression( destClass );
 }
