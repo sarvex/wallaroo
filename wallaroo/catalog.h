@@ -99,11 +99,12 @@ inline void PlugShell::Into( DeviceShell destination )
 }
 
 
-// ###
-class Context; // forward declaration
+// forward declarations:
+class Context;
+class UseAsExpression;
+class UseExpression;
 
 } // namespace detail
-
 
 /**
  * Catalog of the devices available for the application.
@@ -193,20 +194,18 @@ public:
         Add( id, obj );
     }
 
-    ////////// ###
-    static Catalog*& GetCurrent()
-    {
-        static Catalog* current = NULL;
-        return current;
-    }
 private:
     typedef std::map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
-    // ###
+
     friend class detail::Context;
-    static void SetCurrent( Catalog* c )
+    friend class detail::UseAsExpression;
+    friend detail::UseExpression use( const std::string& destClass );
+
+    static Catalog*& Current()
     {
-        GetCurrent() = c;
+        static Catalog* current = NULL;
+        return current;
     }
 };
 
@@ -235,7 +234,7 @@ public:
     void of ( const std::string& srcClass )
     {
         // default container case
-        Catalog* current = Catalog::GetCurrent();
+        Catalog* current = Catalog::Current();
         if ( ! current ) throw CatalogNotSpecified();
         of( ( *current )[ srcClass ] );
     }
@@ -273,7 +272,7 @@ inline detail::UseExpression use( const detail::DeviceShell& destClass )
 inline detail::UseExpression use( const std::string& destClass )
 {
     // default container case
-    Catalog* current = Catalog::GetCurrent();
+    Catalog* current = Catalog::Current();
     if ( ! current ) throw CatalogNotSpecified();
     return use( ( *current )[ destClass ] );
 }
@@ -289,12 +288,12 @@ public:
     Context( Catalog& c ) :
       firstTime( true )
     {
-        previous = Catalog::GetCurrent();
-        Catalog::SetCurrent( &c );
+        previous = Catalog::Current();
+        Catalog::Current() = &c;
     }
     ~Context()
     {
-        Catalog::SetCurrent( previous );
+        Catalog::Current() = previous;
     }
     bool FirstTime()
     {
