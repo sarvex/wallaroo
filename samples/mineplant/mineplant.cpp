@@ -25,20 +25,20 @@
 #include "sumppump.h"
 #include "gasalarm.h"
 
-// Define to compile a wiring without the check of the gas
-// #define NO_GAS_CHECK
+// Define to compile a wiring with the check of the gas
+#define GAS_CHECK
 
 MinePlant::MinePlant()
 {
+    // object creation:
+
     catalog.Create( "lowLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 0u );
     catalog.Create( "highLevelInput", "ConstDigitalInput", std::string( "/dev/lpt1" ), 1u );
     catalog.Create( "lowSensor", "LevelSensor" );
     catalog.Create( "highSensor", "LevelSensor" );
     catalog.Create( "probe", "TwoLevelSumpProbe" );
     catalog.Create( "output", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 0u );
-#ifdef NO_GAS_CHECK
-    catalog.Create( "engine", "PumpEngine" );
-#else
+#ifdef GAS_CHECK
     catalog.Create( "engine", "SafeEngine" );
     catalog.Create( "airFlowSensor", "ThresholdGasSensor", 5u );
     catalog.Create( "COSensor", "ThresholdGasSensor", 25u );
@@ -49,39 +49,42 @@ MinePlant::MinePlant()
     catalog.Create( "alarmOutput", "ConsoleDigitalOutput", std::string( "/dev/lpt2" ), 1u );
     catalog.Create( "gasAlarm", "GasAlarm" );
     catalog.Create( "alarm", "Alarm" );
+#else
+    catalog.Create( "engine", "PumpEngine" );
 #endif
     catalog.Create( "pump", "SumpPump" );
 
-    catalog[ "lowSensor" ].Plug( "input" ).Into( catalog[ "lowLevelInput" ] );
-    catalog[ "highSensor" ].Plug( "input" ).Into( catalog[ "highLevelInput" ] );
+    // object wiring:
 
-    catalog[ "probe" ].Plug( "lowSensor" ).Into( catalog[ "lowSensor" ] );
-    catalog[ "probe" ].Plug( "highSensor" ).Into( catalog[ "highSensor" ] );
+    wallaroo_within( catalog )
+    {
+        use( "lowLevelInput" ).as( "input" ).of( "lowSensor" );
+        use( "highLevelInput" ).as( "input" ).of( "highSensor" );
 
-    catalog[ "engine" ].Plug( "output" ).Into( catalog[ "output" ] );
+        use( "lowSensor" ).as( "lowSensor" ).of( "probe" );
+        use( "highSensor" ).as( "highSensor" ).of( "probe" );
 
-#ifndef NO_GAS_CHECK
-    catalog[ "airFlowSensor" ].Plug( "input" ).Into( catalog[ "airFlowInput" ] );
-    catalog[ "COSensor" ].Plug( "input" ).Into( catalog[ "COInput" ] );
-    catalog[ "methaneSensor" ].Plug( "input" ).Into( catalog[ "methaneInput" ] );
+        use( "output" ).as( "output" ).of( "engine" );
 
-    catalog[ "engine" ].Plug( "sensor" ).Into( catalog[ "methaneSensor" ] );
+#ifdef GAS_CHECK
+        use( "airFlowInput" ).as( "input" ).of( "airFlowSensor" );
+        use( "COInput" ).as( "input" ).of( "COSensor" );
+        use( "methaneInput" ).as( "input" ).of( "methaneSensor" );
 
-	catalog[ "alarm" ].Plug( "output" ).Into( catalog[ "alarmOutput" ] );
+        use( "methaneSensor" ).as( "sensor" ).of( "engine" );
 
-    catalog[ "gasAlarm" ].Plug( "sensors" ).Into( catalog[ "airFlowSensor" ] );
-    catalog[ "gasAlarm" ].Plug( "sensors" ).Into( catalog[ "COSensor" ] );
-    catalog[ "gasAlarm" ].Plug( "sensors" ).Into( catalog[ "methaneSensor" ] );
+        use( "alarmOutput" ).as( "output" ).of( "alarm" );
 
-    catalog[ "gasAlarm" ].Plug( "alarm" ).Into( catalog[ "alarm" ] );
+        use( "airFlowSensor" ).as( "sensors" ).of( "gasAlarm" );
+        use( "COSensor" ).as( "sensors" ).of( "gasAlarm" );
+        use( "methaneSensor" ).as( "sensors" ).of( "gasAlarm" );
+
+        use( "alarm" ).as( "alarm" ).of( "gasAlarm" );
 #endif
 
-    catalog[ "pump" ].Plug( "probe" ).Into( catalog[ "probe" ] );
-#if 1 // correct
-    catalog[ "pump" ].Plug( "engine" ).Into( catalog[ "engine" ] );
-#else // bad type
-    catalog[ "pump" ].Plug( "engine" ).Into( catalog[ "probe" ] );
-#endif
+        use( "probe" ).as( "probe" ).of( "pump" );
+        use( "engine" ).as( "engine" ).of( "pump" );
+    }
 }
 
 void MinePlant::Run()
@@ -89,15 +92,10 @@ void MinePlant::Run()
     boost::shared_ptr< SumpPump > pump = catalog[ "pump" ];
     boost::shared_ptr< GasAlarm > gasAlarm = catalog[ "gasAlarm" ];
 
-#if 0 // throws an exception (the catalog does not contain a "not_found" item)
-    boost::shared_ptr< SumpPump > p = catalog[ "not_found" ];
-    assert( p == pump );
-#endif
-
     while ( true )
 	{
         pump -> Drain();
-#ifndef NO_GAS_CHECK
+#ifdef GAS_CHECK
 		gasAlarm -> Watch();
 #endif
 	}

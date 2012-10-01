@@ -40,10 +40,10 @@ int main( int argc, char* argv[] )
     catalog.Create( "a", "B" );
 
     // You can wire the objects.
-    catalog[ "a" ].Plug( "x" ).Into( catalog[ "c" ] );     // this means a.x = c
+    use( catalog[ "c" ] ).as( "x" ).of( catalog[ "a" ] ); // this means a.x = c
     // You can also wire lists.
-    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c1" ] ); // this means a.xList.push_back( c1 )
-    catalog[ "a" ].Plug( "xList" ).Into( catalog[ "c2" ] ); // this means a.xList.push_back( c2 )
+    use( catalog[ "c1" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c1 )
+    use( catalog[ "c2" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c2 )
 
     // You can retrieve an object from the catalog using
     // the operator [].

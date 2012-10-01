@@ -70,7 +70,7 @@ int main( int argc, char* argv[] )
     c -> G();
     i -> F();
 
-    // Wait for exit acknowledge
+    // Wait for exit
     std::cout << "Press Enter to end the program." << std::endl;
     std::cin.get();
 
