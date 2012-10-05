@@ -34,26 +34,28 @@
     #define WALLAROO_HAS_CXX0X
 #endif
 
-// if the compiler defines nullptr_t, it's C++11 compliant
+// if the compiler defines nullptr_t, it's C++11 compliant (is it true?)
 #if defined(nullptr_t)
     #define WALLAROO_HAS_CXX0X
 #endif
 
-// visual studio > 2010
+// visual studio >= 2010
 #if defined(_MSC_VER) && (_MSC_VER >= 1600)
     #define WALLAROO_HAS_CXX0X
 #endif
 
-
+// explicit use of boost
 #ifdef WALLAROO_FORCE_USE_BOOST
     #undef WALLAROO_HAS_CXX0X
 #endif
 
+// explicit use of C++0x
 #ifdef WALLAROO_FORCE_USE_STD
     #define WALLAROO_HAS_CXX0X
 #endif
 
 
+// using the right headers and namespace
 #ifdef WALLAROO_HAS_CXX0X
     #include <memory>
     namespace cxx0x = std;

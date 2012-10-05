@@ -132,7 +132,7 @@ public:
 
     /** Add a device to the catalog
     * @param id the name of the device to add
-    * @param device the device to add
+    * @param dev the device to add
     * @throw DuplicatedElement if a device with the name @c id is already in the catalog
     */
     void Add( const std::string& id, cxx0x::shared_ptr< Device > dev )
@@ -165,7 +165,7 @@ public:
     /** Instantiate a class with a 1 parameters constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
-    * @param p1 The parameter of the class constructor
+    * @param p The parameter of the class constructor
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
@@ -209,12 +209,13 @@ private:
     }
 };
 
-////////////////////////////////////////////////////////////////////////
-// new DSL
+// begin new DSL
 
 namespace detail
 {
 
+// this is a helper class that provides the result of the use().as() function
+// useful to concatenate use().as() with of().
 class UseAsExpression
 {
 public:
@@ -228,9 +229,7 @@ public:
         // perform the final assignment:
         srcClass.Plug( attribute ).Into( destClass );
     }
-    /*
-    * @throw CatalogNotSpecified if the current catalog has not been selected with @c wallaroo_within
-    */
+    // throw CatalogNotSpecified if the current catalog has not been selected with wallaroo_within
     void of ( const std::string& srcClass )
     {
         // default container case
@@ -243,6 +242,8 @@ private:
     std::string attribute;
 };
 
+// this is a helper class that provides the result of the use() function
+// useful to concatenate use() with as().
 class UseExpression
 {
 public:
@@ -260,15 +261,21 @@ private:
 
 } // namespace detail
 
+
+/**
+ * This function provides the "use" part in the syntax 
+ * @c use( catalog[ "device1" ] ).as( "plug" ).of( catalog[ "device2" ] )
+ */
 inline detail::UseExpression use( const detail::DeviceShell& destClass )
 {
     return detail::UseExpression( destClass );
 }
 
-/*
-* @throw CatalogNotSpecified if the current catalog has not been selected including
-* this function in a wallaroo_within section
-*/
+/**
+ * This function provides the "use" part in the syntax @c use( "device1" ).as( "plug" ).of( "device2" )
+ * @throw CatalogNotSpecified if the current catalog has not been selected including
+ * this function in a wallaroo_within section
+ */
 inline detail::UseExpression use( const std::string& destClass )
 {
     // default container case
@@ -277,11 +284,11 @@ inline detail::UseExpression use( const std::string& destClass )
     return use( ( *current )[ destClass ] );
 }
 
-////////////////////////////////////////////////////////////////////////
-
 namespace detail
 {
 
+// Helper class that changes the current catalog on the ctor and
+// restores the previous on the dtor
 class Context
 {
 public:
@@ -310,6 +317,29 @@ private:
 
 } // namespace detail
 
+/**
+ * This preamble creates a scope in which every statement @c use().as().of() will use
+ * the catalog @c C withouth the need to specify it every time.
+ * So, this code:
+ * @code{.cpp}
+ * Catalog myCatalog;
+ * ...
+ * wallaroo_within( myCatalog )
+ * {
+ *     use( "f136e" ).as( "engine" ).of( "ferrari_f430" );
+ *     use( "m139p" ).as( "engine" ).of( "maserati_granturismo" );
+ * }
+ * @endcode
+ * is equivalent to:
+ * @code{.cpp}
+ * Catalog myCatalog;
+ * ...
+ * use( myCatalog[ "f136e" ] ).as( "engine" ).of( myCatalog[ "ferrari_f430" ] );
+ * use( myCatalog[ "m139p" ] ).as( "engine" ).of( myCatalog[ "maserati_granturismo" ] );
+ * @endcode
+ *
+ * @hideinitializer
+ */
 #define wallaroo_within( C ) \
     for ( wallaroo::detail::Context context( C ); context.FirstTime(); context.Terminate() )
 

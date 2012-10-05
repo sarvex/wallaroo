@@ -45,11 +45,12 @@ int main( int argc, char* argv[] )
     catalog.Create( "derived2", "Derived" );
 
     // You can wire the objects.
-    // old syntax (deprecated):
-    catalog[ "c" ].Plug( "x" ).Into( catalog[ "base1" ] );     // this means c.x = base1
-    // preferred syntax (the catalog is specified)
+    
+    // the catalog is specified every time:
+    use( catalog[ "base1" ] ).as( "x" ).of( catalog[ "c" ] ); // this means c.x = base1
     use( catalog[ "base2" ] ).as( "x" ).of( catalog[ "c1" ] ) ; // this means c1.x = base2
-    // preferred syntax (the catalog is specified once)
+
+    // the catalog is specified only once:
     wallaroo_within( catalog )
     {
         use( "derived1" ).as( "x" ).of( "c2" );  // this means c2.x = derived1

@@ -51,6 +51,7 @@ wallaroo\ ....................................The “wallaroo root directory”
       mineplant\ ..........The "originating" example from Carlo Pescio blog
       minimal\..............................................A basic example
       xmlfile\...................................Usage of a xml wiring file
+      cpp0x\........................This example use C++0x instead of boost
       ...more samples...
-   test\ ................................... Automatic tests of the library
+   test\ ......... Automatic tests of the library (for wallaroo developers)
    doc\ ..................................A subset of Wallaroo library docs

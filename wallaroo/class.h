@@ -32,8 +32,10 @@
 namespace wallaroo
 {
 
+/// @cond DONTDOCUMENT
 template < class I, class P1, class P2 > class Registry;
 template < class I, class P1, class P2 > class RegEntry;
+/// @endcond
 
 /** It describes a class with a constructor that takes
 * two parameters of type @c P1 and @c P2 and implements
@@ -295,20 +297,22 @@ class RegEntry
 } // namespace
 
 /** This macro must be used in your header file for declaring a class that will be 
-* automatically registered and thus retrieved throug the method @c Class::ForName( C ).
-* @param C The class name
-* @param P1 The type of the first parameter of the class constructor (possibly void)
-* @param P2 The type of the second parameter of the class constructor (possibly void)
-*/
+ * automatically registered and thus retrieved throug the method @c Class::ForName( C ).
+ * @param C The class name
+ * @param P1 The type of the first parameter of the class constructor (possibly void)
+ * @param P2 The type of the second parameter of the class constructor (possibly void)
+ * @hideinitializer
+ */
 #define REGISTER( C, P1, P2 ) \
     static const RegEntry< Device, P1, P2 > C##r( #C, &Registered<C,Device,P1,P2>::NewInstance ) ;
 
 /** This macro must be used in your implementation file for defining a class that will be
-* automatically registered and thus retrieved throug the method @c Class::ForName( C ).
-* @param C The class name
-* @param P1 The type of the first parameter of the class constructor (possibly void)
-* @param P2 The type of the second parameter of the class constructor (possibly void)
-*/
+ * automatically registered and thus retrieved throug the method @c Class::ForName( C ).
+ * @param C The class name
+ * @param P1 The type of the first parameter of the class constructor (possibly void)
+ * @param P2 The type of the second parameter of the class constructor (possibly void)
+ * @hideinitializer
+ */
 #define REGISTERED_CLASS( C, P1, P2 ) \
     class C : public Registered< C, Device, P1, P2 >
 

@@ -30,6 +30,9 @@
 /samples/xmlfile/Debug
 /samples/xmlfile/Release
 /samples/xmlfile/xmlfile
+/samples/cpp0x/Debug
+/samples/cpp0x/Release
+/samples/cpp0x/cpp0x
 
 # Others
 *.idb

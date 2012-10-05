@@ -34,8 +34,14 @@
 namespace wallaroo
 {
 
+/// This type should be used as second template parameter in Plug class to specify the Plug is optional
+/// (i.e.: you can omit to wire a device to the plug)
 class optional {};
+/// This type should be used as second template parameter in Plug class to specify the Plug is mandatory
+/// (i.e.: you cannot omit to wire a device to the plug)
 class mandatory {};
+/// This type should be used as second template parameter in Plug class to specify the Plug is a collection
+/// (i.e.: you can wire many device to the plug)
 class collection {};
 
 /**
@@ -44,6 +50,12 @@ class collection {};
  *
  * If the device1 has the plug1 plugged to device2, device1 will
  * basically get a pointer to device2.
+ *
+ * @tparam T The type of the Device contained
+ * @tparam P This represents the kind of Plug (@ref mandatory if you must wire a device,
+ *           @ref optional if you can leave this plug unwired, 
+ *           @ref collection if you can wire many devices to this plug)
+ * @tparam Container If P = @ref collection, this represents the std container the Plug will derive from.
  */
 template < 
     typename T,
@@ -106,6 +118,7 @@ private:
 };
 
 
+// partial specialization for the collection case
 template <
     typename T,
     template < typename E, typename Allocator = std::allocator< E > > class Container
@@ -139,6 +152,11 @@ public:
 
 
 // DEPRECATED: Backward compatibility only
+
+/**
+ * @deprecated
+ * Backward compatibility only: use Plug< T, collection > instead.
+ */
 template < class T >
 class MultiplePlug : public Plug< T, collection >
 {
@@ -147,6 +165,7 @@ public:
         Plug< T, collection >( name, owner )
     {}
 };
+
 // end DEPRECATED
 
 
