@@ -39,11 +39,14 @@ int main( int argc, char* argv[] )
     catalog.Create( "c2", "C" );
     catalog.Create( "a", "B" );
 
-    // You can wire the objects.
-    use( catalog[ "c" ] ).as( "x" ).of( catalog[ "a" ] ); // this means a.x = c
-    // You can also wire lists.
-    use( catalog[ "c1" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c1 )
-    use( catalog[ "c2" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c2 )
+    wallaroo_within( catalog )
+    {
+        // You can wire the objects.
+        use( "c" ).as( "x" ).of( "a" ); // this means a.x = c
+        // You can also wire lists.
+        use( "c1" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c1 )
+        use( "c2" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c2 )
+    }
 
     // You can retrieve an object from the catalog using
     // the operator [].
