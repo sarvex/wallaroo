@@ -196,27 +196,50 @@ public:
 
     /** Check if the plugs wiring of the objects inside the container
     * is correct based on the multiplicity declared in the plug definition.
+    * @return false if the wiring does not match with the multiplicity declared.
+    */
+    bool IsWiringOk() const
+    {
+        return FindWrongMultiplicity().empty();
+    }
+
+    /** Check if the plugs wiring of the objects inside the container
+    * is correct based on the multiplicity declared in the plug definition.
     * @throw WiringError if the wiring does not match with the multiplicity declared.
     */
     void CheckWiring() const
     {
-        for( 
+        const std::string wrongDevice = FindWrongMultiplicity();
+        if ( !wrongDevice.empty() )
+            throw WiringError( wrongDevice );
+    }
+
+private:
+
+    // returns the name of the first devices with wrong multiplicity
+    // or the empty string if the test has success
+    std::string FindWrongMultiplicity() const
+    {
+        for(
             Devices::const_iterator i = devices.begin();
             i != devices.end();
             ++i )
         {
             if ( ! i -> second -> MultiplicitiesOk() )
-                throw WiringError( i -> first );
+                return( i -> first );
         }
+        return std::string();
     }
 
-private:
     typedef std::map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
 
     friend class detail::Context;
     friend class detail::UseAsExpression;
     friend detail::UseExpression use( const std::string& destClass );
+    friend bool IsWiringOk();
+    friend void CheckWiring();
+
 
     static Catalog*& Current()
     {
@@ -299,6 +322,36 @@ inline detail::UseExpression use( const std::string& destClass )
     if ( ! current ) throw CatalogNotSpecified();
     return use( ( *current )[ destClass ] );
 }
+
+
+/** Check if the plugs wiring of the objects inside the container
+ * is correct based on the multiplicity declared in the plug definition.
+ * @return false if the wiring does not match with the multiplicity declared.
+ * @throw CatalogNotSpecified if the current catalog has not been selected including
+ * this function in a wallaroo_within section
+ */
+inline bool IsWiringOk()
+{
+    // default container case
+    Catalog* current = Catalog::Current();
+    if ( ! current ) throw CatalogNotSpecified();
+    return current -> IsWiringOk();
+}
+
+/** Check if the plugs wiring of the objects inside the container
+ * is correct based on the multiplicity declared in the plug definition.
+ * @throw WiringError if the wiring does not match with the multiplicity declared.
+ * @throw CatalogNotSpecified if the current catalog has not been selected including
+ * this function in a wallaroo_within section
+ */
+inline void CheckWiring()
+{
+    // default container case
+    Catalog* current = Catalog::Current();
+    if ( ! current ) throw CatalogNotSpecified();
+    current -> CheckWiring();
+}
+
 
 namespace detail
 {
