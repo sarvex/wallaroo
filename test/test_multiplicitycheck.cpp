@@ -34,7 +34,6 @@ using namespace cxx0x;
 REGISTERED_CLASS( A3, void, void ), public Device
 {
 public:
-    virtual int F() { return 5; }
     virtual ~A3() {}
 };
 
@@ -43,7 +42,6 @@ REGISTER( A3, void, void )
 REGISTERED_CLASS( B3, void, void ), public Device
 {
 public:
-    virtual int F() { return 10; }
     B3() : 
         mandatoryAttribute( "mandatoryAttribute", this ),
         optionalAttribute( "optionalAttribute", this ),
@@ -57,6 +55,23 @@ private:
 };
 
 REGISTER( B3, void, void )
+
+REGISTERED_CLASS( C3, void, void ), public Device
+{
+public:
+    C3() :
+        collectionAttribute1( "collectionAttribute1", this ),
+        collectionAttribute13( "collectionAttribute13", this ),
+        collectionAttribute33( "collectionAttribute33", this )
+    {}
+    virtual ~C3() {}
+private:
+    Plug< A3, bounded_collection< 1 > > collectionAttribute1;
+    Plug< A3, bounded_collection< 1, 3 > > collectionAttribute13;
+    Plug< A3, bounded_collection< 3, 3 > > collectionAttribute33;
+};
+
+REGISTER( C3, void, void )
 
 
 // tests
@@ -128,5 +143,113 @@ BOOST_AUTO_TEST_CASE( checkKo )
     BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );
 }
 
+
+BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityOk )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c", "C3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "c" ] );
+
+    wallaroo_within( catalog )
+    {
+        // 1 in [1,+inf)
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute1" ).of( "c" ) );
+
+        // 2 in [1,3]
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+
+        // 3 in [3,3]
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+    }
+
+    BOOST_REQUIRE_NO_THROW( catalog.CheckWiring() );
+}
+
+BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityKo1 )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c", "C3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "c" ] );
+
+    wallaroo_within( catalog )
+    {
+        // 0 not in [1,+inf)
+        // BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute1" ).of( "c" ) );
+
+        // 2 in [1,3]
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+
+        // 3 in [3,3]
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+    }
+
+    BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );
+}
+
+BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityKo2 )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c", "C3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "c" ] );
+
+    wallaroo_within( catalog )
+    {
+        // 1 in [1,+inf)
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute1" ).of( "c" ) );
+
+        // 4 not in [1,3]
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+
+        // 3 in [3,3]
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+    }
+
+    BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );
+}
+
+BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityKo3 )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c", "C3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "c" ] );
+
+    wallaroo_within( catalog )
+    {
+        // 1 in [1,+inf)
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute1" ).of( "c" ) );
+
+        // 2 in [1,3]
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute13" ).of( "c" ) );
+
+        // 1 not in [3,3]
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
+    }
+
+    BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );
+}
 
 BOOST_AUTO_TEST_SUITE_END()
