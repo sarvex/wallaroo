@@ -36,10 +36,18 @@ namespace wallaroo
 
 /// This type should be used as second template parameter in Plug class to specify the Plug is optional
 /// (i.e.: you can omit to wire a device to the plug)
-class optional {};
+struct optional
+{
+    template < typename T >
+    static bool WiringOk( cxx0x::weak_ptr< T > ) { return true; }
+};
 /// This type should be used as second template parameter in Plug class to specify the Plug is mandatory
 /// (i.e.: you cannot omit to wire a device to the plug)
-class mandatory {};
+struct mandatory
+{
+    template < typename T >
+    static bool WiringOk( cxx0x::weak_ptr< T > t ) { return t.lock(); }
+};
 /// This type should be used as second template parameter in Plug class to specify the Plug is a collection
 /// (i.e.: you can wire many device to the plug)
 class collection {};
@@ -113,6 +121,15 @@ public:
         return result;
     }
 
+   /** Check if this Plug is correctly wired according to the
+    * P template parameter policy.
+    * @return true If the check pass.
+    */
+    virtual bool WiringOk() const
+    {
+        return P::WiringOk( device );
+    }
+
 private:
     WeakPtr device;
 };
@@ -148,6 +165,15 @@ public:
             push_back( obj );
     }
 
+
+    /** Check if this Plug is correctly wired. By definition,
+    * a collection is always valid for each size of the container.
+    * @return true If the check pass.
+    */
+    virtual bool WiringOk() const
+    {
+        return true; // TODO
+    }
 };
 
 

@@ -169,6 +169,28 @@ public:
     }
 };
 
+/** Error indicating that a plug has not been wired correctly.
+*   Derives from WallarooError.
+*/
+class WiringError : public WallarooError
+{
+public:
+    /// Instantiate a WiringError
+    WiringError( const std::string& _element ) :
+        WallarooError( _element  + " wiring error" ),
+        element( _element )
+    {
+    }
+    ~WiringError() throw()
+    {
+    }
+    const std::string& Element() const
+    {
+        return element;
+    }
+private:
+    const std::string element;
+};
 
 } // namespace
 

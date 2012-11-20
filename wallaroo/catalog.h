@@ -194,6 +194,22 @@ public:
         Add( id, obj );
     }
 
+    /** Check if the plugs wiring of the objects inside the container
+    * is correct based on the multiplicity declared in the plug definition.
+    * @throw WiringError if the wiring does not match with the multiplicity declared.
+    */
+    void CheckWiring() const
+    {
+        for( 
+            Devices::const_iterator i = devices.begin();
+            i != devices.end();
+            ++i )
+        {
+            if ( ! i -> second -> MultiplicitiesOk() )
+                throw WiringError( i -> first );
+        }
+    }
+
 private:
     typedef std::map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
