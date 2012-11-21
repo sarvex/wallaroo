@@ -194,13 +194,52 @@ public:
         Add( id, obj );
     }
 
+    /** Check if the plugs wiring of the objects inside the container
+    * is correct based on the multiplicity declared in the plug definition.
+    * @return false if the wiring does not match with the multiplicity declared.
+    */
+    bool IsWiringOk() const
+    {
+        return FindWrongMultiplicity().empty();
+    }
+
+    /** Check if the plugs wiring of the objects inside the container
+    * is correct based on the multiplicity declared in the plug definition.
+    * @throw WiringError if the wiring does not match with the multiplicity declared.
+    */
+    void CheckWiring() const
+    {
+        const std::string wrongDevice = FindWrongMultiplicity();
+        if ( !wrongDevice.empty() )
+            throw WiringError( wrongDevice );
+    }
+
 private:
+
+    // returns the name of the first devices with wrong multiplicity
+    // or the empty string if the test has success
+    std::string FindWrongMultiplicity() const
+    {
+        for(
+            Devices::const_iterator i = devices.begin();
+            i != devices.end();
+            ++i )
+        {
+            if ( ! i -> second -> MultiplicitiesOk() )
+                return( i -> first );
+        }
+        return std::string();
+    }
+
     typedef std::map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
 
     friend class detail::Context;
     friend class detail::UseAsExpression;
     friend detail::UseExpression use( const std::string& destClass );
+    friend bool IsWiringOk();
+    friend void CheckWiring();
+
 
     static Catalog*& Current()
     {

@@ -33,6 +33,9 @@
 /samples/cpp0x/Debug
 /samples/cpp0x/Release
 /samples/cpp0x/cpp0x
+Debug
+Release
+/doc/html
 
 # Others
 *.idb

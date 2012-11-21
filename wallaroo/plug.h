@@ -36,13 +36,32 @@ namespace wallaroo
 
 /// This type should be used as second template parameter in Plug class to specify the Plug is optional
 /// (i.e.: you can omit to wire a device to the plug)
-class optional {};
+struct optional
+{
+    template < typename T >
+    static bool WiringOk( cxx0x::weak_ptr< T > ) { return true; }
+};
 /// This type should be used as second template parameter in Plug class to specify the Plug is mandatory
 /// (i.e.: you cannot omit to wire a device to the plug)
-class mandatory {};
+struct mandatory
+{
+    template < typename T >
+    static bool WiringOk( cxx0x::weak_ptr< T > t ) { return t.lock(); }
+};
 /// This type should be used as second template parameter in Plug class to specify the Plug is a collection
 /// (i.e.: you can wire many device to the plug)
-class collection {};
+template < size_t MIN = 0, size_t MAX = 0 >
+struct bounded_collection
+{
+    template < typename T >
+    static bool WiringOk( const T* t )
+    {
+        const size_t s = t -> size();
+        return ( s >= MIN && ( MAX == 0 || s <= MAX ) );
+    }
+};
+
+typedef bounded_collection<> collection;
 
 /**
  * This represents a "plug" of a "device" that
@@ -113,6 +132,15 @@ public:
         return result;
     }
 
+   /** Check if this Plug is correctly wired according to the
+    * P template parameter policy.
+    * @return true If the check pass.
+    */
+    virtual bool WiringOk() const
+    {
+        return P::WiringOk( device );
+    }
+
 private:
     WeakPtr device;
 };
@@ -121,9 +149,11 @@ private:
 // partial specialization for the collection case
 template <
     typename T,
-    template < typename E, typename Allocator = std::allocator< E > > class Container
+    template < typename E, typename Allocator = std::allocator< E > > class Container,
+    size_t MIN,
+    size_t MAX
 >
-class Plug< T, collection, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
+class Plug< T, bounded_collection< MIN, MAX >, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
 {
 public:
     /** Create a Plug and register it to its device for future wiring.
@@ -148,6 +178,15 @@ public:
             push_back( obj );
     }
 
+
+    /** Check if this Plug is correctly wired (i.e. the size of the collection
+    * must be comprise in the interval [MIN, MAX])
+    * @return true If the check pass.
+    */
+    virtual bool WiringOk() const
+    {
+        return bounded_collection< MIN, MAX >::WiringOk( this );
+    }
 };
 
 

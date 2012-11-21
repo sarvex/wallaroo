@@ -58,6 +58,21 @@ public:
         connectors[ id ] = plug;
     }
 
+   /** Check the multiplicity of its plugs.
+    * @return true if the check pass
+    */
+    bool MultiplicitiesOk() const
+    {
+        for ( 
+            Connectors::const_iterator i = connectors.begin();
+            i != connectors.end();
+            ++i
+        )
+            if ( ! i -> second -> WiringOk() )
+                return false;
+        return true;
+    }
+
     virtual ~Device() {}
 
 private:
