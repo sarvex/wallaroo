@@ -60,6 +60,9 @@ int main( int argc, char* argv[] )
         use( "derived2" ).as( "xList" ).of( "c" ); // this means c.xList.push_back( derived2 )
     }
 
+    // check if all plugs are wired
+    assert( catalog.IsWiringOk() );
+
     // You can retrieve an object from the catalog using
     // the operator [].
     // The catalog has the ownership of the objects contained

@@ -47,6 +47,9 @@ int main( int argc, char* argv[] )
         use( "c1" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c1 )
         use( "c2" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c2 )
     }
+    
+    // check if all plugs are wired
+    assert( catalog.IsWiringOk() );
 
     // You can retrieve an object from the catalog using
     // the operator [].
