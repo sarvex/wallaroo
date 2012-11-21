@@ -58,10 +58,12 @@
 // using the right headers and namespace
 #ifdef WALLAROO_HAS_CXX0X
     #include <memory>
+    #include <type_traits>
     namespace cxx0x = std;
 #else
     #include <boost/shared_ptr.hpp>
     #include <boost/weak_ptr.hpp>
+    #include <boost/type_traits.hpp>
     namespace cxx0x = boost;
 #endif
 

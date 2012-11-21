@@ -25,6 +25,7 @@
 
 #include "wallaroo/registered.h"
 #include "wallaroo/catalog.h"
+#include "wallaroo/cxx0x.h"
 
 #include <deque>
 #include <vector>
@@ -334,10 +335,17 @@ BOOST_AUTO_TEST_CASE( containersWiring )
     BOOST_CHECK( e -> F() == 60 );
 
     // check at compile time the containers are the right type
-    // (check that the right size derives from the left side)
-    std::deque< cxx0x::weak_ptr< I2 > >* dequePtr = ( Plug< I2, collection, std::deque > * )0;
-    std::list< cxx0x::weak_ptr< I2 > >* listPtr = ( Plug< I2, collection, std::list > * )0;
-    std::vector< cxx0x::weak_ptr< I2 > >* vectorPtr = ( Plug< I2, collection, std::vector > * )0;
-    std::list< cxx0x::weak_ptr< I2 > >* defaultPtr = ( Plug< I2, collection > * )0; // the default is std::list
+
+    using cxx0x::is_base_of;
+    using cxx0x::weak_ptr;
+    using std::deque;
+    using std::vector;
+    using std::list;
+    typedef weak_ptr< I2 > I2Ptr;
+
+    BOOST_STATIC_ASSERT((is_base_of< deque< I2Ptr >, Plug< I2, collection, deque > >::value));
+    BOOST_STATIC_ASSERT((is_base_of< list< I2Ptr >, Plug< I2, collection, list > >::value));
+    BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Plug< I2, collection, vector > >::value));
+    BOOST_STATIC_ASSERT((is_base_of< list< I2Ptr >, Plug< I2, collection > >::value)); // the default is std::list
 }
 BOOST_AUTO_TEST_SUITE_END()
