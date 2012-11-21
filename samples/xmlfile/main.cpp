@@ -36,10 +36,18 @@ int main( int argc, char* argv[] )
         Catalog catalog;
         XmlWiringFile file( "wiring.xml" );
         file.Fill( catalog );
+        
+        // throws a WiringError exception if a plug is missed
+        catalog.CheckWiring();
 
         boost::shared_ptr< A > a = catalog[ "a" ];
 
         a -> F();
+    }
+    catch ( const WiringError& we )
+    {
+        std::cerr << "You forgot to wire a plug in the " 
+                  << we.Element() << " object. Check the xml file." << std::endl;
     }
     catch ( const std::exception& e )
     {

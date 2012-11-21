@@ -85,6 +85,9 @@ MinePlant::MinePlant()
         use( "probe" ).as( "probe" ).of( "pump" );
         use( "engine" ).as( "engine" ).of( "pump" );
     }
+    
+    // check if all plugs are wired
+    assert( catalog.IsWiringOk() );
 }
 
 void MinePlant::Run()
