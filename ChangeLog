@@ -1,3 +1,7 @@
+<date>: Version <next>
+
+        * Check of the associations cardinality / optional associations
+
 2012-10-5: Version 0.2.0
 
         * New syntax for collections: Plug< T, collection, C = std::list >
