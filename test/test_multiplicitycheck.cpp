@@ -98,9 +98,6 @@ BOOST_AUTO_TEST_CASE( checkOk )
         BOOST_REQUIRE_NO_THROW( use( "a1" ).as( "collectionAttribute" ).of( "b" ) );
         BOOST_REQUIRE_NO_THROW( use( "a2" ).as( "collectionAttribute" ).of( "b" ) );
         BOOST_REQUIRE_NO_THROW( use( "a3" ).as( "collectionAttribute" ).of( "b" ) );
-
-        BOOST_REQUIRE_NO_THROW( CheckWiring() );
-        BOOST_REQUIRE( IsWiringOk() );
     }
 
     BOOST_REQUIRE_NO_THROW( catalog.CheckWiring() );
@@ -123,9 +120,6 @@ BOOST_AUTO_TEST_CASE( checkOptional )
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "mandatoryAttribute" ).of( "b1" ) );
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "optionalAttribute" ).of( "b1" ) );
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "mandatoryAttribute" ).of( "b2" ) );
-
-        BOOST_REQUIRE_NO_THROW( CheckWiring() );
-        BOOST_REQUIRE( IsWiringOk() );
     }
 
     BOOST_REQUIRE_NO_THROW( catalog.CheckWiring() );
@@ -146,9 +140,6 @@ BOOST_AUTO_TEST_CASE( checkKo )
     {
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "optionalAttribute" ).of( "b" ) );
         // mandatoryAttribute not wired!
-
-        BOOST_CHECK_THROW( CheckWiring(), WiringError );
-        BOOST_REQUIRE( !IsWiringOk() );
     }
 
     BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );
@@ -178,10 +169,6 @@ BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityOk )
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
-
-
-        BOOST_REQUIRE_NO_THROW( CheckWiring() );
-        BOOST_REQUIRE( IsWiringOk() );
     }
 
     BOOST_REQUIRE_NO_THROW( catalog.CheckWiring() );
@@ -210,10 +197,6 @@ BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityKo1 )
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
-
-
-        BOOST_CHECK_THROW( CheckWiring(), WiringError );
-        BOOST_REQUIRE( !IsWiringOk() );
     }
 
     BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );
@@ -244,10 +227,6 @@ BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityKo2 )
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
-
-
-        BOOST_CHECK_THROW( CheckWiring(), WiringError );
-        BOOST_REQUIRE( !IsWiringOk() );
     }
 
     BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );
@@ -274,10 +253,6 @@ BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityKo3 )
 
         // 1 not in [3,3]
         BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collectionAttribute33" ).of( "c" ) );
-
-
-        BOOST_CHECK_THROW( CheckWiring(), WiringError );
-        BOOST_REQUIRE( !IsWiringOk() );
     }
 
     BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );

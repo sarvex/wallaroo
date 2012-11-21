@@ -323,36 +323,6 @@ inline detail::UseExpression use( const std::string& destClass )
     return use( ( *current )[ destClass ] );
 }
 
-
-/** Check if the plugs wiring of the objects inside the container
- * is correct based on the multiplicity declared in the plug definition.
- * @return false if the wiring does not match with the multiplicity declared.
- * @throw CatalogNotSpecified if the current catalog has not been selected including
- * this function in a wallaroo_within section
- */
-inline bool IsWiringOk()
-{
-    // default container case
-    Catalog* current = Catalog::Current();
-    if ( ! current ) throw CatalogNotSpecified();
-    return current -> IsWiringOk();
-}
-
-/** Check if the plugs wiring of the objects inside the container
- * is correct based on the multiplicity declared in the plug definition.
- * @throw WiringError if the wiring does not match with the multiplicity declared.
- * @throw CatalogNotSpecified if the current catalog has not been selected including
- * this function in a wallaroo_within section
- */
-inline void CheckWiring()
-{
-    // default container case
-    Catalog* current = Catalog::Current();
-    if ( ! current ) throw CatalogNotSpecified();
-    current -> CheckWiring();
-}
-
-
 namespace detail
 {
 
