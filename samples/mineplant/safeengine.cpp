@@ -44,3 +44,4 @@ void SafeEngine::Off()
 SafeEngine::~SafeEngine()
 {
 }
+

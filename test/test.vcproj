@@ -115,10 +115,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				WholeProgramOptimization="true"
+				AdditionalIncludeDirectories="..;$(BOOST)"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -131,9 +133,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalLibraryDirectories="&quot;$(BOOST)\stage\lib&quot;"
 				GenerateDebugInformation="true"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				EntryPointSymbol=""
+				ImportLibrary=""
 				TargetMachine="1"
 			/>
 			<Tool
@@ -156,6 +162,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Auto run test"
+				CommandLine="&quot;$(TargetDir)\$(TargetName).exe&quot; --result_code=no --report_level=short"
 			/>
 		</Configuration>
 	</Configurations>
@@ -189,6 +197,42 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\wallaroo\catalog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\class.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\connector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\cxx0x.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\device.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\exceptions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\plug.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\registered.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\xmlwiringfile.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

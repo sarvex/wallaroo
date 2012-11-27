@@ -178,7 +178,7 @@ private:
         const std::string dest = v.get< std::string >( "dest" );
         const std::string role = v.get< std::string >( "role" );
 
-        catalog[ source ].Plug( role ).Into( catalog[ dest ] );
+        use( catalog[ dest ] ).as( role ).of( catalog[ source ] );
     }
 
     ptree tree;

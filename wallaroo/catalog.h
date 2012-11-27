@@ -37,29 +37,10 @@ namespace wallaroo
 namespace detail
 {
 
-class DeviceShell; // forward declaration
 
-// This is a service class that provides the "Into" part in the syntax:
-//   catalog[ "source" ].Plug( "plug" ).Into( catalog[ "destination" ] );
-// In particular, the method DeviceShell::Plug returns a PlugShell
-// that contains the references to the "source" device and its "plug".
-class PlugShell
-{
-public:
-    PlugShell( cxx0x::shared_ptr< Device > dev, const std::string& plug ) :
-        device( dev ),
-        plugName( plug )
-    {}
-    void Into( DeviceShell destination );
-private:
-    cxx0x::shared_ptr< Device > device;
-    const std::string plugName;
-};
-
-// This is a service class that provides the "Plug" part in the syntax:
-//   catalog[ "source" ].Plug( "plug" ).Into( catalog[ "destination" ] );
+// This class provides the conversion operator to the contained type.
 // In particular, the Catalog::operator[] returns a DeviceShell
-// that contains the reference to the "source" device.
+// that can be converted to the inner type.
 class DeviceShell
 {
 public:
@@ -70,9 +51,9 @@ public:
         assert( device );
     }
 
-    PlugShell Plug( const std::string& plugName ) const
+    void Wire( const std::string& plugName, const DeviceShell& destination ) const
     {
-        return PlugShell( device, plugName );
+        device -> Wire( plugName, destination.device );
     }
 
     /** Convert the contained device to the type T
@@ -88,16 +69,8 @@ public:
     }
 
 private:
-    friend class PlugShell;
     cxx0x::shared_ptr< Device > device;
 };
-
-
-inline void PlugShell::Into( DeviceShell destination )
-{
-    device -> Wire( plugName, destination.device );
-}
-
 
 // forward declarations:
 class Context;
@@ -266,7 +239,7 @@ public:
     void of( const detail::DeviceShell& srcClass )
     {
         // perform the final assignment:
-        srcClass.Plug( attribute ).Into( destClass );
+        srcClass.Wire( attribute, destClass );
     }
     // throw CatalogNotSpecified if the current catalog has not been selected with wallaroo_within
     void of ( const std::string& srcClass )

@@ -49,7 +49,8 @@ struct mandatory
     static bool WiringOk( cxx0x::weak_ptr< T > t ) { return t.lock(); }
 };
 /// This type should be used as second template parameter in Plug class to specify the Plug is a collection
-/// (i.e.: you can wire many device to the plug)
+/// and you can wire to the plug a number of devices greater or equal to @c MIN
+/// and lesser or equal to @c MAX
 template < size_t MIN = 0, size_t MAX = 0 >
 struct bounded_collection
 {
@@ -60,7 +61,8 @@ struct bounded_collection
         return ( s >= MIN && ( MAX == 0 || s <= MAX ) );
     }
 };
-
+/// This type should be used as second template parameter in Plug class to specify the Plug is a collection
+/// and you can wire as many device to the plug as you want. Even zero.
 typedef bounded_collection<> collection;
 
 /**
@@ -189,28 +191,6 @@ public:
     }
 };
 
-
-// DEPRECATED: Backward compatibility only
-
-/**
- * @deprecated
- * Backward compatibility only: use Plug< T, collection > instead.
- */
-template < class T >
-class MultiplePlug : public Plug< T, collection >
-{
-public:
-    MultiplePlug( const std::string& name, Device* owner ) :
-        Plug< T, collection >( name, owner )
-    {}
-};
-
-// end DEPRECATED
-
-
 }
-
-
-
 
 #endif

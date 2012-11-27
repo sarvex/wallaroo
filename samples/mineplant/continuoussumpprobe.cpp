@@ -45,3 +45,4 @@ bool ContinuousSumpProbe::MustDrain()
 ContinuousSumpProbe::~ContinuousSumpProbe()
 {
 }
+
