@@ -33,6 +33,16 @@
 namespace wallaroo
 {
 
+class PK
+{
+public:
+    Device* GetDevice() { return device; }
+private:
+    friend Device;
+    PK( Device* d ) : device( d ) {}
+    Device* device;
+};
+
 /**
  * This represents a "device" that owns connectors.
  * You can plug his connectors to other devices using the method @c Wire.
@@ -76,9 +86,9 @@ public:
     virtual ~Device() {}
 
 protected:
-    Device* Self()
+    PK Self()
     { 
-        return this;
+        return PK( this );
     }
 private:
     typedef std::map< std::string, Connector* > Connectors;

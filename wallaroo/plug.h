@@ -94,9 +94,9 @@ public:
     * @param name the name of this plug
     * @param owner the device that contains this plug
     */
-    Plug( const std::string& name, Device* owner )
+    Plug( const std::string& name, PK owner )
     {
-        owner -> Register( name, this );
+        owner.GetDevice() -> Register( name, this );
     }
     
     /** Plug this plug into a device
@@ -162,9 +162,9 @@ public:
     * @param name the name of this Plug
     * @param owner the device that contains this Plug
     */
-    Plug( const std::string& name, Device* owner )
+    Plug( const std::string& name, PK owner )
     {
-        owner -> Register( name, this );
+        owner.GetDevice() -> Register( name, this );
     }
 
     /** Connect a device into this multiple plug
