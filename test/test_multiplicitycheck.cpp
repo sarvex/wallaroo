@@ -43,9 +43,9 @@ REGISTERED_CLASS( B3, void, void ), public Device
 {
 public:
     B3() : 
-        mandatoryAttribute( "mandatoryAttribute", this ),
-        optionalAttribute( "optionalAttribute", this ),
-        collectionAttribute( "collectionAttribute", this )
+        mandatoryAttribute( "mandatoryAttribute", Self() ),
+        optionalAttribute( "optionalAttribute", Self() ),
+        collectionAttribute( "collectionAttribute", Self() )
     {}
     virtual ~B3() {}
 private:
@@ -60,9 +60,9 @@ REGISTERED_CLASS( C3, void, void ), public Device
 {
 public:
     C3() :
-        collectionAttribute1( "collectionAttribute1", this ),
-        collectionAttribute13( "collectionAttribute13", this ),
-        collectionAttribute33( "collectionAttribute33", this )
+        collectionAttribute1( "collectionAttribute1", Self() ),
+        collectionAttribute13( "collectionAttribute13", Self() ),
+        collectionAttribute33( "collectionAttribute33", Self() )
     {}
     virtual ~C3() {}
 private:

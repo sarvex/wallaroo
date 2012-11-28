@@ -64,7 +64,7 @@ REGISTER( B2, void, void )
 REGISTERED_CLASS( C2, void, void ), public Device
 {
 public:
-    C2() : x( "x", this ) {}
+    C2() : x( "x", Self() ) {}
     virtual int F() { return x -> F(); }
     virtual ~C2() {}
 private:
@@ -76,7 +76,7 @@ REGISTER( C2, void, void )
 REGISTERED_CLASS( D2, void, void ), public Device
 {
 public:
-    D2() : x( "x", this ) {}
+    D2() : x( "x", Self() ) {}
     virtual int F()
     { 
         int sum = 0;
@@ -98,9 +98,9 @@ REGISTERED_CLASS( E2, void, void ), public Device
 {
 public:
     E2() : 
-      x1( "x1", this ),
-      x2( "x2", this ),
-      x3( "x3", this )
+      x1( "x1", Self() ),
+      x2( "x2", Self() ),
+      x3( "x3", Self() )
     {}
     virtual int F()
     { 

@@ -75,6 +75,11 @@ public:
 
     virtual ~Device() {}
 
+protected:
+    Device* Self()
+    { 
+        return this;
+    }
 private:
     typedef std::map< std::string, Connector* > Connectors;
     Connectors connectors;
