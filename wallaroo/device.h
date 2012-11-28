@@ -33,13 +33,13 @@
 namespace wallaroo
 {
 
-class PK
+class RegToken
 {
 public:
-    Device* GetDevice() { return device; }
+    Device* GetDevice() const { return device; }
 private:
     friend Device;
-    PK( Device* d ) : device( d ) {}
+    RegToken( Device* d ) : device( d ) {}
     Device* device;
 };
 
@@ -86,9 +86,9 @@ public:
     virtual ~Device() {}
 
 protected:
-    PK Self()
+    RegToken RegistrationToken()
     { 
-        return PK( this );
+        return RegToken( this );
     }
 private:
     typedef std::map< std::string, Connector* > Connectors;
