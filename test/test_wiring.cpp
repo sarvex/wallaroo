@@ -67,7 +67,7 @@ REGISTER( B2, void, void )
 class C2 : public Device
 {
 public:
-    C2() : x( "x", this ) {}
+    C2() : x( "x", RegistrationToken() ) {}
     virtual int F() { return x -> F(); }
     virtual ~C2() {}
 private:
@@ -80,7 +80,7 @@ REGISTER( C2, void, void )
 class D2 : public Device
 {
 public:
-    D2() : x( "x", this ) {}
+    D2() : x( "x", RegistrationToken() ) {}
     virtual int F()
     { 
         int sum = 0;
@@ -103,9 +103,9 @@ class E2 : public Device
 {
 public:
     E2() : 
-      x1( "x1", this ),
-      x2( "x2", this ),
-      x3( "x3", this )
+      x1( "x1", RegistrationToken() ),
+      x2( "x2", RegistrationToken() ),
+      x3( "x3", RegistrationToken() )
     {}
     virtual int F()
     { 

@@ -33,6 +33,16 @@
 namespace wallaroo
 {
 
+class RegToken
+{
+public:
+    Device* GetDevice() const { return device; }
+private:
+    friend Device;
+    RegToken( Device* d ) : device( d ) {}
+    Device* device;
+};
+
 /**
  * This represents a "device" that owns connectors.
  * You can plug his connectors to other devices using the method @c Wire.
@@ -75,6 +85,11 @@ public:
 
     virtual ~Device() {}
 
+protected:
+    RegToken RegistrationToken()
+    { 
+        return RegToken( this );
+    }
 private:
     typedef std::map< std::string, Connector* > Connectors;
     Connectors connectors;

@@ -45,9 +45,9 @@ class B3 : public Device
 {
 public:
     B3() : 
-        mandatoryAttribute( "mandatoryAttribute", this ),
-        optionalAttribute( "optionalAttribute", this ),
-        collectionAttribute( "collectionAttribute", this )
+        mandatoryAttribute( "mandatoryAttribute", RegistrationToken() ),
+        optionalAttribute( "optionalAttribute", RegistrationToken() ),
+        collectionAttribute( "collectionAttribute", RegistrationToken() )
     {}
     virtual ~B3() {}
 private:
@@ -63,9 +63,9 @@ class C3 : public Device
 {
 public:
     C3() :
-        collectionAttribute1( "collectionAttribute1", this ),
-        collectionAttribute13( "collectionAttribute13", this ),
-        collectionAttribute33( "collectionAttribute33", this )
+        collectionAttribute1( "collectionAttribute1", RegistrationToken() ),
+        collectionAttribute13( "collectionAttribute13", RegistrationToken() ),
+        collectionAttribute33( "collectionAttribute33", RegistrationToken() )
     {}
     virtual ~C3() {}
 private:
