@@ -31,7 +31,8 @@ using namespace cxx0x;
 
 // some classes:
 
-REGISTERED_CLASS( A3, void, void ), public Device
+//REGISTERED_CLASS( A3, void, void ), public Device
+class A3 : public Device
 {
 public:
     virtual ~A3() {}
@@ -39,7 +40,8 @@ public:
 
 REGISTER( A3, void, void )
 
-REGISTERED_CLASS( B3, void, void ), public Device
+//REGISTERED_CLASS( B3, void, void ), public Device
+class B3 : public Device
 {
 public:
     B3() : 
@@ -56,7 +58,8 @@ private:
 
 REGISTER( B3, void, void )
 
-REGISTERED_CLASS( C3, void, void ), public Device
+//REGISTERED_CLASS( C3, void, void ), public Device
+class C3 : public Device
 {
 public:
     C3() :

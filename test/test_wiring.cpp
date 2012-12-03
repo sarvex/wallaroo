@@ -43,7 +43,8 @@ public:
     virtual ~I2() {}
 };
 
-REGISTERED_CLASS( A2, void, void ), public I2
+// REGISTERED_CLASS( A2, void, void ), public I2
+class A2 : public I2
 {
 public:
     virtual int F() { return 5; }
@@ -52,7 +53,8 @@ public:
 
 REGISTER( A2, void, void )
 
-REGISTERED_CLASS( B2, void, void ), public A2
+//REGISTERED_CLASS( B2, void, void ), public A2
+class B2 : public A2
 {
 public:
     virtual int F() { return 10; }
@@ -61,7 +63,8 @@ public:
 
 REGISTER( B2, void, void )
 
-REGISTERED_CLASS( C2, void, void ), public Device
+//REGISTERED_CLASS( C2, void, void ), public Device
+class C2 : public Device
 {
 public:
     C2() : x( "x", this ) {}
@@ -73,7 +76,8 @@ private:
 
 REGISTER( C2, void, void )
 
-REGISTERED_CLASS( D2, void, void ), public Device
+//REGISTERED_CLASS( D2, void, void ), public Device
+class D2 : public Device
 {
 public:
     D2() : x( "x", this ) {}
@@ -94,7 +98,8 @@ private:
 
 REGISTER( D2, void, void )
 
-REGISTERED_CLASS( E2, void, void ), public Device
+//REGISTERED_CLASS( E2, void, void ), public Device
+class E2 : public Device
 {
 public:
     E2() : 

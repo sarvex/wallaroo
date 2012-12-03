@@ -26,272 +26,199 @@
 
 #include <string>
 #include <map>
-#include <list>
 #include "cxx0x.h"
 
 namespace wallaroo
 {
 
-/// @cond DONTDOCUMENT
-template < class I, class P1, class P2 > class Registry;
-template < class I, class P1, class P2 > class RegEntry;
-/// @endcond
+class Device;
 
-/** It describes a class with a constructor that takes
-* two parameters of type @c P1 and @c P2 and implements
-* the interface @c I
-*/
-template < class I, class P1, class P2 >
+
+template < class P1, class P2 >
 class Class
 {
     public :
 
-        typedef cxx0x::shared_ptr< I > (*FactoryMethod)( P1, P2 ) ;
-        typedef std::list< Class< I, P1, P2 > > ClassSet;
-        /** Create an instance of the class described by this object.
-        * @param p1 The first parameter to pass to the constructor
-        * @param p2 The second parameter to pass to the constructor
-        * @return a shared_ptr to the new instance (or the empty 
-        * shared_ptr if the descriptor is not valid)
-        */
-        cxx0x::shared_ptr< I > NewInstance( const P1& p1, const P2& p2 )
+        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::function< Ptr( const P1& p1, const P2& p2 ) > FactoryMethod;
+        Ptr NewInstance( const P1& p1, const P2& p2 )
         {
-            if( fm != NULL )
+            if( fm )
                 return( fm( p1, p2 ) ) ;
             else
-                return( cxx0x::shared_ptr< I >() ) ;
+                return( Ptr() ) ;
         }
-        /** Return the name of the class described by this object
-        */
-        const std::string& Name() const { return name; }
-        /** Return a list of all the @c Class< I, P1, P2 > registered.
-        */
-        static ClassSet All()
-        {
-            return Reg().All();
-        }
-        /** Return the @c Class< I, P1, P2 > registered with the name @c name.
-        */
         static Class ForName( const std::string& name )
         {
-            return Reg().ForName( name );
+            Classes::const_iterator i = Registry().find( name );
+            if ( i != Registry().end() )
+                return i -> second ;
+            return Class(); // default value
         }
     private :
-        static Registry< I, P1, P2 >& Reg()
-        {
-            static Registry< I, P1, P2 > reg;
-            return reg;
-        }
-        const std::string name ;
         FactoryMethod fm;
-        friend class Registry< I, P1, P2 >;
-        friend class RegEntry< I, P1, P2 >;
-        static void Register( const std::string& s, FactoryMethod m )
+        typedef std::map< std::string, Class< P1, P2 > > Classes;
+#if 0
+        template < class P1, class P2 > friend class RegEntry;
+#endif
+        template < class T, class P1, class P2 > friend class Registration;
+        static void Register( const std::string& s, const FactoryMethod& m )
         {
-            Reg().Add( Class( s, m ) );
+            Registry().insert( std::make_pair( s, Class( m ) ) );
         }
-        Class() : name( "" ), fm( NULL )
+        static Classes& Registry()
+        {
+            static Classes registry;
+            return registry;
+        }
+        Class() : fm( NULL )
         {
         }
-        Class( const std::string& s, FactoryMethod m ) :
-            name( s ), fm( m )
+        Class( FactoryMethod m ) :
+            fm( m )
         {
         }
 };
 
-/** It describes a class with a constructor that takes
-* two parameters of type @c P1 and @c P2
-*/
-template < class I, class P >
-class Class< I, P, void >
+
+template < class P >
+class Class< P, void >
 {
     public :
 
-        typedef cxx0x::shared_ptr< I > (*FactoryMethod)( P ) ;
-        typedef std::list< Class< I, P, void > > ClassSet;
-        /** Create an instance of the class described by this object.
-        * @param p The parameter to pass to the constructor
-        * @return a shared_ptr to the new instance (or the empty 
-        * shared_ptr if the descriptor is not valid)
-        */
-        cxx0x::shared_ptr< I > NewInstance( const P& p )
+        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::function< Ptr( const P& p ) > FactoryMethod;
+        Ptr NewInstance( const P& p )
         {
-            if( fm != NULL )
+            if( fm )
                 return( fm( p ) ) ;
             else
-                return( cxx0x::shared_ptr< I >() ) ;
+                return( Ptr() ) ;
         }
-        /** Return the name of the class described by this object
-        */
-        const std::string& Name() const { return name; }
-        /** Return a list of all the @c Class< I, P1, P2 > registered.
-        */
-        static ClassSet All()
-        {
-            return Reg().All();
-        }
-        /** Return the @c Class< I, P1, P2 > registered with the name @c name.
-        */
         static Class ForName( const std::string& name )
         {
-            return Reg().ForName( name );
+            Classes::const_iterator i = Registry().find( name );
+            if ( i != Registry().end() )
+                return i -> second ;
+            return Class(); // default value
         }
     private :
-        static Registry< I, P, void >& Reg()
-        {
-            static Registry< I, P, void > reg;
-            return reg;
-        }
-        const std::string name ;
         FactoryMethod fm;
-        friend class Registry< I, P, void >;
-        friend class RegEntry< I, P, void >;
-        static void Register( const std::string& s, FactoryMethod m )
+        typedef std::map< std::string, Class< void, void > > Classes;
+#if 0
+        template < class P1, class P2 > friend class RegEntry;
+#endif
+        template < class T, class P1, class P2 > friend class Registration;
+        static void Register( const std::string& s, const FactoryMethod& m )
         {
-            Reg().Add( Class( s, m ) );
+            Registry().insert( std::make_pair( s, Class( m ) ) );
         }
-        Class() : name( "" ), fm( NULL )
+        static Classes& Registry()
+        {
+            static Classes registry;
+            return registry;
+        }
+        Class() : fm( NULL )
         {
         }
-        Class( const std::string& s, FactoryMethod m ) :
-            name( s ), fm( m )
+        Class( FactoryMethod m ) :
+            fm( m )
         {
         }
 };
 
-/** It describes a class with a default constructor.
-*/
-template < class I >
-class Class< I, void, void >
+
+
+template <>
+class Class< void, void >
 {
     public :
 
-        typedef cxx0x::shared_ptr< I > (*FactoryMethod)() ;
-        typedef std::list< Class< I, void, void > > ClassSet;
-        /** Create an instance of the class described by this object.
-         * @return a shared_ptr to the new instance (or the empty 
-         * shared_ptr if the descriptor is not valid)
-        */
-        cxx0x::shared_ptr< I > NewInstance()
+        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::function< Ptr() > FactoryMethod;
+        Ptr NewInstance()
         {
-            if( fm != NULL )
+            if( fm )
                 return( fm() ) ;
             else
-                return( cxx0x::shared_ptr< I >() ) ;
+                return( Ptr() ) ;
         }
-        /** Return the name of the class described by this object
-        */
-        const std::string& Name() const { return name; }
-        /** Return a list of all the @c Class< I, P1, P2 > registered.
-        */
-        static ClassSet All()
-        {
-            return Reg().All();
-        }
-        /** Return the @c Class< I, P1, P2 > registered with the name @c name.
-        */
         static Class ForName( const std::string& name )
         {
-            return Reg().ForName( name );
+            Classes::const_iterator i = Registry().find( name );
+            if ( i != Registry().end() )
+                return i -> second ;
+            return Class(); // default value
         }
     private :
-        static Registry< I, void, void >& Reg()
-        {
-            static Registry< I, void, void > reg;
-            return reg;
-        }
-        const std::string name ;
         FactoryMethod fm;
-        friend class Registry< I, void, void >;
-        friend class RegEntry< I, void, void >;
-        static void Register( const std::string& s, FactoryMethod m )
+        typedef std::map< std::string, Class< void, void > > Classes;
+#if 0
+        template < class P1, class P2 > friend class RegEntry;
+#endif
+        template < class T, class P1, class P2 > friend class Registration;
+        static void Register( const std::string& s, const FactoryMethod& m )
         {
-            Reg().Add( Class( s, m ) );
+            Registry().insert( std::make_pair( s, Class( m ) ) );
         }
-        Class() : name( "" ), fm( NULL )
+        static Classes& Registry()
+        {
+            static Classes registry;
+            return registry;
+        }
+        Class() : fm( NULL )
         {
         }
-        Class( const std::string& s, FactoryMethod m ) :
-            name( s ), fm( m )
+        Class( FactoryMethod m ) :
+            fm( m )
         {
         }
 };
 
 
-template < class I, class P1, class P2 >
-class Registry
+
+template < class T, class P1, class P2 >
+class Factory
 {
 public:
-
-    typedef typename Class< I, P1, P2 >::ClassSet ClassSet;
-
-    void Add( Class< I, P1, P2 > c )
+    static cxx0x::shared_ptr< Device > Create( const P1& p1, const P2& p2 )
     {
-        classes.insert( std::make_pair( c.Name(), c ) );
+        return cxx0x::make_shared< T >( p1, p2 );
     }
-    Class< I, P1, P2 > ForName( const std::string& name ) const
+};
+
+template < class T >
+class Factory< T, void, void >
+{
+public:
+    static cxx0x::shared_ptr< Device > Create()
     {
-        typename ClassMap::const_iterator i = classes.find( name );
-        if ( i == classes.end() )
-            return Class< I, P1, P2 >();  // valore di default
-        else
-            return i -> second ;
+        return cxx0x::make_shared< T >();
     }
-    ClassSet All() const
-    {
-        ClassSet result;
-        for ( typename ClassMap::const_iterator i = classes.begin(); i != classes.end(); ++i )
-            result.push_back( i -> second );
-        return result;
-    }
-
-private:
-    typedef std::map< std::string, Class< I, P1, P2 > > ClassMap;
-    friend class Class< I, P1, P2 >;
-    Registry() {}
-    ClassMap classes;
 };
 
-template< class T, class I, class P1, class P2 >
-class Registered
-{
-    public :
-        static cxx0x::shared_ptr< I > NewInstance( P1 p1, P2 p2 )
-        {
-            return( cxx0x::shared_ptr< I >( new T( p1, p2 ) ) ) ;
-        }
-};
-
-template< class T, class I, class P >
-class Registered< T, I, P, void >  
-{
-    public :
-        static cxx0x::shared_ptr< I > NewInstance( P p )
-        {
-            return( cxx0x::shared_ptr< I >( new T( p ) ) ) ;
-        }
-};
-
-template< class T, class I >
-class Registered< T, I, void, void >
-{
-    public :
-        static cxx0x::shared_ptr< I > NewInstance()
-        {
-            return( cxx0x::shared_ptr< I >( new T() ) ) ;
-        }
-};
-
-
-template < class I, class P1, class P2 >
+#if 0
+template < class P1, class P2 >
 class RegEntry
 {
-    public :
-        typedef typename Class< I, P1, P2 >::FactoryMethod FactoryMethod;
-        RegEntry( const char s[], FactoryMethod f )
-        {
-            Class< I, P1, P2 >::Register( s, f );
-        }
+public:
+    RegEntry( const std::string& name, const typename Class< P1, P2 >::FactoryMethod& fm )
+    {
+        Class< P1, P2 >::Register( name, fm );
+    }
+};
+#endif
+
+
+template < class T, class P1 = void, class P2 = void >
+class Registration
+{
+public:
+    Registration( const std::string& name )
+    {
+        Class< P1, P2 >::FactoryMethod fm( &Factory< T, P1, P2 >::Create );
+        Class< P1, P2 >::Register( name, fm );
+    }
 };
 
 } // namespace
@@ -303,18 +230,12 @@ class RegEntry
  * @param P2 The type of the second parameter of the class constructor (possibly void)
  * @hideinitializer
  */
+#if 0
 #define REGISTER( C, P1, P2 ) \
-    static const RegEntry< Device, P1, P2 > C##r( #C, &Registered<C,Device,P1,P2>::NewInstance ) ;
-
-/** This macro must be used in your implementation file for defining a class that will be
- * automatically registered and thus retrieved throug the method @c Class::ForName( C ).
- * @param C The class name
- * @param P1 The type of the first parameter of the class constructor (possibly void)
- * @param P2 The type of the second parameter of the class constructor (possibly void)
- * @hideinitializer
- */
-#define REGISTERED_CLASS( C, P1, P2 ) \
-    class C : public Registered< C, Device, P1, P2 >
-
+    static const RegEntry< P1, P2 > C##r( #C, &Factory< C, P1, P2 >::Create ) ;
+#else
+#define REGISTER( C, P1, P2 ) \
+    static const Registration< C, P1, P2 > C##r( #C ) ;
+#endif
 
 #endif // WALLAROO_CLASS_H_

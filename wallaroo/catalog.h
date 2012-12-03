@@ -128,7 +128,7 @@ public:
     template < class P1, class P2 >
     void Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
     {
-        typedef Class< Device, P1, P2 > C;
+        typedef typename Class< P1, P2 > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance( p1, p2 );
         if ( obj.get() == NULL ) throw ElementNotFound( className );
@@ -145,7 +145,7 @@ public:
     template < class P >
     void Create( const std::string& id, const std::string& className, const P& p )
     {
-        typedef Class< Device, P, void > C;
+        typedef typename Class< P, void > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance( p );
         if ( obj.get() == NULL ) throw ElementNotFound( className );
@@ -160,7 +160,7 @@ public:
     */
     void Create( const std::string& id, const std::string& className )
     {
-        typedef Class< Device, void, void > C;
+        typedef Class< void, void > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance();
         if ( obj.get() == NULL ) throw ElementNotFound( className );
