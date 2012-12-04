@@ -37,7 +37,8 @@ public:
     int F() { return 5; }
 };
 
-REGISTER( A1, void, void );
+//REGISTER( A1, void, void );
+REGISTER( A1 );
 //static const Registration< A1 > r( "A1" );
 
 class B1: public Device
@@ -64,7 +65,7 @@ private:
     double x;
 };
 
-REGISTER( C1, double, void );
+REGISTER( C1, double );
 //static const Registration< C1, double > r3( "C1" );
 
 // tests

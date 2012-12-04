@@ -205,6 +205,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\test_xml_loader.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

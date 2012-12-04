@@ -31,16 +31,14 @@ using namespace cxx0x;
 
 // some classes:
 
-//REGISTERED_CLASS( A3, void, void ), public Device
 class A3 : public Device
 {
 public:
     virtual ~A3() {}
 };
 
-REGISTER( A3, void, void )
+REGISTER( A3 )
 
-//REGISTERED_CLASS( B3, void, void ), public Device
 class B3 : public Device
 {
 public:
@@ -56,9 +54,8 @@ private:
     Plug< A3, collection > collectionAttribute;
 };
 
-REGISTER( B3, void, void )
+REGISTER( B3 )
 
-//REGISTERED_CLASS( C3, void, void ), public Device
 class C3 : public Device
 {
 public:
@@ -74,7 +71,7 @@ private:
     Plug< A3, bounded_collection< 3, 3 > > collectionAttribute33;
 };
 
-REGISTER( C3, void, void )
+REGISTER( C3 )
 
 
 // tests

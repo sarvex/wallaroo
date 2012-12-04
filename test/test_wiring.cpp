@@ -43,7 +43,6 @@ public:
     virtual ~I2() {}
 };
 
-// REGISTERED_CLASS( A2, void, void ), public I2
 class A2 : public I2
 {
 public:
@@ -51,9 +50,8 @@ public:
     virtual ~A2() {}
 };
 
-REGISTER( A2, void, void )
+REGISTER( A2 )
 
-//REGISTERED_CLASS( B2, void, void ), public A2
 class B2 : public A2
 {
 public:
@@ -61,9 +59,8 @@ public:
     virtual ~B2() {}
 };
 
-REGISTER( B2, void, void )
+REGISTER( B2 )
 
-//REGISTERED_CLASS( C2, void, void ), public Device
 class C2 : public Device
 {
 public:
@@ -74,9 +71,8 @@ private:
     Plug< I2 > x;
 };
 
-REGISTER( C2, void, void )
+REGISTER( C2 )
 
-//REGISTERED_CLASS( D2, void, void ), public Device
 class D2 : public Device
 {
 public:
@@ -96,9 +92,8 @@ private:
     Container x;
 };
 
-REGISTER( D2, void, void )
+REGISTER( D2 )
 
-//REGISTERED_CLASS( E2, void, void ), public Device
 class E2 : public Device
 {
 public:
@@ -134,7 +129,7 @@ private:
     Container3 x3;
 };
 
-REGISTER( E2, void, void )
+REGISTER( E2 )
 
 // tests
 

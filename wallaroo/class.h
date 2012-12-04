@@ -211,6 +211,20 @@ public:
 
 } // namespace
 
+
+
+// DEPRECATED: Backward compatibility only
+
+class WallarooBaseDummyClass {};
+/** @deprecated
+ *  This macro must not be used
+ */
+#define REGISTERED_CLASS( C, ... ) class C : public WallarooBaseDummyClass
+    
+// end DEPRECATED
+
+
+
 /** This macro must be used in your header file for declaring a class that will be 
  * automatically registered and thus retrieved throug the method @c Class::ForName( C ).
  * @param C The class name
@@ -218,7 +232,7 @@ public:
  * @param P2 The type of the second parameter of the class constructor (possibly void)
  * @hideinitializer
  */
-#define REGISTER( C, P1, P2 ) \
-    static const Registration< C, P1, P2 > C##r( #C ) ;
+#define REGISTER( C, ... ) \
+    static const Registration< C, __VA_ARGS__ > C##r( #C ) ;
 
 #endif // WALLAROO_CLASS_H_
