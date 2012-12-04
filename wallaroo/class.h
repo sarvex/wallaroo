@@ -58,9 +58,6 @@ class Class
     private :
         FactoryMethod fm;
         typedef std::map< std::string, Class< P1, P2 > > Classes;
-#if 0
-        template < class P1, class P2 > friend class RegEntry;
-#endif
         template < class T, class P1, class P2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
@@ -104,10 +101,7 @@ class Class< P, void >
         }
     private :
         FactoryMethod fm;
-        typedef std::map< std::string, Class< void, void > > Classes;
-#if 0
-        template < class P1, class P2 > friend class RegEntry;
-#endif
+        typedef std::map< std::string, Class< P, void > > Classes;
         template < class T, class P1, class P2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
@@ -153,9 +147,6 @@ class Class< void, void >
     private :
         FactoryMethod fm;
         typedef std::map< std::string, Class< void, void > > Classes;
-#if 0
-        template < class P1, class P2 > friend class RegEntry;
-#endif
         template < class T, class P1, class P2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
@@ -187,6 +178,16 @@ public:
     }
 };
 
+template < class T, class P >
+class Factory< T, P, void >
+{
+public:
+    static cxx0x::shared_ptr< Device > Create( const P& p )
+    {
+        return cxx0x::make_shared< T >( p );
+    }
+};
+
 template < class T >
 class Factory< T, void, void >
 {
@@ -196,19 +197,6 @@ public:
         return cxx0x::make_shared< T >();
     }
 };
-
-#if 0
-template < class P1, class P2 >
-class RegEntry
-{
-public:
-    RegEntry( const std::string& name, const typename Class< P1, P2 >::FactoryMethod& fm )
-    {
-        Class< P1, P2 >::Register( name, fm );
-    }
-};
-#endif
-
 
 template < class T, class P1 = void, class P2 = void >
 class Registration
@@ -230,12 +218,7 @@ public:
  * @param P2 The type of the second parameter of the class constructor (possibly void)
  * @hideinitializer
  */
-#if 0
-#define REGISTER( C, P1, P2 ) \
-    static const RegEntry< P1, P2 > C##r( #C, &Factory< C, P1, P2 >::Create ) ;
-#else
 #define REGISTER( C, P1, P2 ) \
     static const Registration< C, P1, P2 > C##r( #C ) ;
-#endif
 
 #endif // WALLAROO_CLASS_H_

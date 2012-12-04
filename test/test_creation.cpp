@@ -55,6 +55,18 @@ private:
 REGISTER( B1, int, std::string );
 //static const Registration< B1, int, std::string > r2( "B1" );
 
+class C1: public Device
+{
+public:
+    C1( double _x ) : x( _x ) {}
+    double GetX() const { return x; }
+private:
+    double x;
+};
+
+REGISTER( C1, double, void );
+//static const Registration< C1, double > r3( "C1" );
+
 // tests
 
 BOOST_AUTO_TEST_SUITE( Creation )
@@ -76,7 +88,7 @@ BOOST_AUTO_TEST_CASE( duplicatedElement )
 {
     Catalog catalog;
     BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A1" ) );
-    //BOOST_CHECK_THROW( catalog.Create( "a", "B1", 10, std::string( "hello" ) ), DuplicatedElement );
+    BOOST_CHECK_THROW( catalog.Create( "a", "B1", 10, std::string( "hello" ) ), DuplicatedElement );
 }
 
 BOOST_AUTO_TEST_CASE( retrieveOk )
@@ -97,11 +109,17 @@ BOOST_AUTO_TEST_CASE( retrieveKo )
 BOOST_AUTO_TEST_CASE( multipleParametersOk )
 {
     Catalog catalog;
+
     BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B1", 10, std::string( "hello" ) ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
     shared_ptr< B1 > b = catalog[ "b" ];
     BOOST_CHECK( b -> GetX() == 10 );
     BOOST_CHECK( b -> GetY() == "hello" );
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c", "C1", (double)69.0 ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "c" ] );
+    shared_ptr< C1 > c = catalog[ "c" ];
+    BOOST_CHECK( c -> GetX() == (double)69.0 );
 }
 
 #if 0 // fails because we use const char* instead of std::string
