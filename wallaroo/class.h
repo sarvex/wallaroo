@@ -245,7 +245,7 @@ public:
     }
 };
 
-} // detail namespace 
+} // detail namespace
 
 
 /** This class registers on its constructor a class @c T
