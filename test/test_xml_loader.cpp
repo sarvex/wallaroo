@@ -47,7 +47,7 @@ public:
     virtual ~A4() {}
 };
 
-REGISTER( A4 )
+WALLAROO_REGISTER( A4 )
 
 class B4 : public A4
 {
@@ -56,7 +56,7 @@ public:
     virtual ~B4() {}
 };
 
-REGISTER( B4 )
+WALLAROO_REGISTER( B4 )
 
 class C4 : public Device
 {
@@ -68,7 +68,7 @@ private:
     Plug< I4 > x;
 };
 
-REGISTER( C4 )
+WALLAROO_REGISTER( C4 )
 
 class D4 : public Device
 {
@@ -96,7 +96,7 @@ private:
     const int ii;
 };
 
-REGISTER( D4, std::string, int )
+WALLAROO_REGISTER( D4, std::string, int )
 
 // tests
 

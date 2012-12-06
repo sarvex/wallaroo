@@ -50,7 +50,7 @@ public:
     virtual ~A2() {}
 };
 
-REGISTER( A2 )
+WALLAROO_REGISTER( A2 )
 
 class B2 : public A2
 {
@@ -59,7 +59,7 @@ public:
     virtual ~B2() {}
 };
 
-REGISTER( B2 )
+WALLAROO_REGISTER( B2 )
 
 class C2 : public Device
 {
@@ -71,7 +71,7 @@ private:
     Plug< I2 > x;
 };
 
-REGISTER( C2 )
+WALLAROO_REGISTER( C2 )
 
 class D2 : public Device
 {
@@ -92,7 +92,7 @@ private:
     Container x;
 };
 
-REGISTER( D2 )
+WALLAROO_REGISTER( D2 )
 
 class E2 : public Device
 {
@@ -129,7 +129,7 @@ private:
     Container3 x3;
 };
 
-REGISTER( E2 )
+WALLAROO_REGISTER( E2 )
 
 // tests
 

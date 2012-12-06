@@ -37,7 +37,7 @@ public:
     virtual ~A3() {}
 };
 
-REGISTER( A3 )
+WALLAROO_REGISTER( A3 )
 
 class B3 : public Device
 {
@@ -54,7 +54,7 @@ private:
     Plug< A3, collection > collectionAttribute;
 };
 
-REGISTER( B3 )
+WALLAROO_REGISTER( B3 )
 
 class C3 : public Device
 {
@@ -71,7 +71,7 @@ private:
     Plug< A3, bounded_collection< 3, 3 > > collectionAttribute33;
 };
 
-REGISTER( C3 )
+WALLAROO_REGISTER( C3 )
 
 
 // tests

@@ -29,7 +29,7 @@
 CC = g++
 CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK $(UCFLAGS)
 LFLAGS = $(ULFLAGS)
-OBJ = test_wiring.o test_creation.o driver.o
+OBJ = test_xml_loader.o test_multiplicitycheck.o test_wiring.o test_creation.o driver.o
 EXE = test_suite
 
 all: $(EXE) test

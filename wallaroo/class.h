@@ -31,9 +31,15 @@
 namespace wallaroo
 {
 
-class Device;
+class Device; // forward declaration
 
-
+/** This is the description of a class having a constructor that 
+* takes two parameters of type @c P1 and @c P2 and implements
+* the interface @c Device.
+* The class provides a method to get an instance of the described class.
+* It also provides a static registry of the instances of this class,
+* and methods to register and retrieve them.
+*/
 template < class P1, class P2 >
 class Class
 {
@@ -41,13 +47,23 @@ class Class
 
         typedef cxx0x::shared_ptr< Device > Ptr;
         typedef cxx0x::function< Ptr( const P1& p1, const P2& p2 ) > FactoryMethod;
-        Ptr NewInstance( const P1& p1, const P2& p2 )
+
+        /** Create an instance of the class described by this object.
+        * @param p1 The first parameter to pass to the constructor
+        * @param p2 The second parameter to pass to the constructor
+        * @return a shared_ptr to the new instance (or the empty 
+        * shared_ptr if the descriptor is not valid)
+        */
+        Ptr NewInstance( const P1& p1, const P2& p2 ) const
         {
             if( fm )
                 return( fm( p1, p2 ) ) ;
             else
                 return( Ptr() ) ;
         }
+
+        /** Return the @c Class< P1, P2 > registered with the name @c name.
+        */
         static Class ForName( const std::string& name )
         {
             Classes::const_iterator i = Registry().find( name );
@@ -77,7 +93,13 @@ class Class
         }
 };
 
-
+/** This is the description of a class having a constructor that
+* takes one parameter of type @c P and implements
+* the interface @c Device.
+* The class provides a method to get an instance of the described class.
+* It also provides a static registry of the instances of this class,
+* and methods to register and retrieve them.
+*/
 template < class P >
 class Class< P, void >
 {
@@ -85,13 +107,22 @@ class Class< P, void >
 
         typedef cxx0x::shared_ptr< Device > Ptr;
         typedef cxx0x::function< Ptr( const P& p ) > FactoryMethod;
-        Ptr NewInstance( const P& p )
+
+        /** Create an instance of the class described by this object.
+        * @param p The parameter to pass to the constructor
+        * @return a shared_ptr to the new instance (or the empty
+        * shared_ptr if the descriptor is not valid)
+        */
+        Ptr NewInstance( const P& p ) const
         {
             if( fm )
                 return( fm( p ) ) ;
             else
                 return( Ptr() ) ;
         }
+
+        /** Return the @c Class< P, void > registered with the name @c name.
+        */
         static Class ForName( const std::string& name )
         {
             Classes::const_iterator i = Registry().find( name );
@@ -122,7 +153,12 @@ class Class< P, void >
 };
 
 
-
+/** This is the description of a class having a constructor that
+* takes no parameters and implements the interface @c Device.
+* The class provides a method to get an instance of the described class.
+* It also provides a static registry of the instances of this class,
+* and methods to register and retrieve them.
+*/
 template <>
 class Class< void, void >
 {
@@ -130,13 +166,21 @@ class Class< void, void >
 
         typedef cxx0x::shared_ptr< Device > Ptr;
         typedef cxx0x::function< Ptr() > FactoryMethod;
-        Ptr NewInstance()
+
+        /** Create an instance of the class described by this object.
+        * @return a shared_ptr to the new instance (or the empty
+        * shared_ptr if the descriptor is not valid)
+        */
+        Ptr NewInstance() const
         {
             if( fm )
                 return( fm() ) ;
             else
                 return( Ptr() ) ;
         }
+
+        /** Return the @c Class< void, void > registered with the name @c name.
+        */
         static Class ForName( const std::string& name )
         {
             Classes::const_iterator i = Registry().find( name );
@@ -166,8 +210,11 @@ class Class< void, void >
         }
 };
 
+namespace detail
+{
 
-
+// This helper class exports the method to create the class T.
+// Can't use a function because we cannot partial specialize template functions.
 template < class T, class P1, class P2 >
 class Factory
 {
@@ -198,31 +245,24 @@ public:
     }
 };
 
+} // detail namespace 
+
+
+/** This class registers on its constructor a class @c T
+*   with its factory method.
+*/
 template < class T, class P1 = void, class P2 = void >
 class Registration
 {
 public:
     Registration( const std::string& name )
     {
-        Class< P1, P2 >::FactoryMethod fm( &Factory< T, P1, P2 >::Create );
+        Class< P1, P2 >::FactoryMethod fm( &detail::Factory< T, P1, P2 >::Create );
         Class< P1, P2 >::Register( name, fm );
     }
 };
 
-} // namespace
-
-
-
-// DEPRECATED: Backward compatibility only
-
-class WallarooBaseDummyClass {};
-/** @deprecated
- *  This macro must not be used
- */
-#define REGISTERED_CLASS( C, ... ) class C : public WallarooBaseDummyClass
-    
-// end DEPRECATED
-
+} // wallaroo namespace
 
 
 /** This macro must be used in your header file for declaring a class that will be 
@@ -232,7 +272,19 @@ class WallarooBaseDummyClass {};
  * @param P2 The type of the second parameter of the class constructor (possibly void)
  * @hideinitializer
  */
-#define REGISTER( C, ... ) \
-    static const Registration< C, __VA_ARGS__ > C##r( #C ) ;
+#define WALLAROO_REGISTER( C, ... ) \
+    static const ::wallaroo::Registration< C, __VA_ARGS__ > C##r( #C ) ;
+
+
+// begin DEPRECATED: Backward compatibility only
+
+class WallarooBaseDummyClass {};
+/** @deprecated
+ *  These macros must not be used
+ */
+#define REGISTERED_CLASS( C, ... ) class C : public WallarooBaseDummyClass
+#define REGISTER WALLAROO_REGISTER
+    
+// end DEPRECATED
 
 #endif // WALLAROO_CLASS_H_

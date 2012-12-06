@@ -37,8 +37,7 @@ public:
     int F() { return 5; }
 };
 
-//REGISTER( A1, void, void );
-REGISTER( A1 );
+WALLAROO_REGISTER( A1 );
 //static const Registration< A1 > r( "A1" );
 
 class B1: public Device
@@ -53,7 +52,7 @@ private:
     const std::string y;
 };
 
-REGISTER( B1, int, std::string );
+WALLAROO_REGISTER( B1, int, std::string );
 //static const Registration< B1, int, std::string > r2( "B1" );
 
 class C1: public Device
@@ -65,7 +64,7 @@ private:
     double x;
 };
 
-REGISTER( C1, double );
+WALLAROO_REGISTER( C1, double );
 //static const Registration< C1, double > r3( "C1" );
 
 // tests

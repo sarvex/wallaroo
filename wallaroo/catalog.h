@@ -221,12 +221,10 @@ private:
     }
 };
 
-// begin new DSL
-
 namespace detail
 {
 
-// this is a helper class that provides the result of the use().as() function
+// This is a helper class that provides the result of the use().as() function
 // useful to concatenate use().as() with of().
 class UseAsExpression
 {
@@ -254,7 +252,7 @@ private:
     std::string attribute;
 };
 
-// this is a helper class that provides the result of the use() function
+// This is a helper class that provides the result of the use() function
 // useful to concatenate use() with as().
 class UseExpression
 {
