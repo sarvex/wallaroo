@@ -346,6 +346,6 @@ BOOST_AUTO_TEST_CASE( containersWiring )
     BOOST_STATIC_ASSERT((is_base_of< deque< I2Ptr >, Plug< I2, collection, deque > >::value));
     BOOST_STATIC_ASSERT((is_base_of< list< I2Ptr >, Plug< I2, collection, list > >::value));
     BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Plug< I2, collection, vector > >::value));
-    BOOST_STATIC_ASSERT((is_base_of< list< I2Ptr >, Plug< I2, collection > >::value)); // the default is std::list
+    BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Plug< I2, collection > >::value)); // the default is std::vector
 }
 BOOST_AUTO_TEST_SUITE_END()

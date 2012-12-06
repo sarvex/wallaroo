@@ -26,6 +26,7 @@
 
 #include <string>
 #include <typeinfo>
+#include <vector>
 #include "cxx0x.h"
 #include "connector.h"
 #include "device.h"
@@ -78,10 +79,10 @@ typedef bounded_collection<> collection;
  *           @ref collection if you can wire many devices to this plug)
  * @tparam Container If P = @ref collection, this represents the std container the Plug will derive from.
  */
-template < 
+template <
     typename T,
     typename P = mandatory,
-    template < typename E, typename Allocator = std::allocator< E > > class Container = std::list
+    template < typename E, typename Allocator = std::allocator< E > > class Container = std::vector
 >
 class Plug  : public Connector
 {
