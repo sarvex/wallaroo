@@ -25,7 +25,6 @@
 #define WALLAROO_DEVICE_H_
 
 #include <string>
-#include <map>
 #include "exceptions.h"
 #include "cxx0x.h"
 #include "connector.h"
@@ -91,7 +90,7 @@ protected:
         return RegToken( this );
     }
 private:
-    typedef std::map< std::string, Connector* > Connectors;
+    typedef cxx0x::unordered_map< std::string, Connector* > Connectors;
     Connectors connectors;
 };
 

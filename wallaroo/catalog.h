@@ -25,7 +25,6 @@
 #define WALLAROO_CATALOG_H_
 
 #include <string>
-#include <map>
 #include <typeinfo>
 #include <cassert>
 #include "cxx0x.h"
@@ -45,7 +44,7 @@ class DeviceShell
 {
 public:
 
-    DeviceShell( const cxx0x::shared_ptr< Device >& dev ) : 
+    DeviceShell( const cxx0x::shared_ptr< Device >& dev ) :
         device( dev ) 
     {
         assert( device );
@@ -203,7 +202,7 @@ private:
         return std::string();
     }
 
-    typedef std::map< std::string, cxx0x::shared_ptr< Device > > Devices;
+    typedef cxx0x::unordered_map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
 
     friend class detail::Context;
