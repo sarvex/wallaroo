@@ -53,7 +53,7 @@ public:
     /** Plug the connector @c connector of this device into the device @c device.
      * @throw ElementNotFound if @c connector does not exist in this device.
      */
-    virtual void Wire( const std::string& connector, cxx0x::shared_ptr< Device > device )
+    virtual void Wire( const std::string& connector, const cxx0x::shared_ptr< Device >& device )
     {
         Connectors::iterator i = connectors.find( connector );
         if ( i == connectors.end() ) 

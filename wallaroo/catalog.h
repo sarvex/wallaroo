@@ -45,7 +45,7 @@ class DeviceShell
 {
 public:
 
-    DeviceShell( cxx0x::shared_ptr< Device > dev ) : 
+    DeviceShell( const cxx0x::shared_ptr< Device >& dev ) : 
         device( dev ) 
     {
         assert( device );
@@ -108,11 +108,10 @@ public:
     * @param dev the device to add
     * @throw DuplicatedElement if a device with the name @c id is already in the catalog
     */
-    void Add( const std::string& id, cxx0x::shared_ptr< Device > dev )
+    void Add( const std::string& id, const cxx0x::shared_ptr< Device >& dev )
     {
-        cxx0x::shared_ptr< Device > toInsert( dev );
         std::pair< Devices::iterator, bool > result = 
-            devices.insert( std::make_pair( id, toInsert ) );
+            devices.insert( std::make_pair( id, dev ) );
         if ( ! result.second )
             throw DuplicatedElement( id );
     }

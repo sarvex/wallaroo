@@ -40,14 +40,14 @@ namespace wallaroo
 struct optional
 {
     template < typename T >
-    static bool WiringOk( cxx0x::weak_ptr< T > ) { return true; }
+    static bool WiringOk( const cxx0x::weak_ptr< T >& ) { return true; }
 };
 /// This type should be used as second template parameter in Plug class to specify the Plug is mandatory
 /// (i.e.: you cannot omit to wire a device to the plug)
 struct mandatory
 {
     template < typename T >
-    static bool WiringOk( cxx0x::weak_ptr< T > t ) { return t.lock(); }
+    static bool WiringOk( const cxx0x::weak_ptr< T >& t ) { return t.lock(); }
 };
 /// This type should be used as second template parameter in Plug class to specify the Plug is a collection
 /// and you can wire to the plug a number of devices greater or equal to @c MIN
@@ -122,7 +122,7 @@ public:
     * @param dev The device you want insert this plug into
     * @throw WrongType If @c dev is not a subclass of @c T
     */
-    void PlugInto( cxx0x::shared_ptr< Device > dev )
+    void PlugInto( const cxx0x::shared_ptr< Device >& dev )
     {
         cxx0x::shared_ptr< T > _dev = cxx0x::dynamic_pointer_cast< T >( dev );
         if ( ! _dev ) // bad type!
@@ -208,7 +208,7 @@ public:
     * @param device The device to connect
     * @throw WrongType If @c device is not a subclass of @c T
     */
-    void PlugInto( cxx0x::shared_ptr< Device > device )
+    void PlugInto( const cxx0x::shared_ptr< Device >& device )
     {
         cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( device );
         if ( ! obj ) // bad type!
