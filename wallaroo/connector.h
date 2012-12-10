@@ -43,13 +43,13 @@ public:
     * @param dev The device you want insert this Connector into
     * @throw WrongType If this Connector could not be wire with device @c dev 
     */
-    virtual void PlugInto( cxx0x::shared_ptr< Device > dev ) = 0;
+    virtual void PlugInto( const cxx0x::shared_ptr< Device >& dev ) = 0;
     /** Check if this Connector is correctly wired according to the
     * specified multiplicity.
     * @return true If the check pass.
     */
     virtual bool WiringOk() const = 0;
-    virtual ~Connector() {} // note: maybe this dtor can become not virtual?
+    virtual ~Connector() {}
 };
 
 } // namespace

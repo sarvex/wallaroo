@@ -25,7 +25,6 @@
 #define WALLAROO_CLASS_H_
 
 #include <string>
-#include <map>
 #include "cxx0x.h"
 
 namespace wallaroo
@@ -73,7 +72,7 @@ class Class
         }
     private :
         FactoryMethod fm;
-        typedef std::map< std::string, Class< P1, P2 > > Classes;
+        typedef cxx0x::unordered_map< std::string, Class< P1, P2 > > Classes;
         template < class T, class P1, class P2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
@@ -132,7 +131,7 @@ class Class< P, void >
         }
     private :
         FactoryMethod fm;
-        typedef std::map< std::string, Class< P, void > > Classes;
+        typedef cxx0x::unordered_map< std::string, Class< P, void > > Classes;
         template < class T, class P1, class P2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
@@ -190,7 +189,7 @@ class Class< void, void >
         }
     private :
         FactoryMethod fm;
-        typedef std::map< std::string, Class< void, void > > Classes;
+        typedef cxx0x::unordered_map< std::string, Class< void, void > > Classes;
         template < class T, class P1, class P2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {

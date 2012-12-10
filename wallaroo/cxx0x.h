@@ -60,6 +60,7 @@
     #include <memory>
     #include <type_traits>
     #include <functional>
+    #include <unordered_map>
     namespace cxx0x = std;
 #else
     #include <boost/shared_ptr.hpp>
@@ -67,6 +68,7 @@
     #include <boost/type_traits.hpp>
     #include <boost/function.hpp>
     #include <boost/make_shared.hpp>
+    #include <boost/unordered_map.hpp>
     namespace cxx0x = boost;
 #endif
 
