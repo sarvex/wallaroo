@@ -65,15 +65,15 @@ class Class
         */
         static Class ForName( const std::string& name )
         {
-            Classes::const_iterator i = Registry().find( name );
+            typename Classes::const_iterator i = Registry().find( name );
             if ( i != Registry().end() )
-                return i -> second ;
+                return i -> second;
             return Class(); // default value
         }
     private :
         FactoryMethod fm;
         typedef cxx0x::unordered_map< std::string, Class< P1, P2 > > Classes;
-        template < class T, class P1, class P2 > friend class Registration;
+        template < class T, class T1, class T2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
             Registry().insert( std::make_pair( s, Class( m ) ) );
@@ -124,7 +124,7 @@ class Class< P, void >
         */
         static Class ForName( const std::string& name )
         {
-            Classes::const_iterator i = Registry().find( name );
+            typename Classes::const_iterator i = Registry().find( name );
             if ( i != Registry().end() )
                 return i -> second ;
             return Class(); // default value
@@ -132,7 +132,7 @@ class Class< P, void >
     private :
         FactoryMethod fm;
         typedef cxx0x::unordered_map< std::string, Class< P, void > > Classes;
-        template < class T, class P1, class P2 > friend class Registration;
+        template < class T, class T1, class T2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
             Registry().insert( std::make_pair( s, Class( m ) ) );
@@ -190,7 +190,7 @@ class Class< void, void >
     private :
         FactoryMethod fm;
         typedef cxx0x::unordered_map< std::string, Class< void, void > > Classes;
-        template < class T, class P1, class P2 > friend class Registration;
+        template < class T, class T1, class T2 > friend class Registration;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
             Registry().insert( std::make_pair( s, Class( m ) ) );
@@ -256,7 +256,7 @@ class Registration
 public:
     Registration( const std::string& name )
     {
-        Class< P1, P2 >::FactoryMethod fm( &detail::Factory< T, P1, P2 >::Create );
+        typename Class< P1, P2 >::FactoryMethod fm( &detail::Factory< T, P1, P2 >::Create );
         Class< P1, P2 >::Register( name, fm );
     }
 };
@@ -272,7 +272,8 @@ public:
  * @hideinitializer
  */
 #define WALLAROO_REGISTER( C, ... ) \
-    static const ::wallaroo::Registration< C, __VA_ARGS__ > C##r( #C ) ;
+    static const ::wallaroo::Registration< C, ##__VA_ARGS__ > C##r( #C ) ;
+// NOTE: the ## before __VA_ARGS__ removes the comma when no arguments are passed
 
 
 // begin DEPRECATED: Backward compatibility only

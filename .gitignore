@@ -33,6 +33,7 @@
 /samples/cpp0x/Debug
 /samples/cpp0x/Release
 /samples/cpp0x/cpp0x
+/test/test_suite
 Debug
 Release
 /doc/html

@@ -37,7 +37,7 @@ class RegToken
 public:
     Device* GetDevice() const { return device; }
 private:
-    friend Device;
+    friend class Device;
     RegToken( Device* d ) : device( d ) {}
     Device* device;
 };
