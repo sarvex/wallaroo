@@ -84,7 +84,7 @@ class Class
             static Classes registry;
             return registry;
         }
-        Class() : fm( NULL )
+        Class()
         {
         }
         Class( FactoryMethod m ) :
@@ -143,7 +143,7 @@ class Class< P, void >
             static Classes registry;
             return registry;
         }
-        Class() : fm( NULL )
+        Class()
         {
         }
         Class( FactoryMethod m ) :
@@ -201,7 +201,7 @@ class Class< void, void >
             static Classes registry;
             return registry;
         }
-        Class() : fm( NULL )
+        Class()
         {
         }
         Class( FactoryMethod m ) :
