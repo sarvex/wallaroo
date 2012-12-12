@@ -47,6 +47,8 @@ Release
 *.pyc
 *.scons*
 *.suo
+*.sdf
+*.opensdf
 *.xcodeproj
 #*#
 *~
