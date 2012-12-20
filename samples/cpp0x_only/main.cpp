@@ -23,7 +23,9 @@
 
 #include <iostream>
 #include "wallaroo/catalog.h"
-#include "a.h"
+#include "interface.h"
+#include "client.h"
+
 
 // Wallaroo library is embedded in the wallaroo namespace
 using namespace wallaroo;
@@ -34,20 +36,30 @@ int main( int argc, char* argv[] )
     Catalog catalog;
 
     // You can create the objects you need in this way
-    catalog.Create( "c", "C" );
-    catalog.Create( "c1", "C" );
-    catalog.Create( "c2", "C" );
-    catalog.Create( "a", "B" );
+    catalog.Create( "c", "Client" );
+    catalog.Create( "c1", "Client" );
+    catalog.Create( "c2", "Client" );
+    catalog.Create( "base1", "Base" );
+    catalog.Create( "base2", "Base" );
+    catalog.Create( "derived1", "Derived" );
+    catalog.Create( "derived2", "Derived" );
 
+    // You can wire the objects.
+    
+    // the catalog is specified every time:
+    use( catalog[ "base1" ] ).as( "x" ).of( catalog[ "c" ] ); // this means c.x = base1
+    use( catalog[ "base2" ] ).as( "x" ).of( catalog[ "c1" ] ) ; // this means c1.x = base2
+
+    // the catalog is specified only once:
     wallaroo_within( catalog )
     {
-        // You can wire the objects.
-        use( "c" ).as( "x" ).of( "a" ); // this means a.x = c
+        use( "derived1" ).as( "x" ).of( "c2" );  // this means c2.x = derived1
         // You can also wire lists.
-        use( "c1" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c1 )
-        use( "c2" ).as( "xList" ).of( "a" ); // this means a.xList.push_back( c2 )
+        use( "base1" ).as( "xList" ).of( "c" ); // this means c.xList.push_back( base1 )
+        use( "derived1" ).as( "xList" ).of( "c" ); // this means c.xList.push_back( derived1 )
+        use( "derived2" ).as( "xList" ).of( "c" ); // this means c.xList.push_back( derived2 )
     }
-    
+
     // check if all plugs are wired
     assert( catalog.IsWiringOk() );
 
@@ -55,12 +67,14 @@ int main( int argc, char* argv[] )
     // the operator [].
     // The catalog has the ownership of the objects contained
     // so the operator [] returns a shared pointer
-    std::shared_ptr< A > a = catalog[ "a" ];
+    std::shared_ptr< Client > c = catalog[ "c" ];
+    std::shared_ptr< Interface > i = catalog[ "derived2" ];
 
     // Finally, you can use your objects in the standard way
-    a -> F();
+    c -> G();
+    i -> F();
 
-    // Wait for exit acknowledge
+    // Wait for exit
     std::cout << "Press Enter to end the program." << std::endl;
     std::cin.get();
 

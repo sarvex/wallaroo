@@ -24,7 +24,7 @@
 #include <string>
 #include "constanaloginput.h"
 
-REGISTER( ConstAnalogInput, std::string, void )
+WALLAROO_REGISTER( ConstAnalogInput, std::string )
 
 ConstAnalogInput::ConstAnalogInput( const std::string& _device ) :
   device( _device )

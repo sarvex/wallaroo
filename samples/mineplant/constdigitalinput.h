@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( ConstDigitalInput, std::string, unsigned int ), public DigitalInput
-// class ConstDigitalInput : public DigitalInput
+class ConstDigitalInput : public DigitalInput
 {
 public:
     ConstDigitalInput( const std::string& _device, unsigned int _bitPosition );

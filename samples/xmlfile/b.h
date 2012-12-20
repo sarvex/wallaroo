@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( B, unsigned int, void ), public A
-//class B : public A
+class B : public A
 {
 public:
     B( unsigned int x );

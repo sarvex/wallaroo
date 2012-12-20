@@ -21,17 +21,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <iostream>
-#include "c.h"
+#ifndef CLIENT_H_
+#define CLIENT_H_
 
-REGISTER( C, void, void )
+#include "wallaroo/registered.h"
+#include "interface.h"
 
-void C::G()
+using namespace wallaroo;
+
+class Client : public Device
 {
-    std::cout << "C::G" << std::endl;
-}
+public:
+    Client();
+    virtual void G();
+    virtual ~Client();
+private:
+    Plug< Interface > x;
+    Plug< Interface, collection > xList;
+};
 
-C::~C()
-{
-}
-
+#endif

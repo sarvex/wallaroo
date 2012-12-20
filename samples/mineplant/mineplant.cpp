@@ -92,8 +92,9 @@ MinePlant::MinePlant()
 
 void MinePlant::Run()
 {
-    boost::shared_ptr< SumpPump > pump = catalog[ "pump" ];
-    boost::shared_ptr< GasAlarm > gasAlarm = catalog[ "gasAlarm" ];
+    using namespace cxx0x; // use std or boost according to your compiler
+    shared_ptr< SumpPump > pump = catalog[ "pump" ];
+    shared_ptr< GasAlarm > gasAlarm = catalog[ "gasAlarm" ];
 
     while ( true )
 	{

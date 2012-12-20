@@ -21,19 +21,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef A_H_
-#define A_H_
+#ifndef INTERFACE_H_
+#define INTERFACE_H_
 
 #include "wallaroo/registered.h"
+
 
 // Wallaroo library is embedded in the wallaroo namespace
 using namespace wallaroo;
 
-class A : public Device
+class Interface : public Device
 {
 public:
     virtual void F() = 0;
-    virtual ~A() {}
+    virtual ~Interface() {}
 };
 
 #endif

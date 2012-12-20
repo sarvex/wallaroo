@@ -19,8 +19,19 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-###############################################################################
+################################################################################
 
-Program( 'cpp0x', Glob( '*.cpp' ), CPPPATH = [ '../..' ], CPPFLAGS = '-std=c++0x' )
+CC = g++
+CFLAGS = -Wall -I../.. $(UCFLAGS)
+DEPS = interface.h base.h derived.h client.h
+OBJ = base.o derived.o client.o main.o
+EXE = boost_only
 
+%.o: %.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
+$(EXE): $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+clean:
+	rm -f *.o *~ core $(EXE)

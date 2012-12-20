@@ -29,8 +29,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( Alarm, void, void ), public Device
-// class Alarm : public Device
+class Alarm : public Device
 {
 public:
     Alarm();

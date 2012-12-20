@@ -24,7 +24,7 @@
 #include <iostream>
 #include "c.h"
 
-REGISTER( C, std::string, void )
+WALLAROO_REGISTER( C, std::string )
 
 C::C( const std::string& msg )
 : greetingMsg( msg )

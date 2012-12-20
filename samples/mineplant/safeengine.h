@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( SafeEngine, void, void ), public PumpEngine
-// class SafeEngine : public PumpEngine
+class SafeEngine : public PumpEngine
 {
 public:
     SafeEngine();

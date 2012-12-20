@@ -21,25 +21,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef B_H_
-#define B_H_
+#ifndef CLIENT_H_
+#define CLIENT_H_
 
 #include "wallaroo/registered.h"
-#include "a.h"
-#include "c.h"
+#include "interface.h"
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( B, void, void ), public A
-//class B : public A
+class Client : public Device
 {
 public:
-    B();
-    virtual void F();
-    virtual ~B();
+    Client();
+    virtual void G();
+    virtual ~Client();
 private:
-    Plug< C > c;
-    Plug< C, collection > cList;
+    Plug< Interface > x;
+    Plug< Interface, collection > xList;
 };
 
 #endif

@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( ConsoleDigitalOutput, std::string, unsigned int ), public DigitalOutput
-//class ConsoleDigitalOutput : public DigitalOutput
+class ConsoleDigitalOutput : public DigitalOutput
 {
 public:
     ConsoleDigitalOutput( const std::string& _device, unsigned int _bitPosition );

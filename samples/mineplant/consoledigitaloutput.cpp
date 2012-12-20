@@ -25,7 +25,7 @@
 #include <string>
 #include "consoledigitaloutput.h"
 
-REGISTER( ConsoleDigitalOutput, std::string, unsigned int )
+WALLAROO_REGISTER( ConsoleDigitalOutput, std::string, unsigned int )
 
 ConsoleDigitalOutput::ConsoleDigitalOutput( const std::string& _device, unsigned int _bitPosition ) :
   device( _device ),

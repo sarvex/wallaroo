@@ -25,11 +25,11 @@
 #include <algorithm>
 #include "b.h"
 
-REGISTER( B, unsigned int, void )
+WALLAROO_REGISTER( B, unsigned int )
 
 B::B( unsigned int x )  :
-    c( "x", this ),
-    cList( "xList", this ),
+    c( "x", RegistrationToken() ),
+    cList( "xList", RegistrationToken() ),
     par( x )
 {
 }
@@ -42,7 +42,8 @@ void B::F()
     std::cout << "iterating over xList:" << std::endl;
     for ( Plug< C, collection >::iterator i = cList.begin(); i != cList.end(); ++i )
     {
-        boost::shared_ptr< C > cptr = i -> lock();
+        // use std::shared_ptr or boost::shared_ptr according to your compiler
+        cxx0x::shared_ptr< C > cptr = i -> lock();
         if ( cptr )
             cptr -> G();
         else

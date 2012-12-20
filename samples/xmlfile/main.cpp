@@ -27,7 +27,7 @@
 #include "a.h"
 
 using namespace wallaroo;
-
+using namespace cxx0x; // use std or boost according to your compiler
 
 int main( int argc, char* argv[] )
 {
@@ -40,7 +40,7 @@ int main( int argc, char* argv[] )
         // throws a WiringError exception if a plug is missed
         catalog.CheckWiring();
 
-        boost::shared_ptr< A > a = catalog[ "a" ];
+        shared_ptr< A > a = catalog[ "a" ];
 
         a -> F();
     }

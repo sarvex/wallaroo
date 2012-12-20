@@ -23,10 +23,10 @@
 
 #include "thresholdgassensor.h"
 
-REGISTER( ThresholdGasSensor, unsigned int, void )
+WALLAROO_REGISTER( ThresholdGasSensor, unsigned int )
 
 ThresholdGasSensor::ThresholdGasSensor( unsigned int th ) :
-    input( "input", this ),
+    input( "input", RegistrationToken() ),
     threshold( th )
 {
 }

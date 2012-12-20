@@ -30,10 +30,6 @@
 // Wallaroo library is embedded in the wallaroo namespace
 using namespace wallaroo;
 
-// By using this namespace, this source code can be used
-// with both boost::shared_ptr and std::shared_ptr.
-using namespace cxx0x;
-
 int main( int argc, char* argv[] )
 {
     // A catalog contains the objects used by our app
@@ -71,8 +67,8 @@ int main( int argc, char* argv[] )
     // the operator [].
     // The catalog has the ownership of the objects contained
     // so the operator [] returns a shared pointer
-    shared_ptr< Client > c = catalog[ "c" ];
-    shared_ptr< Interface > i = catalog[ "derived2" ];
+    boost::shared_ptr< Client > c = catalog[ "c" ];
+    boost::shared_ptr< Interface > i = catalog[ "derived2" ];
 
     // Finally, you can use your objects in the standard way
     c -> G();

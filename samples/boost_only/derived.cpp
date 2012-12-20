@@ -22,33 +22,21 @@
  ******************************************************************************/
 
 #include <iostream>
-#include "b.h"
+#include "derived.h"
 
-REGISTER( B, void, void )
+WALLAROO_REGISTER( Derived )
 
-B::B()  :
-    c( "x", this ),
-    cList( "xList", this )
+Derived::Derived()
+{
+    std::cout << this << " Derived::Derived()" << std::endl;
+}
+
+void Derived::F()
+{
+    std::cout << this << " Derived::F()" << std::endl;
+}
+
+Derived::~Derived()
 {
 }
 
-void B::F()
-{
-    std::cout << "B::F method begin" << std::endl;
-    std::cout << "invoking x -> G():" << std::endl;
-    c -> G();
-    std::cout << "iterating over xList:" << std::endl;
-    for ( Plug< C, collection >::iterator i = cList.begin(); i != cList.end(); ++i )
-    {
-        std::shared_ptr< C > s = i -> lock();
-        if ( s ) 
-            s -> G();
-        else
-            std::cerr << "an element in MultiplePlug has been deleted!" << std::endl;
-    }
-    std::cout << "B::F method end" << std::endl;
-}
-
-B::~B()
-{
-}

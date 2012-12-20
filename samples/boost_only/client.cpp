@@ -21,30 +21,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "gasalarm.h"
+#include <iostream>
+#include "client.h"
 
-WALLAROO_REGISTER( GasAlarm )
+WALLAROO_REGISTER( Client )
 
-GasAlarm::GasAlarm() :
-  sensors( "sensors", RegistrationToken() ),
-  alarm( "alarm", RegistrationToken() )
+Client::Client() :
+    x( "x", RegistrationToken() ),
+    xList( "xList", RegistrationToken() )
 {
+    std::cout << this << " Client::Client()" << std::endl;
 }
 
-void GasAlarm::Watch()
+void Client::G()
 {
-    for ( SensorList::iterator i = sensors.begin(); i != sensors.end(); ++i )
+    std::cout << this << " Client::G()" << std::endl;
+
+    x -> F();
+
+    for ( Plug< Interface, collection >::iterator i = xList.begin(); i != xList.end(); ++i )
     {
-        cxx0x::shared_ptr< GasSensor > sensor = i -> lock();
-        if ( sensor )
-        {
-            if ( sensor -> IsCritical() )
-            {
-                alarm -> On();
-                return;
-            }
-        }
+        boost::shared_ptr< Interface > s = i -> lock();
+        if ( s ) 
+            s -> F();
+        else
+            std::cerr << "an element in MultiplePlug has been deleted!" << std::endl;
     }
-
-    alarm -> Off();
 }
+
+Client::~Client()
+{
+}
+

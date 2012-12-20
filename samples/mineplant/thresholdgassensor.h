@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( ThresholdGasSensor, unsigned int, void ), public GasSensor
-// class ThresholdGasSensor : public GasSensor
+class ThresholdGasSensor : public GasSensor
 {
 public:
     ThresholdGasSensor( unsigned int threshold );

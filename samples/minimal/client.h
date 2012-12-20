@@ -29,8 +29,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( Client, void, void ), public Device
-// class Client
+class Client : public Device
 {
 public:
     Client();

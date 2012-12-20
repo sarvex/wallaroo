@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( ContinuousSumpProbe, unsigned int, unsigned int ), public SumpProbe
-// class ContinuousSumpProbe : public SumpProbe
+class ContinuousSumpProbe : public SumpProbe
 {
 public:
     ContinuousSumpProbe( unsigned int _lowLevel, unsigned int _highLevel );

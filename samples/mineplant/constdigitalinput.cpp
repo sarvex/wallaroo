@@ -24,7 +24,7 @@
 #include <string>
 #include "constdigitalinput.h"
 
-REGISTER( ConstDigitalInput, std::string, unsigned int )
+WALLAROO_REGISTER( ConstDigitalInput, std::string, unsigned int )
 
 ConstDigitalInput::ConstDigitalInput( const std::string& _device, unsigned int _bitPosition ) :
   device( _device ),

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="MinePlant"
-	ProjectGUID="{15383171-44E4-4D2B-85A6-8785A08082FD}"
-	RootNamespace="MinePlant"
+	Name="boost_only"
+	ProjectGUID="{B9A8AC6C-711A-4337-8DD2-055E35194E92}"
+	RootNamespace="boost_only"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -164,59 +164,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\alarm.cpp"
+				RelativePath=".\base.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\consoledigitaloutput.cpp"
+				RelativePath=".\client.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\constanaloginput.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\constdigitalinput.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\continuoussumpprobe.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\gasalarm.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\levelsensor.cpp"
+				RelativePath=".\derived.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\mineplant.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\pumpengine.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\safeengine.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sumppump.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\thresholdgassensor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\twolevelsumpprobe.cpp"
 				>
 			</File>
 		</Filter>
@@ -226,79 +186,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\alarm.h"
+				RelativePath=".\base.h"
 				>
 			</File>
 			<File
-				RelativePath=".\analoginput.h"
+				RelativePath=".\client.h"
 				>
 			</File>
 			<File
-				RelativePath=".\consoledigitaloutput.h"
+				RelativePath=".\derived.h"
 				>
 			</File>
 			<File
-				RelativePath=".\constanaloginput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\constdigitalinput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\continuoussumpprobe.h"
-				>
-			</File>
-			<File
-				RelativePath=".\digitalinput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\digitaloutput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\gasalarm.h"
-				>
-			</File>
-			<File
-				RelativePath=".\gassensor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\levelprobe.h"
-				>
-			</File>
-			<File
-				RelativePath=".\levelsensor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\mineplant.h"
-				>
-			</File>
-			<File
-				RelativePath=".\pumpengine.h"
-				>
-			</File>
-			<File
-				RelativePath=".\safeengine.h"
-				>
-			</File>
-			<File
-				RelativePath=".\sumpprobe.h"
-				>
-			</File>
-			<File
-				RelativePath=".\sumppump.h"
-				>
-			</File>
-			<File
-				RelativePath=".\thresholdgassensor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\twolevelsumpprobe.h"
+				RelativePath=".\interface.h"
 				>
 			</File>
 		</Filter>

@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( ConstAnalogInput, std::string, void ), public AnalogInput
-//class ConstAnalogInput : public AnalogInput
+class ConstAnalogInput : public AnalogInput
 {
 public:
     ConstAnalogInput( const std::string& _device );

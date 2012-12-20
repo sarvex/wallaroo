@@ -23,10 +23,10 @@
 
 #include "continuoussumpprobe.h"
 
-REGISTER( ContinuousSumpProbe, unsigned int, unsigned int )
+WALLAROO_REGISTER( ContinuousSumpProbe, unsigned int, unsigned int )
 
 ContinuousSumpProbe::ContinuousSumpProbe( unsigned int _lowLevel, unsigned int _highLevel ) :
-  probe( "probe", this ),
+  probe( "probe", RegistrationToken() ),
   lowLevel( _lowLevel ),
   highLevel( _highLevel )
 {

@@ -24,11 +24,11 @@
 #include <iostream>
 #include "client.h"
 
-REGISTER( Client, void, void )
+WALLAROO_REGISTER( Client )
 
 Client::Client() :
-    x( "x", this ),
-    xList( "xList", this )
+    x( "x", RegistrationToken() ),
+    xList( "xList", RegistrationToken() )
 {
     std::cout << this << " Client::Client()" << std::endl;
 }
@@ -41,7 +41,7 @@ void Client::G()
 
     for ( Plug< Interface, collection >::iterator i = xList.begin(); i != xList.end(); ++i )
     {
-        boost::shared_ptr< Interface > s = i -> lock();
+        cxx0x::shared_ptr< Interface > s = i -> lock();
         if ( s ) 
             s -> F();
         else

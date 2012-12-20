@@ -28,8 +28,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( C, std::string, void ), public Device
-// class C
+class C : public Device
 {
 public:
     C( const std::string& msg );
