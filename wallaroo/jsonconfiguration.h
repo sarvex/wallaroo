@@ -83,6 +83,76 @@ public:
 
 private:
 
+    /**********************/
+
+    template < typename T >
+    struct TypeDesc;
+
+    template <>
+    struct TypeDesc< int >
+    {
+        static const char* Name() { return "int"; }
+    };
+
+    template <>
+    struct TypeDesc< std::string >
+    {
+        static const char* Name() { return "string"; }
+    };
+
+    template <>
+    struct TypeDesc< unsigned int >
+    {
+        static const char* Name() { return "unsigned int"; }
+    };
+
+    template <>
+    struct TypeDesc< double >
+    {
+        static const char* Name() { return "double"; }
+    };
+
+    template < typename T1, typename T2 >
+    static bool Create( 
+            Catalog& catalog,
+            const std::string& instance,
+            const std::string& cl,
+            boost::optional< const ptree& > tree1,
+            boost::optional< const ptree& > tree2
+        )
+    {
+        const std::string& type1 = tree1 -> get< std::string >( "type" );
+        const std::string& type2 = tree2 -> get< std::string >( "type" );
+        if ( type1 == TypeDesc< T1 >::Name() && type2 == TypeDesc< T2 >::Name() )
+        {
+            const T1& p1 = tree1 -> get< T1 >( "value" );
+            const T2& p2 = tree2 -> get< T2 >( "value" );
+            catalog.Create( instance, cl, p1, p2 );
+            return true;
+        }
+        return false;
+    }
+
+    template < typename T >
+    static bool Create(
+            Catalog& catalog,
+            const std::string& instance,
+            const std::string& cl,
+            boost::optional< const ptree& > tree
+        )
+    {
+        const std::string& type = tree -> get< std::string >( "type" );
+        if ( type == TypeDesc< T >::Name() )
+        {
+            const T& p = tree -> get< T >( "value" );
+            catalog.Create( instance, cl, p );
+            return true;
+        }
+        return false;
+    }
+
+    /**********************/
+
     void ParseObject( Catalog& catalog, const ptree& v )
     {
         const std::string& name = v.get< std::string >( "name" );
@@ -93,84 +163,33 @@ private:
 
         if ( par1 && par2 )
         {
-            const std::string& type1 = par1 -> get< std::string >( "type" );
-            const std::string& type2 = par2 -> get< std::string >( "type" );
-            if ( type1 == "string" )
-            {
-                const std::string& p1 = par1 -> get< std::string >( "value" );
-                if ( type2 == "string" )
-                {
-                    const std::string& p2 = par2 -> get< std::string >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }
-                else if ( type2 == "int" )
-                {
-                    const int p2 = par2 -> get< int >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }
-                else if ( type2 == "unsigned int" )
-                {
-                    const unsigned int p2 = par2 -> get< unsigned int >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }   
-            }
-            else if ( type1 == "int" )
-            {
-                const int p1 = par1 -> get< int >( "value" );
-                if ( type2 == "string" )
-                {
-                    const std::string& p2 = par2 -> get< std::string >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }
-                else if ( type2 == "int" )
-                {
-                    const int p2 = par2 -> get< int >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }
-                else if ( type2 == "unsigned int" )
-                {
-                    const unsigned int p2 = par2 -> get< unsigned int >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }   
-            }
-            else if ( type1 == "unsigned int" )
-            {
-                const unsigned int p1 = par1 -> get< unsigned int >( "value" );
-                if ( type2 == "string" )
-                {
-                    const std::string& p2 = par2 -> get< std::string >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }
-                else if ( type2 == "int" )
-                {
-                    const int p2 = par2 -> get< int >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }
-                else if ( type2 == "unsigned int" )
-                {
-                    const unsigned int p2 = par2 -> get< unsigned int >( "value" );
-                    catalog.Create( name, cl, p1, p2 );
-                }    
-            }
+            
+            if ( Create< std::string, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< std::string, int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< std::string, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< std::string, double >( catalog, name, cl, par1, par2 ) ) return;
+
+            if ( Create< int, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< int, int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< int, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< int, double >( catalog, name, cl, par1, par2 ) ) return;
+
+            if ( Create< unsigned int, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned int, int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned int, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned int, double >( catalog, name, cl, par1, par2 ) ) return;
+
+            if ( Create< double, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< double, int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< double, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< double, double >( catalog, name, cl, par1, par2 ) ) return;
         }
         else if ( par1 )
         {
-            const std::string& type1 = par1 -> get< std::string >( "type" );
-            if ( type1 == "string" )
-            {
-                const std::string& p = par1 -> get< std::string >( "value" );
-                catalog.Create( name, cl, p );
-            }
-            else if ( type1 == "int" )
-            {
-                const int p = par1 -> get< int >( "value" );
-                catalog.Create( name, cl, p );
-            }
-            else if ( type1 == "unsigned int" )
-            {
-                const unsigned int p = par1 -> get< unsigned int >( "value" );
-                catalog.Create( name, cl, p );
-            }
+            if ( Create< std::string >( catalog, name, cl, par1 ) ) return;
+            if ( Create< int >( catalog, name, cl, par1 ) ) return;
+            if ( Create< unsigned int >( catalog, name, cl, par1 ) ) return;
+            if ( Create< double >( catalog, name, cl, par1 ) ) return;
         }
         else
         {

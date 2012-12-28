@@ -52,23 +52,26 @@ WALLAROO_REGISTER( A5 )
 class B5 : public A5
 {
 public:
-    virtual int F() { return 10; }
+    B5( int _x ) : x( _x ) {}
+    virtual int F() { return x; }
     virtual ~B5() {}
+private:
+    const int x;
 };
 
-WALLAROO_REGISTER( B5 )
+WALLAROO_REGISTER( B5, int )
 
 class C5 : public Device
 {
 public:
-    C5() : x( "x", RegistrationToken() ) {}
+    C5( unsigned int ) : x( "x", RegistrationToken() ) {}
     virtual int F() { return x -> F(); }
     virtual ~C5() {}
 private:
     Plug< I5 > x;
 };
 
-WALLAROO_REGISTER( C5 )
+WALLAROO_REGISTER( C5, unsigned int )
 
 class D5 : public Device
 {
@@ -98,6 +101,15 @@ private:
 
 WALLAROO_REGISTER( D5, std::string, int )
 
+
+class E5 : public Device
+{
+public:
+    E5( unsigned int, double ) {}
+};
+
+WALLAROO_REGISTER( E5, unsigned int, double )
+
 // tests
 
 BOOST_AUTO_TEST_SUITE( JsonLoader )
@@ -125,6 +137,8 @@ BOOST_AUTO_TEST_CASE( JsonOk )
     BOOST_CHECK( d -> String() == "mystring" );
     BOOST_CHECK( d -> Int() == 34 );
     BOOST_CHECK( d -> F() == 15 );
+
+    shared_ptr< E5 > e = catalog[ "e" ];
 }
 
 
