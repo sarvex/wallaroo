@@ -184,26 +184,16 @@
 				>
 			</File>
 			<File
+				RelativePath=".\test_json.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\test_multiplicitycheck.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\test_wiring.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\test_xml_loader.cpp"
