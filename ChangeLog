@@ -1,5 +1,6 @@
 <date>: Version <next>
 
+        * add JSON parser
         * Remove the macro for the class declaration
         * Check of the associations cardinality / optional associations
         * Get rid of VC warning C4355

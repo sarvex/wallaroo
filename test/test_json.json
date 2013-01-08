@@ -1,0 +1,104 @@
+{
+
+  "wallaroo":
+  {
+
+    "devices":
+    [
+      {
+        "name": "a",
+        "class": "A5"
+      },
+
+      {
+        "name": "b",
+        "class": "B5",
+        "parameter1":
+          {
+            "type": "int",
+            "value": 10
+          }
+      },
+
+      {
+        "name": "c1",
+        "class": "C5",
+        "parameter1":
+          {
+            "type": "unsigned int",
+            "value": 10
+          }
+      },
+
+      {
+        "name": "c2",
+        "class": "C5",
+        "parameter1":
+          {
+            "type": "unsigned int",
+            "value": 10
+          }
+      },
+
+      {
+        "name": "d",
+        "class": "D5",
+        "parameter1":
+          {
+            "type": "string",
+            "value": "mystring"
+          },
+        "parameter2":
+          {
+            "type": "int",
+            "value": 34
+          }
+      },
+      
+      {
+        "name": "e",
+        "class": "E5",
+        "parameter1":
+          {
+            "type": "unsigned int",
+            "value": 5
+          },
+        "parameter2":
+          {
+            "type": "double",
+            "value": 3.14
+          }
+      }
+
+    ],
+    
+    "wiring":
+    [
+      {
+        "source": "c1",
+        "dest": "a",
+        "plug": "x"
+      },
+
+      {
+        "source": "c2",
+        "dest": "b",
+        "plug": "x"
+      },
+
+      {
+        "source": "d",
+        "dest": "a",
+        "plug": "container"
+      },
+
+      {
+        "source": "d",
+        "dest": "b",
+        "plug": "container"
+      }
+    ]
+
+  }
+
+}
