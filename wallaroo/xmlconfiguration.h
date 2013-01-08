@@ -21,37 +21,37 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_JSONCONFIGURATION_H_
-#define WALLAROO_JSONCONFIGURATION_H_
+#ifndef WALLAROO_XMLCONFIGURATION_H_
+#define WALLAROO_XMLCONFIGURATION_H_
 
 #include "catalog.h"
 #include "ptreebasedcfg.h"
-#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 using namespace boost::property_tree;
 
 namespace wallaroo
 {
 
-/** This class can parse an json file containing a list of objects to
+/** This class can parse an xml file containing a list of objects to
 * be created and their wiring.
 * Then it can populate a @c Catalog with that objects.
 */
-class JsonConfiguration : private detail::PtreeBasedCfg
+class XmlConfiguration : private detail::PtreeBasedCfg
 {
 public:
-    /** Create an JsonConfiguration from the path specified as parameter.
+    /** Create an XmlConfiguration from the path specified as parameter.
     * @param fileName the path of the file to parse
     * @throw WrongFile if the file does not exist or its format is wrong.
     */
-    explicit JsonConfiguration( const std::string& fileName ) :
+    explicit XmlConfiguration( const std::string& fileName ) :
         detail::PtreeBasedCfg( tree )
     {
         try
         {
-            read_json( fileName, tree );
+            read_xml( fileName, tree, xml_parser::no_comments | xml_parser::trim_whitespace );
         }
-        catch ( const json_parser_error& e )
+        catch ( const xml_parser_error& e )
         {
             throw WrongFile( e.what() );
         }

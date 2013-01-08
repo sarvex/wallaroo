@@ -180,11 +180,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\test_creation.cpp"
+				RelativePath=".\test_cfg_file.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\test_json.cpp"
+				RelativePath=".\test_creation.cpp"
 				>
 			</File>
 			<File
@@ -230,11 +230,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\wallaroo\jsonconfiguration.h"
+				>
+			</File>
+			<File
 				RelativePath="..\wallaroo\plug.h"
 				>
 			</File>
 			<File
 				RelativePath="..\wallaroo\registered.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\xmlconfiguration.h"
 				>
 			</File>
 			<File

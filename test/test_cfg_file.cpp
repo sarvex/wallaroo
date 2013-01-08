@@ -26,6 +26,7 @@
 #include "wallaroo/registered.h"
 #include "wallaroo/catalog.h"
 #include "wallaroo/jsonconfiguration.h"
+#include "wallaroo/xmlconfiguration.h"
 #include "wallaroo/cxx0x.h"
 
 using namespace wallaroo;
@@ -112,19 +113,20 @@ WALLAROO_REGISTER( E5, unsigned int, double )
 
 // tests
 
-BOOST_AUTO_TEST_SUITE( JsonLoader )
+BOOST_AUTO_TEST_SUITE( CfgFile )
 
 BOOST_AUTO_TEST_CASE( JsonNotFound )
 {
     BOOST_CHECK_THROW( JsonConfiguration( "UnexistentFile.json" ), WrongFile );
 }
 
-BOOST_AUTO_TEST_CASE( JsonOk )
+BOOST_AUTO_TEST_CASE( XmlNotFound )
 {
-    JsonConfiguration file( "test_json.json" );
-    Catalog catalog;
-    BOOST_REQUIRE_NO_THROW( file.Fill( catalog ) );
+    BOOST_CHECK_THROW( XmlConfiguration( "UnexistentFile.xml" ), WrongFile );
+}
 
+static void TestContent( Catalog& catalog )
+{
     BOOST_REQUIRE( catalog.IsWiringOk() );
 
     shared_ptr< C5 > c1 = catalog[ "c1" ];
@@ -141,5 +143,20 @@ BOOST_AUTO_TEST_CASE( JsonOk )
     shared_ptr< E5 > e = catalog[ "e" ];
 }
 
+BOOST_AUTO_TEST_CASE( JsonOk )
+{
+    JsonConfiguration file( "test_json.json" );
+    Catalog catalog;
+    BOOST_REQUIRE_NO_THROW( file.Fill( catalog ) );
+    TestContent( catalog );
+}
+
+BOOST_AUTO_TEST_CASE( XmlOk )
+{
+    XmlConfiguration file( "test_xml.xml" );
+    Catalog catalog;
+    BOOST_REQUIRE_NO_THROW( file.Fill( catalog ) );
+    TestContent( catalog );
+}
 
 BOOST_AUTO_TEST_SUITE_END()
