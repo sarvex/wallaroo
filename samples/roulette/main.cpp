@@ -42,12 +42,16 @@ int main( int argc, char* argv[] )
     catalog.Create( "wheel", "Wheel" );
     catalog.Create( "game", "Game" );
     catalog.Create( "straightbetconsolefactory", "StraightBetConsoleFactory" );
+    catalog.Create( "oddevenbetconsolefactory", "OddEvenBetConsoleFactory" );
+    catalog.Create( "redblackbetconsolefactory", "RedBlackBetConsoleFactory" );
     
     wallaroo_within( catalog )
     {
         use( "player" ).as( "player" ).of( "game" );
         use( "wheel" ).as( "wheel" ).of( "game" );
         use( "straightbetconsolefactory" ).as( "availableBets" ).of( "player" );
+        use( "oddevenbetconsolefactory" ).as( "availableBets" ).of( "player" );
+        use( "redblackbetconsolefactory" ).as( "availableBets" ).of( "player" );
     }
 
     // check if all plugs are wired

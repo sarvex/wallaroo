@@ -23,8 +23,8 @@
 
 CC = g++
 CFLAGS = -Wall -I../.. $(UCFLAGS)
-DEPS = bet.h betconsolefactory.h bin.h consoleplayer.h currency.h game.h player.h straightbet.h straightbetconsolefactory.h wheel.h
-OBJ = bin.o consoleplayer.o game.o main.o straightbet.o straightbetconsolefactory.o wheel.o
+DEPS = bet.h oddevenbet.h redblackbet.h betconsolefactory.h bin.h consoleplayer.h currency.h game.h player.h straightbet.h straightbetconsolefactory.h oddevenbetconsolefactory.h redblackbetconsolefactory.h wheel.h
+OBJ = bin.o consoleplayer.o game.o main.o straightbet.o straightbetconsolefactory.o oddevenbet.o oddevenbetconsolefactory.o redblackbet.o redblackbetconsolefactory.o wheel.o
 EXE = roulette
 
 %.o: %.cpp $(DEPS)

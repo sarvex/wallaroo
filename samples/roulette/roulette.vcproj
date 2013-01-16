@@ -181,6 +181,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\oddevenbet.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\oddevenbetconsolefactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\redblackbet.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\redblackbetconsolefactory.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\straightbet.cpp"
 				>
 			</File>
@@ -223,7 +239,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\oddevenbet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\oddevenbetconsolefactory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\player.h"
+				>
+			</File>
+			<File
+				RelativePath=".\redblackbet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\redblackbetconsolefactory.h"
 				>
 			</File>
 			<File

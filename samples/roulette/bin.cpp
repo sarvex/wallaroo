@@ -82,6 +82,11 @@ bool Bin::operator==( const Bin& other) const
     return value == other.value;
 }
 
+bool Bin::operator<( const Bin& other) const
+{
+    return value < other.value;
+}
+
 Bin& Bin::operator=( const Bin& rhs )
 {
     if ( this == &rhs )

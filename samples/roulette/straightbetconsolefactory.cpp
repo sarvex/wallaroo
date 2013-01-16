@@ -57,6 +57,7 @@ cxx0x::shared_ptr< Bet > StraightBetConsoleFactory::Create( const std::string& c
     ss >> amount;
     if ( ss.fail() ) return cxx0x::shared_ptr< Bet >();
     if ( !ss.eof() ) return cxx0x::shared_ptr< Bet >();
+    if ( amount == 0 ) return cxx0x::shared_ptr< Bet >();
 
     Bin bin( inputBin );
     return cxx0x::shared_ptr< Bet >( new StraightBet( bin, amount ) );
