@@ -24,8 +24,6 @@
 #include <iostream>
 #include "wallaroo/catalog.h"
 #include "game.h"
-#include "player.h"
-#include "wheel.h"
 
 // Wallaroo library is embedded in the wallaroo namespace
 using namespace wallaroo;
@@ -36,32 +34,44 @@ using namespace cxx0x;
 
 int main( int argc, char* argv[] )
 {
-    Catalog catalog;
-
-    catalog.Create( "player", "ConsolePlayer" );
-    catalog.Create( "wheel", "Wheel" );
-    catalog.Create( "game", "Game" );
-    catalog.Create( "straightbetconsolefactory", "StraightBetConsoleFactory" );
-    catalog.Create( "oddevenbetconsolefactory", "OddEvenBetConsoleFactory" );
-    catalog.Create( "redblackbetconsolefactory", "RedBlackBetConsoleFactory" );
-    
-    wallaroo_within( catalog )
+    try
     {
-        use( "player" ).as( "player" ).of( "game" );
-        use( "wheel" ).as( "wheel" ).of( "game" );
-        use( "straightbetconsolefactory" ).as( "availableBets" ).of( "player" );
-        use( "oddevenbetconsolefactory" ).as( "availableBets" ).of( "player" );
-        use( "redblackbetconsolefactory" ).as( "availableBets" ).of( "player" );
+        Catalog logicCatalog;
+        Catalog betCatalog;
+
+        logicCatalog.Create( "player", "ConsolePlayer" );
+        logicCatalog.Create( "wheel", "Wheel" );
+        logicCatalog.Create( "game", "Game" );
+
+        betCatalog.Create( "straightbetconsolefactory", "StraightBetConsoleFactory" );
+        betCatalog.Create( "oddevenbetconsolefactory", "OddEvenBetConsoleFactory" );
+        betCatalog.Create( "redblackbetconsolefactory", "RedBlackBetConsoleFactory" );
+        
+        wallaroo_within( logicCatalog )
+        {
+            use( "player" ).as( "player" ).of( "game" );
+            use( "wheel" ).as( "wheel" ).of( "game" );
+        }
+
+        use( betCatalog[ "straightbetconsolefactory" ] ).as( "availableBets" ).of( logicCatalog[ "player" ] );
+        use( betCatalog[ "oddevenbetconsolefactory" ] ).as( "availableBets" ).of( logicCatalog[ "player" ] );
+        use( betCatalog[ "redblackbetconsolefactory" ] ).as( "availableBets" ).of( logicCatalog[ "player" ] );
+
+        // check if all plugs are wired
+        assert( logicCatalog.IsWiringOk() );
+        assert( betCatalog.IsWiringOk() );
+
+        shared_ptr< Game > game = logicCatalog[ "game" ];
+
+        std::cout << "Welcome to the roulette game" << std::endl;
+        while ( 1 )
+            game -> Play();
+
     }
-
-    // check if all plugs are wired
-    assert( catalog.IsWiringOk() );
-
-    shared_ptr< Game > game = catalog[ "game" ];
-
-    std::cout << "Welcome to the roulette game" << std::endl;
-    while ( 1 )
-        game -> Play();
+    catch ( const WallarooError& e )
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 
     return 0;
 }
