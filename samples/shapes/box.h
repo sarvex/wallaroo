@@ -24,14 +24,17 @@
 #ifndef BOX_H_
 #define BOX_H_
 
+#include <algorithm> // std::min and std::max
+
 struct Box
 {
-    Box( int x1, int y1, int x2, int y2 ) : 
-        x_min( std::min( x1, x2 ) ),
-        x_max( std::max( x1, x2 ) ),
-        y_min( std::min( y1, y2 ) ),
-        y_max( std::max( y1, y2 ) )
-    {}
+    Box( int x1, int y1, int x2, int y2 ) :
+        // the parentheses around std::min and std::max because windows.h redefine them
+        x_min( (std::min)( x1, x2 ) ),
+        x_max( (std::max)( x1, x2 ) ),
+        y_min( (std::min)( y1, y2 ) ),
+        y_max( (std::max)( y1, y2 ) )
+{}
     unsigned int Width() const { return x_max - x_min; }
     unsigned int Height() const { return y_max - y_min; }
 

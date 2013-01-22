@@ -1,0 +1,36 @@
+{
+
+  "wallaroo":
+  {
+
+    "devices":
+    [
+      {
+        "name": "draft",
+        "class": "Draft"
+      },
+
+      {
+        "name": "canvas",
+        "class": "CsvFileCanvas",
+        "parameter1":
+          {
+            "type": "string",
+            "value": "result.csv"
+          }
+      }
+    ],
+    
+    "wiring":
+    [
+      {
+        "source": "draft",
+        "dest": "canvas",
+        "plug": "canvas"
+      }
+
+    ]
+
+  }
+
+}

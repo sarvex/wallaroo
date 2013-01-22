@@ -23,6 +23,8 @@
 
 #include <iostream>
 #include "wallaroo/catalog.h"
+#include "wallaroo/jsonconfiguration.h"
+#include "wallaroo/xmlconfiguration.h"
 #include "draft.h"
 
 // Wallaroo library is embedded in the wallaroo namespace
@@ -34,34 +36,28 @@ using namespace cxx0x;
 
 int main( int argc, char* argv[] )
 {
-    Catalog catalog;
-
-    catalog.Create( "draft", "Draft" );
-    catalog.Create( "canvas", "ConsoleCanvas" );
-    //catalog.Create( "canvas", "CsvFileCanvas", std::string("result.csv") );
-    catalog.Create( "rec1", "Rectangle", (unsigned int)10, (unsigned int)10 );
-    catalog.Create( "rec2", "Rectangle", (unsigned int)5, (unsigned int)3 );
-    catalog.Create( "circle", "Circle", (unsigned int)10 );
-    catalog.Create( "triangle1", "Triangle", (unsigned int)16, (unsigned int)10 );
-    catalog.Create( "triangle2", "Triangle", (unsigned int)6, (unsigned int)10 );
-    
-    wallaroo_within( catalog )
+    try
     {
-        use( "canvas" ).as( "canvas" ).of( "draft" );
-        use( "rec1" ).as( "shapes" ).of( "draft" );
-        use( "rec2" ).as( "shapes" ).of( "draft" );
-        use( "circle" ).as( "shapes" ).of( "draft" );
-        use( "triangle1" ).as( "shapes" ).of( "draft" );
-        use( "triangle2" ).as( "shapes" ).of( "draft" );
+        Catalog catalog;
+
+        JsonConfiguration appCfg( "application.json" );
+        XmlConfiguration draftCfg( "draft.xml" );
+
+        appCfg.Fill( catalog );
+        draftCfg.Fill( catalog );
+
+        catalog.CheckWiring();
+
+        shared_ptr< Draft > draft = catalog[ "draft" ];
+
+        draft -> Align();
+        draft -> Draw();
+
     }
-
-    // check if all plugs are wired
-    assert( catalog.IsWiringOk() );
-
-    shared_ptr< Draft > draft = catalog[ "draft" ];
-
-    draft -> Align();
-    draft -> Draw();
+    catch ( const WallarooError& e )
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 
     // Wait for exit
     std::cout << "Press Enter to end the program." << std::endl;
