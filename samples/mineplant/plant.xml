@@ -1,0 +1,270 @@
+<!--
+ * wallaroo - A library for configurable creation and wiring of C++ classes
+ * Copyright (C) 2012 Daniele Pallastrelli 
+ *
+ *
+ * This file is part of wallaroo.
+ * For more information, see http://wallaroo.googlecode.com/
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+-->
+
+<wallaroo>
+  <devices>
+
+    <device>
+      <name>lowLevelInput</name>
+      <class>ConstDigitalInput</class>
+      <parameter1>
+        <type>string</type>
+        <value>/dev/lpt1</value>
+      </parameter1>
+      <parameter2>
+        <type>unsigned int</type>
+        <value>0</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>highLevelInput</name>
+      <class>ConstDigitalInput</class>
+      <parameter1>
+        <type>string</type>
+        <value>/dev/lpt1</value>
+      </parameter1>
+      <parameter2>
+        <type>unsigned int</type>
+        <value>1</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>lowSensor</name>
+      <class>LevelSensor</class>
+    </device>
+
+    <device>
+      <name>highSensor</name>
+      <class>LevelSensor</class>
+    </device>
+
+    <device>
+      <name>probe</name>
+      <class>TwoLevelSumpProbe</class>
+    </device>
+
+    <device>
+      <name>output</name>
+      <class>ConsoleDigitalOutput</class>
+      <parameter1>
+        <type>string</type>
+        <value>/dev/lpt2</value>
+      </parameter1>
+      <parameter2>
+        <type>unsigned int</type>
+        <value>0</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>engine</name>
+      <class>SafeEngine</class>
+    </device>
+
+    <device>
+      <name>airFlowSensor</name>
+      <class>ThresholdGasSensor</class>
+      <parameter1>
+        <type>unsigned int</type>
+        <value>5</value>
+      </parameter1>
+    </device>
+
+    <device>
+      <name>COSensor</name>
+      <class>ThresholdGasSensor</class>
+      <parameter1>
+        <type>unsigned int</type>
+        <value>25</value>
+      </parameter1>
+    </device>
+
+    <device>
+      <name>methaneSensor</name>
+      <class>ThresholdGasSensor</class>
+      <parameter1>
+        <type>unsigned int</type>
+        <value>10</value>
+      </parameter1>
+    </device>
+
+    <device>
+      <name>airFlowInput</name>
+      <class>ConstAnalogInput</class>
+      <parameter1>
+        <type>string</type>
+        <value>/dev/lpt3</value>
+      </parameter1>
+    </device>
+
+    <device>
+      <name>COInput</name>
+      <class>ConstAnalogInput</class>
+      <parameter1>
+        <type>string</type>
+        <value>/dev/lpt4</value>
+      </parameter1>
+    </device>
+
+    <device>
+      <name>methaneInput</name>
+      <class>ConstAnalogInput</class>
+      <parameter1>
+        <type>string</type>
+        <value>/dev/lpt5</value>
+      </parameter1>
+    </device>
+
+    <device>
+      <name>alarmOutput</name>
+      <class>ConsoleDigitalOutput</class>
+      <parameter1>
+        <type>string</type>
+        <value>/dev/lpt2</value>
+      </parameter1>
+      <parameter2>
+        <type>unsigned int</type>
+        <value>1</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>gasAlarm</name>
+      <class>GasAlarm</class>
+    </device>
+
+    <device>
+      <name>alarm</name>
+      <class>Alarm</class>
+    </device>
+
+    <device>
+      <name>pump</name>
+      <class>SumpPump</class>
+    </device>
+    
+  </devices>
+
+  <wiring>
+
+    <wire>
+      <source>lowSensor</source>
+      <dest>lowLevelInput</dest>
+      <plug>input</plug>
+    </wire>
+
+    <wire>
+      <source>highSensor</source>
+      <dest>highLevelInput</dest>
+      <plug>input</plug>
+    </wire>
+
+    <wire>
+      <source>probe</source>
+      <dest>lowSensor</dest>
+      <plug>lowSensor</plug>
+    </wire>
+
+    <wire>
+      <source>probe</source>
+      <dest>highSensor</dest>
+      <plug>highSensor</plug>
+    </wire>
+
+    <wire>
+      <source>engine</source>
+      <dest>output</dest>
+      <plug>output</plug>
+    </wire>
+
+    <wire>
+      <source>airFlowSensor</source>
+      <dest>airFlowInput</dest>
+      <plug>input</plug>
+    </wire>
+
+    <wire>
+      <source>COSensor</source>
+      <dest>COInput</dest>
+      <plug>input</plug>
+    </wire>
+
+    <wire>
+      <source>methaneSensor</source>
+      <dest>methaneInput</dest>
+      <plug>input</plug>
+    </wire>
+
+    <wire>
+      <source>engine</source>
+      <dest>methaneSensor</dest>
+      <plug>sensor</plug>
+    </wire>
+
+    <wire>
+      <source>alarm</source>
+      <dest>alarmOutput</dest>
+      <plug>output</plug>
+    </wire>
+
+    <wire>
+      <source>gasAlarm</source>
+      <dest>airFlowSensor</dest>
+      <plug>sensors</plug>
+    </wire>
+
+    <wire>
+      <source>gasAlarm</source>
+      <dest>COSensor</dest>
+      <plug>sensors</plug>
+    </wire>
+
+    <wire>
+      <source>gasAlarm</source>
+      <dest>methaneSensor</dest>
+      <plug>sensors</plug>
+    </wire>
+
+    <wire>
+      <source>gasAlarm</source>
+      <dest>alarm</dest>
+      <plug>alarm</plug>
+    </wire>
+
+    <wire>
+      <source>pump</source>
+      <dest>probe</dest>
+      <plug>probe</plug>
+    </wire>
+
+    <wire>
+      <source>pump</source>
+      <dest>engine</dest>
+      <plug>engine</plug>
+    </wire>
+
+  </wiring>
+
+</wallaroo>

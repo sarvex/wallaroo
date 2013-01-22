@@ -21,12 +21,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
+#include <iostream>
 #include "mineplant.h"
 
 int main( int argc, char* argv[] )
 {
-    MinePlant plant;
-    plant.Run();
+    try
+    {
+        MinePlant plant( "plant.xml" );
+        plant.Run();
+    }
+    catch ( const WallarooError& e )
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    // Wait for exit
+    std::cout << "Press Enter to end the program." << std::endl;
+    std::cin.get();
 
     return 0;
 }

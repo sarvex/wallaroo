@@ -31,7 +31,7 @@ using namespace wallaroo;
 class MinePlant
 {
 public:
-    MinePlant();
+    MinePlant( const std::string& cfgFile );
     virtual void Run();
     virtual ~MinePlant() {}
 private:
