@@ -180,30 +180,20 @@
 				>
 			</File>
 			<File
+				RelativePath=".\test_cfg_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\test_creation.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\test_multiplicitycheck.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\test_wiring.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\test_xml_loader.cpp"
@@ -240,11 +230,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\wallaroo\jsonconfiguration.h"
+				>
+			</File>
+			<File
 				RelativePath="..\wallaroo\plug.h"
 				>
 			</File>
 			<File
 				RelativePath="..\wallaroo\registered.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\xmlconfiguration.h"
 				>
 			</File>
 			<File
