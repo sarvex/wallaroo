@@ -24,18 +24,21 @@
 #ifndef MINEPLANT_H_
 #define MINEPLANT_H_
 
-#include "wallaroo/catalog.h"
+#include "wallaroo/registered.h"
+#include "sumppump.h"
+#include "gasalarm.h"
 
 using namespace wallaroo;
 
-class MinePlant
+class MinePlant : public Device
 {
 public:
-    MinePlant( const std::string& cfgFile );
+    MinePlant();
     virtual void Run();
     virtual ~MinePlant() {}
 private:
-    Catalog catalog;
+    Plug< SumpPump > pump;
+    Plug< GasAlarm, optional > gasAlarm;
 };
 
 #endif

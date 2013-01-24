@@ -164,7 +164,12 @@
       <name>pump</name>
       <class>SumpPump</class>
     </device>
-    
+
+    <device>
+      <name>plant</name>
+      <class>MinePlant</class>
+    </device>
+
   </devices>
 
   <wiring>
@@ -263,6 +268,18 @@
       <source>pump</source>
       <dest>engine</dest>
       <plug>engine</plug>
+    </wire>
+
+    <wire>
+      <source>plant</source>
+      <dest>pump</dest>
+      <plug>pump</plug>
+    </wire>
+
+    <wire>
+      <source>plant</source>
+      <dest>gasAlarm</dest>
+      <plug>gasAlarm</plug>
     </wire>
 
   </wiring>

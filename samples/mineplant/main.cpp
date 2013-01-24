@@ -22,14 +22,23 @@
  ******************************************************************************/
 
 #include <iostream>
+#include "wallaroo/xmlconfiguration.h"
 #include "mineplant.h"
 
 int main( int argc, char* argv[] )
 {
+    using namespace cxx0x; // use std or boost according to your compiler
+    using namespace wallaroo;
+
     try
     {
-        MinePlant plant( "plant.xml" );
-        plant.Run();
+        Catalog catalog;
+        XmlConfiguration cfgFile( "plant.xml" );
+        cfgFile.Fill( catalog );
+        catalog.CheckWiring();
+
+        shared_ptr< MinePlant > plant = catalog[ "plant" ];
+        plant -> Run();
     }
     catch ( const WallarooError& e )
     {

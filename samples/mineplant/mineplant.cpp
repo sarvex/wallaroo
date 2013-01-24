@@ -21,48 +21,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "wallaroo/xmlconfiguration.h"
 #include "mineplant.h"
-#include "sumppump.h"
-#include "gasalarm.h"
 
-MinePlant::MinePlant( const std::string& xmlFile )
+WALLAROO_REGISTER( MinePlant )
+
+MinePlant::MinePlant() :
+    pump( "pump", RegistrationToken() ),
+    gasAlarm( "gasAlarm", RegistrationToken() )
 {
-    XmlConfiguration cfgFile( xmlFile );
-    cfgFile.Fill( catalog );
-    catalog.CheckWiring();
 }
 
 void MinePlant::Run()
 {
-    using namespace cxx0x; // use std or boost according to your compiler
-
-    shared_ptr< SumpPump > pump;
-    shared_ptr< GasAlarm > gasAlarm;
-
-    try
-    {
-        pump = catalog[ "pump" ];
-        std::cout << "The plant has a pump." << std::endl;
-    }
-    catch ( const ElementNotFound& e )
-    {
-        std::cout << "No pump in the plant." << std::endl;
-    }
-
-    try
-    {
-        gasAlarm = catalog[ "gasAlarm" ];
-        std::cout << "The plant has a gas alarm." << std::endl;
-    }
-    catch ( const ElementNotFound& e )
-    {
-        std::cout << "No gas alarm in the plant." << std::endl;
-    }
-
     while ( true )
 	{
-        if ( pump ) pump -> Drain();
+        pump -> Drain();
 		if ( gasAlarm ) gasAlarm -> Watch();
 	}
 }
