@@ -174,6 +174,15 @@ public:
             throw DeletedDeviceError();
         return result;
     }
+    
+    /** Returns true if the plug has been wired and the embedded
+    * device has not been deleted.
+    * @return true If the embedded device exists.
+    */
+    operator bool() const
+    {
+        return !device.expired();
+    }
 
    /** Check if this Plug is correctly wired according to the
     * P template parameter policy.
