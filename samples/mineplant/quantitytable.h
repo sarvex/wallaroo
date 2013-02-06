@@ -21,25 +21,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "thresholdgassensor.h"
+#ifndef QUANTITYTABLE_H_
+#define QUANTITYTABLE_H_
 
-WALLAROO_REGISTER( ThresholdGasSensor, unsigned int, bool )
+#include <string>
+#include "wallaroo/registered.h"
 
-ThresholdGasSensor::ThresholdGasSensor( unsigned int th, bool _criticalIfAbove ) :
-    input( "input", RegistrationToken() ),
-    threshold( th ),
-    criticalIfAbove( _criticalIfAbove )
+using namespace wallaroo;
+
+class QuantityTable : public Device
 {
-}
+public:
+    virtual int GetMeasure( const std::string& sensor ) = 0;
+    virtual void SetQuantity( const std::string& actuator, int value ) = 0;
+    virtual ~QuantityTable() {}
+};
 
-bool ThresholdGasSensor::IsCritical() const
-{
-    if ( criticalIfAbove )
-        return input -> Read() > threshold;
-    else
-        return input -> Read() < threshold;
-}
-
-ThresholdGasSensor::~ThresholdGasSensor()
-{
-}
+#endif

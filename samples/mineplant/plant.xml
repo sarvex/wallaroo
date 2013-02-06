@@ -26,28 +26,20 @@
 
     <device>
       <name>lowLevelInput</name>
-      <class>ConstDigitalInput</class>
+      <class>TableBasedDigitalInput</class>
       <parameter1>
         <type>string</type>
-        <value>/dev/lpt1</value>
+        <value>low</value>
       </parameter1>
-      <parameter2>
-        <type>unsigned int</type>
-        <value>0</value>
-      </parameter2>
     </device>
 
     <device>
       <name>highLevelInput</name>
-      <class>ConstDigitalInput</class>
+      <class>TableBasedDigitalInput</class>
       <parameter1>
         <type>string</type>
-        <value>/dev/lpt1</value>
+        <value>high</value>
       </parameter1>
-      <parameter2>
-        <type>unsigned int</type>
-        <value>1</value>
-      </parameter2>
     </device>
 
     <device>
@@ -67,15 +59,11 @@
 
     <device>
       <name>output</name>
-      <class>ConsoleDigitalOutput</class>
+      <class>TableBasedDigitalOutput</class>
       <parameter1>
         <type>string</type>
-        <value>/dev/lpt2</value>
+        <value>pump engine</value>
       </parameter1>
-      <parameter2>
-        <type>unsigned int</type>
-        <value>0</value>
-      </parameter2>
     </device>
 
     <device>
@@ -90,6 +78,10 @@
         <type>unsigned int</type>
         <value>5</value>
       </parameter1>
+      <parameter2>
+        <type>bool</type>
+        <value>false</value>
+      </parameter2>
     </device>
 
     <device>
@@ -99,6 +91,10 @@
         <type>unsigned int</type>
         <value>25</value>
       </parameter1>
+      <parameter2>
+        <type>bool</type>
+        <value>true</value>
+      </parameter2>
     </device>
 
     <device>
@@ -108,46 +104,46 @@
         <type>unsigned int</type>
         <value>10</value>
       </parameter1>
+      <parameter2>
+        <type>bool</type>
+        <value>true</value>
+      </parameter2>
     </device>
 
     <device>
       <name>airFlowInput</name>
-      <class>ConstAnalogInput</class>
+      <class>TableBasedAnalogInput</class>
       <parameter1>
         <type>string</type>
-        <value>/dev/lpt3</value>
+        <value>air</value>
       </parameter1>
     </device>
 
     <device>
       <name>COInput</name>
-      <class>ConstAnalogInput</class>
+      <class>TableBasedAnalogInput</class>
       <parameter1>
         <type>string</type>
-        <value>/dev/lpt4</value>
+        <value>co</value>
       </parameter1>
     </device>
 
     <device>
       <name>methaneInput</name>
-      <class>ConstAnalogInput</class>
+      <class>TableBasedAnalogInput</class>
       <parameter1>
         <type>string</type>
-        <value>/dev/lpt5</value>
+        <value>methane</value>
       </parameter1>
     </device>
 
     <device>
       <name>alarmOutput</name>
-      <class>ConsoleDigitalOutput</class>
+      <class>TableBasedDigitalOutput</class>
       <parameter1>
         <type>string</type>
-        <value>/dev/lpt2</value>
+        <value>alarm output</value>
       </parameter1>
-      <parameter2>
-        <type>unsigned int</type>
-        <value>1</value>
-      </parameter2>
     </device>
 
     <device>
@@ -168,6 +164,11 @@
     <device>
       <name>plant</name>
       <class>MinePlant</class>
+    </device>
+
+    <device>
+      <name>console</name>
+      <class>Console</class>
     </device>
 
   </devices>
@@ -280,6 +281,48 @@
       <source>plant</source>
       <dest>gasAlarm</dest>
       <plug>gasAlarm</plug>
+    </wire>
+
+    <wire>
+      <source>airFlowInput</source>
+      <dest>console</dest>
+      <plug>table</plug>
+    </wire>
+
+    <wire>
+      <source>COInput</source>
+      <dest>console</dest>
+      <plug>table</plug>
+    </wire>
+
+    <wire>
+      <source>methaneInput</source>
+      <dest>console</dest>
+      <plug>table</plug>
+    </wire>
+
+    <wire>
+      <source>lowLevelInput</source>
+      <dest>console</dest>
+      <plug>table</plug>
+    </wire>
+
+    <wire>
+      <source>highLevelInput</source>
+      <dest>console</dest>
+      <plug>table</plug>
+    </wire>
+
+    <wire>
+      <source>output</source>
+      <dest>console</dest>
+      <plug>table</plug>
+    </wire>
+
+    <wire>
+      <source>alarmOutput</source>
+      <dest>console</dest>
+      <plug>table</plug>
     </wire>
 
   </wiring>

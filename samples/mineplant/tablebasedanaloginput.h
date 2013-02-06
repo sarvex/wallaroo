@@ -21,21 +21,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
+#ifndef TABLEBASEDANALOGINPUT_H_
+#define TABLEBASEDANALOGINPUT_H_
+
 #include <string>
-#include "constanaloginput.h"
+#include "analoginput.h"
+#include "quantitytable.h"
+#include "wallaroo/registered.h"
 
-WALLAROO_REGISTER( ConstAnalogInput, std::string )
+using namespace wallaroo;
 
-ConstAnalogInput::ConstAnalogInput( const std::string& _device ) :
-  device( _device )
+class TableBasedAnalogInput : public AnalogInput
 {
-}
+public:
+    TableBasedAnalogInput( const std::string& key );
+    virtual unsigned int Read() const;
+    virtual ~TableBasedAnalogInput();
+private:
+    const std::string key;
+    Plug< QuantityTable, mandatory > table;
+};
 
-unsigned int ConstAnalogInput::Read() const
-{
-    return 0;
-}
-
-ConstAnalogInput::~ConstAnalogInput()
-{
-}
+#endif

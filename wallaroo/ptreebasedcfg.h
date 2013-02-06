@@ -100,6 +100,12 @@ private:
         static const char* Name() { return "double"; }
     };
 
+    template <>
+    struct TypeDesc< bool >
+    {
+        static const char* Name() { return "bool"; }
+    };
+
     template < typename T1, typename T2 >
     static bool Create( 
             Catalog& catalog,
@@ -156,21 +162,31 @@ private:
             if ( Create< std::string, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< std::string, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< std::string, double >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< std::string, bool >( catalog, name, cl, par1, par2 ) ) return;
 
             if ( Create< int, std::string >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< int, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< int, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< int, double >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< int, bool >( catalog, name, cl, par1, par2 ) ) return;
 
             if ( Create< unsigned int, std::string >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< unsigned int, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< unsigned int, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< unsigned int, double >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned int, bool >( catalog, name, cl, par1, par2 ) ) return;
 
             if ( Create< double, std::string >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< double, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< double, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< double, double >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< double, bool >( catalog, name, cl, par1, par2 ) ) return;
+
+            if ( Create< bool, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< bool, int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< bool, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< bool, double >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< bool, bool >( catalog, name, cl, par1, par2 ) ) return;
         }
         else if ( par1 )
         {
@@ -178,6 +194,7 @@ private:
             if ( Create< int >( catalog, name, cl, par1 ) ) return;
             if ( Create< unsigned int >( catalog, name, cl, par1 ) ) return;
             if ( Create< double >( catalog, name, cl, par1 ) ) return;
+            if ( Create< bool >( catalog, name, cl, par1 ) ) return;
         }
         else
         {

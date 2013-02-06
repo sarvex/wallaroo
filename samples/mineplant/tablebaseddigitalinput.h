@@ -21,25 +21,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "thresholdgassensor.h"
+#ifndef TABLEBASEDDIGITALINPUT_H_
+#define TABLEBASEDDIGITALINPUT_H_
 
-WALLAROO_REGISTER( ThresholdGasSensor, unsigned int, bool )
+#include <string>
+#include "digitalinput.h"
+#include "quantitytable.h"
+#include "wallaroo/registered.h"
 
-ThresholdGasSensor::ThresholdGasSensor( unsigned int th, bool _criticalIfAbove ) :
-    input( "input", RegistrationToken() ),
-    threshold( th ),
-    criticalIfAbove( _criticalIfAbove )
+using namespace wallaroo;
+
+class TableBasedDigitalInput : public DigitalInput
 {
-}
+public:
+    TableBasedDigitalInput( const std::string& key );
+    virtual bool Read() const;
+    virtual ~TableBasedDigitalInput();
+private:
+    const std::string key;
+    Plug< QuantityTable > table;
+};
 
-bool ThresholdGasSensor::IsCritical() const
-{
-    if ( criticalIfAbove )
-        return input -> Read() > threshold;
-    else
-        return input -> Read() < threshold;
-}
-
-ThresholdGasSensor::~ThresholdGasSensor()
-{
-}
+#endif

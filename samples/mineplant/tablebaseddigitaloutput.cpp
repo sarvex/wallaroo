@@ -21,24 +21,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef CONSTDIGITALINPUT_H_
-#define CONSTDIGITALINPUT_H_
+#include "tablebaseddigitaloutput.h"
 
-#include <string>
-#include "digitalinput.h"
-#include "wallaroo/registered.h"
+WALLAROO_REGISTER( TableBasedDigitalOutput, std::string )
 
-using namespace wallaroo;
-
-class ConstDigitalInput : public DigitalInput
+TableBasedDigitalOutput::TableBasedDigitalOutput( const std::string& _key ) :
+  key( _key ),
+  table( "table", RegistrationToken() )
 {
-public:
-    ConstDigitalInput( const std::string& _device, unsigned int _bitPosition );
-    virtual bool Read() const;
-    virtual ~ConstDigitalInput();
-private:
-    const std::string device;
-    const unsigned int bitPosition;
-};
+}
 
-#endif
+void TableBasedDigitalOutput::Write( bool value )
+{
+    table -> SetQuantity( key, value );
+}
+
+TableBasedDigitalOutput::~TableBasedDigitalOutput() 
+{
+}

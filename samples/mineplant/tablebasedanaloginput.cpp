@@ -21,25 +21,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "thresholdgassensor.h"
+#include "tablebasedanaloginput.h"
 
-WALLAROO_REGISTER( ThresholdGasSensor, unsigned int, bool )
+WALLAROO_REGISTER( TableBasedAnalogInput, std::string )
 
-ThresholdGasSensor::ThresholdGasSensor( unsigned int th, bool _criticalIfAbove ) :
-    input( "input", RegistrationToken() ),
-    threshold( th ),
-    criticalIfAbove( _criticalIfAbove )
+TableBasedAnalogInput::TableBasedAnalogInput( const std::string& _key ) :
+  key( _key ),
+  table( "table", RegistrationToken() )
 {
 }
 
-bool ThresholdGasSensor::IsCritical() const
+unsigned int TableBasedAnalogInput::Read() const
 {
-    if ( criticalIfAbove )
-        return input -> Read() > threshold;
-    else
-        return input -> Read() < threshold;
+    return table -> GetMeasure( key );
 }
 
-ThresholdGasSensor::~ThresholdGasSensor()
+TableBasedAnalogInput::~TableBasedAnalogInput()
 {
 }

@@ -21,25 +21,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "thresholdgassensor.h"
+#ifndef CONSOLE_H_
+#define CONSOLE_H_
 
-WALLAROO_REGISTER( ThresholdGasSensor, unsigned int, bool )
+#include <map>
+#include <string>
+#include "quantitytable.h"
 
-ThresholdGasSensor::ThresholdGasSensor( unsigned int th, bool _criticalIfAbove ) :
-    input( "input", RegistrationToken() ),
-    threshold( th ),
-    criticalIfAbove( _criticalIfAbove )
+class Console : public QuantityTable
 {
-}
+public:
+    virtual int GetMeasure( const std::string& sensor );
+    virtual void SetQuantity( const std::string& actuator, int value );
+private:
+    void Dump();
+    void GetInput();
+    typedef std::map< std::string, int > Dictionary;
+    Dictionary values;
+    unsigned int counter;
+};
 
-bool ThresholdGasSensor::IsCritical() const
-{
-    if ( criticalIfAbove )
-        return input -> Read() > threshold;
-    else
-        return input -> Read() < threshold;
-}
 
-ThresholdGasSensor::~ThresholdGasSensor()
-{
-}
+#endif

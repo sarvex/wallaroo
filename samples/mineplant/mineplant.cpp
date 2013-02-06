@@ -34,9 +34,10 @@ MinePlant::MinePlant() :
 void MinePlant::Run()
 {
     while ( true )
-	{
+    {
         pump -> Drain();
-		if ( gasAlarm ) gasAlarm -> Watch();
-	}
+        if ( gasAlarm ) gasAlarm -> Watch();
+    }
 }
+
 
