@@ -27,8 +27,11 @@
 WALLAROO_REGISTER( Client )
 
 Client::Client() :
-    x( "x", RegistrationToken() ),
-    xList( "xList", RegistrationToken() )
+    relation( "relation", RegistrationToken() ),
+    optionalRelation( "optionalRelation", RegistrationToken() ),
+    relationVector( "relationVector", RegistrationToken() ),
+    relationList( "relationList", RegistrationToken() ),
+    relationBoundedVector( "relationBoundedVector", RegistrationToken() )
 {
     std::cout << this << " Client::Client()" << std::endl;
 }
@@ -37,15 +40,27 @@ void Client::G()
 {
     std::cout << this << " Client::G()" << std::endl;
 
-    x -> F();
+    relation -> F();
 
-    for ( Plug< Interface, collection >::iterator i = xList.begin(); i != xList.end(); ++i )
+    for ( 
+        Plug< Interface, collection, std::list >::iterator i = relationList.begin();
+        i != relationList.end();
+        ++i )
     {
-        std::shared_ptr< Interface > s = i -> lock();
+        cxx0x::shared_ptr< Interface > s = i -> lock();
         if ( s ) 
             s -> F();
         else
-            std::cerr << "an element in MultiplePlug has been deleted!" << std::endl;
+            std::cerr << "an element in relationList has been deleted!" << std::endl;
+    }
+
+    for ( size_t i = 0; i < relationVector.size(); ++i )
+    {
+        cxx0x::shared_ptr< Interface > s = relationVector[ i ].lock();
+        if ( s ) 
+            s -> F();
+        else
+            std::cerr << "an element in relationVector has been deleted!" << std::endl;
     }
 }
 

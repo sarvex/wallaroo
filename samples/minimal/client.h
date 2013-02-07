@@ -24,6 +24,7 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
+#include <list>
 #include "wallaroo/registered.h"
 #include "interface.h"
 
@@ -36,8 +37,11 @@ public:
     virtual void G();
     virtual ~Client();
 private:
-    Plug< Interface > x;
-    Plug< Interface, collection > xList;
+    Plug< Interface > relation;
+    Plug< Interface, optional > optionalRelation;
+    Plug< Interface, collection > relationVector; // std::vector by default
+    Plug< Interface, collection, std::list > relationList; // you can specify a different container
+    Plug< Interface, bounded_collection< 1, 10 > > relationBoundedVector; // you can specify the range 
 };
 
 #endif

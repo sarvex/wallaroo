@@ -64,7 +64,7 @@ int main( int argc, char* argv[] )
         shared_ptr< Game > game = logicCatalog[ "game" ];
 
         std::cout << "Welcome to the roulette game" << std::endl;
-        while ( 1 )
+        while ( true )
             game -> Play();
 
     }
