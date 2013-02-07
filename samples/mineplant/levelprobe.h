@@ -29,12 +29,11 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( LevelProbe, void, void ), public Device
-// class LevelProbe
+class LevelProbe : public Device
 {
 public:
     LevelProbe() :
-      input( "input", this )
+      input( "input", RegistrationToken() )
     {
     }
     unsigned int Level() const

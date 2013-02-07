@@ -153,6 +153,37 @@ public:
         return result;
     }
 
+    /** Convert to a shared ptr.
+    * @throw DeletedDeviceError If the embedded device has been deleted.
+    */
+    operator SharedPtr()
+    {
+        SharedPtr result = device.lock();
+        if ( ! result )
+            throw DeletedDeviceError();
+        return result;
+    }
+
+    /** Convert to a const shared ptr.
+    * @throw DeletedDeviceError If the embedded device has been deleted.
+    */
+    operator const SharedPtr() const
+    {
+        const SharedPtr result = device.lock();
+        if ( ! result )
+            throw DeletedDeviceError();
+        return result;
+    }
+    
+    /** Returns true if the plug has been wired and the embedded
+    * device has not been deleted.
+    * @return true If the embedded device exists.
+    */
+    operator bool() const
+    {
+        return !device.expired();
+    }
+
    /** Check if this Plug is correctly wired according to the
     * P template parameter policy.
     * @return true If the check pass.

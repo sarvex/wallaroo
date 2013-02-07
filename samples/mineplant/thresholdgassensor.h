@@ -30,16 +30,16 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( ThresholdGasSensor, unsigned int, void ), public GasSensor
-// class ThresholdGasSensor : public GasSensor
+class ThresholdGasSensor : public GasSensor
 {
 public:
-    ThresholdGasSensor( unsigned int threshold );
+    ThresholdGasSensor( unsigned int threshold, bool criticalIfAbove );
     virtual bool IsCritical() const;
     virtual ~ThresholdGasSensor();
 private:
     Plug< AnalogInput > input;
     const unsigned int threshold;
+    const bool criticalIfAbove;
 };
 
 #endif

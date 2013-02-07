@@ -23,11 +23,11 @@
 
 #include "gasalarm.h"
 
-REGISTER( GasAlarm, void, void )
+WALLAROO_REGISTER( GasAlarm )
 
 GasAlarm::GasAlarm() :
-  sensors( "sensors", this ),
-  alarm( "alarm", this )
+  sensors( "sensors", RegistrationToken() ),
+  alarm( "alarm", RegistrationToken() )
 {
 }
 
@@ -35,7 +35,7 @@ void GasAlarm::Watch()
 {
     for ( SensorList::iterator i = sensors.begin(); i != sensors.end(); ++i )
     {
-        boost::shared_ptr< GasSensor > sensor = i -> lock();
+        cxx0x::shared_ptr< GasSensor > sensor = i -> lock();
         if ( sensor )
         {
             if ( sensor -> IsCritical() )

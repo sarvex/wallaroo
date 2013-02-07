@@ -23,10 +23,10 @@
 
 #include "safeengine.h"
 
-REGISTER( SafeEngine, void, void )
+WALLAROO_REGISTER( SafeEngine )
 
 SafeEngine::SafeEngine() : 
-    sensor( "sensor", this )
+    sensor( "sensor", RegistrationToken() )
 {
 }
 

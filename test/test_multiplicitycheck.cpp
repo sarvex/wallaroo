@@ -48,7 +48,7 @@ public:
         collectionAttribute( "collectionAttribute", RegistrationToken() )
     {}
     virtual ~B3() {}
-private:
+public:
     Plug< A3 > mandatoryAttribute;
     Plug< A3, optional > optionalAttribute;
     Plug< A3, collection > collectionAttribute;
@@ -257,6 +257,24 @@ BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityKo3 )
 
     BOOST_CHECK_THROW( catalog.CheckWiring(), WiringError );
     BOOST_REQUIRE( !catalog.IsWiringOk() );
+}
+
+BOOST_AUTO_TEST_CASE( checkPlugTest )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a1", "A3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a2", "A3" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B3" ) );
+
+    BOOST_REQUIRE_NO_THROW( use( catalog[ "a1" ] ).as( "mandatoryAttribute" ).of( catalog[ "b" ] ) );
+    shared_ptr< B3 > b = catalog[ "b" ];
+    BOOST_REQUIRE( b -> mandatoryAttribute );
+    BOOST_REQUIRE( ! b -> optionalAttribute );
+
+    BOOST_REQUIRE_NO_THROW( use( catalog[ "a2" ] ).as( "optionalAttribute" ).of( catalog[ "b" ] ) );
+    BOOST_REQUIRE( b -> optionalAttribute );
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -29,12 +29,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( PumpEngine, void, void ), public Device
-/*
-class PumpEngine : 
-    public Device,
-    public Registered< PumpEngine, Device, void, void >
-*/
+class PumpEngine : public Device
 {
 public:
     PumpEngine();

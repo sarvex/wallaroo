@@ -30,7 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( TwoLevelSumpProbe, void, void ), public SumpProbe
+class TwoLevelSumpProbe : public SumpProbe
 {
 public:
     TwoLevelSumpProbe();

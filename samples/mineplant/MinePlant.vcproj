@@ -110,6 +110,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../..;$(BOOST)"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -167,15 +168,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\consoledigitaloutput.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\constanaloginput.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\constdigitalinput.cpp"
+				RelativePath=".\console.cpp"
 				>
 			</File>
 			<File
@@ -211,6 +204,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\tablebasedanaloginput.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tablebaseddigitalinput.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tablebaseddigitaloutput.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\thresholdgassensor.cpp"
 				>
 			</File>
@@ -233,15 +238,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\consoledigitaloutput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\constanaloginput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\constdigitalinput.h"
+				RelativePath=".\console.h"
 				>
 			</File>
 			<File
@@ -281,6 +278,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\quantitytable.h"
+				>
+			</File>
+			<File
 				RelativePath=".\safeengine.h"
 				>
 			</File>
@@ -290,6 +291,18 @@
 			</File>
 			<File
 				RelativePath=".\sumppump.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tablebasedanaloginput.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tablebaseddigitalinput.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tablebaseddigitaloutput.h"
 				>
 			</File>
 			<File
