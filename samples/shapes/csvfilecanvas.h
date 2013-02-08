@@ -25,7 +25,7 @@
 #define CSVFILECANVAS_H_
 
 #include <string>
-#include <strstream>
+#include <sstream>
 #include "canvas.h"
 
 class CsvFileCanvas : public Canvas

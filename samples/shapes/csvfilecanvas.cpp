@@ -22,6 +22,7 @@
  ******************************************************************************/
 
 #include <fstream>
+#include <iostream>
 #include "csvfilecanvas.h"
 
 using namespace std;

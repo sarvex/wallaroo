@@ -22,6 +22,7 @@
  ******************************************************************************/
 
 #include <iostream>
+#include <sstream>
 #include "console.h"
 
 using namespace std;
