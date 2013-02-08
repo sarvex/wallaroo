@@ -21,12 +21,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
+#include <iostream>
+#include "wallaroo/xmlconfiguration.h"
 #include "mineplant.h"
 
 int main( int argc, char* argv[] )
 {
-    MinePlant plant;
-    plant.Run();
+    using namespace cxx0x; // use std or boost according to your compiler
+    using namespace wallaroo;
+
+    try
+    {
+        Catalog catalog;
+        XmlConfiguration cfgFile( "plant.xml" );
+        cfgFile.Fill( catalog );
+        catalog.CheckWiring();
+
+        shared_ptr< MinePlant > plant = catalog[ "plant" ];
+        plant -> Run();
+    }
+    catch ( const WallarooError& e )
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    // Wait for exit
+    std::cout << "Press Enter to end the program." << std::endl;
+    std::cin.get();
 
     return 0;
 }

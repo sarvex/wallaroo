@@ -24,11 +24,11 @@
 #include "pumpengine.h"
 
 
-REGISTER( PumpEngine, void, void )
+WALLAROO_REGISTER( PumpEngine )
 
 
 PumpEngine::PumpEngine() : 
-    output( "output", this )
+    output( "output", RegistrationToken() )
 {
 }
 

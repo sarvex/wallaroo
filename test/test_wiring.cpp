@@ -131,6 +131,15 @@ private:
 
 WALLAROO_REGISTER( E2 )
 
+class F2 : public Device
+{
+public:
+    F2() : plug( "plug", RegistrationToken() ) {}
+    Plug< I2 > plug;
+};
+
+WALLAROO_REGISTER( F2 )
+
 // tests
 
 BOOST_AUTO_TEST_SUITE( Wiring )
@@ -348,4 +357,32 @@ BOOST_AUTO_TEST_CASE( containersWiring )
     BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Plug< I2, collection, vector > >::value));
     BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Plug< I2, collection > >::value)); // the default is std::vector
 }
+
+BOOST_AUTO_TEST_CASE( checkCast )
+{
+    BOOST_STATIC_ASSERT((cxx0x::is_convertible< Plug< I2 >, shared_ptr< I2 > >::value));
+    BOOST_STATIC_ASSERT((cxx0x::is_convertible< Plug< I2 >, const shared_ptr< I2 > >::value));
+
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A2" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B2" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "f1", "F2" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "f2", "F2" ) );
+
+    wallaroo_within( catalog )
+    {
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "plug" ).of( "f1" ) );
+        BOOST_REQUIRE_NO_THROW( use( "b" ).as( "plug" ).of( "f2" ) );
+    }
+
+    shared_ptr< F2 > f1 = catalog[ "f1" ];
+    shared_ptr< F2 > f2 = catalog[ "f2" ];
+
+    BOOST_REQUIRE_NO_THROW( static_cast< shared_ptr< I2 > >( f1 -> plug ) );
+    BOOST_REQUIRE_NO_THROW( static_cast< const shared_ptr< I2 > >( f1 -> plug ) );
+    BOOST_REQUIRE_NO_THROW( static_cast< shared_ptr< I2 > >( f2 -> plug ) );
+    BOOST_REQUIRE_NO_THROW( static_cast< const shared_ptr< I2 > >( f2 -> plug ) );
+}
+
 BOOST_AUTO_TEST_SUITE_END()

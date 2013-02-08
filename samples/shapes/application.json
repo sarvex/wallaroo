@@ -1,0 +1,32 @@
+{
+
+  "wallaroo":
+  {
+
+    "devices":
+    [
+      {
+        "name": "draft",
+        "class": "Draft"
+      },
+
+      {
+        "name": "canvas",
+        "class": "ConsoleCanvas"
+      }
+
+    ],
+    
+    "wiring":
+    [
+      {
+        "source": "draft",
+        "dest": "canvas",
+        "plug": "canvas"
+      }
+
+    ]
+
+  }
+
+}

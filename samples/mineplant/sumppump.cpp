@@ -23,11 +23,11 @@
 
 #include "sumppump.h"
 
-REGISTER( SumpPump, void, void )
+WALLAROO_REGISTER( SumpPump )
 
 SumpPump::SumpPump() :
-  probe( "probe", this ),
-  engine( "engine", this )
+  probe( "probe", RegistrationToken() ),
+  engine( "engine", RegistrationToken() )
 {
 }
 
