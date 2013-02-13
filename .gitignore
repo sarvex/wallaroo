@@ -41,6 +41,7 @@
 /samples/shapes/shapes
 /test/Debug
 /test/Release
+/test/test_suite
 Debug
 Release
 /doc/html

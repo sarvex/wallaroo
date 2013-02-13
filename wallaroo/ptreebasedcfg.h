@@ -36,6 +36,80 @@ namespace wallaroo
 namespace detail
 {
 
+    
+template < typename T >
+struct TypeDesc;
+
+template <>
+struct TypeDesc< int >
+{
+    static const char* Name() { return "int"; }
+};
+
+template <>
+struct TypeDesc< std::string >
+{
+    static const char* Name() { return "string"; }
+};
+
+template <>
+struct TypeDesc< unsigned int >
+{
+    static const char* Name() { return "unsigned int"; }
+};
+
+template <>
+struct TypeDesc< double >
+{
+    static const char* Name() { return "double"; }
+};
+
+template <>
+struct TypeDesc< bool >
+{
+    static const char* Name() { return "bool"; }
+};
+
+template < typename T1, typename T2 >
+static bool Create( 
+Catalog& catalog,
+const std::string& instance,
+const std::string& cl,
+boost::optional< const ptree& > tree1,
+boost::optional< const ptree& > tree2
+)
+{
+    const std::string& type1 = tree1 -> get< std::string >( "type" );
+    const std::string& type2 = tree2 -> get< std::string >( "type" );
+    if ( type1 == TypeDesc< T1 >::Name() && type2 == TypeDesc< T2 >::Name() )
+    {
+        const T1& p1 = tree1 -> get< T1 >( "value" );
+        const T2& p2 = tree2 -> get< T2 >( "value" );
+        catalog.Create( instance, cl, p1, p2 );
+        return true;
+    }
+    return false;
+}
+
+template < typename T >
+static bool Create(
+    Catalog& catalog,
+    const std::string& instance,
+    const std::string& cl,
+    boost::optional< const ptree& > tree
+)
+{
+    const std::string& type = tree -> get< std::string >( "type" );
+    if ( type == TypeDesc< T >::Name() )
+    {
+        const T& p = tree -> get< T >( "value" );
+        catalog.Create( instance, cl, p );
+        return true;
+    }
+    return false;
+}
+
+
 // This class can parse a boost::ptree structure containing a list of objects to
 // be created and their wiring.
 // Then it can populate a Catalog with that objects.
@@ -70,82 +144,6 @@ public:
     }
 
 private:
-
-    /**********************/
-
-    template < typename T >
-    struct TypeDesc;
-
-    template <>
-    struct TypeDesc< int >
-    {
-        static const char* Name() { return "int"; }
-    };
-
-    template <>
-    struct TypeDesc< std::string >
-    {
-        static const char* Name() { return "string"; }
-    };
-
-    template <>
-    struct TypeDesc< unsigned int >
-    {
-        static const char* Name() { return "unsigned int"; }
-    };
-
-    template <>
-    struct TypeDesc< double >
-    {
-        static const char* Name() { return "double"; }
-    };
-
-    template <>
-    struct TypeDesc< bool >
-    {
-        static const char* Name() { return "bool"; }
-    };
-
-    template < typename T1, typename T2 >
-    static bool Create( 
-            Catalog& catalog,
-            const std::string& instance,
-            const std::string& cl,
-            boost::optional< const ptree& > tree1,
-            boost::optional< const ptree& > tree2
-        )
-    {
-        const std::string& type1 = tree1 -> get< std::string >( "type" );
-        const std::string& type2 = tree2 -> get< std::string >( "type" );
-        if ( type1 == TypeDesc< T1 >::Name() && type2 == TypeDesc< T2 >::Name() )
-        {
-            const T1& p1 = tree1 -> get< T1 >( "value" );
-            const T2& p2 = tree2 -> get< T2 >( "value" );
-            catalog.Create( instance, cl, p1, p2 );
-            return true;
-        }
-        return false;
-    }
-
-    template < typename T >
-    static bool Create(
-            Catalog& catalog,
-            const std::string& instance,
-            const std::string& cl,
-            boost::optional< const ptree& > tree
-        )
-    {
-        const std::string& type = tree -> get< std::string >( "type" );
-        if ( type == TypeDesc< T >::Name() )
-        {
-            const T& p = tree -> get< T >( "value" );
-            catalog.Create( instance, cl, p );
-            return true;
-        }
-        return false;
-    }
-
-    /**********************/
 
     void ParseObject( Catalog& catalog, const ptree& v )
     {

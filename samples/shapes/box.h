@@ -38,10 +38,10 @@ struct Box
     unsigned int Width() const { return x_max - x_min; }
     unsigned int Height() const { return y_max - y_min; }
 
-    int x_min;
-    int y_min;
-    int x_max;
-    int y_max;
+    const int x_min;
+    const int x_max;
+    const int y_min;
+    const int y_max;
 };
 
 #endif
