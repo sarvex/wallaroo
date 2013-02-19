@@ -33,8 +33,8 @@ class Derived : public Base
 {
 public:
     Derived();
-    virtual void F();
     virtual ~Derived();
+    virtual void F();
 };
 
 #endif

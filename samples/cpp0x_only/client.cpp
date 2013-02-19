@@ -24,9 +24,10 @@
 #include <iostream>
 #include "client.h"
 
-WALLAROO_REGISTER( Client )
+WALLAROO_REGISTER( Client ) // register this class
 
 Client::Client() :
+    // assign a name to each dependency, for the wiring phase
     relation( "relation", RegistrationToken() ),
     optionalRelation( "optionalRelation", RegistrationToken() ),
     relationVector( "relationVector", RegistrationToken() ),

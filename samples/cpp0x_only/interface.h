@@ -33,8 +33,8 @@ using namespace wallaroo;
 class Interface : public Device
 {
 public:
-    virtual void F() = 0;
     virtual ~Interface() {}
+    virtual void F() = 0;
 };
 
 #endif

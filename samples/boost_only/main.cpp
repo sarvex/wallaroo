@@ -22,7 +22,7 @@
  ******************************************************************************/
 
 #include <iostream>
-#include <boost/shared_ptr.hpp>
+#include <boost/shared_ptr.hpp> // for this sample, we use boost instead of c++11
 #include "wallaroo/catalog.h"
 #include "interface.h"
 #include "client.h"

@@ -29,12 +29,12 @@
 
 using namespace wallaroo;
 
-class Derived : public Base
+class Derived : public Base // Base already derives from Device
 {
 public:
     Derived();
-    virtual void F();
     virtual ~Derived();
+    virtual void F();
 };
 
 #endif

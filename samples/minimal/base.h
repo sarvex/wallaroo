@@ -33,8 +33,8 @@ class Base : public Interface
 {
 public:
     Base();
-    virtual void F();
     virtual ~Base();
+    virtual void F();
 };
 
 #endif

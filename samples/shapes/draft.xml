@@ -21,6 +21,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 -->
 
+<!--
+This represents a shape set to be draw by the application.
+Feel free to try and modify it :-)
+-->
+
 <wallaroo>
   <devices>
 

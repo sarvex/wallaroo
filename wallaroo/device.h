@@ -43,13 +43,16 @@ private:
 };
 
 /**
- * This represents a "device" that owns connectors.
- * You can plug his connectors to other devices using the method @c Wire.
+ * This class represents a "device" that owns connectors.
+ * You can plug its connectors to other devices using the method Device::Wire.
  */
 class Device
 {
 public:
-    /** Plug the connector @c connector of this device into the device @c device.
+    // we need to make Device virtual, to use dynamic_cast
+    virtual ~Device() {}
+
+    /** Plug the connector @c connector of this device into the Device @c device.
      * @throw ElementNotFound if @c connector does not exist in this device.
      */
     void Wire( const std::string& connector, const cxx0x::shared_ptr< Device >& device )
@@ -81,9 +84,6 @@ public:
                 return false;
         return true;
     }
-
-    // we need to make Device virtual, to use dynamic_cast
-    virtual ~Device() {}
 
 protected:
     RegToken RegistrationToken()

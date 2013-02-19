@@ -36,9 +36,11 @@ namespace wallaroo
 namespace detail
 {
 
-    
+// ********************************************************
+// supported types
+
 template < typename T >
-struct TypeDesc;
+struct TypeDesc {};
 
 template <>
 struct TypeDesc< int >
@@ -69,6 +71,8 @@ struct TypeDesc< bool >
 {
     static const char* Name() { return "bool"; }
 };
+
+// ********************************************************
 
 template < typename T1, typename T2 >
 static bool Create( 
@@ -109,6 +113,7 @@ static bool Create(
     return false;
 }
 
+// ********************************************************
 
 // This class can parse a boost::ptree structure containing a list of objects to
 // be created and their wiring.

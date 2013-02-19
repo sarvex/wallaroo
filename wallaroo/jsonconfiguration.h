@@ -33,14 +33,64 @@ using namespace boost::property_tree;
 namespace wallaroo
 {
 
-/** This class can parse an json file containing a list of objects to
+/**
+* This class can parse a json file containing a list of objects to
 * be created and their wiring.
 * Then it can populate a @c Catalog with that objects.
+* The syntax of the json file should be similar to:
+\code
+{
+
+  "wallaroo":
+  {
+
+    "devices":
+    [
+      {
+        "name": "instance1",
+        "class": "className1"
+      },
+
+      {
+        "name": "instance2",
+        "class": "className2",
+        "parameter1":
+          {
+            "type": "string",
+            "value": "mystring"
+          },
+        "parameter2":
+          {
+            "type": "int",
+            "value": 34
+          }
+      }
+    ],
+    
+    "wiring":
+    [
+      {
+        "source": "sourceInstance",
+        "dest": "targetInstance",
+        "plug": "plugName"
+      },
+
+      {
+        "source": "sourceInstance2",
+        "dest": "targetInstance2",
+        "plug": "plugName2"
+      }
+    ]
+
+  }
+
+}
+\endcode
 */
 class JsonConfiguration : private detail::PtreeBasedCfg
 {
 public:
-    /** Create an JsonConfiguration from the path specified as parameter.
+    /** Create a JsonConfiguration from the path specified as parameter.
     * @param fileName the path of the file to parse
     * @throw WrongFile if the file does not exist or its format is wrong.
     */

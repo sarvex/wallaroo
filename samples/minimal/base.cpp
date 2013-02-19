@@ -24,7 +24,7 @@
 #include <iostream>
 #include "base.h"
 
-WALLAROO_REGISTER( Base );
+WALLAROO_REGISTER( Base ); // register this class
 
 Base::Base()
 {

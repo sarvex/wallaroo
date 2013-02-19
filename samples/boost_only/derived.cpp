@@ -24,7 +24,7 @@
 #include <iostream>
 #include "derived.h"
 
-WALLAROO_REGISTER( Derived )
+WALLAROO_REGISTER( Derived ) // register the class
 
 Derived::Derived()
 {

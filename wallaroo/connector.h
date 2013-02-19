@@ -34,22 +34,23 @@ class Device;
 
 /**
  * This represents the base class for every Plug template.
- * It's the interface to wire it with a Device object.
+ * It can wire itself with a Device object and check if the wiring
+ * satisfy its multiplicity constraints.
  */
 class Connector
 {
 public:
+    virtual ~Connector() {}
     /** Plug this Connector into a device
-    * @param dev The device you want insert this Connector into
+    * @param dev The Device you want insert this Connector into
     * @throw WrongType If this Connector could not be wire with device @c dev 
     */
     virtual void PlugInto( const cxx0x::shared_ptr< Device >& dev ) = 0;
     /** Check if this Connector is correctly wired according to the
-    * specified multiplicity.
+    * constraints specified as template parameters in the derived class.
     * @return true If the check pass.
     */
     virtual bool WiringOk() const = 0;
-    virtual ~Connector() {}
 };
 
 } // namespace

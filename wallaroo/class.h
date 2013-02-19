@@ -264,11 +264,11 @@ public:
 } // wallaroo namespace
 
 
-/** This macro must be used in your header file for declaring a class that will be 
- * automatically registered and thus retrieved throug the method @c Class::ForName( C ).
+/** This macro must be used in your implementation file (.cpp or .cc)
+ * to register a class. When a class is registered, you can create an instance
+ * using Catalog::Create(const std::string&,const std::string&,const P1&,const P2&).
  * @param C The class name
- * @param P1 The type of the first parameter of the class constructor (possibly void)
- * @param P2 The type of the second parameter of the class constructor (possibly void)
+ * @param ... The type of the other parameters of the class constructor
  * @hideinitializer
  */
 #define WALLAROO_REGISTER( C, ... ) \
@@ -278,6 +278,10 @@ public:
 
 // begin DEPRECATED: Backward compatibility only
 
+/** @deprecated
+ *  You must not use this class. Its only pourpose is to provide a
+ *  base class for the deprecated macro REGISTERED_CLASS
+ */
 class WallarooBaseDummyClass {};
 /** @deprecated
  *  These macros must not be used
