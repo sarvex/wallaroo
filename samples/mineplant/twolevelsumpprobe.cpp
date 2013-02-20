@@ -23,11 +23,11 @@
 
 #include "twolevelsumpprobe.h"
 
-REGISTER( TwoLevelSumpProbe, void, void )
+WALLAROO_REGISTER( TwoLevelSumpProbe )
 
 TwoLevelSumpProbe::TwoLevelSumpProbe() :
-  lowSensor( "lowSensor", this ),
-  highSensor( "highSensor", this )
+  lowSensor( "lowSensor", RegistrationToken() ),
+  highSensor( "highSensor", RegistrationToken() )
 {
     mustDrain = false;
 }

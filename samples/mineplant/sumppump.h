@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( SumpPump, void, void ), public Device
-// class SumpPump : public Device
+class SumpPump : public Device
 {
 public:
     SumpPump();

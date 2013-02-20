@@ -23,10 +23,10 @@
 
 #include "levelsensor.h"
 
-REGISTER( LevelSensor, void, void )
+WALLAROO_REGISTER( LevelSensor )
 
 LevelSensor::LevelSensor() :
-  input( "input", this )
+  input( "input", RegistrationToken() )
 {
 }
 

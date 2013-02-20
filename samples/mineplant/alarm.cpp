@@ -23,10 +23,10 @@
 
 #include "alarm.h"
 
-REGISTER( Alarm, void, void )
+WALLAROO_REGISTER( Alarm )
 
 Alarm::Alarm() :
-  output( "output", this )
+  output( "output", RegistrationToken() )
 {
 }
 

@@ -29,8 +29,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( LevelSensor, void, void ), public Device
-// class LevelSensor : public Device
+class LevelSensor : public Device
 {
 public:
     LevelSensor();

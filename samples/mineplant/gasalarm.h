@@ -30,8 +30,7 @@
 
 using namespace wallaroo;
 
-REGISTERED_CLASS( GasAlarm, void, void ), public Device
-// class GasAlarm : public Device
+class GasAlarm : public Device
 {
 public:
     GasAlarm();

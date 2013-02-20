@@ -79,13 +79,14 @@ class UseExpression;
 } // namespace detail
 
 /**
- * Catalog of the devices available for the application.
+ * Catalog of devices available for the application.
  *
- * It can create the instances from the name of a registered class
+ * It can create the instances from the name of a class 
+ * previously registered with the macro WALLAROO_REGISTER(C)
  * or add the instances.
  *
  * Each item in the catalog is identified by a @c id, with which
- * you can do a lookup.
+ * you can perform a lookup.
  */
 class Catalog
 {
@@ -115,7 +116,7 @@ public:
             throw DuplicatedElement( id );
     }
 
-    /** Instantiate a class with a 2 parameters constructor and add it to the catalog
+    /** Instantiate a class having a 2 parameters constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
     * @param p1 The first parameter of the class constructor
@@ -133,7 +134,7 @@ public:
         Add( id, obj );
     }
 
-    /** Instantiate a class with a 1 parameters constructor and add it to the catalog
+    /** Instantiate a class having a 1 parameters constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
     * @param p The parameter of the class constructor
@@ -150,7 +151,7 @@ public:
         Add( id, obj );
     }
 
-    /** Instantiate a class with 0 parameters constructor and add it to the catalog
+    /** Instantiate a class having a default constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
@@ -166,7 +167,7 @@ public:
     }
 
     /** Check if the plugs wiring of the objects inside the container
-    * is correct based on the multiplicity declared in the plug definition.
+    * is correct according to the multiplicity declared in the plug definition.
     * @return false if the wiring does not match with the multiplicity declared.
     */
     bool IsWiringOk() const
@@ -175,7 +176,7 @@ public:
     }
 
     /** Check if the plugs wiring of the objects inside the container
-    * is correct based on the multiplicity declared in the plug definition.
+    * is correct according to the multiplicity declared in the plug definition.
     * @throw WiringError if the wiring does not match with the multiplicity declared.
     */
     void CheckWiring() const

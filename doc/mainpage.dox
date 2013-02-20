@@ -1,0 +1,38 @@
+/*! \mainpage Wallaroo Documentation
+
+\section intro_sec Introduction
+
+Welcome to Wallaroo API documentation.
+
+Here you will find the description of Wallaroo classes and methods.
+
+If you're looking for tutorials or installation guides you can visit
+the site: http://wallaroo.googlecode.com/
+
+\section overview_sec Overview
+
+To register a class, you must derive it from wallaroo::Device and use
+the macro \ref WALLAROO_REGISTER in the implementation file.
+
+Then you can use the class wallaroo::Catalog to create and manage
+instances of registered classes.
+
+You can link the instances together (i.e. inject the dependencies) by using
+the syntax:
+\code{.cpp}
+    use( catalog_1[ "target" ] ).as( "dependency" ).of( catalog_2[ "object" ] );
+\endcode
+or, inside a clause \ref wallaroo_within, the syntax:
+\code{.cpp}
+    wallaroo_within( myCatalog )
+    {
+        ...
+        use( "target" ).as( "dependency" ).of( "object" );
+        ...
+    }
+\endcode
+
+If you prefer, you can perform object creation and dependency injection from one (or many)
+external configuration file in XML or JSON format.
+See wallaroo::XmlConfiguration and wallaroo::JsonConfiguration.
+ */

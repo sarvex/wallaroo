@@ -23,17 +23,21 @@
 
 #include "thresholdgassensor.h"
 
-REGISTER( ThresholdGasSensor, unsigned int, void )
+WALLAROO_REGISTER( ThresholdGasSensor, unsigned int, bool )
 
-ThresholdGasSensor::ThresholdGasSensor( unsigned int th ) :
-    input( "input", this ),
-    threshold( th )
+ThresholdGasSensor::ThresholdGasSensor( unsigned int th, bool _criticalIfAbove ) :
+    input( "input", RegistrationToken() ),
+    threshold( th ),
+    criticalIfAbove( _criticalIfAbove )
 {
 }
 
 bool ThresholdGasSensor::IsCritical() const
 {
-    return input -> Read() > threshold;
+    if ( criticalIfAbove )
+        return input -> Read() > threshold;
+    else
+        return input -> Read() < threshold;
 }
 
 ThresholdGasSensor::~ThresholdGasSensor()

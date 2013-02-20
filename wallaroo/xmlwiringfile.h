@@ -38,6 +38,7 @@ namespace wallaroo
 /** This class can parse an xml file containing a list of objects to
 * be created and their wiring.
 * Then it can populate a @c Catalog with that objects.
+* @deprecated Use XmlConfiguration instead.
 */
 class XmlWiringFile
 {
@@ -80,7 +81,7 @@ public:
 
 private:
 
-    void ParseObject( Catalog& catalog, ptree& v )
+    void ParseObject( Catalog& catalog, const ptree& v )
     {
         const std::string name = v.get< std::string >( "name" );
         const std::string cl = v.get< std::string >( "class" );
@@ -103,7 +104,7 @@ private:
                     const int par2 = v.get< int >( "par2" );
                     catalog.Create( name, cl, par1, par2 );
                 }
-                else if ( *par2type == "unsgined int" )
+                else if ( *par2type == "unsigned int" )
                 {
                     const unsigned int par2 = v.get< unsigned int >( "par2" );
                     catalog.Create( name, cl, par1, par2 );
@@ -122,7 +123,7 @@ private:
                     const int par2 = v.get< int >( "par2" );
                     catalog.Create( name, cl, par1, par2 );
                 }
-                else if ( *par2type == "unsgined int" )
+                else if ( *par2type == "unsigned int" )
                 {
                     const unsigned int par2 = v.get< unsigned int >( "par2" );
                     catalog.Create( name, cl, par1, par2 );
@@ -141,7 +142,7 @@ private:
                     const int par2 = v.get< int >( "par2" );
                     catalog.Create( name, cl, par1, par2 );
                 }
-                else if ( *par2type == "unsgined int" )
+                else if ( *par2type == "unsigned int" )
                 {
                     const unsigned int par2 = v.get< unsigned int >( "par2" );
                     catalog.Create( name, cl, par1, par2 );
@@ -172,7 +173,7 @@ private:
         }
     }
 
-    void ParseRelation( Catalog& catalog, ptree& v )
+    void ParseRelation( Catalog& catalog, const ptree& v )
     {
         const std::string source = v.get< std::string >( "source" );
         const std::string dest = v.get< std::string >( "dest" );
