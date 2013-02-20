@@ -1,10 +1,12 @@
-<date>: Version <next>
+2013-02-20: Version 0.3.0
 
-        * add JSON parser
+        * Add JSON parser
         * Remove the macro for the class declaration
         * Check of the associations cardinality / optional associations
+        * Speed optimization
         * Get rid of VC warning C4355
         * Remove deprecated syntax
+        * New samples
 
 2012-10-5: Version 0.2.0
 
