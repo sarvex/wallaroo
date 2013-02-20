@@ -3,6 +3,7 @@
         * Add JSON parser
         * Remove the macro for the class declaration
         * Check of the associations cardinality / optional associations
+        * Speed optimization
         * Get rid of VC warning C4355
         * Remove deprecated syntax
         * New samples

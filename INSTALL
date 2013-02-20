@@ -10,7 +10,7 @@ and include its path when compiling your application that use Wallaroo.
 Since Wallaroo uses header-only boost libraries, you don't need to compile
 boost.
 
-If you use a C++0x compliant compiler, you need Boost only to exploit
+If you use a C++0x compliant compiler, you only need Boost to exploit
 XmlConfiguration and JsonConfiguration features.
 
 Installation
