@@ -47,7 +47,7 @@ struct optional
 struct mandatory
 {
     template < typename T >
-    static bool WiringOk( const cxx0x::weak_ptr< T >& t ) { return t.lock(); }
+    static bool WiringOk( const cxx0x::weak_ptr< T >& t ) { return !t.expired(); }
 };
 /// This type should be used as second template parameter in Plug class to specify the Plug is a collection
 /// and you can wire to the plug a number of devices greater or equal to @c MIN

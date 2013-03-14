@@ -22,9 +22,9 @@
 ################################################################################
 
 # usage:
-# make UCFLAGS=-I/mnt/hd/libs/boost_1_51_0 ULFLAGS="-L/mnt/hd/libs/boost_1_51_0/stage/lib -lboost_unit_test_framework-gcc44-mt-1_51"
+# make UCFLAGS=-I<BOOST_DIR> ULFLAGS="-L<BOOST_DIR>/stage/lib -lboost_unit_test_framework"
 # or
-# make UCFLAGS="-std=c++0x -I/mnt/hd/libs/boost_1_51_0" ULFLAGS="-L/mnt/hd/libs/boost_1_51_0/stage/lib -lboost_unit_test_framework-gcc44-mt-1_51"
+# make UCFLAGS="-std=c++0x -I<BOOST_DIR>" ULFLAGS="-L<BOOST_DIR>/stage/lib -lboost_unit_test_framework"
 
 CC = g++
 CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK $(UCFLAGS)
@@ -38,7 +38,7 @@ all: $(EXE) test
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXE): $(OBJ)
-	$(CC) $(LFLAGS) -o $@ $^
+	$(CC) -o $@ $^ $(LFLAGS)
 
 test:
 	./$(EXE)
