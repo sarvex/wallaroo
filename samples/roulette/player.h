@@ -34,7 +34,7 @@ class Player : public wallaroo::Device
 {
 public:
     virtual ~Player() {}
-    virtual cxx0x::shared_ptr< Bet > NextBet() = 0; // TODO: usare smart pointer
+    virtual cxx0x::shared_ptr< Bet > NextBet() = 0;
 };
 
 #endif
