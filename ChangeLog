@@ -1,7 +1,7 @@
 2013-03-14: Version 0.3.1
 
         * Bug fix: wallaroo::mandatory now compiles with gcc v. 4.6.3
-        
+
 2013-02-20: Version 0.3.0
 
         * Add JSON parser
