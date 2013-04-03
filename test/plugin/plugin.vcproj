@@ -2,9 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="test"
-	ProjectGUID="{B9A8AC6C-711A-4337-8DD2-055E35194E92}"
-	RootNamespace="test"
+	Name="plugin"
+	ProjectGUID="{FE4A7476-D24F-4131-9754-4C2054459C77}"
+	RootNamespace="plugin"
+	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -19,8 +20,8 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
+			ConfigurationType="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -40,11 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;$(BOOST)"
+				AdditionalIncludeDirectories="..\..;$(BOOST)"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;PLUGIN_EXPORTS"
 				MinimalRebuild="true"
-				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -59,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories="&quot;$(BOOST)\stage\lib&quot;"
+				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -84,16 +86,14 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Auto run test"
-				CommandLine="&quot;$(TargetDir)\$(TargetName).exe&quot; --result_code=no --report_level=short"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
+			ConfigurationType="2"
+			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -115,12 +115,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="..;$(BOOST)"
+				AdditionalIncludeDirectories="..\..;$(BOOST)"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PLUGIN_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				DebugInformationFormat="0"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -133,13 +134,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories="&quot;$(BOOST)\stage\lib&quot;"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				EntryPointSymbol=""
-				ImportLibrary=""
 				TargetMachine="1"
 			/>
 			<Tool
@@ -162,8 +161,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Auto run test"
-				CommandLine="&quot;$(TargetDir)\$(TargetName).exe&quot; --result_code=no --report_level=short"
 			/>
 		</Configuration>
 	</Configurations>
@@ -176,31 +173,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\driver.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\test_cfg_file.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\test_creation.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\test_dynamiclib.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\test_multiplicitycheck.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\test_wiring.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\test_xml_loader.cpp"
+				RelativePath=".\plugin.cpp"
 				>
 			</File>
 		</Filter>
@@ -209,58 +182,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\wallaroo\catalog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\class.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\connector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\cxx0x.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\device.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\dynamic_lib.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\dynamic_loader.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\exceptions.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\jsonconfiguration.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\plug.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\registered.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\xmlconfiguration.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\xmlwiringfile.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

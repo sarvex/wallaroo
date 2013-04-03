@@ -191,10 +191,12 @@ class Class< void, void >
         FactoryMethod fm;
         typedef cxx0x::unordered_map< std::string, Class< void, void > > Classes;
         template < class T, class T1, class T2 > friend class Registration;
+public: // TODO @@@@ this method must return private
         static void Register( const std::string& s, const FactoryMethod& m )
         {
             Registry().insert( std::make_pair( s, Class( m ) ) );
         }
+private:
         static Classes& Registry()
         {
             static Classes registry;
