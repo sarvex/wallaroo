@@ -26,7 +26,7 @@
 #include "wallaroo/catalog.h"
 #include "wallaroo/dynamic_loader.h"
 
-#include "plugin/plugin_interface.h"
+#include "plugin_interface.h"
 
 using namespace wallaroo;
 

@@ -30,9 +30,9 @@ CC = g++
 CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK $(UCFLAGS)
 LFLAGS = $(ULFLAGS) -ldl
 OBJ = test_cfg_file.o test_xml_loader.o test_multiplicitycheck.o test_wiring.o test_creation.o test_dynamiclib.o driver.o
-OBJ_PLUGIN = plugin/plugin.o
+OBJ_PLUGIN = plugin.o
 EXE = test_suite
-PLUGIN = plugin/plugin.so
+PLUGIN = plugin.so
 
 all: $(EXE) $(PLUGIN) test
 
