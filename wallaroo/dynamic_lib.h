@@ -24,36 +24,19 @@
 #ifndef WALLAROO_DYNAMIC_LIB_H_
 #define WALLAROO_DYNAMIC_LIB_H_
 
-#if 1
-
-#include <cstring>
-
-#ifdef _WIN32
-    #define WALLAROO_DLL_PREFIX extern "C" __declspec(dllexport)
-#else
-    #define WALLAROO_DLL_PREFIX extern "C" 
-#endif
+#include <vector>
+#include "dyn_class_descriptor.h"
+#include "dyn_class_descriptor_impl.h"
+#include "platform_specific_lib_macros.h"
 
 #define WALLAROO_DYNLIB_REGISTER( C ) \
-    WALLAROO_DLL_PREFIX void GetName( char* name ) { strcpy( name, #C ); } \
-    WALLAROO_DLL_PREFIX wallaroo::Device* Create() { return new C(); } \
-    WALLAROO_DLL_PREFIX void Destroy( wallaroo::Device* d ) { delete d; }
+    static wallaroo::detail::DynRegistration< C > C##p( #C );
 
-#else // if 1
-
-#include <string>
-
-#ifdef _WIN32
-    #define WALLAROO_DLL_PREFIX extern "C" __declspec(dllexport)
-#else
-    #define WALLAROO_DLL_PREFIX extern "C" 
-#endif
-
-#define WALLAROO_DYNLIB_REGISTER( C ) \
-    WALLAROO_DLL_PREFIX void GetName( std::string* name ) { ( *name ) = #C ; } \
-    WALLAROO_DLL_PREFIX wallaroo::Device* Create() { return new C(); } \
-    WALLAROO_DLL_PREFIX void Destroy( wallaroo::Device* d ) { delete d; }
-
-#endif
+WALLAROO_DLL_PREFIX
+std::vector< wallaroo::detail::Descriptor >* GetClasses()
+{
+    return &wallaroo::detail::Descriptor::DB();
+}
 
 #endif // WALLAROO_DYNAMIC_LIB_H_
+

@@ -21,17 +21,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_DYNAMIC_LOADER_H_
-#define WALLAROO_DYNAMIC_LOADER_H_
+#ifndef WALLAROO_DYNAMIC_LIBRARY_WIN32_H_
+#define WALLAROO_DYNAMIC_LIBRARY_WIN32_H_
 
 #include <string>
-#include "cxx0x.h"
-#include "device.h"
-#include "class.h"
-#include "exceptions.h"
-#include "dyn_class_descriptor.h"
-#include "platform_specific_lib_macros.h"
-#include WALLAROO_DLL_IMPL_HEADER
+#include <windows.h>
 
 
 namespace wallaroo
@@ -39,8 +33,7 @@ namespace wallaroo
 namespace detail
 {
 
-
-class DynamicLibrary : private PlatformSpecificDynamicLibrary
+class PlatformSpecificDynamicLibrary
 {
 public:
     /** Create a DynamicLibrary from the path specified as parameter
@@ -48,14 +41,16 @@ public:
     * @param fileName the path of the dynamic library to load
     * @throw WrongFile if the file does not exist or its format is wrong.
     */
-    explicit DynamicLibrary( const std::string& fileName ) :
-        PlatformSpecificDynamicLibrary( fileName )
+    explicit PlatformSpecificDynamicLibrary( const std::string& fileName )
     {
+        libHandle = LoadLibrary( fileName.c_str() );
+        if ( ! libHandle ) throw WrongFile( fileName );
     }
     /** Release the OS library
     */
-    ~DynamicLibrary()
+    ~PlatformSpecificDynamicLibrary()
     {
+        FreeLibrary( libHandle );
     }
     /** Return a function pointer to the symbol @c funcName.
     * @param funcName the name of the function in the library to load.
@@ -64,7 +59,8 @@ public:
     template < typename F >
     F GetFunction( const std::string& funcName )
     {
-        return PlatformSpecificDynamicLibrary::GetFunction< F >( funcName );
+        F f = (F)GetProcAddress( libHandle, funcName.c_str() );
+        return f;
     }
     /** Returns the platform-specific filename suffix
 		for shared libraries (including the period).
@@ -73,55 +69,17 @@ public:
     */
     static std::string Suffix()
     {
-        return PlatformSpecificDynamicLibrary::Suffix();
-    }
-};
-
-template < typename Builder, typename Deleter >
-struct BuildFunctor
-{
-    BuildFunctor( const Builder& _builder, const Deleter& _deleter ) : 
-        builder( _builder ),
-        deleter( _deleter )
-    {}
-    cxx0x::shared_ptr< Device > operator()()
-    {
-        return cxx0x::shared_ptr< Device >( builder(), deleter );
+        #if defined(_DEBUG)
+	        return "d.dll";
+        #else
+	        return ".dll";
+        #endif
     }
 private:
-    Builder builder;
-    Deleter deleter;
+    HINSTANCE libHandle;
 };
 
 } // namespace detail
-
-
-class Plugin
-{
-public:
-    /** @@@
-    * @throw WrongFile if the file does not exist or its format is wrong.
-    */
-    Plugin( const std::string& fileName ) :
-      library( fileName )
-    {
-        using namespace detail;
-
-        typedef std::vector< Descriptor >* (*Function)(void);
-        Function GetClasses = library.GetFunction< Function >( "GetClasses" );
-        if ( GetClasses == NULL ) throw WrongFile( fileName );
-        std::vector< Descriptor >* descriptors = GetClasses();
-        for ( size_t i = 0; i < descriptors -> size(); ++i )
-            Class< void, void >::Register( (*descriptors)[ i ].name, (*descriptors)[ i ].create );
-    }
-    static std::string Suffix()
-    {
-        return detail::DynamicLibrary::Suffix();
-    }
-private:
-    detail::DynamicLibrary library;
-};
-
 } // namespace wallaroo
 
-#endif // WALLAROO_DYNAMIC_LOADER_H_
+#endif // WALLAROO_DYNAMIC_LIBRARY_WIN32_H_

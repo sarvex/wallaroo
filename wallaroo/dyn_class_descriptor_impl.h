@@ -21,27 +21,55 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "wallaroo/registered.h"
-#include "wallaroo/dynamic_lib.h"
+#ifndef WALLAROO_DYN_CLASS_DESCRIPTOR_IMPL_H_
+#define WALLAROO_DYN_CLASS_DESCRIPTOR_IMPL_H_
 
-#include "plugin_interface.h"
-
-class A6: public I6
+namespace wallaroo
 {
-public:
-    virtual int F() { return 3; }
-    A6() {}
-    ~A6() {}
-};
-
-class B6: public I6
+namespace detail
 {
-public:
-    virtual int F() { return 4; }
-    B6() {}
-    ~B6() {}
-};
 
 
-WALLAROO_DYNLIB_REGISTER( A6 );
-WALLAROO_DYNLIB_REGISTER( B6 );
+namespace
+{
+
+template < typename T >
+void Deleter( T* obj )
+{
+    delete obj;
+}
+
+template < typename T >
+cxx0x::shared_ptr< Device > Builder()
+{
+    return cxx0x::shared_ptr< Device >( new T, Deleter< T > );
+}
+
+}
+
+template < typename T >
+void Descriptor::Insert( const std::string& className )
+{
+    name = className;
+    create = Builder< T >;
+    DB().push_back( *this );
+}
+
+std::vector< Descriptor >& Descriptor::DB()
+{
+    static std::vector< Descriptor > db;
+    return db;
+}
+
+template < typename T >
+DynRegistration< T >::DynRegistration( const std::string& name )
+{
+    Descriptor d;
+    d.Insert< T >( name );
+}
+
+
+} // namespace detail
+} // namespace wallaroo
+
+#endif // WALLAROO_DYN_CLASS_DESCRIPTOR_IMPL_H_

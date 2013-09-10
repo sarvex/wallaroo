@@ -42,21 +42,24 @@ BOOST_AUTO_TEST_CASE( DynamicLoading )
 {
     try
     {
-#ifdef _WIN32
-        Plugin plugin( "plugin.dll" );
-#else
-        Plugin plugin( "plugin.so" );
-#endif
+        Plugin plugin( "plugin" + Plugin::Suffix() );
         Catalog catalog;
+
         BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A6" ) );
         BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
 
         cxx0x::shared_ptr< I6 > obj = catalog[ "a" ];
         BOOST_CHECK( obj -> F() == 3 );
+
+        BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B6" ) );
+        BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
+
+        obj = catalog[ "b" ];
+        BOOST_CHECK( obj -> F() == 4 );
     }
     catch ( ... )
     {
-        BOOST_ERROR( "exception thrown during dll loading" );
+        BOOST_ERROR( "exception thrown during shared library loading" );
     }
 }
 

@@ -21,27 +21,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include "wallaroo/registered.h"
-#include "wallaroo/dynamic_lib.h"
+#ifndef WALLAROO_PLATFORM_SPECIFIC_LIB_MACROS_H_
+#define WALLAROO_PLATFORM_SPECIFIC_LIB_MACROS_H_
 
-#include "plugin_interface.h"
+#ifdef _WIN32
+    #define WALLAROO_DLL_PREFIX extern "C" __declspec(dllexport)
+    #define WALLAROO_DLL_IMPL_HEADER "dynamic_library_WIN32.h"
+#else
+    #define WALLAROO_DLL_PREFIX extern "C" 
+    #define WALLAROO_DLL_IMPL_HEADER "dynamic_library_UNIX.h"
+#endif
 
-class A6: public I6
-{
-public:
-    virtual int F() { return 3; }
-    A6() {}
-    ~A6() {}
-};
+#endif // WALLAROO_PLATFORM_SPECIFIC_LIB_MACROS_H_
 
-class B6: public I6
-{
-public:
-    virtual int F() { return 4; }
-    B6() {}
-    ~B6() {}
-};
-
-
-WALLAROO_DYNLIB_REGISTER( A6 );
-WALLAROO_DYNLIB_REGISTER( B6 );
