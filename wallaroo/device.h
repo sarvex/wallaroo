@@ -32,6 +32,9 @@
 namespace wallaroo
 {
 
+// forward declaration:
+class Plugin;
+
 class RegToken
 {
 public:
@@ -70,6 +73,13 @@ public:
         connectors[ id ] = plug;
     }
 
+    // this method should be invoked just by Class
+    // to add the reference counter for the shared library.
+    void Source( const cxx0x::shared_ptr< Plugin >& p )
+    {
+        plugin = p;
+    }
+
    /** Check the multiplicity of its plugs.
     * @return true if the check pass
     */
@@ -93,6 +103,7 @@ protected:
 private:
     typedef cxx0x::unordered_map< std::string, Connector* > Connectors;
     Connectors connectors;
+    cxx0x::shared_ptr< Plugin > plugin; // optional shared ptr to plugin, to release the shared library when is no more used
 };
 
 } // namespace

@@ -26,11 +26,13 @@
 
 #include <string>
 #include "cxx0x.h"
+#include "device.h"
 
 namespace wallaroo
 {
 
-class Device; // forward declaration
+// forward declarations
+class Plugin;
 
 /** This is the description of a class having a constructor that 
 * takes two parameters of type @c P1 and @c P2 and implements
@@ -173,9 +175,13 @@ class Class< void, void >
         Ptr NewInstance() const
         {
             if( fm )
-                return( fm() ) ;
+            {
+                Ptr p = fm();
+                p -> Source( plugin ); // set the ref count to shared library
+                return p;
+            }
             else
-                return( Ptr() ) ;
+                return( Ptr() );
         }
 
         /** Return the @c Class< void, void > registered with the name @c name.
@@ -189,12 +195,17 @@ class Class< void, void >
         }
     private :
         FactoryMethod fm;
+        cxx0x::shared_ptr< Plugin > plugin; // optional shared ptr to plugin, to release the shared library when is no more used
         typedef cxx0x::unordered_map< std::string, Class< void, void > > Classes;
         template < class T, class T1, class T2 > friend class Registration;
         friend class Plugin;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
             Registry().insert( std::make_pair( s, Class( m ) ) );
+        }
+        static void Register( const std::string& s, const FactoryMethod& m, const cxx0x::shared_ptr< Plugin >& plugin )
+        {
+            Registry().insert( std::make_pair( s, Class( m, plugin ) ) );
         }
         static Classes& Registry()
         {
@@ -206,6 +217,11 @@ class Class< void, void >
         }
         Class( FactoryMethod m ) :
             fm( m )
+        {
+        }
+        Class( FactoryMethod m, const cxx0x::shared_ptr< Plugin >& p ) :
+            fm( m ),
+            plugin( p )
         {
         }
 };

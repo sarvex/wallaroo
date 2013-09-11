@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_SUITE( DynamicLibs )
 
 BOOST_AUTO_TEST_CASE( DynamicLoadingFailure )
 {
-    BOOST_CHECK_THROW( { Plugin plugin( "unexistent.dll" ); }, WrongFile );
+    BOOST_CHECK_THROW( { Plugin::Load( "unexistent.dll" ); }, WrongFile );
 }
 
 
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( DynamicLoading )
 {
     try
     {
-        Plugin plugin( "plugin" + Plugin::Suffix() );
+        Plugin::Load( "plugin" + Plugin::Suffix() );
         Catalog catalog;
 
         BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A6" ) );

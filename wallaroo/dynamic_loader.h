@@ -102,23 +102,30 @@ public:
     /** @@@
     * @throw WrongFile if the file does not exist or its format is wrong.
     */
-    Plugin( const std::string& fileName ) :
-      library( fileName )
+    static cxx0x::shared_ptr< Plugin > Load( const std::string& fileName )
     {
         using namespace detail;
-
+        cxx0x::shared_ptr< Plugin > p( new Plugin( fileName ) );
         typedef std::vector< Descriptor >* (*Function)(void);
-        Function GetClasses = library.GetFunction< Function >( "GetClasses" );
+        Function GetClasses = p -> library.GetFunction< Function >( "GetClasses" );
         if ( GetClasses == NULL ) throw WrongFile( fileName );
         std::vector< Descriptor >* descriptors = GetClasses();
         for ( size_t i = 0; i < descriptors -> size(); ++i )
-            Class< void, void >::Register( (*descriptors)[ i ].name, (*descriptors)[ i ].create );
+            Class< void, void >::Register( (*descriptors)[ i ].name, (*descriptors)[ i ].create, p );
+        return p;
     }
     static std::string Suffix()
     {
         return detail::DynamicLibrary::Suffix();
     }
 private:
+    /** @@@
+    * @throw WrongFile if the file does not exist or its format is wrong.
+    */
+    Plugin( const std::string& fileName ) :
+      library( fileName )
+    {
+    }
     detail::DynamicLibrary library;
 };
 
