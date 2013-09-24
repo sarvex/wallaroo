@@ -33,6 +33,9 @@
     <ClCompile Include="test_cfg_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test_dynamiclib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\wallaroo\catalog.h">
@@ -60,6 +63,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\wallaroo\xmlwiringfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\dyn_class_descriptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\dyn_class_descriptor_impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\dynamic_lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\dynamic_library_UNIX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\dynamic_library_WIN32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\dynamic_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\jsonconfiguration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\platform_specific_lib_macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\ptreebasedcfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\xmlconfiguration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
