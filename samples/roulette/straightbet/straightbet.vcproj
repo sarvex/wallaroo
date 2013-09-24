@@ -2,9 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="roulette"
-	ProjectGUID="{B9A8AC6C-711A-4337-8DD2-055E35194E92}"
-	RootNamespace="roulette"
+	Name="straightbet"
+	ProjectGUID="{D210E958-DF7D-494F-A5BE-15A1D7E3EB8F}"
+	RootNamespace="straightbet"
+	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -19,8 +20,8 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
+			ConfigurationType="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -40,10 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../..;$(BOOST)"
+				AdditionalIncludeDirectories="../../..;$(BOOST)"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;STRAIGHTBETCONSOLE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -58,8 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories="$(BOOST)\stage\lib"
+				OutputFile="$(OutDir)\$(ProjectName)d.dll"
+				LinkIncremental="2"
 				GenerateDebugInformation="true"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -88,8 +93,8 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
+			ConfigurationType="2"
+			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -111,9 +116,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../..;$(BOOST)"
+				AdditionalIncludeDirectories="../../..;$(BOOST)"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;STRAIGHTBETCONSOLE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -128,7 +135,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -165,23 +174,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\bin.cpp"
+				RelativePath="..\bin.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\consoleplayer.cpp"
+				RelativePath="..\straightbet.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\game.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\wheel.cpp"
+				RelativePath="..\straightbetconsolefactory.cpp"
 				>
 			</File>
 		</Filter>
@@ -191,35 +192,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\bet.h"
+				RelativePath="..\straightbet.h"
 				>
 			</File>
 			<File
-				RelativePath=".\betconsolefactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\bin.h"
-				>
-			</File>
-			<File
-				RelativePath=".\consoleplayer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\currency.h"
-				>
-			</File>
-			<File
-				RelativePath=".\game.h"
-				>
-			</File>
-			<File
-				RelativePath=".\player.h"
-				>
-			</File>
-			<File
-				RelativePath=".\wheel.h"
+				RelativePath="..\straightbetconsolefactory.h"
 				>
 			</File>
 		</Filter>

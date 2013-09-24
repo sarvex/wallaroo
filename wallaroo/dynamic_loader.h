@@ -31,7 +31,7 @@
 #include "exceptions.h"
 #include "dyn_class_descriptor.h"
 #include "platform_specific_lib_macros.h"
-#include WALLAROO_DLL_IMPL_HEADER
+#include WALLAROO_DLL_IMPL_HEADER // select the right OS-specific header-file for PlatformSpecificDynamicLibrary
 
 
 namespace wallaroo
@@ -39,11 +39,13 @@ namespace wallaroo
 namespace detail
 {
 
-
+// Manage a shared library as a resource. Load it on the ctor
+// and unload it on the dtor.
+// Export a method to get a function pointer given the symbol name.
 class DynamicLibrary : private PlatformSpecificDynamicLibrary
 {
 public:
-    /** Create a DynamicLibrary from the path specified as parameter
+    /* Create a DynamicLibrary from the path specified as parameter
     * loading the OS library.
     * @param fileName the path of the dynamic library to load
     * @throw WrongFile if the file does not exist or its format is wrong.
@@ -52,12 +54,11 @@ public:
         PlatformSpecificDynamicLibrary( fileName )
     {
     }
-    /** Release the OS library
-    */
+    // Release the OS library
     ~DynamicLibrary()
     {
     }
-    /** Return a function pointer to the symbol @c funcName.
+    /* Return a function pointer to the symbol @c funcName.
     * @param funcName the name of the function in the library to load.
     * @return the function pointer to the symbol required. NULL if the symbol was not found.
     */
@@ -66,7 +67,7 @@ public:
     {
         return PlatformSpecificDynamicLibrary::GetFunction< F >( funcName );
     }
-    /** Returns the platform-specific filename suffix
+    /* Returns the platform-specific filename suffix
 		for shared libraries (including the period).
 		In debug mode, the suffix also includes a
 		"d" to specify the debug version of a library.
@@ -77,31 +78,29 @@ public:
     }
 };
 
-template < typename Builder, typename Deleter >
-struct BuildFunctor
-{
-    BuildFunctor( const Builder& _builder, const Deleter& _deleter ) : 
-        builder( _builder ),
-        deleter( _deleter )
-    {}
-    cxx0x::shared_ptr< Device > operator()()
-    {
-        return cxx0x::shared_ptr< Device >( builder(), deleter );
-    }
-private:
-    Builder builder;
-    Deleter deleter;
-};
-
 } // namespace detail
 
 
+/**
+ * Represent a shared library containing wallaroo class definitions.
+ *
+ * Given the file name, Plugin loads a shared library 
+ * and stores the descritptors of registered classes. Then, the classes
+ * will be available for the dynamic creation via the Catalog::Create method.
+ *
+ * You can get a Plugin istance by using the Plugin::Load method. The instance lifetime
+ * is managed by wallaroo: the object is destroyed (and the library is unloaded)
+ * when there are no more reference, instances of registered classes, and descriptor.
+ */
 class Plugin
 {
 public:
-    /** @@@
-    * @throw WrongFile if the file does not exist or its format is wrong.
-    */
+    /** Load the shared library specified by the file name @c fileName thus
+     * giving access via the Catalog::Create method to all the classes registered
+     * inside with the macro WALLAROO_DYNLIB_REGISTER.
+     * @param fileName The path of the shared library to load.
+     * @throw WrongFile if the file does not exist or its format is wrong.
+     */
     static cxx0x::shared_ptr< Plugin > Load( const std::string& fileName )
     {
         using namespace detail;
@@ -114,14 +113,17 @@ public:
             Class< void, void >::Register( (*descriptors)[ i ].name, (*descriptors)[ i ].create, p );
         return p;
     }
+    /** Returns the platform-specific filename suffix
+     * for shared libraries (including the period).
+     * In debug mode, the suffix also includes a
+     * "d" to specify the debug version of a library.
+     */
     static std::string Suffix()
     {
         return detail::DynamicLibrary::Suffix();
     }
 private:
-    /** @@@
-    * @throw WrongFile if the file does not exist or its format is wrong.
-    */
+    // throw WrongFile if the file does not exist or its format is wrong.
     Plugin( const std::string& fileName ) :
       library( fileName )
     {

@@ -22,10 +22,11 @@
  ******************************************************************************/
 
 #include <sstream>
+#include "wallaroo/dynamic_lib.h"
 #include "straightbetconsolefactory.h"
 #include "straightbet.h"
 
-WALLAROO_REGISTER( StraightBetConsoleFactory );
+WALLAROO_DYNLIB_REGISTER( StraightBetConsoleFactory );
 
 StraightBetConsoleFactory::~StraightBetConsoleFactory()
 {

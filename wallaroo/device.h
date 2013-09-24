@@ -66,19 +66,6 @@ public:
         ( i -> second ) -> PlugInto( device );
     }
 
-    // this method should be invoked just by the connectors of this device
-    // to register itself into the connectors table.
-    void Register( const std::string& id, Connector* plug )
-    {
-        connectors[ id ] = plug;
-    }
-
-    // this method should be invoked just by Class
-    // to add the reference counter for the shared library.
-    void Source( const cxx0x::shared_ptr< Plugin >& p )
-    {
-        plugin = p;
-    }
 
    /** Check the multiplicity of its plugs.
     * @return true if the check pass
@@ -101,6 +88,22 @@ protected:
         return RegToken( this );
     }
 private:
+    // this method should only be invoked by Class
+    // to add the reference counter for the shared library.
+    template < class T1, class T2 > friend class Class;
+    void Source( const cxx0x::shared_ptr< Plugin >& p )
+    {
+        plugin = p;
+    }
+
+    // this method should only be invoked by the connectors of this device
+    // to register itself into the connectors table.
+    template < class T, class P, template < typename E, typename Allocator = std::allocator< E > > class Container > friend class Plug;
+    void Register( const std::string& id, Connector* plug )
+    {
+        connectors[ id ] = plug;
+    }
+
     typedef cxx0x::unordered_map< std::string, Connector* > Connectors;
     Connectors connectors;
     cxx0x::shared_ptr< Plugin > plugin; // optional shared ptr to plugin, to release the shared library when is no more used

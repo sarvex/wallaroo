@@ -33,18 +33,22 @@ namespace wallaroo
 namespace detail
 {
 
+// unix-like specific implementation of shared library
 class PlatformSpecificDynamicLibrary
 {
 public:
+    // throw WrongFile if the file does not exist or its format is wrong.
     explicit PlatformSpecificDynamicLibrary( const std::string& fileName )
     {
         libHandle = dlopen( fileName.c_str(), RTLD_LAZY );
         if ( ! libHandle ) throw WrongFile( fileName );
     }
+    // Release the OS library
     ~PlatformSpecificDynamicLibrary()
     {
         dlclose( libHandle );
     }
+    // Return a function pointer to the symbol funcName. NULL if the symbol was not found.
     template < typename F >
     F GetFunction( const std::string& funcName )
     {
@@ -52,11 +56,10 @@ public:
         if ( dlerror() != NULL ) return NULL;
         return f;
     }
-        /** Returns the platform-specific filename suffix
-		for shared libraries (including the period).
-		In debug mode, the suffix also includes a
-		"d" to specify the debug version of a library.
-    */
+    /* Returns the unix filename suffix
+	   for shared libraries (including the period).
+	   In debug mode, the suffix also includes a
+	   "d" to specify the debug version of a library. */
     static std::string Suffix()
     {
         #if defined(__APPLE__)

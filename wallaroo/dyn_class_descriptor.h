@@ -30,21 +30,30 @@
 
 namespace wallaroo
 {
+
+class Device; // forward declaration
+
 namespace detail
 {
 
-class Descriptor
+// Store name and factory for a class
+struct Descriptor
 {
-public:
+    // Insert a new Descriptor into DB
     template < typename T >
-    void Insert( const std::string& className );
+    static void Insert( const std::string& className );
+
+    // Unique instance of Descriptor's DB
     static std::vector< Descriptor >& DB();
-    std::string name;
+
     typedef cxx0x::shared_ptr< Device > Ptr;
     typedef cxx0x::function< Ptr() > FactoryMethod;
-    FactoryMethod create;
+
+    FactoryMethod create; // the factory method
+    std::string name; // the class name
 };
 
+// This is a utility class that register a new Descriptor on its ctor
 template < typename T >
 class DynRegistration
 {

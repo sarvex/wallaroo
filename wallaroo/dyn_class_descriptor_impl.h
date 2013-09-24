@@ -50,9 +50,10 @@ cxx0x::shared_ptr< Device > Builder()
 template < typename T >
 void Descriptor::Insert( const std::string& className )
 {
-    name = className;
-    create = Builder< T >;
-    DB().push_back( *this );
+    Descriptor d;
+    d.name = className;
+    d.create = Builder< T >;
+    DB().push_back( d );
 }
 
 std::vector< Descriptor >& Descriptor::DB()
@@ -64,8 +65,7 @@ std::vector< Descriptor >& Descriptor::DB()
 template < typename T >
 DynRegistration< T >::DynRegistration( const std::string& name )
 {
-    Descriptor d;
-    d.Insert< T >( name );
+    Descriptor::Insert< T >( name );
 }
 
 

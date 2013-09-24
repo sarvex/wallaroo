@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\wallaroo\dyn_class_descriptor_impl.h"
+				>
+			</File>
+			<File
 				RelativePath="..\wallaroo\dynamic_lib.h"
 				>
 			</File>
@@ -263,6 +267,10 @@
 			</File>
 			<File
 				RelativePath="..\wallaroo\plug.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\ptreebasedcfg.h"
 				>
 			</File>
 			<File

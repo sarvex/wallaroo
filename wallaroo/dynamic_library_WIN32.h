@@ -33,40 +33,32 @@ namespace wallaroo
 namespace detail
 {
 
+// win32 specific implementation of shared library
 class PlatformSpecificDynamicLibrary
 {
 public:
-    /** Create a DynamicLibrary from the path specified as parameter
-    * loading the OS library.
-    * @param fileName the path of the dynamic library to load
-    * @throw WrongFile if the file does not exist or its format is wrong.
-    */
+    // throw WrongFile if the file does not exist or its format is wrong.
     explicit PlatformSpecificDynamicLibrary( const std::string& fileName )
     {
         libHandle = LoadLibrary( fileName.c_str() );
         if ( ! libHandle ) throw WrongFile( fileName );
     }
-    /** Release the OS library
-    */
+    // Release the OS library
     ~PlatformSpecificDynamicLibrary()
     {
         FreeLibrary( libHandle );
     }
-    /** Return a function pointer to the symbol @c funcName.
-    * @param funcName the name of the function in the library to load.
-    * @return the function pointer to the symbol required. NULL if the symbol was not found.
-    */
+    // Return a function pointer to the symbol funcName. NULL if the symbol was not found.
     template < typename F >
     F GetFunction( const std::string& funcName )
     {
         F f = (F)GetProcAddress( libHandle, funcName.c_str() );
         return f;
     }
-    /** Returns the platform-specific filename suffix
-		for shared libraries (including the period).
-		In debug mode, the suffix also includes a
-		"d" to specify the debug version of a library.
-    */
+    /* Returns the platform-specific filename suffix
+       for shared libraries (including the period).
+       In debug mode, the suffix also includes a
+       "d" to specify the debug version of a library. */
     static std::string Suffix()
     {
         #if defined(_DEBUG)

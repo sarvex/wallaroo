@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include "wallaroo/catalog.h"
+#include "wallaroo/dynamic_loader.h"
 #include "game.h"
 
 // Wallaroo library is embedded in the wallaroo namespace
@@ -36,6 +37,12 @@ int main( int argc, char* argv[] )
 {
     try
     {
+        // load classes in shared libraries:
+        Plugin::Load( "straightbet" + Plugin::Suffix() );
+        Plugin::Load( "oddevenbet" + Plugin::Suffix() );
+        Plugin::Load( "redblackbet" + Plugin::Suffix() );
+
+        // separate catalogs for application logic and bets
         Catalog logicCatalog;
         Catalog betCatalog;
 
