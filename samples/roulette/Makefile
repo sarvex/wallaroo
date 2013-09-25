@@ -23,16 +23,23 @@
 
 CC = g++
 CFLAGS = -Wall -I../.. $(UCFLAGS)
-DEPS = betconsolefactory.h consoleplayer.h oddevenbetconsolefactory.h redblackbetconsolefactory.h straightbet.h bet.h currency.h oddevenbet.h redblackbet.h wheel.h bin.h game.h player.h straightbetconsolefactory.h
-OBJ = bin.o main.o redblackbetconsolefactory.o straightbet.o consoleplayer.o oddevenbetconsolefactory.o redblackbet.o wheel.o game.o oddevenbet.o straightbetconsolefactory.o
+LFLAGS = $(ULFLAGS) -ldl
+DEPS = consoleplayer.h bet.h currency.h wheel.h bin.h game.h player.h
+OBJ = bin.o main.o consoleplayer.o wheel.o game.o
 
 EXE = roulette
+PLUGINS = oddevenbet.so redblackbet.so straightbet.so
+
+all: $(EXE) $(PLUGINS)
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXE): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CFLAGS) $(LFLAGS)
+
+%.so: %.cpp %consolefactory.cpp bin.cpp %.h %consolefactory.h
+	$(CC) -fPIC -shared -Wl,-soname,$@ -o $@ $^ $(LFLAGS) $(CFLAGS)
 
 clean:
-	rm -f *.o *~ core $(EXE)
+	rm -f *.o *~ core $(EXE) *.so

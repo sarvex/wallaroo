@@ -21,46 +21,47 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <sstream>
-#include "wallaroo/dynamic_lib.h"
-#include "straightbetconsolefactory.h"
-#include "straightbet.h"
+#include <boost/test/unit_test.hpp>
 
-WALLAROO_DYNLIB_REGISTER( StraightBetConsoleFactory );
+#include "wallaroo/catalog.h"
+#include "wallaroo/dynamic_loader.h"
 
-StraightBetConsoleFactory::~StraightBetConsoleFactory()
+#include "plugin_interface.h"
+
+using namespace wallaroo;
+
+BOOST_AUTO_TEST_SUITE( DynamicLibs )
+
+BOOST_AUTO_TEST_CASE( DynamicLoadingFailure )
 {
+    BOOST_CHECK_THROW( { Plugin::Load( "unexistent.dll" ); }, WrongFile );
 }
 
-std::string StraightBetConsoleFactory::Help() const
+
+BOOST_AUTO_TEST_CASE( DynamicLoading )
 {
-    return "straight <bin> <amount>";
+    try
+    {
+        Plugin::Load( "plugin" + Plugin::Suffix() );
+        Catalog catalog;
+
+        BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A6" ) );
+        BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
+
+        cxx0x::shared_ptr< I6 > obj = catalog[ "a" ];
+        BOOST_CHECK( obj -> F() == 3 );
+
+        BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B6" ) );
+        BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
+
+        obj = catalog[ "b" ];
+        BOOST_CHECK( obj -> F() == 4 );
+    }
+    catch ( ... )
+    {
+        BOOST_ERROR( "exception thrown during shared library loading" );
+    }
 }
 
-cxx0x::shared_ptr< Bet > StraightBetConsoleFactory::Create( const std::string& cmdLine ) const
-{
-    using namespace std;
 
-    string cmdName;
-    string inputBin;
-    Currency amount;
-
-    stringstream ss( cmdLine );
-
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> cmdName;
-    if ( cmdName != "straight" ) return cxx0x::shared_ptr< Bet >();
-
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> inputBin;
-    
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> amount;
-    if ( ss.fail() ) return cxx0x::shared_ptr< Bet >();
-    if ( !ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    if ( amount == 0 ) return cxx0x::shared_ptr< Bet >();
-
-    Bin bin( inputBin );
-    return cxx0x::shared_ptr< Bet >( new StraightBet( bin, amount ) );
-}
-
+BOOST_AUTO_TEST_SUITE_END()

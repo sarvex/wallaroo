@@ -21,46 +21,55 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <sstream>
-#include "wallaroo/dynamic_lib.h"
-#include "straightbetconsolefactory.h"
-#include "straightbet.h"
+#ifndef WALLAROO_DYN_CLASS_DESCRIPTOR_IMPL_H_
+#define WALLAROO_DYN_CLASS_DESCRIPTOR_IMPL_H_
 
-WALLAROO_DYNLIB_REGISTER( StraightBetConsoleFactory );
-
-StraightBetConsoleFactory::~StraightBetConsoleFactory()
+namespace wallaroo
 {
+namespace detail
+{
+
+
+namespace
+{
+
+template < typename T >
+void Deleter( T* obj )
+{
+    delete obj;
 }
 
-std::string StraightBetConsoleFactory::Help() const
+template < typename T >
+cxx0x::shared_ptr< Device > Builder()
 {
-    return "straight <bin> <amount>";
+    return cxx0x::shared_ptr< Device >( new T, Deleter< T > );
 }
 
-cxx0x::shared_ptr< Bet > StraightBetConsoleFactory::Create( const std::string& cmdLine ) const
-{
-    using namespace std;
-
-    string cmdName;
-    string inputBin;
-    Currency amount;
-
-    stringstream ss( cmdLine );
-
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> cmdName;
-    if ( cmdName != "straight" ) return cxx0x::shared_ptr< Bet >();
-
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> inputBin;
-    
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> amount;
-    if ( ss.fail() ) return cxx0x::shared_ptr< Bet >();
-    if ( !ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    if ( amount == 0 ) return cxx0x::shared_ptr< Bet >();
-
-    Bin bin( inputBin );
-    return cxx0x::shared_ptr< Bet >( new StraightBet( bin, amount ) );
 }
 
+template < typename T >
+void Descriptor::Insert( const std::string& className )
+{
+    Descriptor d;
+    d.name = className;
+    d.create = Builder< T >;
+    DB().push_back( d );
+}
+
+std::vector< Descriptor >& Descriptor::DB()
+{
+    static std::vector< Descriptor > db;
+    return db;
+}
+
+template < typename T >
+DynRegistration< T >::DynRegistration( const std::string& name )
+{
+    Descriptor::Insert< T >( name );
+}
+
+
+} // namespace detail
+} // namespace wallaroo
+
+#endif // WALLAROO_DYN_CLASS_DESCRIPTOR_IMPL_H_

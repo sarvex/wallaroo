@@ -21,46 +21,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <sstream>
-#include "wallaroo/dynamic_lib.h"
-#include "straightbetconsolefactory.h"
-#include "straightbet.h"
+#ifndef WALLAROO_DYNAMIC_LIB_H_
+#define WALLAROO_DYNAMIC_LIB_H_
 
-WALLAROO_DYNLIB_REGISTER( StraightBetConsoleFactory );
+#include <vector>
+#include "dyn_class_descriptor.h"
+#include "dyn_class_descriptor_impl.h"
+#include "platform_specific_lib_macros.h"
 
-StraightBetConsoleFactory::~StraightBetConsoleFactory()
+/** This macro must be used in the shared libraries
+ * to register a class. When a class is registered, you can create an instance
+ * using Catalog::Create().
+ * @param C The class name
+ * @hideinitializer
+ */
+#define WALLAROO_DYNLIB_REGISTER( C ) \
+    static wallaroo::detail::DynRegistration< C > C##p( #C );
+
+// This function is exported by the shared library when you include this header
+// file. It provides a container of descriptors of the classes exported by
+// the library.
+WALLAROO_DLL_PREFIX
+std::vector< wallaroo::detail::Descriptor >* GetClasses()
 {
+    return &wallaroo::detail::Descriptor::DB();
 }
 
-std::string StraightBetConsoleFactory::Help() const
-{
-    return "straight <bin> <amount>";
-}
-
-cxx0x::shared_ptr< Bet > StraightBetConsoleFactory::Create( const std::string& cmdLine ) const
-{
-    using namespace std;
-
-    string cmdName;
-    string inputBin;
-    Currency amount;
-
-    stringstream ss( cmdLine );
-
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> cmdName;
-    if ( cmdName != "straight" ) return cxx0x::shared_ptr< Bet >();
-
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> inputBin;
-    
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> amount;
-    if ( ss.fail() ) return cxx0x::shared_ptr< Bet >();
-    if ( !ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    if ( amount == 0 ) return cxx0x::shared_ptr< Bet >();
-
-    Bin bin( inputBin );
-    return cxx0x::shared_ptr< Bet >( new StraightBet( bin, amount ) );
-}
+#endif // WALLAROO_DYNAMIC_LIB_H_
 

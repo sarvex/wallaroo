@@ -21,46 +21,48 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <sstream>
-#include "wallaroo/dynamic_lib.h"
-#include "straightbetconsolefactory.h"
-#include "straightbet.h"
+#ifndef WALLAROO_DYN_CLASS_DESCRIPTOR_H_
+#define WALLAROO_DYN_CLASS_DESCRIPTOR_H_
 
-WALLAROO_DYNLIB_REGISTER( StraightBetConsoleFactory );
+#include <string>
+#include <vector>
+#include "cxx0x.h"
 
-StraightBetConsoleFactory::~StraightBetConsoleFactory()
+namespace wallaroo
 {
-}
 
-std::string StraightBetConsoleFactory::Help() const
+class Device; // forward declaration
+
+namespace detail
 {
-    return "straight <bin> <amount>";
-}
 
-cxx0x::shared_ptr< Bet > StraightBetConsoleFactory::Create( const std::string& cmdLine ) const
+// Store name and factory for a class
+struct Descriptor
 {
-    using namespace std;
+    // Insert a new Descriptor into DB
+    template < typename T >
+    static void Insert( const std::string& className );
 
-    string cmdName;
-    string inputBin;
-    Currency amount;
+    // Unique instance of Descriptor's DB
+    static std::vector< Descriptor >& DB();
 
-    stringstream ss( cmdLine );
+    typedef cxx0x::shared_ptr< Device > Ptr;
+    typedef cxx0x::function< Ptr() > FactoryMethod;
 
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> cmdName;
-    if ( cmdName != "straight" ) return cxx0x::shared_ptr< Bet >();
+    FactoryMethod create; // the factory method
+    std::string name; // the class name
+};
 
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> inputBin;
-    
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> amount;
-    if ( ss.fail() ) return cxx0x::shared_ptr< Bet >();
-    if ( !ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    if ( amount == 0 ) return cxx0x::shared_ptr< Bet >();
+// This is a utility class that register a new Descriptor on its ctor
+template < typename T >
+class DynRegistration
+{
+public:
+    explicit DynRegistration( const std::string& name );
+};
 
-    Bin bin( inputBin );
-    return cxx0x::shared_ptr< Bet >( new StraightBet( bin, amount ) );
-}
+} // namespace detail
+} // namespace wallaroo
+
+#endif // WALLAROO_DYN_CLASS_DESCRIPTOR_H_
 

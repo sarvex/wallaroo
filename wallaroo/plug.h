@@ -207,6 +207,9 @@ template <
 >
 class Plug< T, bounded_collection< MIN, MAX >, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
 {
+private:
+    typedef Container< cxx0x::weak_ptr< T > > C;
+
 public:
 
     /** Create a Plug and register it to its device for future wiring.
@@ -232,7 +235,7 @@ public:
     {
         owner -> Register( name, this );
     }
-    
+
     // end DEPRECATED
 
     /** Connect a device into this multiple plug
@@ -245,7 +248,7 @@ public:
         if ( ! obj ) // bad type!
             throw WrongType();
         else
-            push_back( obj );
+            C::push_back( obj );
     }
 
 

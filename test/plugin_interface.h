@@ -21,46 +21,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#include <sstream>
-#include "wallaroo/dynamic_lib.h"
-#include "straightbetconsolefactory.h"
-#include "straightbet.h"
+#ifndef WALLAROO_PLUGIN_INTERFACE_H_
+#define WALLAROO_PLUGIN_INTERFACE_H_
 
-WALLAROO_DYNLIB_REGISTER( StraightBetConsoleFactory );
-
-StraightBetConsoleFactory::~StraightBetConsoleFactory()
+class I6 : public wallaroo::Device
 {
-}
+public:
+    virtual int F() = 0;
+    virtual ~I6() {}
+};
 
-std::string StraightBetConsoleFactory::Help() const
-{
-    return "straight <bin> <amount>";
-}
-
-cxx0x::shared_ptr< Bet > StraightBetConsoleFactory::Create( const std::string& cmdLine ) const
-{
-    using namespace std;
-
-    string cmdName;
-    string inputBin;
-    Currency amount;
-
-    stringstream ss( cmdLine );
-
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> cmdName;
-    if ( cmdName != "straight" ) return cxx0x::shared_ptr< Bet >();
-
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> inputBin;
-    
-    if ( ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    ss >> amount;
-    if ( ss.fail() ) return cxx0x::shared_ptr< Bet >();
-    if ( !ss.eof() ) return cxx0x::shared_ptr< Bet >();
-    if ( amount == 0 ) return cxx0x::shared_ptr< Bet >();
-
-    Bin bin( inputBin );
-    return cxx0x::shared_ptr< Bet >( new StraightBet( bin, amount ) );
-}
+#endif
 
