@@ -256,20 +256,4 @@ public:
     static const ::wallaroo::Registration< C, ##__VA_ARGS__ > C##r( #C ) ;
 // NOTE: the ## before __VA_ARGS__ removes the comma when no arguments are passed
 
-
-// begin DEPRECATED: Backward compatibility only
-
-/** @deprecated
- *  You must not use this class. Its only pourpose is to provide a
- *  base class for the deprecated macro REGISTERED_CLASS
- */
-class WallarooBaseDummyClass {};
-/** @deprecated
- *  These macros must not be used
- */
-#define REGISTERED_CLASS( C, ... ) class C : public WallarooBaseDummyClass
-#define REGISTER WALLAROO_REGISTER
-    
-// end DEPRECATED
-
 #endif // WALLAROO_CLASS_H_

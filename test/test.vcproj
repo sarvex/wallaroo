@@ -199,10 +199,6 @@
 				RelativePath=".\test_wiring.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\test_xml_loader.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -255,10 +251,6 @@
 			</File>
 			<File
 				RelativePath="..\wallaroo\xmlconfiguration.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\xmlwiringfile.h"
 				>
 			</File>
 		</Filter>

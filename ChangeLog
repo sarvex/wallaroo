@@ -3,6 +3,7 @@
         * Add shared library support
         * Fix gcc 4.7 compatibility issue
         * Add directory "detail"
+        * Remove deprecated syntax
 
 2013-03-14: Version 0.3.1
 

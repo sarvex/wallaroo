@@ -101,23 +101,6 @@ public:
         owner -> Register( name, this );
     }
 
-
-    // DEPRECATED: Backward compatibility only
-
-    /** Create a Plug and register it to its device for future wiring.
-    * @deprecated
-    * Backward compatibility only: use Plug( const std::string&, const RegToken& ) instead.
-    * @param name the name of this plug
-    * @param owner the device that contains this plug
-    */
-    Plug( const std::string& name, Device* owner )
-    {
-        owner -> Register( name, this );
-    }
-    
-    // end DEPRECATED
-
-
     /** Plug this plug into a device
     * @param dev The device you want insert this plug into
     * @throw WrongType If @c dev is not a subclass of @c T
@@ -221,22 +204,6 @@ public:
         Device* owner = token.GetDevice();
         owner -> Register( name, this );
     }
-
-
-    // DEPRECATED: Backward compatibility only
-
-    /** Create a Plug and register it to its device for future wiring.
-    * @deprecated
-    * Backward compatibility only: use Plug( const std::string&, const RegToken& ) instead.
-    * @param name the name of this plug
-    * @param owner the device that contains this plug
-    */
-    Plug( const std::string& name, Device* owner )
-    {
-        owner -> Register( name, this );
-    }
-
-    // end DEPRECATED
 
     /** Connect a device into this multiple plug
     * @param device The device to connect
