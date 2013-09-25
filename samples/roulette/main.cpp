@@ -53,7 +53,7 @@ int main( int argc, char* argv[] )
         betCatalog.Create( "straightbetconsolefactory", "StraightBetConsoleFactory" );
         betCatalog.Create( "oddevenbetconsolefactory", "OddEvenBetConsoleFactory" );
         betCatalog.Create( "redblackbetconsolefactory", "RedBlackBetConsoleFactory" );
-        
+
         wallaroo_within( logicCatalog )
         {
             use( "player" ).as( "player" ).of( "game" );
