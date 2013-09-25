@@ -230,23 +230,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\wallaroo\dyn_class_descriptor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\dyn_class_descriptor_impl.h"
-				>
-			</File>
-			<File
 				RelativePath="..\wallaroo\dynamic_lib.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\dynamic_library_UNIX.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\dynamic_library_WIN32.h"
 				>
 			</File>
 			<File
@@ -262,15 +246,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\wallaroo\platform_specific_lib_macros.h"
-				>
-			</File>
-			<File
 				RelativePath="..\wallaroo\plug.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\ptreebasedcfg.h"
 				>
 			</File>
 			<File

@@ -25,7 +25,7 @@
 #define WALLAROO_JSONCONFIGURATION_H_
 
 #include "catalog.h"
-#include "ptreebasedcfg.h"
+#include "detail/ptreebasedcfg.h"
 #include <boost/property_tree/json_parser.hpp>
 
 using namespace boost::property_tree;

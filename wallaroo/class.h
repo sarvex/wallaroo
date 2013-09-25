@@ -25,6 +25,7 @@
 #define WALLAROO_CLASS_H_
 
 #include <string>
+#include "detail/factory.h"
 #include "cxx0x.h"
 #include "device.h"
 
@@ -225,43 +226,6 @@ class Class< void, void >
         {
         }
 };
-
-namespace detail
-{
-
-// This helper class exports the method to create the class T.
-// Can't use a function because we cannot partial specialize template functions.
-template < class T, class P1, class P2 >
-class Factory
-{
-public:
-    static cxx0x::shared_ptr< Device > Create( const P1& p1, const P2& p2 )
-    {
-        return cxx0x::make_shared< T >( p1, p2 );
-    }
-};
-
-template < class T, class P >
-class Factory< T, P, void >
-{
-public:
-    static cxx0x::shared_ptr< Device > Create( const P& p )
-    {
-        return cxx0x::make_shared< T >( p );
-    }
-};
-
-template < class T >
-class Factory< T, void, void >
-{
-public:
-    static cxx0x::shared_ptr< Device > Create()
-    {
-        return cxx0x::make_shared< T >();
-    }
-};
-
-} // detail namespace
 
 
 /** This class registers on its constructor a class @c T

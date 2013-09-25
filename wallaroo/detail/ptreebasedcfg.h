@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_PTREEBASEDCFG_H_
-#define WALLAROO_PTREEBASEDCFG_H_
+#ifndef WALLAROO_DETAIL_PTREEBASEDCFG_H_
+#define WALLAROO_DETAIL_PTREEBASEDCFG_H_
 
 #include "catalog.h"
 #include <string>
@@ -220,4 +220,4 @@ private:
 } // detail
 } // namespace
 
-#endif
+#endif // WALLAROO_DETAIL_PTREEBASEDCFG_H_

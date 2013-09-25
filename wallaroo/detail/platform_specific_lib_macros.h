@@ -21,16 +21,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_PLATFORM_SPECIFIC_LIB_MACROS_H_
-#define WALLAROO_PLATFORM_SPECIFIC_LIB_MACROS_H_
+#ifndef WALLAROO_DETAIL_PLATFORM_SPECIFIC_LIB_MACROS_H_
+#define WALLAROO_DETAIL_PLATFORM_SPECIFIC_LIB_MACROS_H_
 
 #ifdef _WIN32
     #define WALLAROO_DLL_PREFIX extern "C" __declspec(dllexport)
-    #define WALLAROO_DLL_IMPL_HEADER "dynamic_library_WIN32.h"
+    #define WALLAROO_DLL_IMPL_HEADER "detail/dynamic_library_WIN32.h"
 #else
     #define WALLAROO_DLL_PREFIX extern "C" 
-    #define WALLAROO_DLL_IMPL_HEADER "dynamic_library_UNIX.h"
+    #define WALLAROO_DLL_IMPL_HEADER "detail/dynamic_library_UNIX.h"
 #endif
 
-#endif // WALLAROO_PLATFORM_SPECIFIC_LIB_MACROS_H_
+#endif // WALLAROO_DETAIL_PLATFORM_SPECIFIC_LIB_MACROS_H_
 

@@ -21,31 +21,55 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_DYNAMIC_LIB_H_
-#define WALLAROO_DYNAMIC_LIB_H_
+#ifndef WALLAROO_DETAIL_DYN_CLASS_DESCRIPTOR_IMPL_H_
+#define WALLAROO_DETAIL_DYN_CLASS_DESCRIPTOR_IMPL_H_
 
-#include <vector>
-#include "detail/dyn_class_descriptor.h"
-#include "detail/dyn_class_descriptor_impl.h"
-#include "detail/platform_specific_lib_macros.h"
-
-/** This macro must be used in the shared libraries
- * to register a class. When a class is registered, you can create an instance
- * using Catalog::Create().
- * @param C The class name
- * @hideinitializer
- */
-#define WALLAROO_DYNLIB_REGISTER( C ) \
-    static wallaroo::detail::DynRegistration< C > C##p( #C );
-
-// This function is exported by the shared library when you include this header
-// file. It provides a container of descriptors of the classes exported by
-// the library.
-WALLAROO_DLL_PREFIX
-std::vector< wallaroo::detail::Descriptor >* GetClasses()
+namespace wallaroo
 {
-    return &wallaroo::detail::Descriptor::DB();
+namespace detail
+{
+
+
+namespace
+{
+
+template < typename T >
+void Deleter( T* obj )
+{
+    delete obj;
 }
 
-#endif // WALLAROO_DYNAMIC_LIB_H_
+template < typename T >
+cxx0x::shared_ptr< Device > Builder()
+{
+    return cxx0x::shared_ptr< Device >( new T, Deleter< T > );
+}
 
+}
+
+template < typename T >
+void Descriptor::Insert( const std::string& className )
+{
+    Descriptor d;
+    d.name = className;
+    d.create = Builder< T >;
+    DB().push_back( d );
+}
+
+std::vector< Descriptor >& Descriptor::DB()
+{
+    static std::vector< Descriptor > db;
+    return db;
+}
+
+template < typename T >
+DynRegistration< T >::DynRegistration( const std::string& name )
+{
+    Descriptor::Insert< T >( name );
+}
+
+
+} // namespace detail
+} // namespace wallaroo
+
+#endif // WALLAROO_DETAIL_DYN_CLASS_DESCRIPTOR_IMPL_H_
