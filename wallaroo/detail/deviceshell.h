@@ -21,57 +21,56 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_DYNAMIC_LIBRARY_WIN32_H_
-#define WALLAROO_DYNAMIC_LIBRARY_WIN32_H_
+#ifndef WALLAROO_DETAIL_DEVICESHELL_H_
+#define WALLAROO_DETAIL_DEVICESHELL_H_
 
 #include <string>
-#include <windows.h>
-
+#include <typeinfo>
+#include <cassert>
+#include "cxx0x.h"
+#include "device.h"
 
 namespace wallaroo
 {
 namespace detail
 {
 
-// win32 specific implementation of shared library
-class PlatformSpecificDynamicLibrary
+
+// This class provides the conversion operator to the contained type.
+// In particular, the Catalog::operator[] returns a DeviceShell
+// that can be converted to the inner type.
+class DeviceShell
 {
 public:
-    // throw WrongFile if the file does not exist or its format is wrong.
-    explicit PlatformSpecificDynamicLibrary( const std::string& fileName )
+
+    DeviceShell( const cxx0x::shared_ptr< Device >& dev ) :
+        device( dev ) 
     {
-        libHandle = LoadLibrary( fileName.c_str() );
-        if ( ! libHandle ) throw WrongFile( fileName );
+        assert( device );
     }
-    // Release the OS library
-    ~PlatformSpecificDynamicLibrary()
+
+    void Wire( const std::string& plugName, const DeviceShell& destination ) const
     {
-        FreeLibrary( libHandle );
+        device -> Wire( plugName, destination.device );
     }
-    // Return a function pointer to the symbol funcName. NULL if the symbol was not found.
-    template < typename F >
-    F GetFunction( const std::string& funcName )
+
+    /** Convert the contained device to the type T
+    * @return the converted device.
+    * @throw WrongType if the contained device is not a subclass of T
+    */
+    template < class T >
+    operator cxx0x::shared_ptr< T >()
     {
-        F f = (F)GetProcAddress( libHandle, funcName.c_str() );
-        return f;
+        cxx0x::shared_ptr< T > result = cxx0x::dynamic_pointer_cast< T >( device );
+        if ( ! result ) throw WrongType();
+        return result;
     }
-    /* Returns the platform-specific filename suffix
-       for shared libraries (including the period).
-       In debug mode, the suffix also includes a
-       "d" to specify the debug version of a library. */
-    static std::string Suffix()
-    {
-        #if defined(_DEBUG)
-	        return "d.dll";
-        #else
-	        return ".dll";
-        #endif
-    }
+
 private:
-    HINSTANCE libHandle;
+    cxx0x::shared_ptr< Device > device;
 };
 
 } // namespace detail
 } // namespace wallaroo
 
-#endif // WALLAROO_DYNAMIC_LIBRARY_WIN32_H_
+#endif

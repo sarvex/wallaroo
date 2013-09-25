@@ -21,48 +21,50 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_DYN_CLASS_DESCRIPTOR_H_
-#define WALLAROO_DYN_CLASS_DESCRIPTOR_H_
+#ifndef WALLAROO_DETAIL_FACTORY_H_
+#define WALLAROO_DETAIL_FACTORY_H_
 
-#include <string>
-#include <vector>
 #include "cxx0x.h"
+#include "device.h"
 
 namespace wallaroo
 {
-
-class Device; // forward declaration
-
 namespace detail
 {
 
-// Store name and factory for a class
-struct Descriptor
-{
-    // Insert a new Descriptor into DB
-    template < typename T >
-    static void Insert( const std::string& className );
-
-    // Unique instance of Descriptor's DB
-    static std::vector< Descriptor >& DB();
-
-    typedef cxx0x::shared_ptr< Device > Ptr;
-    typedef cxx0x::function< Ptr() > FactoryMethod;
-
-    FactoryMethod create; // the factory method
-    std::string name; // the class name
-};
-
-// This is a utility class that register a new Descriptor on its ctor
-template < typename T >
-class DynRegistration
+// This helper class exports the method to create the class T.
+// Can't use a function because we cannot partial specialize template functions.
+template < class T, class P1, class P2 >
+class Factory
 {
 public:
-    explicit DynRegistration( const std::string& name );
+    static cxx0x::shared_ptr< Device > Create( const P1& p1, const P2& p2 )
+    {
+        return cxx0x::make_shared< T >( p1, p2 );
+    }
 };
 
-} // namespace detail
-} // namespace wallaroo
+template < class T, class P >
+class Factory< T, P, void >
+{
+public:
+    static cxx0x::shared_ptr< Device > Create( const P& p )
+    {
+        return cxx0x::make_shared< T >( p );
+    }
+};
 
-#endif // WALLAROO_DYN_CLASS_DESCRIPTOR_H_
+template < class T >
+class Factory< T, void, void >
+{
+public:
+    static cxx0x::shared_ptr< Device > Create()
+    {
+        return cxx0x::make_shared< T >();
+    }
+};
 
+} // detail namespace
+} // wallaroo namespace
+
+#endif // WALLAROO_CLASS_H_

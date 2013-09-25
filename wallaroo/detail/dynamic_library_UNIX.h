@@ -21,8 +21,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_DYNAMIC_LIBRARY_UNIX_H_
-#define WALLAROO_DYNAMIC_LIBRARY_UNIX_H_
+#ifndef WALLAROO_DETAIL_DYNAMIC_LIBRARY_UNIX_H_
+#define WALLAROO_DETAIL_DYNAMIC_LIBRARY_UNIX_H_
 
 #include <string>
 #include <dlfcn.h>
@@ -95,4 +95,4 @@ private:
 } // namespace detail
 } // namespace wallaroo
 
-#endif // WALLAROO_DYNAMIC_LIBRARY_UNIX_H_
+#endif // WALLAROO_DETAIL_DYNAMIC_LIBRARY_UNIX_H_

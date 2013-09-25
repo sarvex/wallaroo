@@ -25,61 +25,16 @@
 #define WALLAROO_DYNAMIC_LOADER_H_
 
 #include <string>
+#include <vector>
 #include "cxx0x.h"
 #include "device.h"
 #include "class.h"
 #include "exceptions.h"
-#include "dyn_class_descriptor.h"
-#include "platform_specific_lib_macros.h"
-#include WALLAROO_DLL_IMPL_HEADER // select the right OS-specific header-file for PlatformSpecificDynamicLibrary
-
+#include "detail/dyn_class_descriptor.h"
+#include "detail/dynamic_library.h"
 
 namespace wallaroo
 {
-namespace detail
-{
-
-// Manage a shared library as a resource. Load it on the ctor
-// and unload it on the dtor.
-// Export a method to get a function pointer given the symbol name.
-class DynamicLibrary : private PlatformSpecificDynamicLibrary
-{
-public:
-    /* Create a DynamicLibrary from the path specified as parameter
-    * loading the OS library.
-    * @param fileName the path of the dynamic library to load
-    * @throw WrongFile if the file does not exist or its format is wrong.
-    */
-    explicit DynamicLibrary( const std::string& fileName ) :
-        PlatformSpecificDynamicLibrary( fileName )
-    {
-    }
-    // Release the OS library
-    ~DynamicLibrary()
-    {
-    }
-    /* Return a function pointer to the symbol @c funcName.
-    * @param funcName the name of the function in the library to load.
-    * @return the function pointer to the symbol required. NULL if the symbol was not found.
-    */
-    template < typename F >
-    F GetFunction( const std::string& funcName )
-    {
-        return PlatformSpecificDynamicLibrary::GetFunction< F >( funcName );
-    }
-    /* Returns the platform-specific filename suffix
-		for shared libraries (including the period).
-		In debug mode, the suffix also includes a
-		"d" to specify the debug version of a library.
-    */
-    static std::string Suffix()
-    {
-        return PlatformSpecificDynamicLibrary::Suffix();
-    }
-};
-
-} // namespace detail
-
 
 /**
  * Represent a shared library containing wallaroo class definitions.
