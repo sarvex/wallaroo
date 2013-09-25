@@ -22,6 +22,9 @@
 ###############################################################################
 
 incpath = ARGUMENTS.get('incpath',"")
+SharedLibrary( 'oddevenbet', ['oddevenbet.cpp', 'oddevenbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
+SharedLibrary( 'redblackbet', ['redblackbet.cpp', 'redblackbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
+SharedLibrary( 'straightbet', ['straightbet.cpp', 'straightbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
 Program( 'roulette', Glob( '*.cpp' ), CPPPATH = [ '../..',incpath ] )
 
 

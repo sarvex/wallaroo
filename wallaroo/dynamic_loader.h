@@ -45,7 +45,7 @@ namespace wallaroo
  *
  * You can get a Plugin istance by using the Plugin::Load method. The instance lifetime
  * is managed by wallaroo: the object is destroyed (and the library is unloaded)
- * when there are no more reference, instances of registered classes, and descriptor.
+ * when there are no more reference, instances of registered classes, and descriptors.
  */
 class Plugin
 {
