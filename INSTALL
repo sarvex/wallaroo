@@ -54,7 +54,7 @@ the wallaroo and boost (optional) libraries.
 
 So, if you use gcc, you can use the following syntax:
 	g++ -I<boost_path> -I<wallaroo_path> *.cpp -o <app_exe>
-    
+
 or:
 	g++ -std=c++0x -I<wallaroo_path> *.cpp -o <app_exe>
 

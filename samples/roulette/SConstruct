@@ -21,10 +21,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 ###############################################################################
 
+
+import os
+
 incpath = ARGUMENTS.get('incpath',"")
-SharedLibrary( 'oddevenbet', ['oddevenbet.cpp', 'oddevenbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
-SharedLibrary( 'redblackbet', ['redblackbet.cpp', 'redblackbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
-SharedLibrary( 'straightbet', ['straightbet.cpp', 'straightbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
-Program( 'roulette', Glob( '*.cpp' ), CPPPATH = [ '../..',incpath ] )
+
+env = Environment( SHLIBPREFIX = '' )
+
+env.SharedLibrary( 'oddevenbet', ['oddevenbet.cpp', 'oddevenbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
+env.SharedLibrary( 'redblackbet', ['redblackbet.cpp', 'redblackbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
+env.SharedLibrary( 'straightbet', ['straightbet.cpp', 'straightbetconsolefactory.cpp', 'bin.cpp'], CPPPATH = [ '../..',incpath ] )
+env.Program( 'roulette', ['bin.cpp', 'main.cpp', 'consoleplayer.cpp', 'wheel.cpp', 'game.cpp'], CPPPATH = [ '../..',incpath ], LIBS=[ 'dl' ] )
 
 

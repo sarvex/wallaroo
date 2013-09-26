@@ -25,7 +25,7 @@
 #define WALLAROO_DETAIL_DYNAMIC_LIBRARY_H_
 
 #include <string>
-#include "detail/platform_specific_lib_macros.h"
+#include "wallaroo/detail/platform_specific_lib_macros.h"
 #include WALLAROO_DLL_IMPL_HEADER // select the right OS-specific header-file for PlatformSpecificDynamicLibrary
 
 

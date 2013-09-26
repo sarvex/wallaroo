@@ -27,8 +27,8 @@
 #include <string>
 #include <typeinfo>
 #include <cassert>
-#include "cxx0x.h"
-#include "device.h"
+#include "wallaroo/cxx0x.h"
+#include "wallaroo/device.h"
 
 namespace wallaroo
 {

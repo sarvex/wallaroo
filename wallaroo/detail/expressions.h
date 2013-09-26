@@ -25,9 +25,9 @@
 #define WALLAROO_DETAIL_EXPRESSIONS_H_
 
 #include <string>
-#include "detail/deviceshell.h"
-#include "cxx0x.h"
-#include "device.h"
+#include "deviceshell.h"
+#include "wallaroo/cxx0x.h"
+#include "wallaroo/device.h"
 
 namespace wallaroo
 {

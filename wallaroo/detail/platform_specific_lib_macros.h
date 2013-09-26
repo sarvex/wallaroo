@@ -26,10 +26,10 @@
 
 #ifdef _WIN32
     #define WALLAROO_DLL_PREFIX extern "C" __declspec(dllexport)
-    #define WALLAROO_DLL_IMPL_HEADER "detail/dynamic_library_WIN32.h"
+    #define WALLAROO_DLL_IMPL_HEADER "wallaroo/detail/dynamic_library_WIN32.h"
 #else
     #define WALLAROO_DLL_PREFIX extern "C" 
-    #define WALLAROO_DLL_IMPL_HEADER "detail/dynamic_library_UNIX.h"
+    #define WALLAROO_DLL_IMPL_HEADER "wallaroo/detail/dynamic_library_UNIX.h"
 #endif
 
 #endif // WALLAROO_DETAIL_PLATFORM_SPECIFIC_LIB_MACROS_H_

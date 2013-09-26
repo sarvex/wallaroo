@@ -24,10 +24,10 @@
 #ifndef WALLAROO_DETAIL_PTREEBASEDCFG_H_
 #define WALLAROO_DETAIL_PTREEBASEDCFG_H_
 
-#include "catalog.h"
 #include <string>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/foreach.hpp>
+#include "wallaroo/catalog.h"
 
 using namespace boost::property_tree;
 

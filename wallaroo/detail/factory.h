@@ -24,8 +24,8 @@
 #ifndef WALLAROO_DETAIL_FACTORY_H_
 #define WALLAROO_DETAIL_FACTORY_H_
 
-#include "cxx0x.h"
-#include "device.h"
+#include "wallaroo/cxx0x.h"
+#include "wallaroo/device.h"
 
 namespace wallaroo
 {

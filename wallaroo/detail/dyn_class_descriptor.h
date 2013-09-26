@@ -26,7 +26,7 @@
 
 #include <string>
 #include <vector>
-#include "cxx0x.h"
+#include "wallaroo/cxx0x.h"
 
 namespace wallaroo
 {
