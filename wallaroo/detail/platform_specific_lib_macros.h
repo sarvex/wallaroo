@@ -25,10 +25,6 @@
 #define WALLAROO_DETAIL_PLATFORM_SPECIFIC_LIB_MACROS_H_
 
 
-#define WALLAROO_DETAIL_OS_FAMILY_WINDOWS    0x0001
-#define WALLAROO_DETAIL_OS_FAMILY_UNIX       0x0002
-
-
 #if defined(__FreeBSD__)
 	#define WALLAROO_DETAIL_OS_FAMILY_UNIX 1
 #elif defined(_AIX) || defined(__TOS_AIX__)
@@ -59,8 +55,6 @@
 	#define WALLAROO_DETAIL_OS_FAMILY_WINDOWS 1
 #elif defined(__CYGWIN__)
 	#define WALLAROO_DETAIL_OS_FAMILY_UNIX 1
-#elif defined(POCO_VXWORKS)
-  #define WALLAROO_DETAIL_OS_FAMILY_UNIX 1
 #else
   #error "Unknown Platform."
 #endif
