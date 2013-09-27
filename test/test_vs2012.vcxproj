@@ -86,7 +86,6 @@
     <ClCompile Include="test_dynamiclib.cpp" />
     <ClCompile Include="test_multiplicitycheck.cpp" />
     <ClCompile Include="test_wiring.cpp" />
-    <ClCompile Include="test_xml_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\wallaroo\catalog.h" />
@@ -95,19 +94,12 @@
     <ClInclude Include="..\wallaroo\cxx0x.h" />
     <ClInclude Include="..\wallaroo\device.h" />
     <ClInclude Include="..\wallaroo\dynamic_lib.h" />
-    <ClInclude Include="..\wallaroo\dynamic_library_UNIX.h" />
-    <ClInclude Include="..\wallaroo\dynamic_library_WIN32.h" />
     <ClInclude Include="..\wallaroo\dynamic_loader.h" />
-    <ClInclude Include="..\wallaroo\dyn_class_descriptor.h" />
-    <ClInclude Include="..\wallaroo\dyn_class_descriptor_impl.h" />
     <ClInclude Include="..\wallaroo\exceptions.h" />
     <ClInclude Include="..\wallaroo\jsonconfiguration.h" />
-    <ClInclude Include="..\wallaroo\platform_specific_lib_macros.h" />
     <ClInclude Include="..\wallaroo\plug.h" />
-    <ClInclude Include="..\wallaroo\ptreebasedcfg.h" />
     <ClInclude Include="..\wallaroo\registered.h" />
     <ClInclude Include="..\wallaroo\xmlconfiguration.h" />
-    <ClInclude Include="..\wallaroo\xmlwiringfile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
