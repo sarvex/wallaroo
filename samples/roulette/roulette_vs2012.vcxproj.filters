@@ -47,9 +47,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="consoleplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -24,8 +24,8 @@
 CC = g++
 CFLAGS = -Wall -I../.. $(UCFLAGS)
 LFLAGS = $(ULFLAGS) -ldl
-DEPS = consoleplayer.h bet.h currency.h wheel.h bin.h game.h player.h
-OBJ = bin.o main.o consoleplayer.o wheel.o game.o
+DEPS = consoleplayer.h bet.h currency.h wheel.h game.h player.h
+OBJ = main.o consoleplayer.o wheel.o game.o
 
 EXE = roulette
 PLUGINS = oddevenbet.so redblackbet.so straightbet.so
@@ -40,7 +40,7 @@ $(EXE): $(OBJ)
 	$(CC) -Wl,-E -o $@ $^ $(CFLAGS) $(LFLAGS)
 
 # NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
-%.so: %.cpp %consolefactory.cpp bin.cpp %.h %consolefactory.h
+%.so: %.cpp %consolefactory.cpp %.h %consolefactory.h
 	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS) $(CFLAGS)
 
 clean:

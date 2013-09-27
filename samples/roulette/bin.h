@@ -25,60 +25,68 @@
 #define BIN_H_
 
 #include <string>
+#include <sstream>
 
-class Bin
+typedef enum
 {
-public:
+    _00 = 0,
+    _0,
+    _1,
+    _2,
+    _3,
+    _4,
+    _5,
+    _6,
+    _7,
+    _8,
+    _9,
+    _10,
+    _11,
+    _12,
+    _13,
+    _14,
+    _15,
+    _16,
+    _17,
+    _18,
+    _19,
+    _20,
+    _21,
+    _22,
+    _23,
+    _24,
+    _25,
+    _26,
+    _27,
+    _28,
+    _29,
+    _30,
+    _31,
+    _32,
+    _33,
+    _34,
+    _35,
+    _36
+} Bin;
 
-    static Bin _00;
-    static Bin _0;
-    static Bin _1;
-    static Bin _2;
-    static Bin _3;
-    static Bin _4;
-    static Bin _5;
-    static Bin _6;
-    static Bin _7;
-    static Bin _8;
-    static Bin _9;
-    static Bin _10;
-    static Bin _11;
-    static Bin _12;
-    static Bin _13;
-    static Bin _14;
-    static Bin _15;
-    static Bin _16;
-    static Bin _17;
-    static Bin _18;
-    static Bin _19;
-    static Bin _20;
-    static Bin _21;
-    static Bin _22;
-    static Bin _23;
-    static Bin _24;
-    static Bin _25;
-    static Bin _26;
-    static Bin _27;
-    static Bin _28;
-    static Bin _29;
-    static Bin _30;
-    static Bin _31;
-    static Bin _32;
-    static Bin _33;
-    static Bin _34;
-    static Bin _35;
-    static Bin _36;
+inline std::string Value( Bin b )
+{
+    if ( b == _00 ) return "00";
 
-    explicit Bin( const std::string& value );
-    Bin( const Bin& bin );
-    Bin& operator=( const Bin& rhs );
-    const std::string& Value() const;
-    bool operator==( const Bin& other) const;
-    bool operator<( const Bin& other) const;
+    std::stringstream s;
+    s << ( b - 1 );
+    return s.str();
+}
 
-private:
-    std::string value;
+inline Bin StringToBin( const std::string s )
+{
+    if ( s == "00" ) return _00;
 
-};
+    std::stringstream ss;
+    ss << s;
+    int b;
+    ss >> b;
+    return static_cast< Bin >( b + 1 );
+}
 
 #endif

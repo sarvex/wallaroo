@@ -80,7 +80,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\bin.cpp" />
     <ClCompile Include="..\straightbet.cpp" />
     <ClCompile Include="..\straightbetconsolefactory.cpp" />
   </ItemGroup>

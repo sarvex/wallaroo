@@ -43,6 +43,6 @@ Currency StraightBet::Table( const Bin& outcome )
 std::string StraightBet::Description() const
 {
     std::stringstream s;
-    s << amount << "$ on " << myBet.Value();
+    s << amount << "$ on " << Value( myBet );
     return s.str();
 }

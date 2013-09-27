@@ -83,7 +83,6 @@
     <ClInclude Include="..\redblackbetconsolefactory.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\bin.cpp" />
     <ClCompile Include="..\redblackbet.cpp" />
     <ClCompile Include="..\redblackbetconsolefactory.cpp" />
   </ItemGroup>
