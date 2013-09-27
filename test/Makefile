@@ -40,13 +40,13 @@ all: $(EXE) $(PLUGIN) test
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXE): $(OBJ)
-	$(CC) -o $@ $^ $(LFLAGS)
+	$(CC) -Wl,-E -o $@ $^ $(LFLAGS)
 
 $(PLUGIN): $(OBJ_PLUGIN)
-	$(CC) -fPIC -shared -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
+	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
 
 test:
 	./$(EXE)
 
 clean:
-	rm -f *.o *~ core $(EXE)
+	rm -f *.o *~ core $(EXE) *.so

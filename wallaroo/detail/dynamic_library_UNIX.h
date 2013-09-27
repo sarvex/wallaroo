@@ -40,7 +40,7 @@ public:
     // throw WrongFile if the file does not exist or its format is wrong.
     explicit PlatformSpecificDynamicLibrary( const std::string& fileName )
     {
-        libHandle = dlopen( fileName.c_str(), RTLD_LAZY );
+        libHandle = dlopen( fileName.c_str(), RTLD_LAZY | RTLD_GLOBAL );
         if ( ! libHandle ) throw WrongFile( fileName );
     }
     // Release the OS library

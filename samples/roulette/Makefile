@@ -35,11 +35,13 @@ all: $(EXE) $(PLUGINS)
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+# NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(EXE): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LFLAGS)
+	$(CC) -Wl,-E -o $@ $^ $(CFLAGS) $(LFLAGS)
 
+# NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 %.so: %.cpp %consolefactory.cpp bin.cpp %.h %consolefactory.h
-	$(CC) -fPIC -shared -Wl,-soname,$@ -o $@ $^ $(LFLAGS) $(CFLAGS)
+	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS) $(CFLAGS)
 
 clean:
 	rm -f *.o *~ core $(EXE) *.so
