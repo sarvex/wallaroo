@@ -53,7 +53,11 @@ class UseExpression;
 class Catalog
 {
 public:
-    /** Look for the element @c itemId in the catalog.
+    /** Look for the element @c itemId in the catalog. It returns a class that
+    * provides conversion operator so that you can write eg:
+    * \code{.cpp}
+    *     shared_ptr< Foo > foo = catalog[ "foo" ];
+    * \endcode
     * @param itemId the name of the element
     * @return the element.
     * @throw ElementNotFound if the element does not exist in the catalog.

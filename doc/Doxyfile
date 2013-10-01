@@ -32,7 +32,7 @@ PROJECT_NAME           = Wallaroo
 # This could be handy for archiving the generated documentation or
 # if some version control system is used.
 
-PROJECT_NUMBER         = 0.3
+PROJECT_NUMBER         = 0.4
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer
@@ -45,7 +45,7 @@ PROJECT_BRIEF          =
 # exceed 55 pixels and the maximum width should not exceed 200 pixels.
 # Doxygen will copy the logo to the output directory.
 
-PROJECT_LOGO           =
+PROJECT_LOGO           = wallaroo_logo.png
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute)
 # base path where the generated documentation will be put.
@@ -807,13 +807,13 @@ STRIP_CODE_COMMENTS    = YES
 # then for each documented function all documented
 # functions referencing it will be listed.
 
-REFERENCED_BY_RELATION = YES
+REFERENCED_BY_RELATION = NO
 
 # If the REFERENCES_RELATION tag is set to YES
 # then for each documented function all documented entities
 # called/used by that function will be listed.
 
-REFERENCES_RELATION    = YES
+REFERENCES_RELATION    = NO
 
 # If the REFERENCES_LINK_SOURCE tag is set to YES (the default)
 # and SOURCE_BROWSER tag is set to YES, then the hyperlinks from

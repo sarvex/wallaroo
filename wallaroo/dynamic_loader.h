@@ -40,19 +40,20 @@ namespace wallaroo
  * Represent a shared library containing wallaroo class definitions.
  *
  * Given the file name, Plugin loads a shared library 
- * and stores the descritptors of registered classes. Then, the classes
- * will be available for the dynamic creation via the Catalog::Create method.
+ * and stores the descritptors of the registered classes defined inside.
+ * Then, the classes will be available for the dynamic creation via 
+ * the Catalog::Create method.
  *
  * You can get a Plugin istance by using the Plugin::Load method. The instance lifetime
  * is managed by wallaroo: the object is destroyed (and the library is unloaded)
- * when there are no more reference, instances of registered classes, and descriptors.
+ * when there are no more references (including instances of registered classes and descriptors).
  */
 class Plugin
 {
 public:
     /** Load the shared library specified by the file name @c fileName thus
      * giving access via the Catalog::Create method to all the classes registered
-     * inside with the macro WALLAROO_DYNLIB_REGISTER.
+     * inside with the macro \ref WALLAROO_DYNLIB_REGISTER.
      * @param fileName The path of the shared library to load.
      * @throw WrongFile if the file does not exist or its format is wrong.
      */

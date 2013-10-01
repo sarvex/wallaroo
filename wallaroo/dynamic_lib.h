@@ -31,7 +31,9 @@
 
 /** This macro must be used in the shared libraries
  * to register a class. When a class is registered, you can create an instance
- * using Catalog::Create().
+ * using wallaroo::Catalog::Create().
+ * Please note you can put multiple registration clauses, if you have multiple classes
+ * defined in the same shared library.
  * @param C The class name
  * @hideinitializer
  */
