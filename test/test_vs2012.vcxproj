@@ -83,9 +83,9 @@
     <ClCompile Include="driver.cpp" />
     <ClCompile Include="test_cfg_file.cpp" />
     <ClCompile Include="test_creation.cpp" />
+    <ClCompile Include="test_dynamiclib.cpp" />
     <ClCompile Include="test_multiplicitycheck.cpp" />
     <ClCompile Include="test_wiring.cpp" />
-    <ClCompile Include="test_xml_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\wallaroo\catalog.h" />
@@ -93,10 +93,13 @@
     <ClInclude Include="..\wallaroo\connector.h" />
     <ClInclude Include="..\wallaroo\cxx0x.h" />
     <ClInclude Include="..\wallaroo\device.h" />
+    <ClInclude Include="..\wallaroo\dynamic_lib.h" />
+    <ClInclude Include="..\wallaroo\dynamic_loader.h" />
     <ClInclude Include="..\wallaroo\exceptions.h" />
+    <ClInclude Include="..\wallaroo\jsonconfiguration.h" />
     <ClInclude Include="..\wallaroo\plug.h" />
     <ClInclude Include="..\wallaroo\registered.h" />
-    <ClInclude Include="..\wallaroo\xmlwiringfile.h" />
+    <ClInclude Include="..\wallaroo\xmlconfiguration.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

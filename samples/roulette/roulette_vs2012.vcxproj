@@ -70,26 +70,15 @@
     <ClInclude Include="consoleplayer.h" />
     <ClInclude Include="currency.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="oddevenbet.h" />
-    <ClInclude Include="oddevenbetconsolefactory.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="redblackbet.h" />
-    <ClInclude Include="redblackbetconsolefactory.h" />
     <ClInclude Include="straightbet.h" />
     <ClInclude Include="straightbetconsolefactory.h" />
     <ClInclude Include="wheel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bin.cpp" />
     <ClCompile Include="consoleplayer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="oddevenbet.cpp" />
-    <ClCompile Include="oddevenbetconsolefactory.cpp" />
-    <ClCompile Include="redblackbet.cpp" />
-    <ClCompile Include="redblackbetconsolefactory.cpp" />
-    <ClCompile Include="straightbet.cpp" />
-    <ClCompile Include="straightbetconsolefactory.cpp" />
     <ClCompile Include="wheel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

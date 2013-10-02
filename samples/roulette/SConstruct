@@ -21,7 +21,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 ###############################################################################
 
+
+import os
+
 incpath = ARGUMENTS.get('incpath',"")
-Program( 'roulette', Glob( '*.cpp' ), CPPPATH = [ '../..',incpath ] )
+
+env = Environment( SHLIBPREFIX = '' )
+
+env.SharedLibrary( 'oddevenbet', ['oddevenbet.cpp', 'oddevenbetconsolefactory.cpp'], CPPPATH = [ '../..',incpath ] )
+env.SharedLibrary( 'redblackbet', ['redblackbet.cpp', 'redblackbetconsolefactory.cpp'], CPPPATH = [ '../..',incpath ] )
+env.SharedLibrary( 'straightbet', ['straightbet.cpp', 'straightbetconsolefactory.cpp'], CPPPATH = [ '../..',incpath ] )
+env.Program( 'roulette', ['main.cpp', 'consoleplayer.cpp', 'wheel.cpp', 'game.cpp'], CPPPATH = [ '../..',incpath ], LIBS=[ 'dl' ] )
 
 

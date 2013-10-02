@@ -22,10 +22,11 @@
  ******************************************************************************/
 
 #include <sstream>
+#include "wallaroo/dynamic_lib.h"
 #include "oddevenbetconsolefactory.h"
 #include "oddevenbet.h"
 
-WALLAROO_REGISTER( OddEvenBetConsoleFactory );
+WALLAROO_DYNLIB_REGISTER( OddEvenBetConsoleFactory );
 
 OddEvenBetConsoleFactory::~OddEvenBetConsoleFactory()
 {

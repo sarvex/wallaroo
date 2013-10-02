@@ -24,6 +24,7 @@
 #ifndef BET_H_
 #define BET_H_
 
+#include <string>
 #include "bin.h"
 #include "currency.h"
 

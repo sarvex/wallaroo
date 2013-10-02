@@ -27,56 +27,18 @@
 #include <string>
 #include <typeinfo>
 #include <cassert>
+#include "detail/deviceshell.h"
 #include "cxx0x.h"
 #include "device.h"
 #include "class.h"
 
 namespace wallaroo
 {
-namespace detail
-{
-
-
-// This class provides the conversion operator to the contained type.
-// In particular, the Catalog::operator[] returns a DeviceShell
-// that can be converted to the inner type.
-class DeviceShell
-{
-public:
-
-    DeviceShell( const cxx0x::shared_ptr< Device >& dev ) :
-        device( dev ) 
-    {
-        assert( device );
-    }
-
-    void Wire( const std::string& plugName, const DeviceShell& destination ) const
-    {
-        device -> Wire( plugName, destination.device );
-    }
-
-    /** Convert the contained device to the type T
-    * @return the converted device.
-    * @throw WrongType if the contained device is not a subclass of T
-    */
-    template < class T >
-    operator cxx0x::shared_ptr< T >()
-    {
-        cxx0x::shared_ptr< T > result = cxx0x::dynamic_pointer_cast< T >( device );
-        if ( ! result ) throw WrongType();
-        return result;
-    }
-
-private:
-    cxx0x::shared_ptr< Device > device;
-};
 
 // forward declarations:
 class Context;
 class UseAsExpression;
 class UseExpression;
-
-} // namespace detail
 
 /**
  * Catalog of devices available for the application.
@@ -91,7 +53,11 @@ class UseExpression;
 class Catalog
 {
 public:
-    /** Look for the element @c itemId in the catalog.
+    /** Look for the element @c itemId in the catalog. It returns a class that
+    * provides conversion operator so that you can write eg:
+    * \code{.cpp}
+    *     shared_ptr< Foo > foo = catalog[ "foo" ];
+    * \endcode
     * @param itemId the name of the element
     * @return the element.
     * @throw ElementNotFound if the element does not exist in the catalog.
@@ -206,9 +172,9 @@ private:
     typedef cxx0x::unordered_map< std::string, cxx0x::shared_ptr< Device > > Devices;
     Devices devices;
 
-    friend class detail::Context;
-    friend class detail::UseAsExpression;
-    friend detail::UseExpression use( const std::string& destClass );
+    friend class Context;
+    friend class UseAsExpression;
+    friend UseExpression use( const std::string& destClass );
     friend bool IsWiringOk();
     friend void CheckWiring();
 
@@ -220,8 +186,6 @@ private:
     }
 };
 
-namespace detail
-{
 
 // This is a helper class that provides the result of the use().as() function
 // useful to concatenate use().as() with of().
@@ -268,16 +232,14 @@ private:
     detail::DeviceShell destClass;
 };
 
-} // namespace detail
-
 
 /**
  * This function provides the "use" part in the syntax 
  * @c use( catalog[ "device1" ] ).as( "plug" ).of( catalog[ "device2" ] )
  */
-inline detail::UseExpression use( const detail::DeviceShell& destClass )
+inline UseExpression use( const detail::DeviceShell& destClass )
 {
-    return detail::UseExpression( destClass );
+    return UseExpression( destClass );
 }
 
 /**
@@ -285,16 +247,13 @@ inline detail::UseExpression use( const detail::DeviceShell& destClass )
  * @throw CatalogNotSpecified if the current catalog has not been selected including
  * this function in a wallaroo_within section
  */
-inline detail::UseExpression use( const std::string& destClass )
+inline UseExpression use( const std::string& destClass )
 {
     // default container case
     Catalog* current = Catalog::Current();
     if ( ! current ) throw CatalogNotSpecified();
     return use( ( *current )[ destClass ] );
 }
-
-namespace detail
-{
 
 // Helper class that changes the current catalog on the ctor and
 // restores the previous on the dtor
@@ -324,7 +283,6 @@ private:
     Catalog* previous;
 };
 
-} // namespace detail
 
 /**
  * This preamble creates a scope in which every statement @c use().as().of() will use
@@ -350,7 +308,7 @@ private:
  * @hideinitializer
  */
 #define wallaroo_within( C ) \
-    for ( wallaroo::detail::Context context( C ); context.FirstTime(); context.Terminate() )
+    for ( wallaroo::Context context( C ); context.FirstTime(); context.Terminate() )
 
 ////////////////////////////////////////////////////////////////////////
 

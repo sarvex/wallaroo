@@ -43,7 +43,7 @@ void Game::Play()
     {
         std::cout << "Your bet: " << bet -> Description() << std::endl;
         Bin bin = wheel -> Spin();
-        std::cout << "Outcome: " << bin.Value() << std::endl;
+        std::cout << "Outcome: " << Value( bin ) << std::endl;
         Currency amount = bet -> Table( bin );
         std::cout << "Your table: " << amount << std::endl;
     }

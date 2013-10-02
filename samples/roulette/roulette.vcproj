@@ -165,10 +165,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\bin.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\consoleplayer.cpp"
 				>
 			</File>
@@ -178,30 +174,6 @@
 			</File>
 			<File
 				RelativePath=".\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\oddevenbet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\oddevenbetconsolefactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\redblackbet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\redblackbetconsolefactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\straightbet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\straightbetconsolefactory.cpp"
 				>
 			</File>
 			<File
@@ -239,31 +211,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\oddevenbet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\oddevenbetconsolefactory.h"
-				>
-			</File>
-			<File
 				RelativePath=".\player.h"
-				>
-			</File>
-			<File
-				RelativePath=".\redblackbet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\redblackbetconsolefactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\straightbet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\straightbetconsolefactory.h"
 				>
 			</File>
 			<File

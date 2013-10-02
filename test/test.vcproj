@@ -188,15 +188,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\test_dynamiclib.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\test_multiplicitycheck.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\test_wiring.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\test_xml_loader.cpp"
 				>
 			</File>
 		</Filter>
@@ -226,6 +226,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\wallaroo\dynamic_lib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\wallaroo\dynamic_loader.h"
+				>
+			</File>
+			<File
 				RelativePath="..\wallaroo\exceptions.h"
 				>
 			</File>
@@ -243,10 +251,6 @@
 			</File>
 			<File
 				RelativePath="..\wallaroo\xmlconfiguration.h"
-				>
-			</File>
-			<File
-				RelativePath="..\wallaroo\xmlwiringfile.h"
 				>
 			</File>
 		</Filter>

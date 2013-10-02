@@ -35,4 +35,8 @@ or, inside a clause \ref wallaroo_within, the syntax:
 If you prefer, you can perform object creation and dependency injection from one (or many)
 external configuration file in XML or JSON format.
 See wallaroo::XmlConfiguration and wallaroo::JsonConfiguration.
+
+You can define your classes in shared libraries. In this case,
+you must use \ref WALLAROO_DYNLIB_REGISTER
+instead and load the shared library with \ref wallaroo::Plugin::Load.
  */

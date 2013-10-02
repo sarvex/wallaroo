@@ -22,10 +22,11 @@
  ******************************************************************************/
 
 #include <sstream>
+#include "wallaroo/dynamic_lib.h"
 #include "redblackbetconsolefactory.h"
 #include "redblackbet.h"
 
-WALLAROO_REGISTER( RedBlackBetConsoleFactory );
+WALLAROO_DYNLIB_REGISTER( RedBlackBetConsoleFactory );
 
 RedBlackBetConsoleFactory::~RedBlackBetConsoleFactory()
 {

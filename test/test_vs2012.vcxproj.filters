@@ -27,10 +27,10 @@
     <ClCompile Include="test_wiring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test_xml_loader.cpp">
+    <ClCompile Include="test_cfg_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test_cfg_file.cpp">
+    <ClCompile Include="test_dynamiclib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +50,16 @@
     <ClInclude Include="..\wallaroo\device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\wallaroo\dynamic_lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\dynamic_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\wallaroo\exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\jsonconfiguration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\wallaroo\plug.h">
@@ -59,7 +68,7 @@
     <ClInclude Include="..\wallaroo\registered.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\wallaroo\xmlwiringfile.h">
+    <ClInclude Include="..\wallaroo\xmlconfiguration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

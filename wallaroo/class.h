@@ -25,12 +25,15 @@
 #define WALLAROO_CLASS_H_
 
 #include <string>
+#include "detail/factory.h"
 #include "cxx0x.h"
+#include "device.h"
 
 namespace wallaroo
 {
 
-class Device; // forward declaration
+// forward declarations
+class Plugin;
 
 /** This is the description of a class having a constructor that 
 * takes two parameters of type @c P1 and @c P2 and implements
@@ -173,9 +176,13 @@ class Class< void, void >
         Ptr NewInstance() const
         {
             if( fm )
-                return( fm() ) ;
+            {
+                Ptr p = fm();
+                p -> Source( plugin ); // set the ref count to shared library
+                return p;
+            }
             else
-                return( Ptr() ) ;
+                return( Ptr() );
         }
 
         /** Return the @c Class< void, void > registered with the name @c name.
@@ -189,11 +196,17 @@ class Class< void, void >
         }
     private :
         FactoryMethod fm;
+        cxx0x::shared_ptr< Plugin > plugin; // optional shared ptr to plugin, to release the shared library when is no more used
         typedef cxx0x::unordered_map< std::string, Class< void, void > > Classes;
         template < class T, class T1, class T2 > friend class Registration;
+        friend class Plugin;
         static void Register( const std::string& s, const FactoryMethod& m )
         {
             Registry().insert( std::make_pair( s, Class( m ) ) );
+        }
+        static void Register( const std::string& s, const FactoryMethod& m, const cxx0x::shared_ptr< Plugin >& plugin )
+        {
+            Registry().insert( std::make_pair( s, Class( m, plugin ) ) );
         }
         static Classes& Registry()
         {
@@ -207,44 +220,12 @@ class Class< void, void >
             fm( m )
         {
         }
+        Class( FactoryMethod m, const cxx0x::shared_ptr< Plugin >& p ) :
+            fm( m ),
+            plugin( p )
+        {
+        }
 };
-
-namespace detail
-{
-
-// This helper class exports the method to create the class T.
-// Can't use a function because we cannot partial specialize template functions.
-template < class T, class P1, class P2 >
-class Factory
-{
-public:
-    static cxx0x::shared_ptr< Device > Create( const P1& p1, const P2& p2 )
-    {
-        return cxx0x::make_shared< T >( p1, p2 );
-    }
-};
-
-template < class T, class P >
-class Factory< T, P, void >
-{
-public:
-    static cxx0x::shared_ptr< Device > Create( const P& p )
-    {
-        return cxx0x::make_shared< T >( p );
-    }
-};
-
-template < class T >
-class Factory< T, void, void >
-{
-public:
-    static cxx0x::shared_ptr< Device > Create()
-    {
-        return cxx0x::make_shared< T >();
-    }
-};
-
-} // detail namespace
 
 
 /** This class registers on its constructor a class @c T
@@ -274,21 +255,5 @@ public:
 #define WALLAROO_REGISTER( C, ... ) \
     static const ::wallaroo::Registration< C, ##__VA_ARGS__ > C##r( #C ) ;
 // NOTE: the ## before __VA_ARGS__ removes the comma when no arguments are passed
-
-
-// begin DEPRECATED: Backward compatibility only
-
-/** @deprecated
- *  You must not use this class. Its only pourpose is to provide a
- *  base class for the deprecated macro REGISTERED_CLASS
- */
-class WallarooBaseDummyClass {};
-/** @deprecated
- *  These macros must not be used
- */
-#define REGISTERED_CLASS( C, ... ) class C : public WallarooBaseDummyClass
-#define REGISTER WALLAROO_REGISTER
-    
-// end DEPRECATED
 
 #endif // WALLAROO_CLASS_H_

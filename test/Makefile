@@ -28,20 +28,25 @@
 
 CC = g++
 CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK $(UCFLAGS)
-LFLAGS = $(ULFLAGS)
-OBJ = test_cfg_file.o test_xml_loader.o test_multiplicitycheck.o test_wiring.o test_creation.o driver.o
+LFLAGS = $(ULFLAGS) -ldl
+OBJ = test_cfg_file.o test_multiplicitycheck.o test_wiring.o test_creation.o test_dynamiclib.o driver.o
+OBJ_PLUGIN = plugin.o
 EXE = test_suite
+PLUGIN = plugin.so
 
-all: $(EXE) test
+all: $(EXE) $(PLUGIN) test
 
 %.o: %.cpp
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXE): $(OBJ)
-	$(CC) -o $@ $^ $(LFLAGS)
+	$(CC) -Wl,-E -o $@ $^ $(LFLAGS)
+
+$(PLUGIN): $(OBJ_PLUGIN)
+	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
 
 test:
 	./$(EXE)
 
 clean:
-	rm -f *.o *~ core $(EXE)
+	rm -f *.o *~ core $(EXE) *.so

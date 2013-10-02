@@ -22,10 +22,11 @@
  ******************************************************************************/
 
 #include <sstream>
+#include "wallaroo/dynamic_lib.h"
 #include "straightbetconsolefactory.h"
 #include "straightbet.h"
 
-WALLAROO_REGISTER( StraightBetConsoleFactory );
+WALLAROO_DYNLIB_REGISTER( StraightBetConsoleFactory );
 
 StraightBetConsoleFactory::~StraightBetConsoleFactory()
 {
@@ -59,7 +60,7 @@ cxx0x::shared_ptr< Bet > StraightBetConsoleFactory::Create( const std::string& c
     if ( !ss.eof() ) return cxx0x::shared_ptr< Bet >();
     if ( amount == 0 ) return cxx0x::shared_ptr< Bet >();
 
-    Bin bin( inputBin );
+    Bin bin( StringToBin( inputBin ) );
     return cxx0x::shared_ptr< Bet >( new StraightBet( bin, amount ) );
 }
 

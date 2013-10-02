@@ -33,19 +33,7 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="oddevenbet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="oddevenbetconsolefactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="redblackbet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="redblackbetconsolefactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="straightbet.h">
@@ -59,9 +47,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="consoleplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,24 +54,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="oddevenbet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="oddevenbetconsolefactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="redblackbet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="redblackbetconsolefactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="straightbet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="straightbetconsolefactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="wheel.cpp">

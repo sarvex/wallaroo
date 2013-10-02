@@ -1,4 +1,4 @@
-<!--
+/*******************************************************************************
  * wallaroo - A library for configurable creation and wiring of C++ classes
  * Copyright (C) 2012 Daniele Pallastrelli 
  *
@@ -19,60 +19,29 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
--->
+ ******************************************************************************/
 
-<catalog>
+#include "wallaroo/registered.h"
+#include "wallaroo/dynamic_lib.h"
 
-  <object>
-    <name>a</name>
-    <class>A4</class>
-  </object>
+#include "plugin_interface.h"
 
-  <object>
-    <name>b</name>
-    <class>B4</class>
-  </object>
+class A6: public I6
+{
+public:
+    virtual int F() { return 3; }
+    A6() {}
+    ~A6() {}
+};
 
-  <object>
-    <name>c1</name>
-    <class>C4</class>
-  </object>
+class B6: public I6
+{
+public:
+    virtual int F() { return 4; }
+    B6() {}
+    ~B6() {}
+};
 
-  <object>
-    <name>c2</name>
-    <class>C4</class>
-  </object>
 
-  <object>
-    <name>d</name>
-    <class>D4</class>
-    <par1 type="string">mystring</par1>
-    <par2 type="int">34</par2>
-  </object>
-  
-  <relation>
-    <source>c1</source>
-    <dest>a</dest>
-    <role>x</role>
-  </relation>
-
-  <relation>
-    <source>c2</source>
-    <dest>b</dest>
-    <role>x</role>
-  </relation>
-
-  <relation>
-    <source>d</source>
-    <dest>a</dest>
-    <role>container</role>
-  </relation>
-
-  <relation>
-    <source>d</source>
-    <dest>b</dest>
-    <role>container</role>
-  </relation>
-
-</catalog>
-
+WALLAROO_DYNLIB_REGISTER( A6 );
+WALLAROO_DYNLIB_REGISTER( B6 );

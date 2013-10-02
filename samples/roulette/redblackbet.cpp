@@ -30,45 +30,45 @@ RedBlackBet::RedBlackBet( Type _type, Currency _amount ) :
 {
     if ( type == Red )
     {
-        winningBins.insert( Bin::_1 );
-        winningBins.insert( Bin::_3 );
-        winningBins.insert( Bin::_5 );
-        winningBins.insert( Bin::_7 );
-        winningBins.insert( Bin::_9 );
-        winningBins.insert( Bin::_12 );
-        winningBins.insert( Bin::_14 );
-        winningBins.insert( Bin::_16 );
-        winningBins.insert( Bin::_18 );
-        winningBins.insert( Bin::_19 );
-        winningBins.insert( Bin::_21 );
-        winningBins.insert( Bin::_23 );
-        winningBins.insert( Bin::_25 );
-        winningBins.insert( Bin::_27 );
-        winningBins.insert( Bin::_30 );
-        winningBins.insert( Bin::_32 );
-        winningBins.insert( Bin::_34 );
-        winningBins.insert( Bin::_36 );
+        winningBins.insert( _1 );
+        winningBins.insert( _3 );
+        winningBins.insert( _5 );
+        winningBins.insert( _7 );
+        winningBins.insert( _9 );
+        winningBins.insert( _12 );
+        winningBins.insert( _14 );
+        winningBins.insert( _16 );
+        winningBins.insert( _18 );
+        winningBins.insert( _19 );
+        winningBins.insert( _21 );
+        winningBins.insert( _23 );
+        winningBins.insert( _25 );
+        winningBins.insert( _27 );
+        winningBins.insert( _30 );
+        winningBins.insert( _32 );
+        winningBins.insert( _34 );
+        winningBins.insert( _36 );
     }
     else
     {
-        winningBins.insert( Bin::_2 );
-        winningBins.insert( Bin::_4 );
-        winningBins.insert( Bin::_6 );
-        winningBins.insert( Bin::_8 );
-        winningBins.insert( Bin::_10 );
-        winningBins.insert( Bin::_11 );
-        winningBins.insert( Bin::_13 );
-        winningBins.insert( Bin::_15 );
-        winningBins.insert( Bin::_17 );
-        winningBins.insert( Bin::_20 );
-        winningBins.insert( Bin::_22 );
-        winningBins.insert( Bin::_24 );
-        winningBins.insert( Bin::_26 );
-        winningBins.insert( Bin::_28 );
-        winningBins.insert( Bin::_29 );
-        winningBins.insert( Bin::_31 );
-        winningBins.insert( Bin::_33 );
-        winningBins.insert( Bin::_35 );
+        winningBins.insert( _2 );
+        winningBins.insert( _4 );
+        winningBins.insert( _6 );
+        winningBins.insert( _8 );
+        winningBins.insert( _10 );
+        winningBins.insert( _11 );
+        winningBins.insert( _13 );
+        winningBins.insert( _15 );
+        winningBins.insert( _17 );
+        winningBins.insert( _20 );
+        winningBins.insert( _22 );
+        winningBins.insert( _24 );
+        winningBins.insert( _26 );
+        winningBins.insert( _28 );
+        winningBins.insert( _29 );
+        winningBins.insert( _31 );
+        winningBins.insert( _33 );
+        winningBins.insert( _35 );
     }
 }
 
