@@ -4,7 +4,11 @@ Installation Instructions
 Requirements
 ============
 
-Wallaroo relies on a few of Boost libraries. You can donwload the
+Wallaroo relies on a couple of Boost libraries *only* if
+- your application is compiled with a *non* C++0x compliant compiler OR
+- XmlConfiguration and JsonConfiguration wallaroo features are used.
+
+If you need Boost libraries, you can donwload the
 latest version from www.boost.org, extract it wherever you want
 and include its path when compiling your application that use Wallaroo.
 Since Wallaroo uses header-only boost libraries, you don't need to compile
@@ -23,22 +27,22 @@ library binaries or special treatment when linking.
 Extract the archive wherever you want.
 This is a sketch of the resulting directory structure:
 
-wallaroo\ ....................................The “wallaroo root directory”
-   README .............................Generic documentation about wallaroo
-   INSTALL ......................................Installation documentation
-   ChangeLog ........................................The log of the changes
-   Version ...........................This file contains the version number
-   wallaroo\ .....................................All Wallaroo Header files
-   samples\ ..............................................Examples and test
-      minimal\..............................................A basic example
-      cpp0x_only\..................This example uses C++0x instead of boost
-      boost_only\..................This example uses boost instead of C++0x
-      mineplant\ .........A "control system" example using XmlConfiguration
-      roulette\..............A roulette simulation, using multiple catalogs
-      shapes\..A drawing sample, using XmlConfiguration & JsonConfiguration
+wallaroo\ .......................................The “wallaroo root directory”
+   README ................................Generic documentation about wallaroo
+   INSTALL .........................................Installation documentation
+   ChangeLog ...........................................The log of the changes
+   Version ..............................This file contains the version number
+   wallaroo\ ........................................All Wallaroo Header files
+   samples\ .................................................Examples and test
+      minimal\.................................................A basic example
+      cpp0x_only\.....................This example uses C++0x instead of boost
+      boost_only\.....................This example uses boost instead of C++0x
+      mineplant\ ............A "control system" example using XmlConfiguration
+      roulette\.A roulette simulation, using multiple catalogs and shared libs
+      shapes\.....A drawing sample, using XmlConfiguration & JsonConfiguration
       ...more samples...
-   test\ ......... Automatic tests of the library (for wallaroo developers)
-   doc\ ..................................A subset of Wallaroo library docs
+   test\ ............ Automatic tests of the library (for wallaroo developers)
+   doc\ .....................................A subset of Wallaroo library docs
 
 Now you must only remember to insert the wallaroo path when compiling your
 source code.
@@ -54,15 +58,14 @@ the wallaroo and boost (optional) libraries.
 
 So, if you use gcc, you can use the following syntax:
 	g++ -I<boost_path> -I<wallaroo_path> *.cpp -o <app_exe>
-
 or:
 	g++ -std=c++0x -I<wallaroo_path> *.cpp -o <app_exe>
 
-It's important to note the following:
-
-The path to the wallaroo root directory (often C:\Program Files\wallaroo) is 
-sometimes referred to as $WALLAROO_ROOT in documentation and mailing lists.
-
+If you use Visual Studio:
+    cl /EHsc /I<wallaroo_path> /I<boost_path> /Fe<app_exe> *.cpp
+(you need the boost path only if you use visual studio 2008 or if you use
+one of XmlConfiguration or JsonConfiguration classes).
+    
 To compile anything in Wallaroo, you need a directory containing the wallaroo\ 
 subdirectory in your #include path.
 
