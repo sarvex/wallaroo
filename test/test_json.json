@@ -68,6 +68,96 @@
             "type": "double",
             "value": 3.14
           }
+      },
+
+      {
+        "name": "f",
+        "class": "F5",
+        "parameter1":
+          {
+            "type": "double",
+            "value": 3.14
+          },
+        "parameter2":
+          {
+            "type": "bool",
+            "value": false
+          }
+      },
+
+      {
+        "name": "g",
+        "class": "G5",
+        "parameter1":
+          {
+            "type": "bool",
+            "value": false
+          },
+        "parameter2":
+          {
+            "type": "bool",
+            "value": true
+          }
+      },
+
+      {
+        "name": "h",
+        "class": "H5",
+        "parameter1":
+          {
+            "type": "double",
+            "value": 1.0
+          },
+        "parameter2":
+          {
+            "type": "double",
+            "value": -2.0
+          }
+      },
+
+      {
+        "name": "l",
+        "class": "L5",
+        "parameter1":
+          {
+            "type": "int",
+            "value": -100
+          },
+        "parameter2":
+          {
+            "type": "string",
+            "value": "foo"
+          }
+      },
+
+      {
+        "name": "m",
+        "class": "M5",
+        "parameter1":
+          {
+            "type": "long",
+            "value": -2000000000
+          },
+        "parameter2":
+          {
+            "type": "char",
+            "value": "a"
+          }
+      },
+
+      {
+        "name": "n",
+        "class": "N5",
+        "parameter1":
+          {
+            "type": "char",
+            "value": "b"
+          },
+        "parameter2":
+          {
+            "type": "unsigned char",
+            "value": 200
+          }
       }
 
     ],

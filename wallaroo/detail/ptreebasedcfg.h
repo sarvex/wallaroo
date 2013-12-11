@@ -52,21 +52,33 @@ template < typename T >
 struct TypeDesc {};
 
 template <>
+struct TypeDesc< char >
+{
+    static const char* Name() { return "char"; }
+};
+
+template <>
+struct TypeDesc< unsigned char >
+{
+    static const char* Name() { return "unsigned char"; }
+};
+
+template <>
 struct TypeDesc< int >
 {
     static const char* Name() { return "int"; }
 };
 
 template <>
-struct TypeDesc< std::string >
-{
-    static const char* Name() { return "string"; }
-};
-
-template <>
 struct TypeDesc< unsigned int >
 {
     static const char* Name() { return "unsigned int"; }
+};
+
+template <>
+struct TypeDesc< long >
+{
+    static const char* Name() { return "long"; }
 };
 
 template <>
@@ -81,15 +93,22 @@ struct TypeDesc< bool >
     static const char* Name() { return "bool"; }
 };
 
+template <>
+struct TypeDesc< std::string >
+{
+    static const char* Name() { return "string"; }
+};
+
+
 // ********************************************************
 
 template < typename T1, typename T2 >
 static bool Create( 
 Catalog& catalog,
-const std::string& instance,
-const std::string& cl,
-boost::optional< const ptree& > tree1,
-boost::optional< const ptree& > tree2
+    const std::string& instance,
+    const std::string& cl,
+    boost::optional< const ptree& > tree1,
+    boost::optional< const ptree& > tree2
 )
 {
     const std::string& type1 = tree1 -> get< std::string >( "type" );
@@ -171,40 +190,85 @@ private:
         {
             
             if ( Create< std::string, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< std::string, char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< std::string, unsigned char >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< std::string, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< std::string, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< std::string, double >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< std::string, bool >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< std::string, long >( catalog, name, cl, par1, par2 ) ) return;
 
             if ( Create< int, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< int, char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< int, unsigned char >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< int, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< int, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< int, double >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< int, bool >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< int, long >( catalog, name, cl, par1, par2 ) ) return;
 
             if ( Create< unsigned int, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned int, char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned int, unsigned char >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< unsigned int, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< unsigned int, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< unsigned int, double >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< unsigned int, bool >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned int, long >( catalog, name, cl, par1, par2 ) ) return;
 
             if ( Create< double, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< double, char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< double, unsigned char >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< double, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< double, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< double, double >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< double, bool >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< double, long >( catalog, name, cl, par1, par2 ) ) return;
 
             if ( Create< bool, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< bool, char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< bool, unsigned char >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< bool, int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< bool, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< bool, double >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< bool, bool >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< bool, long >( catalog, name, cl, par1, par2 ) ) return;
+
+            if ( Create< long, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< long, char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< long, unsigned char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< long, int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< long, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< long, double >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< long, bool >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< long, long >( catalog, name, cl, par1, par2 ) ) return;
+
+            if ( Create< char, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< char, char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< char, unsigned char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< char, int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< char, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< char, double >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< char, bool >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< char, long >( catalog, name, cl, par1, par2 ) ) return;
+
+            if ( Create< unsigned char, std::string >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned char, char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned char, unsigned char >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned char, int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned char, unsigned int >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned char, double >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned char, bool >( catalog, name, cl, par1, par2 ) ) return;
+            if ( Create< unsigned char, long >( catalog, name, cl, par1, par2 ) ) return;
         }
         else if ( par1 )
         {
             if ( Create< std::string >( catalog, name, cl, par1 ) ) return;
+            if ( Create< char >( catalog, name, cl, par1 ) ) return;
+            if ( Create< unsigned char >( catalog, name, cl, par1 ) ) return;
             if ( Create< int >( catalog, name, cl, par1 ) ) return;
             if ( Create< unsigned int >( catalog, name, cl, par1 ) ) return;
+            if ( Create< long >( catalog, name, cl, par1 ) ) return;
             if ( Create< double >( catalog, name, cl, par1 ) ) return;
             if ( Create< bool >( catalog, name, cl, par1 ) ) return;
         }
