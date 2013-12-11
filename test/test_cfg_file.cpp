@@ -32,6 +32,31 @@
 using namespace wallaroo;
 using namespace cxx0x;
 
+
+// a base class to automate the definition of the test class
+
+namespace
+{
+
+template < typename P1, typename P2 >
+class Base : public Device
+{
+public:
+    Base( const P1& _p1, const P2& _p2 ) : p1( _p1 ), p2( _p2 ) {}
+    const P1 p1;
+    const P2 p2;
+};
+
+};
+
+#define DEFINE_2PARAM_CLASS( name, p1, p2 ) \
+    class name : public Base< p1, p2 > \
+    { \
+    public: \
+        name( const p1& _p1, const p2& _p2 ) : Base( _p1, _p2 ) {} \
+    }; \
+    WALLAROO_REGISTER( name, p1, p2 )
+
 // some classes:
 
 class I5 : public Device
@@ -103,13 +128,13 @@ private:
 WALLAROO_REGISTER( D5, std::string, int )
 
 
-class E5 : public Device
-{
-public:
-    E5( unsigned int, double ) {}
-};
-
-WALLAROO_REGISTER( E5, unsigned int, double )
+DEFINE_2PARAM_CLASS( E5, unsigned int, double )
+DEFINE_2PARAM_CLASS( F5, double, bool )
+DEFINE_2PARAM_CLASS( G5, bool, bool )
+DEFINE_2PARAM_CLASS( H5, double, double )
+DEFINE_2PARAM_CLASS( L5, int, std::string )
+DEFINE_2PARAM_CLASS( M5, long, char )
+DEFINE_2PARAM_CLASS( N5, char, unsigned char )
 
 // tests
 
@@ -141,6 +166,32 @@ static void TestContent( Catalog& catalog )
     BOOST_CHECK( d -> F() == 15 );
 
     shared_ptr< E5 > e = catalog[ "e" ];
+    BOOST_CHECK( e -> p1 == 5 );
+    BOOST_CHECK( e -> p2 == 3.14 );
+
+    shared_ptr< F5 > f = catalog[ "f" ];
+    BOOST_CHECK( f -> p1 == 3.14 );
+    BOOST_CHECK( f -> p2 == false );
+
+    shared_ptr< G5 > g = catalog[ "g" ];
+    BOOST_CHECK( g -> p1 == false );
+    BOOST_CHECK( g -> p2 == true );
+
+    shared_ptr< H5 > h = catalog[ "h" ];
+    BOOST_CHECK( h -> p1 == 1.0 );
+    BOOST_CHECK( h -> p2 == -2.0 );
+
+    shared_ptr< L5 > l = catalog[ "l" ];
+    BOOST_CHECK( l -> p1 == -100 );
+    BOOST_CHECK( l -> p2 == "foo" );
+
+    shared_ptr< M5 > m = catalog[ "m" ];
+    BOOST_CHECK( m -> p1 == -2000000000L );
+    BOOST_CHECK( m -> p2 == 'a' );
+
+    shared_ptr< N5 > n = catalog[ "n" ];
+    BOOST_CHECK( n -> p1 == 'b' );
+    BOOST_CHECK( n -> p2 == 200 );
 }
 
 BOOST_AUTO_TEST_CASE( JsonOk )

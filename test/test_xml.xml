@@ -82,6 +82,84 @@
       </parameter2>
     </device>
 
+    <device>
+      <name>f</name>
+      <class>F5</class>
+      <parameter1>
+        <type>double</type>
+        <value>3.14</value>
+      </parameter1>
+      <parameter2>
+        <type>bool</type>
+        <value>false</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>g</name>
+      <class>G5</class>
+      <parameter1>
+        <type>bool</type>
+        <value>false</value>
+      </parameter1>
+      <parameter2>
+        <type>bool</type>
+        <value>true</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>h</name>
+      <class>H5</class>
+      <parameter1>
+        <type>double</type>
+        <value>1.0</value>
+      </parameter1>
+      <parameter2>
+        <type>double</type>
+        <value>-2.0</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>l</name>
+      <class>L5</class>
+      <parameter1>
+        <type>int</type>
+        <value>-100</value>
+      </parameter1>
+      <parameter2>
+        <type>string</type>
+        <value>foo</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>m</name>
+      <class>M5</class>
+      <parameter1>
+        <type>long</type>
+        <value>-2000000000</value>
+      </parameter1>
+      <parameter2>
+        <type>char</type>
+        <value>a</value>
+      </parameter2>
+    </device>
+
+    <device>
+      <name>n</name>
+      <class>N5</class>
+      <parameter1>
+        <type>char</type>
+        <value>b</value>
+      </parameter1>
+      <parameter2>
+        <type>unsigned char</type>
+        <value>200</value>
+      </parameter2>
+    </device>
+
   </devices>
 
   <wiring>
