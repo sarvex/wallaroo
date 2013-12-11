@@ -21,17 +21,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  ******************************************************************************/
 
-#ifndef WALLAROO_PLUGIN_INTERFACE_H_
-#define WALLAROO_PLUGIN_INTERFACE_H_
-
 #include "wallaroo/registered.h"
+#include "wallaroo/dynamic_lib.h"
 
-class I6 : public wallaroo::Device
+#include "plugin_interface.h"
+
+class F5: public I6
 {
 public:
-    virtual int F() = 0;
-    virtual ~I6() {}
+    virtual int F() { return 7; }
+    F5() {}
+    ~F5() {}
 };
 
-#endif
+class G5: public I6
+{
+public:
+    virtual int F() { return 8; }
+    G5() {}
+    ~G5() {}
+};
 
+
+WALLAROO_DYNLIB_REGISTER( F5 );
+WALLAROO_DYNLIB_REGISTER( G5 );

@@ -31,10 +31,12 @@ CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK $(UCFLAGS)
 LFLAGS = $(ULFLAGS) -ldl
 OBJ = test_cfg_file.o test_multiplicitycheck.o test_wiring.o test_creation.o test_dynamiclib.o driver.o
 OBJ_PLUGIN = plugin.o
+OBJ_PLUGIN2 = plugin2.o
 EXE = test_suite
 PLUGIN = plugin.so
+PLUGIN2 = plugin2.so
 
-all: $(EXE) $(PLUGIN) test
+all: $(EXE) $(PLUGIN) $(PLUGIN2) test
 
 %.o: %.cpp
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -43,6 +45,9 @@ $(EXE): $(OBJ)
 	$(CC) -Wl,-E -o $@ $^ $(LFLAGS)
 
 $(PLUGIN): $(OBJ_PLUGIN)
+	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
+
+$(PLUGIN2): $(OBJ_PLUGIN2)
 	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
 
 test:

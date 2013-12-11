@@ -3,6 +3,11 @@
   "wallaroo":
   {
 
+    "plugins":
+    { 
+        "shared": "plugin2"
+    },
+
     "devices":
     [
       {
@@ -68,6 +73,16 @@
             "type": "double",
             "value": 3.14
           }
+      },
+      
+      {
+        "name": "f",
+        "class": "F5"
+      },
+
+      {
+        "name": "g",
+        "class": "G5"
       }
 
     ],

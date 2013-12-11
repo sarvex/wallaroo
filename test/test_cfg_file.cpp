@@ -22,6 +22,7 @@
  ******************************************************************************/
 
 #include <boost/test/unit_test.hpp>
+#include "plugin_interface.h"
 
 #include "wallaroo/registered.h"
 #include "wallaroo/catalog.h"
@@ -141,6 +142,12 @@ static void TestContent( Catalog& catalog )
     BOOST_CHECK( d -> F() == 15 );
 
     shared_ptr< E5 > e = catalog[ "e" ];
+
+    shared_ptr< I6 > f = catalog[ "f" ];
+    BOOST_CHECK( f -> F() == 7 );
+
+    shared_ptr< I6 > g = catalog[ "g" ];
+    BOOST_CHECK( g -> F() == 8 );
 }
 
 BOOST_AUTO_TEST_CASE( JsonOk )

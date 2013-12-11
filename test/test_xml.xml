@@ -22,6 +22,11 @@
 -->
 
 <wallaroo>
+
+  <plugins>
+    <shared>plugin2</shared>
+  </plugins>
+  
   <devices>
 
     <device>
@@ -80,6 +85,16 @@
         <type>double</type>
         <value>3.14</value>
       </parameter2>
+    </device>
+
+    <device>
+      <name>f</name>
+      <class>F5</class>
+    </device>
+
+    <device>
+      <name>g</name>
+      <class>G5</class>
     </device>
 
   </devices>
