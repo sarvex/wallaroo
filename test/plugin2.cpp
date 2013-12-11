@@ -30,17 +30,27 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_PLUGIN_INTERFACE_H_
-#define WALLAROO_PLUGIN_INTERFACE_H_
-
 #include "wallaroo/registered.h"
+#include "wallaroo/dynamic_lib.h"
 
-class I6 : public wallaroo::Device
+#include "plugin_interface.h"
+
+class P5: public I6
 {
 public:
-    virtual int F() = 0;
-    virtual ~I6() {}
+    virtual int F() { return 7; }
+    P5() {}
+    ~P5() {}
 };
 
-#endif
+class Q5: public I6
+{
+public:
+    virtual int F() { return 8; }
+    Q5() {}
+    ~Q5() {}
+};
 
+
+WALLAROO_DYNLIB_REGISTER( P5 );
+WALLAROO_DYNLIB_REGISTER( Q5 );

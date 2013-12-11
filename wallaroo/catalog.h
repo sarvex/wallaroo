@@ -62,6 +62,11 @@ class UseExpression;
 class Catalog
 {
 public:
+
+    /** Default ctor: build an empty catalog.
+    */
+    Catalog() {}
+
     /** Look for the element @c itemId in the catalog. It returns a class that
     * provides conversion operator so that you can write eg:
     * \code{.cpp}
@@ -162,6 +167,10 @@ public:
     }
 
 private:
+
+    // copy ctor and assignment operator disabled
+    Catalog( const Catalog& );
+    Catalog& operator = ( const Catalog& );
 
     // returns the name of the first devices with wrong multiplicity
     // or the empty string if the test has success

@@ -36,7 +36,9 @@
 #include <string>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/foreach.hpp>
+#include <boost/bind.hpp>
 #include "wallaroo/catalog.h"
+#include "wallaroo/dynamic_loader.h"
 
 using namespace boost::property_tree;
 
@@ -161,14 +163,9 @@ public:
     {
         try
         {
-            BOOST_FOREACH( const ptree::value_type &v, tree.get_child( "wallaroo.devices" ) )
-            {
-                ParseObject( catalog, v.second );
-            }
-            BOOST_FOREACH( const ptree::value_type &v, tree.get_child( "wallaroo.wiring" ) )
-            {
-                ParseRelation( catalog, v.second );
-            }
+            Foreach( "wallaroo.plugins", boost::bind( &PtreeBasedCfg::ParsePlugin, this, boost::ref( catalog ), _1 ) );
+            Foreach( "wallaroo.devices", boost::bind( &PtreeBasedCfg::ParseObject, this, boost::ref( catalog ), _1 ) );
+            Foreach( "wallaroo.wiring", boost::bind( &PtreeBasedCfg::ParseRelation, this, boost::ref( catalog ), _1 ) );
         }
         catch ( const ptree_error& e )
         {
@@ -177,6 +174,25 @@ public:
     }
 
 private:
+
+    template < typename F >
+    void Foreach( const std::string& key, F f )
+    {
+        boost::optional< const ptree & > value = tree.get_child_optional( key );
+        if ( value )
+        {
+            BOOST_FOREACH( const ptree::value_type &v, *value )
+            {
+                f( v.second );
+            }
+        }
+    }
+
+    void ParsePlugin( Catalog& catalog, const ptree& v )
+    {
+        const std::string& shared = v.get_value< std::string >();
+        Plugin::Load( shared + Plugin::Suffix() );
+    }
 
     void ParseObject( Catalog& catalog, const ptree& v )
     {

@@ -31,6 +31,11 @@
  -->
 
 <wallaroo>
+
+  <plugins>
+    <shared>plugin2</shared>
+  </plugins>
+  
   <devices>
 
     <device>
@@ -167,6 +172,16 @@
         <type>unsigned char</type>
         <value>200</value>
       </parameter2>
+    </device>
+
+    <device>
+      <name>p</name>
+      <class>P5</class>
+    </device>
+
+    <device>
+      <name>q</name>
+      <class>Q5</class>
     </device>
 
   </devices>

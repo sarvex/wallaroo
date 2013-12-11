@@ -3,6 +3,11 @@
   "wallaroo":
   {
 
+    "plugins":
+    { 
+        "shared": "plugin2"
+    },
+
     "devices":
     [
       {
@@ -158,6 +163,16 @@
             "type": "unsigned char",
             "value": 200
           }
+      },
+      
+      {
+        "name": "p",
+        "class": "P5"
+      },
+
+      {
+        "name": "q",
+        "class": "Q5"
       }
 
     ],
