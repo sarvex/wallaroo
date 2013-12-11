@@ -1,6 +1,7 @@
 <date>: Version <version>
 
         * BOOST software license
+        * New parameter types in configuration files
 
 2013-10-4: Version 0.4.0
 
