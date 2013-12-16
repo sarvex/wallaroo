@@ -49,6 +49,9 @@ namespace wallaroo
 * The syntax of the xml file should be similar to:
 \code
 <wallaroo>
+  <plugins>
+    <shared>pluginName</shared>
+  </plugins>
   <devices>
     <device>
       <name>instance1</name>
@@ -67,7 +70,7 @@ namespace wallaroo
       </parameter2>
     </device>
   </devices>
-  <wiring>    
+  <wiring>
     <wire>
       <source>sourceInstance</source>
       <dest>targetInstance</dest>
@@ -102,17 +105,23 @@ public:
         }
     }
 
-    /** Fill the @c catalog with the objects and relations specified in the file.
-    * @param catalog The catalog target of the new items of the file.
+    /** Load the plugins specified in the file.
     * @throw WrongFile if the file contains a semantic error.
     */
+    void LoadPlugins()
+    {
+        detail::PtreeBasedCfg::LoadPlugins();
+    }
+
+    /** Fill the @c catalog with the objects and relations specified in the file.
+     * @param catalog The catalog target of the new items of the file.
+     * @throw WrongFile if the file contains a semantic error.
+     */
     void Fill( Catalog& catalog )
     {
         detail::PtreeBasedCfg::Fill( catalog );
     }
-
 private:
-
     ptree tree;
 };
 

@@ -53,6 +53,11 @@ namespace wallaroo
   "wallaroo":
   {
 
+    "plugins":
+    {
+        "shared": "pluginName"
+    },
+
     "devices":
     [
       {
@@ -75,7 +80,7 @@ namespace wallaroo
           }
       }
     ],
-    
+
     "wiring":
     [
       {
@@ -116,6 +121,14 @@ public:
         }
     }
 
+    /** Load the plugins specified in the file.
+     * @throw WrongFile if the file contains a semantic error.
+     */
+    void LoadPlugins()
+    {
+        detail::PtreeBasedCfg::LoadPlugins();
+    }
+
     /** Fill the @c catalog with the objects and relations specified in the file.
     * @param catalog The catalog target of the new items of the file.
     * @throw WrongFile if the file contains a semantic error.
@@ -124,9 +137,7 @@ public:
     {
         detail::PtreeBasedCfg::Fill( catalog );
     }
-
 private:
-
     ptree tree;
 };
 
