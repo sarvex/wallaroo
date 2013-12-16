@@ -157,13 +157,26 @@ public:
     {
     }
 
+    // Load the plugins specified in the ptree.
+    // throw WrongFile if the ptree contains a semantic error.
+    void LoadPlugins()
+    {
+        try
+        {
+            Foreach( "wallaroo.plugins", boost::bind( &PtreeBasedCfg::ParsePlugin, this, _1 ) );
+        }
+        catch ( const ptree_error& e )
+        {
+            throw WrongFile( e.what() );
+        }
+    }
+
     // Fill the catalog with the objects and relations specified in the ptree.
     // throw WrongFile if the ptree contains a semantic error.
     void Fill( Catalog& catalog )
     {
         try
         {
-            Foreach( "wallaroo.plugins", boost::bind( &PtreeBasedCfg::ParsePlugin, this, boost::ref( catalog ), _1 ) );
             Foreach( "wallaroo.devices", boost::bind( &PtreeBasedCfg::ParseObject, this, boost::ref( catalog ), _1 ) );
             Foreach( "wallaroo.wiring", boost::bind( &PtreeBasedCfg::ParseRelation, this, boost::ref( catalog ), _1 ) );
         }
@@ -188,7 +201,7 @@ private:
         }
     }
 
-    void ParsePlugin( Catalog& catalog, const ptree& v )
+    void ParsePlugin( const ptree& v )
     {
         const std::string& shared = v.get_value< std::string >();
         Plugin::Load( shared + Plugin::Suffix() );
@@ -204,7 +217,7 @@ private:
 
         if ( par1 && par2 )
         {
-            
+
             if ( Create< std::string, std::string >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< std::string, char >( catalog, name, cl, par1, par2 ) ) return;
             if ( Create< std::string, unsigned char >( catalog, name, cl, par1, par2 ) ) return;

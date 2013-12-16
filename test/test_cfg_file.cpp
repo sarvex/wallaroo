@@ -213,6 +213,7 @@ static void TestContent( Catalog& catalog )
 BOOST_AUTO_TEST_CASE( JsonOk )
 {
     JsonConfiguration file( "test_json.json" );
+    BOOST_REQUIRE_NO_THROW( file.LoadPlugins() );
     Catalog catalog;
     BOOST_REQUIRE_NO_THROW( file.Fill( catalog ) );
     TestContent( catalog );
@@ -221,6 +222,7 @@ BOOST_AUTO_TEST_CASE( JsonOk )
 BOOST_AUTO_TEST_CASE( XmlOk )
 {
     XmlConfiguration file( "test_xml.xml" );
+    BOOST_REQUIRE_NO_THROW( file.LoadPlugins() );
     Catalog catalog;
     BOOST_REQUIRE_NO_THROW( file.Fill( catalog ) );
     TestContent( catalog );
