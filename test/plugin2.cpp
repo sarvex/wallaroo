@@ -30,22 +30,27 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef CONSOLEPLAYER_H_
-#define CONSOLEPLAYER_H_
+#include "wallaroo/registered.h"
+#include "wallaroo/dynamic_lib.h"
 
-#include "player.h"
-#include "betconsolefactory.h"
+#include "plugin_interface.h"
 
-using namespace wallaroo;
-
-class ConsolePlayer : public Player
+class P5: public I6
 {
 public:
-    ConsolePlayer();
-    virtual cxx0x::shared_ptr< Bet > NextBet();
-private:
-    typedef Plug< BetConsoleFactory, collection > BetFactories;
-    BetFactories availableBets;
+    virtual int F() { return 7; }
+    P5() {}
+    ~P5() {}
 };
 
-#endif
+class Q5: public I6
+{
+public:
+    virtual int F() { return 8; }
+    Q5() {}
+    ~Q5() {}
+};
+
+
+WALLAROO_DYNLIB_REGISTER( P5 );
+WALLAROO_DYNLIB_REGISTER( Q5 );

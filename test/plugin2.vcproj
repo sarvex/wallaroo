@@ -2,9 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="shapes"
-	ProjectGUID="{B9A8AC6C-711A-4337-8DD2-055E35194E92}"
-	RootNamespace="shapes"
+	Name="plugin2"
+	ProjectGUID="{D57A0FED-DF81-4FC8-B396-EEB9FB6E4A8F}"
+	RootNamespace="plugin2"
+	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -19,8 +20,8 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
+			ConfigurationType="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -40,10 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../..;$(BOOST)"
+				AdditionalIncludeDirectories="..;$(BOOST)"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;PLUGIN_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -58,8 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories=""
+				OutputFile="$(OutDir)\$(ProjectName)d.dll"
+				LinkIncremental="2"
 				GenerateDebugInformation="true"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -88,8 +93,8 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
+			ConfigurationType="2"
+			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -111,9 +116,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../..;$(BOOST)"
+				AdditionalIncludeDirectories="..;$(BOOST)"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PLUGIN_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -128,7 +135,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -165,31 +174,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\circle.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\consolecanvas.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\csvfilecanvas.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\draft.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\rectangle.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\triangle.cpp"
+				RelativePath=".\plugin2.cpp"
 				>
 			</File>
 		</Filter>
@@ -199,39 +184,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\box.h"
-				>
-			</File>
-			<File
-				RelativePath=".\canvas.h"
-				>
-			</File>
-			<File
-				RelativePath=".\circle.h"
-				>
-			</File>
-			<File
-				RelativePath=".\consolecanvas.h"
-				>
-			</File>
-			<File
-				RelativePath=".\csvfilecanvas.h"
-				>
-			</File>
-			<File
-				RelativePath=".\draft.h"
-				>
-			</File>
-			<File
-				RelativePath=".\rectangle.h"
-				>
-			</File>
-			<File
-				RelativePath=".\shape.h"
-				>
-			</File>
-			<File
-				RelativePath=".\triangle.h"
+				RelativePath=".\plugin_interface.h"
 				>
 			</File>
 		</Filter>

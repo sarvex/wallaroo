@@ -1,3 +1,9 @@
+2013-12-20: Version 0.5.0
+
+        * BOOST software license
+        * Shared lib specified in configuration files
+        * New parameter types in configuration files
+
 2013-10-4: Version 0.4.0
 
         * Add shared library support
