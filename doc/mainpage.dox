@@ -39,4 +39,9 @@ See wallaroo::XmlConfiguration and wallaroo::JsonConfiguration.
 You can define your classes in shared libraries. In this case,
 you must use \ref WALLAROO_DYNLIB_REGISTER
 instead and load the shared library with \ref wallaroo::Plugin::Load.
+
+Loading of shared libraries can be performed by specifying the name in the XML
+or JSON configuration files.
+See the methods wallaroo::XmlConfiguration::LoadPlugins and 
+wallaroo::JsonConfiguration::LoadPlugins.
  */
