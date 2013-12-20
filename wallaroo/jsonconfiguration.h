@@ -121,7 +121,7 @@ public:
         }
     }
 
-    /** Load the plugins specified in the file.
+    /** Load the plugins (shared libraries) specified in the file.
      * @throw WrongFile if the file contains a semantic error.
      */
     void LoadPlugins()
