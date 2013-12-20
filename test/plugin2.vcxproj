@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8767D341-DBFA-46B9-8D37-0043AEE90031}</ProjectGuid>
+    <ProjectGuid>{65611085-9F13-4BB6-A58D-138DA6E55CFC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>plugin</RootNamespace>
+    <RootNamespace>plugin2</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -84,7 +84,7 @@
     <ClInclude Include="plugin_interface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="plugin.cpp" />
+    <ClCompile Include="plugin2.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
