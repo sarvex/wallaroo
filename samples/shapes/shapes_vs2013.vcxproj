@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8C31FD36-088A-422B-8308-8F08500D6DD4}</ProjectGuid>
-    <RootNamespace>MinePlant_vs2012</RootNamespace>
+    <ProjectGuid>{D42E6653-1C26-4702-9B8F-D97609D1411C}</ProjectGuid>
+    <RootNamespace>shapes_vs2013</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -43,7 +43,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../..; $(BOOST)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../..;$(BOOST)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -55,7 +55,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../..; $(BOOST)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../..;$(BOOST)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,44 +64,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="alarm.h" />
-    <ClInclude Include="analoginput.h" />
-    <ClInclude Include="console.h" />
-    <ClInclude Include="continuoussumpprobe.h" />
-    <ClInclude Include="digitalinput.h" />
-    <ClInclude Include="digitaloutput.h" />
-    <ClInclude Include="gasalarm.h" />
-    <ClInclude Include="gassensor.h" />
-    <ClInclude Include="levelprobe.h" />
-    <ClInclude Include="levelsensor.h" />
-    <ClInclude Include="mineplant.h" />
-    <ClInclude Include="pumpengine.h" />
-    <ClInclude Include="quantitytable.h" />
-    <ClInclude Include="safeengine.h" />
-    <ClInclude Include="sumpprobe.h" />
-    <ClInclude Include="sumppump.h" />
-    <ClInclude Include="tablebasedanaloginput.h" />
-    <ClInclude Include="tablebaseddigitalinput.h" />
-    <ClInclude Include="tablebaseddigitaloutput.h" />
-    <ClInclude Include="thresholdgassensor.h" />
-    <ClInclude Include="twolevelsumpprobe.h" />
+    <ClInclude Include="box.h" />
+    <ClInclude Include="canvas.h" />
+    <ClInclude Include="circle.h" />
+    <ClInclude Include="consolecanvas.h" />
+    <ClInclude Include="csvfilecanvas.h" />
+    <ClInclude Include="draft.h" />
+    <ClInclude Include="rectangle.h" />
+    <ClInclude Include="shape.h" />
+    <ClInclude Include="triangle.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="alarm.cpp" />
-    <ClCompile Include="console.cpp" />
-    <ClCompile Include="continuoussumpprobe.cpp" />
-    <ClCompile Include="gasalarm.cpp" />
-    <ClCompile Include="levelsensor.cpp" />
+    <ClCompile Include="circle.cpp" />
+    <ClCompile Include="consolecanvas.cpp" />
+    <ClCompile Include="csvfilecanvas.cpp" />
+    <ClCompile Include="draft.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="mineplant.cpp" />
-    <ClCompile Include="pumpengine.cpp" />
-    <ClCompile Include="safeengine.cpp" />
-    <ClCompile Include="sumppump.cpp" />
-    <ClCompile Include="tablebasedanaloginput.cpp" />
-    <ClCompile Include="tablebaseddigitalinput.cpp" />
-    <ClCompile Include="tablebaseddigitaloutput.cpp" />
-    <ClCompile Include="thresholdgassensor.cpp" />
-    <ClCompile Include="twolevelsumpprobe.cpp" />
+    <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="triangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
