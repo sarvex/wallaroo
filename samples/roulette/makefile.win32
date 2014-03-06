@@ -35,7 +35,7 @@ EXE_NAME = roulette.exe
 PLUGIN1_NAME = plugin.dll
 PLUGIN2_NAME = plugin2.dll
 DIR_INCLUDE = /I..\.. /I%BOOST%
-COMPILE_FLAGS = /nologo /MD /sdl- /EHsc
+COMPILE_FLAGS = /nologo /MD /EHsc
 LINK_FLAGS = /LIBPATH:%BOOST%\stage\lib /NOLOGO
 
 EXE_OBJ_FILES= \

@@ -1,6 +1,7 @@
 <date>: <version>
 
         * Bug fix: protection error when unloading dll with visual studio 2012
+        * Add win makefile for samples and test
 
 2013-12-20: Version 0.5.0
 

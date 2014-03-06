@@ -33,7 +33,7 @@
 #define macros
 EXE_NAME = mineplant.exe
 DIR_INCLUDE = /I..\.. /I%BOOST%
-COMPILE_FLAGS = /nologo /MD /sdl- /EHsc
+COMPILE_FLAGS = /nologo /MD /EHsc
 
 EXE_OBJ_FILES= \
     alarm.obj \
