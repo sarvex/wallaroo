@@ -31,13 +31,13 @@
 ################################################################################
 
 # usage:
-# make UCFLAGS=-I<BOOST_DIR> ULFLAGS="-L<BOOST_DIR>/stage/lib -lboost_unit_test_framework"
+# make BOOST=<BOOST_DIR> 
 # or
-# make UCFLAGS="-std=c++0x -I<BOOST_DIR>" ULFLAGS="-L<BOOST_DIR>/stage/lib -lboost_unit_test_framework"
+# make BOOST=<BOOST_DIR> UCFLAGS=-std=c++0x
 
 CC = g++
-CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK $(UCFLAGS)
-LFLAGS = $(ULFLAGS) -ldl
+CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK -I$(BOOST) $(UCFLAGS)
+LFLAGS = $(ULFLAGS) -L$(BOOST)/stage/lib -lboost_unit_test_framework -ldl
 OBJ = test_cfg_file.o test_multiplicitycheck.o test_wiring.o test_creation.o test_dynamiclib.o driver.o
 OBJ_PLUGIN = plugin.o
 OBJ_PLUGIN2 = plugin2.o
@@ -60,7 +60,7 @@ $(PLUGIN2): $(OBJ_PLUGIN2)
 	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
 
 test:
-	./$(EXE)
+	export LD_LIBRARY_PATH=.:$(BOOST)/stage/lib ; ./$(EXE)
 
 clean:
 	rm -f *.o *~ core $(EXE) *.so
