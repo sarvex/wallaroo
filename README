@@ -9,6 +9,8 @@ http://wallaroo.googlecode.com/
 All of our documentation is on the project wiki:
 http://code.google.com/p/wallaroo/w/list
 
+You can download the packages from sourceforge at:
+http://sourceforge.net/projects/wallaroolib/
 
 Introduction
 ============
@@ -26,7 +28,20 @@ With Wallaroo you will be able to focus on the logic of your classes, without
 worrying about the wiring phase.
 
 This mechanism is called Dependency Injection (DI). Someone calls it
-Inversion of Control (IoC), but actually that has a broader meaning.
+Inversion of Control (IoC), but actually that has a broader meaning. 
+
+
+Key features
+============
+
+- Lightweight but powerful
+- Type Safe
+- DSL syntax for object creation and wiring
+- Object creation and wiring also by parsing one (or more) xml or json file
+- Shared library support
+- C++11 or boost interface
+- Doesn't use code generators
+
 
 Installation
 ============
