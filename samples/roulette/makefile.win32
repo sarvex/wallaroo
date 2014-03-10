@@ -30,7 +30,52 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
-incpath = ARGUMENTS.get('incpath',"")
-Program( 'minimal', Glob( '*.cpp' ), CPPPATH = [ '../..',incpath ] )
+#define macros
+EXE_NAME = roulette.exe
+PLUGIN1_NAME = plugin.dll
+PLUGIN2_NAME = plugin2.dll
+DIR_INCLUDE = /I..\.. /I%BOOST%
+COMPILE_FLAGS = /nologo /MD /EHsc
+LINK_FLAGS = /LIBPATH:%BOOST%\stage\lib /NOLOGO
+
+EXE_OBJ_FILES= \
+    main.obj \
+    consoleplayer.obj \
+    wheel.obj \
+    game.obj
+
+PLUGINS= \
+    oddevenbet.dll \
+    redblackbet.dll \
+    straightbet.dll
+
+.cpp.obj ::
+    @echo Compiling...
+    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
+
+.cpp.dll:
+    @echo Creating DLL...
+    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
+    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $(<B)consolefactory.cpp
+    link $(LINK_FLAGS) /DLL /out:$*.dll $(<B)consolefactory.obj $(<B).obj
+    
+# clean and build application and plugins
+all: clean mainapp $(PLUGINS)
+
+$(EXE_NAME) : $(EXE_OBJ_FILES)
+    @echo Linking $(EXE_NAME)...
+    link $(LINK_FLAGS) /out:$(EXE_NAME) $(EXE_OBJ_FILES)
+
+# application
+
+mainapp: $(EXE_NAME)
+    
+# delete output
+clean:
+    del *.obj
+    del *.exp
+    del *.lib
+    del $(EXE_NAME)
+    del $(PLUGINS)
 
 

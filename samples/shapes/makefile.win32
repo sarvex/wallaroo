@@ -30,7 +30,36 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
-incpath = ARGUMENTS.get('incpath',"")
-Program( 'cpp0x_only', Glob( '*.cpp' ), CPPPATH = [ '../..',incpath ], CPPFLAGS = '-std=c++0x' )
+#define macros
+EXE_NAME = shapes.exe
+DIR_INCLUDE = /I..\.. /I%BOOST%
+COMPILE_FLAGS = /nologo /MD /EHsc
 
+EXE_OBJ_FILES= \
+   circle.obj \
+   consolecanvas.obj \
+   csvfilecanvas.obj \
+   draft.obj \
+   main.obj \
+   rectangle.obj \
+   triangle.obj
+
+.cpp.obj ::
+    @echo Compiling...
+    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
+ 
+# clean and build application
+all: clean app
+
+$(EXE_NAME) : $(EXE_OBJ_FILES)
+    @echo Linking $(EXE_NAME)...
+    link $(LINK_FLAGS) /out:$(EXE_NAME) $(EXE_OBJ_FILES)
+
+# application
+app: $(EXE_NAME)
+    
+# delete output files
+clean:
+    del *.obj
+    del $(EXE_NAME)
 

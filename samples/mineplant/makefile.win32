@@ -30,16 +30,46 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
+#define macros
+EXE_NAME = mineplant.exe
+DIR_INCLUDE = /I..\.. /I%BOOST%
+COMPILE_FLAGS = /nologo /MD /EHsc
 
-import os
+EXE_OBJ_FILES= \
+    alarm.obj \
+    gasalarm.obj \
+    mineplant.obj \
+    sumppump.obj \
+    tablebaseddigitaloutput.obj \
+    console.obj \
+    levelsensor.obj \
+    pumpengine.obj \
+    tablebasedanaloginput.obj \
+    thresholdgassensor.obj \
+    continuoussumpprobe.obj \
+    main.obj \
+    safeengine.obj \
+    tablebaseddigitalinput.obj \
+    twolevelsumpprobe.obj
 
-incpath = ARGUMENTS.get('incpath',"")
+.cpp.obj ::
+    @echo Compiling...
+    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
+ 
+# clean and build application
+all: clean app
 
-env = Environment( SHLIBPREFIX = '' )
+$(EXE_NAME) : $(EXE_OBJ_FILES)
+    @echo Linking $(EXE_NAME)...
+    link $(LINK_FLAGS) /out:$(EXE_NAME) $(EXE_OBJ_FILES)
 
-env.SharedLibrary( 'oddevenbet', ['oddevenbet.cpp', 'oddevenbetconsolefactory.cpp'], CPPPATH = [ '../..',incpath ] )
-env.SharedLibrary( 'redblackbet', ['redblackbet.cpp', 'redblackbetconsolefactory.cpp'], CPPPATH = [ '../..',incpath ] )
-env.SharedLibrary( 'straightbet', ['straightbet.cpp', 'straightbetconsolefactory.cpp'], CPPPATH = [ '../..',incpath ] )
-env.Program( 'roulette', ['main.cpp', 'consoleplayer.cpp', 'wheel.cpp', 'game.cpp'], CPPPATH = [ '../..',incpath ], LIBS=[ 'dl' ] )
+# application
+
+app: $(EXE_NAME)
+    
+# delete output files
+clean:
+    del *.obj
+    del $(EXE_NAME)
 
 
