@@ -37,6 +37,7 @@ PLUGIN2_NAME = plugin2.dll
 DIR_INCLUDE = /I.. /I%BOOST%
 COMPILE_FLAGS = /nologo /MD /EHsc /DBOOST_TEST_DYN_LINK
 LINK_FLAGS = /LIBPATH:%BOOST%\stage\lib /NOLOGO
+PATH = $(PATH);$(BOOST)\stage\lib\ # to run the test suite
 
 EXE_OBJ_FILES= \
     test_cfg_file.obj \
@@ -81,7 +82,6 @@ plugin2: $(PLUGIN2_NAME)
 
 # run the test
 test:
-    "SET PATH=%PATH%;%BOOST%\stage\lib\"
     $(EXE_NAME)
     
 # delete output directories
