@@ -1,4 +1,4 @@
-<date>: <version>
+2014-03-11: Version 0.5.1
 
         * Bug fix: protection error when unloading dll with visual studio 2012
         * Add win makefile for samples and test
