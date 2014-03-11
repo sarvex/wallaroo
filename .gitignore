@@ -50,6 +50,7 @@ Release
 *.idb
 *.log
 *.map
+*.exp
 *.mk
 *.pdb
 *.pyc

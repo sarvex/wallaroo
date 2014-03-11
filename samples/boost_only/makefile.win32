@@ -30,37 +30,35 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
-# usage:
-# make BOOST=<BOOST_DIR> 
-# or
-# make BOOST=<BOOST_DIR> UCFLAGS=-std=c++0x
+#define macros
+EXE_NAME = boost_only.exe
+DIR_INCLUDE = /I..\.. /I%BOOST%
+COMPILE_FLAGS = /nologo /MD /EHsc /DWALLAROO_FORCE_USE_BOOST
 
-CC = g++
-CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK -I$(BOOST) $(UCFLAGS)
-LFLAGS = $(ULFLAGS) -L$(BOOST)/stage/lib -lboost_unit_test_framework -ldl
-OBJ = test_cfg_file.o test_multiplicitycheck.o test_wiring.o test_creation.o test_dynamiclib.o driver.o
-OBJ_PLUGIN = plugin.o
-OBJ_PLUGIN2 = plugin2.o
-EXE = test_suite
-PLUGIN = plugin.so
-PLUGIN2 = plugin2.so
+EXE_OBJ_FILES= \
+    base.obj \
+    derived.obj \
+    client.obj \
+    main.obj
 
-all: $(EXE) $(PLUGIN) $(PLUGIN2) test
+.cpp.obj ::
+    @echo Compiling...
+    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
+ 
+# clean and build application
+all: clean app
 
-%.o: %.cpp
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(EXE_NAME) : $(EXE_OBJ_FILES)
+    @echo Linking $(EXE_NAME)...
+    link $(LINK_FLAGS) /out:$(EXE_NAME) $(EXE_OBJ_FILES)
 
-$(EXE): $(OBJ)
-	$(CC) -Wl,-E -o $@ $^ $(LFLAGS)
+# application
 
-$(PLUGIN): $(OBJ_PLUGIN)
-	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
-
-$(PLUGIN2): $(OBJ_PLUGIN2)
-	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
-
-test:
-	export LD_LIBRARY_PATH=.:$(BOOST)/stage/lib ; ./$(EXE)
-
+app: $(EXE_NAME)
+    
+# delete output files
 clean:
-	rm -f *.o *~ core $(EXE) *.so
+    del *.obj
+    del $(EXE_NAME)
+
+

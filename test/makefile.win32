@@ -30,7 +30,67 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
-incpath = ARGUMENTS.get('incpath',"")
-Program( 'boost_only', Glob( '*.cpp' ), CPPPATH = [ '../..',incpath ] )
+#define macros
+EXE_NAME = test_suite.exe
+PLUGIN1_NAME = plugin.dll
+PLUGIN2_NAME = plugin2.dll
+DIR_INCLUDE = /I.. /I%BOOST%
+COMPILE_FLAGS = /nologo /MD /EHsc /DBOOST_TEST_DYN_LINK
+LINK_FLAGS = /LIBPATH:%BOOST%\stage\lib /NOLOGO
+PATH = $(PATH);$(BOOST)\stage\lib\ # to run the test suite
+
+EXE_OBJ_FILES= \
+    test_cfg_file.obj \
+    test_multiplicitycheck.obj \
+    test_wiring.obj \
+    test_creation.obj \
+    test_dynamiclib.obj \
+    driver.obj
+
+PLUGIN1_OBJ_FILES= \
+    plugin.obj
+
+PLUGIN2_OBJ_FILES= \
+    plugin2.obj
+
+.cpp.obj ::
+    @echo Compiling...
+    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
+ 
+# create directories and build application
+all: clean plugin1 plugin2 mainapp test
+
+$(EXE_NAME) : $(EXE_OBJ_FILES)
+    @echo Linking $(EXE_NAME)...
+    link $(LINK_FLAGS) /out:$(EXE_NAME) $(EXE_OBJ_FILES)
+
+$(PLUGIN1_NAME) : $(PLUGIN1_OBJ_FILES)
+    @echo Linking $(PLUGIN1_NAME)...
+    link $(LINK_FLAGS) /DLL /out:$(PLUGIN1_NAME) $(PLUGIN1_OBJ_FILES)
+
+$(PLUGIN2_NAME) : $(PLUGIN2_OBJ_FILES)
+    @echo Linking $(PLUGIN2_NAME)...
+    link $(LINK_FLAGS) /DLL /out:$(PLUGIN2_NAME) $(PLUGIN2_OBJ_FILES)
+
+# application
+
+mainapp: $(EXE_NAME)
+
+plugin1: $(PLUGIN1_NAME)
+
+plugin2: $(PLUGIN2_NAME)
+
+# run the test
+test:
+    $(EXE_NAME)
+    
+# delete output directories
+clean:
+    del *.obj
+    del *.exp
+    del *.lib
+    del $(EXE_NAME)
+    del $(PLUGIN1_NAME)
+    del $(PLUGIN2_NAME)
 
 

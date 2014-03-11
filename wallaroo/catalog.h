@@ -53,7 +53,8 @@ class UseExpression;
  * Catalog of devices available for the application.
  *
  * It can create the instances from the name of a class 
- * previously registered with the macro WALLAROO_REGISTER(C)
+ * previously registered with one of the macros
+ * WALLAROO_REGISTER(C), WALLAROO_DYNLIB_REGISTER(C)
  * or add the instances.
  *
  * Each item in the catalog is identified by a @c id, with which

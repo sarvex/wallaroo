@@ -56,7 +56,10 @@ struct Descriptor
     static std::vector< Descriptor >& DB();
 
     typedef cxx0x::shared_ptr< Device > Ptr;
-    typedef cxx0x::function< Ptr() > FactoryMethod;
+    // NOTE: when compiled with visual studio 2012, std::function gives protection error when
+    //       the dll is unloaded. We must use a plain function pointer, instead. (thanks Lars Fiedler).
+    //typedef cxx0x::function< Ptr() > FactoryMethod;
+    typedef Ptr (*FactoryMethod)(void);
 
     FactoryMethod create; // the factory method
     std::string name; // the class name
