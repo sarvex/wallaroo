@@ -32,10 +32,25 @@
 
 #define macros
 EXE_NAME = test_suite.exe
+DIR_INCLUDE = /I.. /I%BOOST%
+
+!ifdef DEBUG
+PLUGIN1_NAME = plugind.dll
+PLUGIN2_NAME = plugin2d.dll
+RUNTIME_LIB = /MDd
+!else
 PLUGIN1_NAME = plugin.dll
 PLUGIN2_NAME = plugin2.dll
-DIR_INCLUDE = /I.. /I%BOOST%
-COMPILE_FLAGS = /nologo /MD /EHsc /DBOOST_TEST_DYN_LINK
+RUNTIME_LIB = /MD
+!endif
+
+!ifdef UNICODE
+CHAR_SET = /D "_UNICODE" /D "UNICODE"
+!else
+CHAR_SET = /D "_MBCS"
+!endif
+
+COMPILE_FLAGS = /nologo /EHsc /DBOOST_TEST_DYN_LINK $(RUNTIME_LIB) $(CHAR_SET)
 LINK_FLAGS = /LIBPATH:%BOOST%\stage\lib /NOLOGO
 PATH = $(PATH);$(BOOST)\stage\lib\ # to run the test suite
 
