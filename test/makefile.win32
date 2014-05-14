@@ -60,6 +60,7 @@ EXE_OBJ_FILES= \
     test_wiring.obj \
     test_creation.obj \
     test_dynamiclib.obj \
+    test_attributes.obj \
     driver.obj
 
 PLUGIN1_OBJ_FILES= \

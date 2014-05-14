@@ -193,6 +193,7 @@ private:
 
     friend class Context;
     friend class UseAsExpression;
+    friend class SetExpression;
     friend UseExpression use( const std::string& destClass );
     friend bool IsWiringOk();
     friend void CheckWiring();
@@ -230,8 +231,8 @@ public:
         of( ( *current )[ srcClass ] );
     }
 private:
-    detail::DeviceShell destClass;
-    std::string attribute;
+    const detail::DeviceShell destClass;
+    const std::string attribute;
 };
 
 // This is a helper class that provides the result of the use() function
@@ -273,6 +274,56 @@ inline UseExpression use( const std::string& destClass )
     if ( ! current ) throw CatalogNotSpecified();
     return use( ( *current )[ destClass ] );
 }
+
+
+// ### begin
+
+// This is a helper class that provides the result of the set().of() function
+// useful to concatenate set().of() with to().
+class SetOfExpression
+{
+public:
+    SetOfExpression( const detail::DeviceShell& _device, const std::string& _attribute ) :
+        device( _device ), attribute( _attribute ) {}
+    template < typename T >
+    void to( const T& value )
+    {
+        // perform the final assignment:
+        device.SetAttribute( attribute, value );
+    }
+private:
+    const detail::DeviceShell device;
+    const std::string attribute;
+};
+
+// This is a helper class that provides the result of the set() function
+// useful to concatenate set() with of().
+class SetExpression
+{
+public:
+    explicit SetExpression( const std::string& att ) : attribute( att ) {}
+    SetOfExpression of( const detail::DeviceShell& device ) { return SetOfExpression( device, attribute ); }
+    // throw CatalogNotSpecified if the current catalog has not been selected including
+    // this function in a wallaroo_within section
+    SetOfExpression of( const std::string& device )
+    {
+        // default container case
+        Catalog* current = Catalog::Current( );
+        if ( !current ) throw CatalogNotSpecified( );
+        return SetOfExpression( ( *current )[ device ], attribute );
+    }
+private:
+    const std::string attribute;
+};
+
+/**
+* This function provides the "set" part in the syntax @c set( "attribute" ).of( "device" ).to( value )
+* @throw CatalogNotSpecified if the current catalog has not been selected including
+* this function in a wallaroo_within section
+*/
+inline SetExpression set( const std::string& attribute ) { return SetExpression( attribute ); }
+
+// ### end
 
 // Helper class that changes the current catalog on the ctor and
 // restores the previous on the dtor

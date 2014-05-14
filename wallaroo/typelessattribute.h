@@ -30,12 +30,34 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_REGISTEREDCLASS_H_
-#define WALLAROO_REGISTEREDCLASS_H_
+#ifndef WALLAROO_TYPELESSATTRIBUTE_H_
+#define WALLAROO_TYPELESSATTRIBUTE_H_
 
-#include "class.h"
-#include "plug.h"
-#include "attribute.h"
-#include "device.h"
+#include "cxx0x.h"
+#include <string>
+
+namespace wallaroo
+{
+
+/**
+ * TODO ###
+ * This represents the base class for every Plug template.
+ * It can wire itself with a Device object and check if the wiring
+ * satisfy its multiplicity constraints.
+ */
+class TypelessAttribute // TODO ### cambiare nome? 
+{
+public:
+    virtual ~TypelessAttribute( ) {}
+    /** Set this attribute
+    * @param value A value not typed to be assigned
+    * @throw WrongType If ###
+    */
+    virtual void Set( const std::string& value ) = 0;
+};
+
+
+
+} // namespace
 
 #endif

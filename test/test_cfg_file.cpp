@@ -193,7 +193,7 @@ static void TestContent( Catalog& catalog )
 
     shared_ptr< L5 > l = catalog[ "l" ];
     BOOST_CHECK( l -> p1 == -100 );
-    BOOST_CHECK( l -> p2 == "foo" );
+    BOOST_CHECK( l -> p2 == "foo bar" );
 
     shared_ptr< M5 > m = catalog[ "m" ];
     BOOST_CHECK( m -> p1 == -2000000000L );

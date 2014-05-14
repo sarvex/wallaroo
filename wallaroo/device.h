@@ -34,9 +34,11 @@
 #define WALLAROO_DEVICE_H_
 
 #include <string>
+#include <sstream> // ### finché non trovo un modo migliore per la conversione...
 #include "exceptions.h"
 #include "cxx0x.h"
 #include "connector.h"
+#include "typelessattribute.h"
 
 namespace wallaroo
 {
@@ -75,6 +77,35 @@ public:
         ( i -> second ) -> PlugInto( device );
     }
 
+    /** TODO commento doxygen ### */
+    template < typename T >
+    void SetAttribute( const std::string& attribute, T value )
+    {
+        Attributes::iterator i = attributes.find( attribute );
+        if ( i == attributes.end() )
+            throw ElementNotFound( attribute );
+        std::ostringstream stream;
+        stream << value; // ### ci sono delle eccezioni?
+        ( i -> second  ) -> Set( stream.str() );
+    }
+
+    /** TODO commento doxygen ### */
+    // Optimization: with strings we don't need conversion
+    template <>
+    void SetAttribute( const std::string& attribute, const std::string& value )
+    {
+        Attributes::iterator i = attributes.find( attribute );
+        ( i -> second ) -> Set( value );
+    }
+
+    /** TODO commento doxygen ### */
+    // With bool we need ad hoc conversion to have "true" and "false" instead of "1" and "0"
+    template <>
+    void SetAttribute( const std::string& attribute, bool value )
+    {
+        Attributes::iterator i = attributes.find( attribute );
+        ( i -> second ) -> Set( value ? "true" : "false" );
+    }
 
    /** Check the multiplicity of its plugs.
     * @return true if the check pass
@@ -113,8 +144,19 @@ private:
         connectors[ id ] = plug;
     }
 
+    // this method should only be invoked by the attributes of this device
+    // to register itself into the attributes table.
+    template < class T > friend class Attribute;
+    template < class T >
+    void Register( const std::string& id, Attribute< T >* attribute )
+    {
+        attributes[ id ] = attribute;
+    }
+
     typedef cxx0x::unordered_map< std::string, Connector* > Connectors;
     Connectors connectors;
+    typedef cxx0x::unordered_map< std::string, TypelessAttribute* > Attributes;
+    Attributes attributes;
     cxx0x::shared_ptr< Plugin > plugin; // optional shared ptr to plugin, to release the shared library when is no more used
 };
 

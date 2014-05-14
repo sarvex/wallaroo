@@ -38,7 +38,7 @@
 CC = g++
 CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK -I$(BOOST) $(UCFLAGS)
 LFLAGS = $(ULFLAGS) -L$(BOOST)/stage/lib -lboost_unit_test_framework -ldl
-OBJ = test_cfg_file.o test_multiplicitycheck.o test_wiring.o test_creation.o test_dynamiclib.o driver.o
+OBJ = test_cfg_file.o test_multiplicitycheck.o test_wiring.o test_creation.o test_dynamiclib.o test_attributes.o driver.o
 OBJ_PLUGIN = plugin.o
 OBJ_PLUGIN2 = plugin2.o
 EXE = test_suite
