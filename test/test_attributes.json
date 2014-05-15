@@ -1,0 +1,36 @@
+{
+
+  "wallaroo":
+  {
+
+    "devices":
+    [
+      {
+        "name": "a1",
+        "class": "A7",
+        "attribute":
+          {
+            "name": "int_attr",
+            "value": -123
+          }      
+      },
+
+      {
+        "name": "a2",
+        "class": "A7",
+        "attribute":
+          {
+            "name": "bool_attr",
+            "value": false
+          },
+          "attribute":
+          {
+            "name": "ul_attr",
+            "value": 123456
+          }
+      }
+    ]
+    
+  }
+
+}

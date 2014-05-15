@@ -35,6 +35,8 @@
 #include "wallaroo/registered.h"
 #include "wallaroo/catalog.h"
 #include "wallaroo/cxx0x.h"
+#include "wallaroo/jsonconfiguration.h"
+#include "wallaroo/xmlconfiguration.h"
 
 using namespace wallaroo;
 using namespace cxx0x;
@@ -156,6 +158,32 @@ BOOST_AUTO_TEST_CASE( stringAttributes )
     BOOST_CHECK( a -> intAtt == -123 );
     BOOST_CHECK( a -> ulAtt == 123456 );
     BOOST_CHECK( a -> boolAtt == false );
+}
+
+static void TestContent( Catalog& catalog )
+{
+    shared_ptr< A7 > a1 = catalog[ "a1" ];
+    BOOST_CHECK( a1 -> intAtt == -123 );
+
+    shared_ptr< A7 > a2 = catalog[ "a2" ];
+    BOOST_CHECK( a2 -> boolAtt == false );
+    BOOST_CHECK( a2 -> ulAtt == 123456 );
+}
+
+BOOST_AUTO_TEST_CASE( JsonAttributes )
+{
+    JsonConfiguration file( "test_attributes.json" );
+    Catalog catalog;
+    BOOST_REQUIRE_NO_THROW( file.Fill( catalog ) );
+    TestContent( catalog );
+}
+
+BOOST_AUTO_TEST_CASE( XmlAttributes )
+{
+    XmlConfiguration file( "test_attributes.xml" );
+    Catalog catalog;
+    BOOST_REQUIRE_NO_THROW( file.Fill( catalog ) );
+    TestContent( catalog );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
