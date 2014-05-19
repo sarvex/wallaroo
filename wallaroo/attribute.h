@@ -63,6 +63,12 @@ namespace detail
         else if ( v == "false" ) value = false;
         else throw "bad value"; // ### tirare eccezione corretta
     }
+
+    template <>
+    inline void String2Value< std::string >( const std::string& v, std::string& value )
+    {
+        value = v;
+    }
 }
 
 /**

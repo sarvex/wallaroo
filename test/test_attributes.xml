@@ -56,6 +56,63 @@
       </attribute>
     </device>
 
+    <device>
+      <name>b1</name>
+      <class>B7</class>
+      <attribute>
+        <name>schar_attr</name>
+        <value>z</value>
+      </attribute>
+      <attribute>
+        <name>uchar_attr</name>
+        <value>x</value>
+      </attribute>
+      <attribute>
+        <name>ssi_attr</name>
+        <value>-6000</value>
+      </attribute>
+      <attribute>
+        <name>usi_attr</name>
+        <value>6000</value>
+      </attribute>
+      <attribute>
+        <name>si_attr</name>
+        <value>-333333</value>
+      </attribute>
+      <attribute>
+        <name>ui_attr</name>
+        <value>333333</value>
+      </attribute>
+      <attribute>
+        <name>sli_attr</name>
+        <value>-999999999</value>
+      </attribute>
+      <attribute>
+        <name>uli_attr</name>
+        <value>999999999</value>
+      </attribute>
+      <attribute>
+        <name>f_attr</name>
+        <value>-1.0</value>
+      </attribute>
+      <attribute>
+        <name>d_attr</name>
+        <value>2.0</value>
+      </attribute>
+      <attribute>
+        <name>ld_attr</name>
+        <value>123456.69</value>
+      </attribute>
+      <attribute>
+        <name>str_attr</name>
+        <value>foo bar</value>
+      </attribute>
+      <attribute>
+        <name>bool_attr</name>
+        <value>false</value>
+      </attribute>
+    </device>
+    
   </devices>
 
 </wallaroo>

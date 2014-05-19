@@ -64,6 +64,43 @@ struct A7 : public Device
 WALLAROO_REGISTER( A7 )
 
 
+struct B7 : public Device
+{
+    B7() :
+        schAtt( "schar_attr", RegistrationToken() ),
+        uchAtt( "uchar_attr", RegistrationToken() ),
+        ssiAtt( "ssi_attr", RegistrationToken() ),
+        usiAtt( "usi_attr", RegistrationToken() ),
+        siAtt( "si_attr", RegistrationToken() ),
+        uiAtt( "ui_attr", RegistrationToken() ),
+        sliAtt( "sli_attr", RegistrationToken() ),
+        uliAtt( "uli_attr", RegistrationToken() ),
+        fAtt( "f_attr", RegistrationToken() ),
+        dAtt( "d_attr", RegistrationToken() ),
+        ldAtt( "ld_attr", RegistrationToken() ),
+        strAtt( "str_attr", RegistrationToken() ),
+        boolAtt( "bool_attr", RegistrationToken() )
+    {}
+    virtual ~B7() {}
+
+    Attribute< signed char > schAtt;
+    Attribute< unsigned char > uchAtt;
+    Attribute< signed short int > ssiAtt;
+    Attribute< unsigned short int > usiAtt;
+    Attribute< signed int > siAtt;
+    Attribute< unsigned int > uiAtt;
+    Attribute< signed long int > sliAtt;
+    Attribute< unsigned long int > uliAtt;
+    Attribute< float > fAtt;
+    Attribute< double > dAtt;
+    Attribute< long double > ldAtt;
+    Attribute< std::string > strAtt;
+    Attribute< bool > boolAtt;
+};
+
+WALLAROO_REGISTER( B7 )
+
+
 // tests
 
 BOOST_AUTO_TEST_SUITE( Attributes )
@@ -168,6 +205,21 @@ static void TestContent( Catalog& catalog )
     shared_ptr< A7 > a2 = catalog[ "a2" ];
     BOOST_CHECK( a2 -> boolAtt == false );
     BOOST_CHECK( a2 -> ulAtt == 123456 );
+
+    shared_ptr< B7 > b1 = catalog[ "b1" ];
+    BOOST_CHECK( b1->schAtt == 'z' );
+    BOOST_CHECK( b1->uchAtt == 'x' );
+    BOOST_CHECK( b1->ssiAtt == -6000 );
+    BOOST_CHECK( b1->usiAtt == 6000 );
+    BOOST_CHECK( b1->siAtt == -333333 );
+    BOOST_CHECK( b1->uiAtt == 333333 );
+    BOOST_CHECK( b1->sliAtt == -999999999 );
+    BOOST_CHECK( b1->uliAtt == 999999999 );
+    BOOST_CHECK( b1->fAtt == -1.0 );
+    BOOST_CHECK( b1->dAtt == 2.0 );
+    BOOST_CHECK( b1->ldAtt == 123456.69 );
+    BOOST_CHECK( b1->strAtt == std::string( "foo bar" ) );
+    BOOST_CHECK( b1 -> boolAtt == false );
 }
 
 BOOST_AUTO_TEST_CASE( JsonAttributes )
