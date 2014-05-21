@@ -42,8 +42,8 @@ public:
     virtual void Point( unsigned int x, unsigned int y );
     virtual void Show();
 private:
-    static const size_t X_SIZE = 79;
-    static const size_t Y_SIZE = 23;
+    static const std::size_t X_SIZE = 79;
+    static const std::size_t Y_SIZE = 23;
     static const char FULL = '*';
     static const char EMPTY = ' ';
     char canvas[ X_SIZE ][ Y_SIZE ];

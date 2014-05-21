@@ -61,13 +61,13 @@ struct mandatory
 /// This type should be used as second template parameter in Plug class to specify the Plug is a collection
 /// and you can wire to the plug a number of devices greater or equal to @c MIN
 /// and lesser or equal to @c MAX
-template < size_t MIN = 0, size_t MAX = 0 >
+template < std::size_t MIN = 0, std::size_t MAX = 0 >
 struct bounded_collection
 {
     template < typename T >
     static bool WiringOk( const T* t )
     {
-        const size_t s = t -> size();
+        const std::size_t s = t -> size();
         return ( s >= MIN && ( MAX == 0 || s <= MAX ) );
     }
 };
@@ -194,8 +194,8 @@ private:
 template <
     typename T,
     template < typename E, typename Allocator = std::allocator< E > > class Container,
-    size_t MIN,
-    size_t MAX
+    std::size_t MIN,
+    std::size_t MAX
 >
 class Plug< T, bounded_collection< MIN, MAX >, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
 {

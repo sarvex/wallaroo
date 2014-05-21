@@ -86,6 +86,6 @@ Wheel::~Wheel()
 
 Bin Wheel::Spin()
 {
-    size_t index = rand() % ( bins.size() );
+    std::size_t index = rand() % ( bins.size() );
     return bins[ index ];
 }

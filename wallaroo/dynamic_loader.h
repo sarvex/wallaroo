@@ -74,7 +74,7 @@ public:
         Function GetClasses = p -> library.GetFunction< Function >( "GetClasses" );
         if ( GetClasses == NULL ) throw WrongFile( fileName );
         std::vector< Descriptor >* descriptors = GetClasses();
-        for ( size_t i = 0; i < descriptors -> size(); ++i )
+        for ( std::size_t i = 0; i < descriptors -> size(); ++i )
             Class< void, void >::Register( (*descriptors)[ i ].name, (*descriptors)[ i ].create, p );
         return p;
     }

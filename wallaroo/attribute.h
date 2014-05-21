@@ -36,7 +36,7 @@
 #include <string>
 //#include <typeinfo>
 //#include <vector>
-#include <sstream> // ### finché non trovo un modo migliore per la conversione...
+#include <sstream>
 #include "cxx0x.h"
 //#include "connector.h"
 #include "device.h"
@@ -49,21 +49,34 @@ namespace wallaroo
 
 namespace detail
 {
+    // Template function to convert a string into a value of type T
+    // It provides a couple of specialization to manage the case of
+    // type boolean and string.
+
+    // Generic conversion: try to convert v to type T and put the result in value
+    // throw WrongType if v cannot be converted to T
     template < typename T >
     inline void String2Value( const std::string& v, T& value )
     {
         std::istringstream stream( v );
-        stream >> value; // ### gestire eccezioni
+        if ( !( stream >> value ) )
+        {
+            // error: didn't convert to T
+            throw WrongType();
+        }
     }
 
+    // T = boolean. We want v to assume the values "true" or "false"
+    // throw WrongType if v cannot be converted to bool
     template <>
     inline void String2Value< bool >( const std::string& v, bool& value )
     {
         if ( v == "true" ) value = true;
         else if ( v == "false" ) value = false;
-        else throw "bad value"; // ### tirare eccezione corretta
+        else throw WrongType(); // cannot convert to bool
     }
 
+    // T is a string. No conversion needed
     template <>
     inline void String2Value< std::string >( const std::string& v, std::string& value )
     {
@@ -159,6 +172,9 @@ public:
     }
 #endif
 
+    /** ### TODO commento doxygen
+    * @throw WrongType if v cannot be converted to T
+    */
     virtual void Set( const std::string& v )
     {
         detail::String2Value( v, value );

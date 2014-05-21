@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE( attributesOk )
     BOOST_CHECK( a -> boolAtt == false );
 }
 
-/*
+
 BOOST_AUTO_TEST_CASE( attributesKo )
 {
     Catalog catalog;
@@ -148,30 +148,26 @@ BOOST_AUTO_TEST_CASE( attributesKo )
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
 
     // bad type
-    BOOST_CHECK_THROW( use( catalog[ "c2" ] ).as( "x" ).of( catalog[ "c1" ] ), WrongType );
-
-    // src does not exist in the catalog
-    BOOST_CHECK_THROW( use( catalog[ "b" ] ).as( "x" ).of( catalog[ "does_not_exist" ] ), ElementNotFound );
-    // dst does not exist in the catalog
-    BOOST_CHECK_THROW( use( catalog[ "does_not_exist" ] ).as( "x" ).of( catalog[ "c2" ] ), ElementNotFound );
-    // attribute does not exist in the src
-    BOOST_CHECK_THROW( use( catalog[ "a" ] ).as( "does_not_exist" ).of( catalog[ "c2" ] ), ElementNotFound );
+    BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "a" ] ).to( "foo" ), WrongType );
+    //BOOST_CHECK_THROW( set( "ul_attr" ).of( catalog[ "a" ] ).to( -100 ), WrongType ); // ###
+    BOOST_CHECK_THROW( set( "bool_attr" ).of( catalog[ "a" ] ).to( 100 ), WrongType );
+    
+    // of does not exist in the catalog
+    BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "does_not_exist" ] ).to( "foo" ), ElementNotFound );
+    // attribute does not exist in the device
+    BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( "foo" ), ElementNotFound );
 
     wallaroo_within( catalog )
     {
-        // src does not exist in the catalog
-        BOOST_CHECK_THROW( use( "b" ).as( "x" ).of( "does_not_exist" ), ElementNotFound );
-        // dst does not exist in the catalog
-        BOOST_CHECK_THROW( use( "does_not_exist" ).as( "x" ).of( "c2" ), ElementNotFound );
-        // attribute does not exist in the src
-        BOOST_CHECK_THROW( use( "a" ).as( "does_not_exist" ).of( "c2" ), ElementNotFound );
+        // of does not exist in the catalog
+        BOOST_CHECK_THROW( set( "int_attr" ).of( "does_not_exist" ).to( "foo" ), ElementNotFound );
+        // attribute does not exist in the device
+        BOOST_CHECK_THROW( set( "does_not_exist" ).of( "a" ).to( "foo" ), ElementNotFound );
     }
 
     // no catalog selected:
-    BOOST_CHECK_THROW( use( "b" ).as( "x" ).of( "c1" ), CatalogNotSpecified );
-
+    BOOST_CHECK_THROW( set( "int_attr" ).of( "a" ).to( -123 ), CatalogNotSpecified );
 }
-*/
 
 BOOST_AUTO_TEST_CASE( stringAttributes )
 {

@@ -51,13 +51,13 @@ void Triangle::Draw( cxx0x::shared_ptr< Canvas > canvas ) const
 {
     // draw the base:
     const unsigned int halfBase = base / 2;
-    for ( size_t deltaX = 0; deltaX < base; ++deltaX )
+    for ( std::size_t deltaX = 0; deltaX < base; ++deltaX )
         canvas -> Point( xPos - halfBase + deltaX, yPos );
 
     // draw the sides
     if ( halfBase >= height )
     {
-        for ( size_t deltaX = 0; deltaX < halfBase; ++deltaX )
+        for ( std::size_t deltaX = 0; deltaX < halfBase; ++deltaX )
         {
             int x1 = xPos - halfBase + deltaX;
             int x2 = xPos + halfBase - deltaX;
@@ -68,7 +68,7 @@ void Triangle::Draw( cxx0x::shared_ptr< Canvas > canvas ) const
     }
     else
     {
-        for ( size_t deltaY = 0; deltaY < height; ++deltaY )
+        for ( std::size_t deltaY = 0; deltaY < height; ++deltaY )
         {
             int deltaX = static_cast< int >( floor( 0.5 + deltaY * (double)base / (double)height / 2.0 ) );
             int x1 = xPos - halfBase + deltaX;
