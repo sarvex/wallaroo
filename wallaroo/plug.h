@@ -187,6 +187,10 @@ public:
 
 private:
     WeakPtr device;
+
+    // copy ctor and assignment operator disabled
+    Plug( const Plug& );
+    Plug& operator = ( const Plug& );
 };
 
 
@@ -227,7 +231,6 @@ public:
             C::push_back( obj );
     }
 
-
     /** Check if this Plug is correctly wired (i.e. the size of the collection
     * must be comprise in the interval [MIN, MAX])
     * @return true If the check pass.
@@ -236,6 +239,11 @@ public:
     {
         return bounded_collection< MIN, MAX >::WiringOk( this );
     }
+
+private:
+    // copy ctor and assignment operator disabled
+    Plug( const Plug& );
+    Plug& operator = ( const Plug& );
 };
 
 }

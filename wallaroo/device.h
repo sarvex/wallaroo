@@ -34,11 +34,11 @@
 #define WALLAROO_DEVICE_H_
 
 #include <string>
-#include <sstream> // ### finché non trovo un modo migliore per la conversione...
+#include <sstream>
 #include "exceptions.h"
 #include "cxx0x.h"
 #include "connector.h"
-#include "typelessattribute.h"
+#include "deserializable_value.h"
 
 namespace wallaroo
 {
@@ -46,6 +46,14 @@ namespace wallaroo
 // forward declaration:
 class Plugin;
 
+/**
+ * This class is a token used to ensure that Plugs and Attributes 
+ * can only be created as data members of Device.
+ * The class carries also the device information.
+ * This class should not be used directly: you can create an instace
+ * by invoking the method Device::RegistrationToken() from a class
+ * derived by Device.
+ */
 class RegToken
 {
 public:
@@ -57,8 +65,13 @@ private:
 };
 
 /**
- * This class represents a "device" that owns connectors.
- * You can plug its connectors to other devices using the method Device::Wire.
+ * This class represents a "device" that owns connectors (dependencies) and
+ * attributes.
+ * You can plug its connectors to other devices using the method Device::Wire
+ * and assign a value to its attributes using the method SetAttribute, but
+ * wallaroo provides mechanisms more flexible for these tasks
+ * (i.e., the DSL constructs "use().as().of()" and "set().of().to()" and the
+ * configuration files).
  */
 class Device
 {
@@ -67,48 +80,44 @@ public:
     virtual ~Device() {}
 
     /** Plug the connector @c connector of this device into the Device @c device.
-     * @throw ElementNotFound if @c connector does not exist in this device.
+     *  @throw ElementNotFound if @c connector does not exist in this device.
+     *  @throw WrongType if @c device has not a type compatible with the connector.
      */
     void Wire( const std::string& connector, const cxx0x::shared_ptr< Device >& device )
     {
         Connectors::iterator i = connectors.find( connector );
-        if ( i == connectors.end() ) 
-            throw ElementNotFound( connector );
+        if ( i == connectors.end() ) throw ElementNotFound( connector );
         ( i -> second ) -> PlugInto( device );
     }
 
-    /** TODO commento doxygen ### */
+    /** Assign a value to an attribute of the device. 
+     *  @param attribute the name of the attribute.
+     *  @param value the value to assign.
+     *  @throw ElementNotFound if @attribute does not exist in this device.
+     *  @throw WrongType if @c value has not a type compatible with the attribute.
+     */
     template < typename T >
     void SetAttribute( const std::string& attribute, T value )
     {
-        Attributes::iterator i = attributes.find( attribute );
-        if ( i == attributes.end() )
-            throw ElementNotFound( attribute );
         std::ostringstream stream;
-        stream << value; // ### ci sono delle eccezioni?
-        ( i -> second  ) -> Set( stream.str() );
+        if ( !( stream << std::boolalpha << value ) ) throw WrongType();
+        SetStringAttribute( attribute, stream.str() );
     }
 
-    /** TODO commento doxygen ### */
-    // Optimization: with strings we don't need conversion
+    /** Assign a value to an attribute of type string of the device.
+    *  @param attribute the name of the attribute.
+    *  @param value the value to assign.
+    *  @throw ElementNotFound if @attribute does not exist in this device.
+    */
     template <>
     void SetAttribute( const std::string& attribute, const std::string& value )
     {
-        Attributes::iterator i = attributes.find( attribute );
-        ( i -> second ) -> Set( value );
-    }
-
-    /** TODO commento doxygen ### */
-    // With bool we need ad hoc conversion to have "true" and "false" instead of "1" and "0"
-    template <>
-    void SetAttribute( const std::string& attribute, bool value )
-    {
-        Attributes::iterator i = attributes.find( attribute );
-        ( i -> second ) -> Set( value ? "true" : "false" );
+        // Optimization: with strings we don't need conversion
+        SetStringAttribute( attribute, value );
     }
 
    /** Check the multiplicity of its plugs.
-    * @return true if the check pass
+    *  @return true if the check pass
     */
     bool MultiplicitiesOk() const
     {
@@ -121,6 +130,15 @@ public:
                 return false;
         return true;
     }
+
+    /** This method get called by Catalog::Init().
+     *  If you have work to be done for the initialization of your
+     *  class, you should implement this method in the derived class.
+     *  This is useful if you want to do your initialization after plugs
+     *  are been wired and attributes set. Keep in mind that in the constructor
+     *  the wiring has not be performed yet.
+     */
+    virtual void Init() {};
 
 protected:
     RegToken RegistrationToken()
@@ -153,10 +171,22 @@ private:
         attributes[ id ] = attribute;
     }
 
+    // set attribute to a value represented as string.
+    // throws ElementNotFound if the attribute doesn't exist.
+    // throws WrongType if @c value is not a valid representation for the type of the attribute
+    void SetStringAttribute( const std::string& attribute, const std::string& value )
+    {
+        Attributes::iterator i = attributes.find( attribute );
+        if ( i == attributes.end() ) throw ElementNotFound( attribute );
+        ( i -> second ) -> Value( value );
+    }
+
     typedef cxx0x::unordered_map< std::string, Connector* > Connectors;
     Connectors connectors;
-    typedef cxx0x::unordered_map< std::string, TypelessAttribute* > Attributes;
+
+    typedef cxx0x::unordered_map< std::string, DeserializableValue* > Attributes;
     Attributes attributes;
+
     cxx0x::shared_ptr< Plugin > plugin; // optional shared ptr to plugin, to release the shared library when is no more used
 };
 

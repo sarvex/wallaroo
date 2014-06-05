@@ -100,6 +100,16 @@ struct B7 : public Device
 
 WALLAROO_REGISTER( B7 )
 
+// class to test the Device::Init method
+struct C7 : public Device
+{
+    C7() : ready( false ) {}
+    virtual ~C7() {}
+    virtual void Init() { ready = true;  }
+    bool ready;
+};
+
+WALLAROO_REGISTER( C7 )
 
 // tests
 
@@ -149,13 +159,15 @@ BOOST_AUTO_TEST_CASE( attributesKo )
 
     // bad type
     BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "a" ] ).to( "foo" ), WrongType );
-    //BOOST_CHECK_THROW( set( "ul_attr" ).of( catalog[ "a" ] ).to( -100 ), WrongType ); // ###
+    // BOOST_CHECK_THROW( set( "ul_attr" ).of( catalog[ "a" ] ).to( -100 ), WrongType ); // ### TODO
     BOOST_CHECK_THROW( set( "bool_attr" ).of( catalog[ "a" ] ).to( 100 ), WrongType );
     
     // of does not exist in the catalog
     BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "does_not_exist" ] ).to( "foo" ), ElementNotFound );
     // attribute does not exist in the device
     BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( "foo" ), ElementNotFound );
+    BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( string( "foo" ) ), ElementNotFound );
+    BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( true ), ElementNotFound );
 
     wallaroo_within( catalog )
     {
@@ -232,6 +244,27 @@ BOOST_AUTO_TEST_CASE( XmlAttributes )
     Catalog catalog;
     BOOST_REQUIRE_NO_THROW( file.Fill( catalog ) );
     TestContent( catalog );
+}
+
+BOOST_AUTO_TEST_CASE( initMethod )
+{
+    Catalog catalog;
+
+    // create some objects
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c1", "C7" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c2", "C7" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "c3", "C7" ) );
+
+    // this should call Init for every object in the catalog
+    catalog.Init();
+
+    // check every object has been initialized
+    shared_ptr< C7 > c1 = catalog[ "c1" ];
+    shared_ptr< C7 > c2 = catalog[ "c2" ];
+    shared_ptr< C7 > c3 = catalog[ "c3" ];
+    BOOST_CHECK( c1 -> ready );
+    BOOST_CHECK( c2 -> ready );
+    BOOST_CHECK( c3 -> ready );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -93,8 +93,7 @@ public:
     {
         std::pair< Devices::iterator, bool > result = 
             devices.insert( std::make_pair( id, dev ) );
-        if ( ! result.second )
-            throw DuplicatedElement( id );
+        if ( ! result.second ) throw DuplicatedElement( id );
     }
 
     /** Instantiate a class having a 2 parameters constructor and add it to the catalog
@@ -163,8 +162,20 @@ public:
     void CheckWiring() const
     {
         const std::string wrongDevice = FindWrongMultiplicity();
-        if ( !wrongDevice.empty() )
-            throw WiringError( wrongDevice );
+        if ( !wrongDevice.empty() ) throw WiringError( wrongDevice );
+    }
+
+    /** This method calls Device::Init on every device it contains.
+     *  You can call it in the setup phase of your application to perform
+     *  the initialization required by each device before the run.
+     *  Ideally you should call it *after* wiring and attributes setting, so that
+     *  your objects already have dependencies and the right attribute values.
+     *  This method rethrows every exception thrown by the devices Init methodm called
+     */
+    void Init()
+    {
+        for ( Devices::const_iterator i = devices.begin(); i != devices.end(); ++i )
+            i -> second -> Init();
     }
 
 private:
@@ -177,10 +188,7 @@ private:
     // or the empty string if the test has success
     std::string FindWrongMultiplicity() const
     {
-        for(
-            Devices::const_iterator i = devices.begin();
-            i != devices.end();
-            ++i )
+        for( Devices::const_iterator i = devices.begin(); i != devices.end(); ++i )
         {
             if ( ! i -> second -> MultiplicitiesOk() )
                 return( i -> first );
@@ -276,8 +284,6 @@ inline UseExpression use( const std::string& destClass )
 }
 
 
-// ### begin
-
 // This is a helper class that provides the result of the set().of() function
 // useful to concatenate set().of() with to().
 class SetOfExpression
@@ -323,7 +329,6 @@ private:
 */
 inline SetExpression set( const std::string& attribute ) { return SetExpression( attribute ); }
 
-// ### end
 
 // Helper class that changes the current catalog on the ctor and
 // restores the previous on the dtor

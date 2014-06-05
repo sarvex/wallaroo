@@ -74,5 +74,11 @@
     <ClInclude Include="..\wallaroo\xmlconfiguration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\wallaroo\attribute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wallaroo\deserializable_value.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

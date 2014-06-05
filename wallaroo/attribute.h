@@ -34,13 +34,10 @@
 #define WALLAROO_ATTRIBUTE_H_
 
 #include <string>
-//#include <typeinfo>
-//#include <vector>
 #include <sstream>
 #include "cxx0x.h"
-//#include "connector.h"
 #include "device.h"
-#include "typelessattribute.h"
+#include "deserializable_value.h"
 #include "exceptions.h"
 
 
@@ -49,7 +46,7 @@ namespace wallaroo
 
 namespace detail
 {
-    // Template function to convert a string into a value of type T
+    // Template function that converts a string into a value of type T
     // It provides a couple of specialization to manage the case of
     // type boolean and string.
 
@@ -58,22 +55,12 @@ namespace detail
     template < typename T >
     inline void String2Value( const std::string& v, T& value )
     {
-        std::istringstream stream( v );
-        if ( !( stream >> value ) )
+        std::istringstream istream( v );
+        if ( !( istream >> std::boolalpha >> value ) )
         {
             // error: didn't convert to T
             throw WrongType();
         }
-    }
-
-    // T = boolean. We want v to assume the values "true" or "false"
-    // throw WrongType if v cannot be converted to bool
-    template <>
-    inline void String2Value< bool >( const std::string& v, bool& value )
-    {
-        if ( v == "true" ) value = true;
-        else if ( v == "false" ) value = false;
-        else throw WrongType(); // cannot convert to bool
     }
 
     // T is a string. No conversion needed
@@ -85,27 +72,23 @@ namespace detail
 }
 
 /**
- * This represents a "attribute" of a "device" that
- * @@@@@@@@@@@@ TODO
- * you can "plug" into another "device".
+ * This is an attribute of a device. An attribute has a type T and
+ * you can set its value at runtime by code or from a configuration file.
  *
- * If the device1 has the plug1 plugged to device2, device1 will
- * basically get a pointer to device2.
+ * You can put an Attribute inside your device and read its value and use
+ * it as if it were of type T.
  *
- * @tparam T The type of the Device contained
- * @tparam P This represents the kind of Plug (@ref mandatory if you must wire a device,
- *           @ref optional if you can leave this plug unwired, 
- *           @ref collection if you can wire many devices to this plug)
- * @tparam Container If P = @ref collection, this represents the std container the Plug will derive from.
+ * @tparam T The type of the value contained
  */
 template < typename T >
-class Attribute : public TypelessAttribute
+class Attribute : public DeserializableValue
 {
 public:
 
-    /** @@@ TODO
-    * Create a Plug and register it to its device for future wiring.
-    * @param name the name of this plug
+    /**
+    * Create a Attribute and register it to its device so that you can
+    * assign a value to it.
+    * @param name the name of this attribute
     * @param token the registration token got calling Device::RegistrationToken()
     */
     Attribute( const std::string& name, const RegToken& token )
@@ -113,100 +96,26 @@ public:
         Device* owner = token.GetDevice();
         owner -> Register( name, this );
     }
-#if 0
-    /** Plug this plug into a device
-    * @param dev The device you want insert this plug into
-    * @throw WrongType If @c dev is not a subclass of @c T
-    */
-    void PlugInto( const cxx0x::shared_ptr< Device >& dev )
-    {
-        cxx0x::shared_ptr< T > _dev = cxx0x::dynamic_pointer_cast< T >( dev );
-        if ( ! _dev ) // bad type!
-            throw WrongType();
-        else
-            device = _dev;
-    }
 
-    /** Give access to the embedded device.
-    * @throw DeletedDeviceError If the embedded device has been deleted.
-    */
-    SharedPtr operator -> ()
-    {
-        SharedPtr result = device.lock();
-        if ( ! result ) 
-            throw DeletedDeviceError();
-        return result;
-    }
-
-    /** Give access to the embedded device as const.
-    * @throw DeletedDeviceError If the embedded device has been deleted.
-    */
-    const SharedPtr operator -> () const
-    {
-        const SharedPtr result = device.lock();
-        if ( ! result )
-            throw DeletedDeviceError();
-        return result;
-    }
-
-    /** Convert to a shared ptr.
-    * @throw DeletedDeviceError If the embedded device has been deleted.
-    */
-    operator SharedPtr()
-    {
-        SharedPtr result = device.lock();
-        if ( ! result )
-            throw DeletedDeviceError();
-        return result;
-    }
-
-    /** Convert to a const shared ptr.
-    * @throw DeletedDeviceError If the embedded device has been deleted.
-    */
-    operator const SharedPtr() const
-    {
-        const SharedPtr result = device.lock();
-        if ( ! result )
-            throw DeletedDeviceError();
-        return result;
-    }
-#endif
-
-    /** ### TODO commento doxygen
-    * @throw WrongType if v cannot be converted to T
-    */
-    virtual void Set( const std::string& v )
+    /** Assign a value to the Attribute using a string as representation
+     * @param v the string representation of the value
+     * @throw WrongType if v cannot be converted to T
+     */
+    virtual void Value( const std::string& v )
     {
         detail::String2Value( v, value );
     }
 
-    /* ### TODO commento doxygen */
+    /** Retrieve the internal value.
+     */
     operator T () { return value; }
 
-    /** ### TODO commento doxygen
-    * Returns true if the plug has been wired and the embedded
-    * device has not been deleted.
-    * @return true If the embedded device exists.
-    */
-    operator bool() const
-    {
-        return !device.expired();
-    }
-
-#if 0
-   /** Check if this Plug is correctly wired according to the
-    * P template parameter policy.
-    * @return true If the check pass.
-    */
-    virtual bool WiringOk() const
-    {
-        return P::WiringOk( device );
-    }
-#endif
 private:
-    typedef cxx0x::weak_ptr< T > WeakPtr;
-    WeakPtr device;
-    T value;
+    T value; // here we store the real attribute value
+
+    // copy ctor and assignment operator disabled
+    Attribute( const Attribute& );
+    Attribute& operator = ( const Attribute& );
 
     // friend operators:
     template < typename T > friend bool operator == ( const Attribute< T >& lhs, const T& rhs );

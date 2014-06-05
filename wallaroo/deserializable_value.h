@@ -30,8 +30,8 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_TYPELESSATTRIBUTE_H_
-#define WALLAROO_TYPELESSATTRIBUTE_H_
+#ifndef WALLAROO_DESERIALIZABLEVALUE_H_
+#define WALLAROO_DESERIALIZABLEVALUE_H_
 
 #include "cxx0x.h"
 #include <string>
@@ -40,20 +40,19 @@ namespace wallaroo
 {
 
 /**
- * TODO ###
- * This represents the base class for every Plug template.
- * It can wire itself with a Device object and check if the wiring
- * satisfy its multiplicity constraints.
+ * This is the type of every class able to take a string representation
+ * and convert in its own internal type.
+ * It's used as base class for every Attribute template.
  */
-class TypelessAttribute // TODO ### cambiare nome? 
+class DeserializableValue
 {
 public:
-    virtual ~TypelessAttribute( ) {}
-    /** Set this attribute
-    * @param value A value not typed to be assigned
-    * @throw WrongType If ###
+    virtual ~DeserializableValue() {}
+    /** Set this attribute value from a string representation.
+    * @param value A string representation ov the value to be assigned.
+    * @throw WrongType If the string representation is not valid for this object.
     */
-    virtual void Set( const std::string& value ) = 0;
+    virtual void Value( const std::string& value ) = 0;
 };
 
 
