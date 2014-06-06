@@ -33,10 +33,10 @@
 #include <cmath>
 #include "circle.h"
 
-WALLAROO_REGISTER( Circle, unsigned int );
+WALLAROO_REGISTER( Circle );
 
-Circle::Circle( unsigned int _radius ) :
-    radius( _radius ),
+Circle::Circle() :
+    radius( "radius", RegistrationToken() ),
     xCenter( 0 ),
     yCenter( 0 )
 {

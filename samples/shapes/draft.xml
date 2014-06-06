@@ -41,62 +41,62 @@ Feel free to try and modify it :-)
     <device>
       <name>rec1</name>
       <class>Rectangle</class>
-      <parameter1>
-        <type>unsigned int</type>
+      <attribute>
+        <name>width</name>
         <value>10</value>
-      </parameter1>
-      <parameter2>
-        <type>unsigned int</type>
+      </attribute>
+      <attribute>
+        <name>height</name>
         <value>10</value>
-      </parameter2>
+      </attribute>
     </device>
 
     <device>
       <name>rec2</name>
       <class>Rectangle</class>
-      <parameter1>
-        <type>unsigned int</type>
+      <attribute>
+        <name>width</name>
         <value>5</value>
-      </parameter1>
-      <parameter2>
-        <type>unsigned int</type>
+      </attribute>
+      <attribute>
+        <name>height</name>
         <value>3</value>
-      </parameter2>
+      </attribute>
     </device>
     
     <device>
       <name>circle</name>
       <class>Circle</class>
-      <parameter1>
-        <type>unsigned int</type>
+      <attribute>
+        <name>radius</name>
         <value>10</value>
-      </parameter1>
+      </attribute>
     </device>
 
     <device>
       <name>triangle1</name>
       <class>Triangle</class>
-      <parameter1>
-        <type>unsigned int</type>
+      <attribute>
+        <name>base</name>
         <value>16</value>
-      </parameter1>
-      <parameter2>
-        <type>unsigned int</type>
+      </attribute>
+      <attribute>
+        <name>height</name>
         <value>10</value>
-      </parameter2>
+      </attribute>
     </device>
 
     <device>
       <name>triangle2</name>
       <class>Triangle</class>
-      <parameter1>
-        <type>unsigned int</type>
+      <attribute>
+        <name>base</name>
         <value>6</value>
-      </parameter1>
-      <parameter2>
-        <type>unsigned int</type>
+      </attribute>
+      <attribute>
+        <name>height</name>
         <value>10</value>
-      </parameter2>
+      </attribute>
     </device>
 
   </devices>

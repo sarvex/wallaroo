@@ -32,11 +32,11 @@
 
 #include "triangle.h"
 
-WALLAROO_REGISTER( Triangle, unsigned int, unsigned int );
+WALLAROO_REGISTER( Triangle );
 
-Triangle::Triangle( unsigned int _base, unsigned int _height ) :
-    base( _base ),
-    height( _height ),
+Triangle::Triangle() :
+    base( "base", RegistrationToken() ),
+    height( "height", RegistrationToken() ),
     xPos( 0 ),
     yPos( 0 )
 {
