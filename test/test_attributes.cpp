@@ -56,9 +56,9 @@ struct A7 : public Device
 
     Attribute< std::string > strAtt;
     Attribute< std::string > strAtt2; 
-    Attribute< int > intAtt;
-    Attribute< unsigned long > ulAtt;
-    Attribute< bool > boolAtt;
+    const Attribute< int > intAtt;
+    const Attribute< unsigned long > ulAtt;
+    const Attribute< bool > boolAtt;
 };
 
 WALLAROO_REGISTER( A7 )
@@ -122,16 +122,19 @@ BOOST_AUTO_TEST_CASE( attributesOk )
     BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A7" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
 
+    BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "mystring" ) ) );
+    BOOST_REQUIRE_NO_THROW( set( "str_attr_2" ).of( catalog[ "a" ] ).to( "mystring2" ) );
+
     wallaroo_within( catalog )
     {
-        BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( "a" ).to( std::string( "mystring" ) ) );
-        BOOST_REQUIRE_NO_THROW( set( "str_attr_2" ).of( "a" ).to( "mystring2" ) );
         BOOST_REQUIRE_NO_THROW( set( "int_attr" ).of( "a" ).to( -123 ) );
         BOOST_REQUIRE_NO_THROW( set( "ul_attr" ).of( "a" ).to( 123456 ) );
         BOOST_REQUIRE_NO_THROW( set( "bool_attr" ).of( "a" ).to( false ) );
     }
 
     shared_ptr< A7 > a = catalog[ "a" ];
+
+    // check values
 
     BOOST_CHECK( a -> strAtt == std::string( "mystring" ) );
     BOOST_CHECK( a -> strAtt2 == std::string( "mystring2" ) );
@@ -147,6 +150,11 @@ BOOST_AUTO_TEST_CASE( attributesOk )
     BOOST_CHECK( a -> intAtt == -123 );
     BOOST_CHECK( a -> ulAtt == 123456 );
     BOOST_CHECK( a -> boolAtt == false );
+
+    // check math operators
+    const int x = 123;
+    BOOST_CHECK( x + a->intAtt == 0 );
+    BOOST_CHECK( a->ulAtt - x == 123333 );
 }
 
 
@@ -265,6 +273,37 @@ BOOST_AUTO_TEST_CASE( initMethod )
     BOOST_CHECK( c1 -> ready );
     BOOST_CHECK( c2 -> ready );
     BOOST_CHECK( c3 -> ready );
+}
+
+BOOST_AUTO_TEST_CASE( attributeOperators )
+{
+    Catalog catalog;
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B7" ) );
+    BOOST_REQUIRE_NO_THROW( set( "ui_attr" ).of( catalog[ "b" ] ).to( 50 ) );
+
+    shared_ptr< B7 > b = catalog[ "b" ];
+    std::size_t x = 30;
+    // x < uiAtt
+    BOOST_CHECK( x < b -> uiAtt );
+    BOOST_CHECK( b -> uiAtt > x );
+    BOOST_CHECK( x <= b->uiAtt );
+    BOOST_CHECK( b->uiAtt >= x );
+    BOOST_CHECK( x != b->uiAtt );
+    BOOST_CHECK( b->uiAtt != x );
+
+    x = 60;
+    // x > uiAtt
+    BOOST_CHECK( x > b->uiAtt );
+    BOOST_CHECK( b->uiAtt < x );
+    BOOST_CHECK( x >= b->uiAtt );
+    BOOST_CHECK( b->uiAtt <= x );
+    BOOST_CHECK( x != b->uiAtt );
+    BOOST_CHECK( b->uiAtt != x );
+
+    x = 50;
+    // x == uiAtt
+    BOOST_CHECK( x == b->uiAtt );
+    BOOST_CHECK( b->uiAtt == x );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -106,9 +106,15 @@ public:
         detail::String2Value( v, value );
     }
 
-    /** Retrieve the internal value.
+    /** Conversion operator to the internal type @c T. Retrieve the internal value.
+     *  Non const version.
      */
     operator T () { return value; }
+
+    /** Conversion operator to the internal type @c T. Retrieve the internal value.
+     *  Const version.
+     */
+    operator T () const { return value; }
 
 private:
     T value; // here we store the real attribute value
@@ -126,18 +132,18 @@ private:
 // binary operators with lhs Attribute<T> and rhs T:
 
 template < typename T > bool operator == ( const Attribute< T >& lhs, const T& rhs ) { return lhs.value == rhs; }
-template < typename T > bool operator != ( const Attribute< T >& a, const T& t ) { return !( lhs == rhs ); }
+template < typename T > bool operator != ( const Attribute< T >& lhs, const T& rhs ) { return !( lhs == rhs ); }
 
 template < typename T > bool operator < ( const Attribute< T >& lhs, const T& rhs ){ return lhs.value < rhs; }
-template < typename T > bool operator > ( const Attribute< T >& lhs, const T& rhs ){ return lhs > rhs; }
-template < typename T > bool operator <= ( const Attribute< T >& lhs, const T& rhs ){ return !( lhs > rhs ); }
+template < typename T > bool operator > ( const Attribute< T >& lhs, const T& rhs ){ return !( lhs <= rhs ); }
+template < typename T > bool operator <= ( const Attribute< T >& lhs, const T& rhs ){ return ( lhs < rhs ) || ( lhs == rhs ); }
 template < typename T > bool operator >= ( const Attribute< T >& lhs, const T& rhs ){ return !( lhs < rhs ); }
 
 
 // binary operators with lhs T and rhs Attribute<T>:
 
 template < typename T > bool operator == ( const T& lhs, const Attribute< T >& rhs ) { return rhs == lhs; }
-template < typename T > bool operator != ( const T& a, const Attribute< T >& t ) { return rhs != lhs; }
+template < typename T > bool operator != ( const T& lhs, const Attribute< T >& rhs ) { return rhs != lhs; }
 
 template < typename T > bool operator < ( const T& lhs, const Attribute< T >& rhs ){ return rhs > lhs; }
 template < typename T > bool operator > ( const T& lhs, const Attribute< T >& rhs ){ return rhs < lhs; }
