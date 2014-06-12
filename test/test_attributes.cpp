@@ -48,7 +48,8 @@ struct A7 : public Device
     A7() :
         strAtt( "str_attr", RegistrationToken() ),
         strAtt2( "str_attr_2", RegistrationToken() ),
-        intAtt( "int_attr", RegistrationToken() ),
+        cintAtt( "c_int_attr", RegistrationToken() ),
+        intAtt( "int_attr", RegistrationToken( ) ),
         ulAtt( "ul_attr", RegistrationToken() ),
         boolAtt( "bool_attr", RegistrationToken() )
     {}
@@ -56,9 +57,10 @@ struct A7 : public Device
 
     Attribute< std::string > strAtt;
     Attribute< std::string > strAtt2; 
-    const Attribute< int > intAtt;
-    const Attribute< unsigned long > ulAtt;
-    const Attribute< bool > boolAtt;
+    const Attribute< int > cintAtt;
+    Attribute< int > intAtt;
+    Attribute< unsigned long > ulAtt;
+    Attribute< bool > boolAtt;
 };
 
 WALLAROO_REGISTER( A7 )
@@ -115,7 +117,7 @@ WALLAROO_REGISTER( C7 )
 
 BOOST_AUTO_TEST_SUITE( Attributes )
 
-BOOST_AUTO_TEST_CASE( attributesOk )
+BOOST_AUTO_TEST_CASE( values )
 {
     Catalog catalog;
 
@@ -150,10 +152,132 @@ BOOST_AUTO_TEST_CASE( attributesOk )
     BOOST_CHECK( a -> intAtt == -123 );
     BOOST_CHECK( a -> ulAtt == 123456 );
     BOOST_CHECK( a -> boolAtt == false );
+}
 
-    // check math operators
+BOOST_AUTO_TEST_CASE( attributeRelationalOperators )
+{
+    Catalog catalog;
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B7" ) );
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A7" ) );
+    BOOST_REQUIRE_NO_THROW( set( "ui_attr" ).of( catalog[ "b" ] ).to( 50 ) );
+    BOOST_REQUIRE_NO_THROW( set( "ul_attr" ).of( catalog[ "a" ] ).to( 30 ) );
+
+    shared_ptr< B7 > b = catalog[ "b" ];
+    shared_ptr< A7 > a = catalog[ "a" ];
+
+    // Attribute VS size_t
+
+    std::size_t x = 30;
+    // x < uiAtt
+    BOOST_CHECK( x < b->uiAtt );
+    BOOST_CHECK( b->uiAtt > x );
+    BOOST_CHECK( x <= b->uiAtt );
+    BOOST_CHECK( b->uiAtt >= x );
+    BOOST_CHECK( x != b->uiAtt );
+    BOOST_CHECK( b->uiAtt != x );
+
+    x = 60;
+    // x > uiAtt
+    BOOST_CHECK( x > b->uiAtt );
+    BOOST_CHECK( b->uiAtt < x );
+    BOOST_CHECK( x >= b->uiAtt );
+    BOOST_CHECK( b->uiAtt <= x );
+    BOOST_CHECK( x != b->uiAtt );
+    BOOST_CHECK( b->uiAtt != x );
+
+    x = 50;
+    // x == uiAtt
+    BOOST_CHECK( x == b->uiAtt );
+    BOOST_CHECK( b->uiAtt == x );
+
+    // Attribute VS Attribute
+
+    // a->a->ulAtt < b->uiAtt
+    BOOST_CHECK( a->ulAtt < b->uiAtt );
+    BOOST_CHECK( b->uiAtt > a->ulAtt );
+    BOOST_CHECK( a->ulAtt <= b->uiAtt );
+    BOOST_CHECK( b->uiAtt >= a->ulAtt );
+    BOOST_CHECK( a->ulAtt != b->uiAtt );
+    BOOST_CHECK( b->uiAtt != a->ulAtt );
+
+    // a->ulAtt > b->uiAtt
+    a->ulAtt = 60;
+    BOOST_CHECK( a->ulAtt > b->uiAtt );
+    BOOST_CHECK( b->uiAtt < a->ulAtt );
+    BOOST_CHECK( a->ulAtt >= b->uiAtt );
+    BOOST_CHECK( b->uiAtt <= a->ulAtt );
+    BOOST_CHECK( a->ulAtt != b->uiAtt );
+    BOOST_CHECK( b->uiAtt != a->ulAtt );
+
+    a->ulAtt = 50;
+    // a->ulAtt == uiAtt
+    BOOST_CHECK( a->ulAtt == b->uiAtt );
+    BOOST_CHECK( b->uiAtt == a->ulAtt );
+}
+
+BOOST_AUTO_TEST_CASE( attributeArithmeticOperators )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A7" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
+
+    BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "mystring" ) ) );
+    BOOST_REQUIRE_NO_THROW( set( "str_attr_2" ).of( catalog[ "a" ] ).to( "mystring2" ) );
+
+    wallaroo_within( catalog )
+    {
+        BOOST_REQUIRE_NO_THROW( set( "c_int_attr" ).of( "a" ).to( -123 ) );
+        BOOST_REQUIRE_NO_THROW( set( "ul_attr" ).of( "a" ).to( 123456 ) );
+        BOOST_REQUIRE_NO_THROW( set( "bool_attr" ).of( "a" ).to( false ) );
+    }
+
+    shared_ptr< A7 > a = catalog[ "a" ];
+
+    // check assignment
+    BOOST_CHECK_NO_THROW( a -> intAtt = 3 );
+    BOOST_CHECK( a -> intAtt == 3 );
+    BOOST_CHECK_NO_THROW( a -> strAtt = "foo" );
+    BOOST_CHECK( a -> strAtt == std::string( "foo" ) );
+    BOOST_CHECK_NO_THROW( a -> boolAtt = true );
+    BOOST_CHECK( a -> boolAtt );
+
+    // arithmetic operators
+    BOOST_CHECK( ++ a -> intAtt == 4 ); // prefix inc
+    BOOST_CHECK( a -> intAtt ++ == 4 ); // postfix inc
+    BOOST_CHECK( a -> intAtt == 5 );
+
+    BOOST_CHECK( -- a -> intAtt == 4 ); // prefix dec
+    BOOST_CHECK( a -> intAtt -- == 4 ); // postfix dec
+    BOOST_CHECK( a -> intAtt == 3 );
+
+    BOOST_CHECK( ( a->intAtt += 2 ) == 5 );
+    BOOST_CHECK( a->intAtt == 5 );
+    BOOST_CHECK( ( a->intAtt -= 2 ) == 3 );
+    BOOST_CHECK( a->intAtt == 3 );
+    BOOST_CHECK( ( a->intAtt /= 3 ) == 1 );
+    BOOST_CHECK( a->intAtt == 1 );
+    BOOST_CHECK( ( a->intAtt *= 3 ) == 3 );
+    BOOST_CHECK( a->intAtt == 3 );
+
+    BOOST_CHECK( a->intAtt + 1 == 4 );
+    BOOST_CHECK( a->intAtt - 1 == 2 );
+    BOOST_CHECK( a->intAtt * 2 == 6 );
+    BOOST_CHECK( a->intAtt / 3 == 1 );
+
+    BOOST_CHECK( 1 + a->intAtt == 4 );
+    BOOST_CHECK( 3 - a->intAtt == 0 );
+    BOOST_CHECK( 2 * a->intAtt == 6 );
+    BOOST_CHECK( 3 / a->intAtt == 1 );
+
+    BOOST_CHECK( a->intAtt + a->intAtt == 6 );
+    BOOST_CHECK( a->intAtt - a->intAtt == 0 );
+    BOOST_CHECK( a->intAtt * a->intAtt == 9 );
+    BOOST_CHECK( a->intAtt / a->intAtt == 1 );
+
+    // check some operators with const attribute
     const int x = 123;
-    BOOST_CHECK( x + a->intAtt == 0 );
+    BOOST_CHECK( x + a->cintAtt == 0 );
     BOOST_CHECK( a->ulAtt - x == 123333 );
 }
 
@@ -273,37 +397,6 @@ BOOST_AUTO_TEST_CASE( initMethod )
     BOOST_CHECK( c1 -> ready );
     BOOST_CHECK( c2 -> ready );
     BOOST_CHECK( c3 -> ready );
-}
-
-BOOST_AUTO_TEST_CASE( attributeOperators )
-{
-    Catalog catalog;
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B7" ) );
-    BOOST_REQUIRE_NO_THROW( set( "ui_attr" ).of( catalog[ "b" ] ).to( 50 ) );
-
-    shared_ptr< B7 > b = catalog[ "b" ];
-    std::size_t x = 30;
-    // x < uiAtt
-    BOOST_CHECK( x < b -> uiAtt );
-    BOOST_CHECK( b -> uiAtt > x );
-    BOOST_CHECK( x <= b->uiAtt );
-    BOOST_CHECK( b->uiAtt >= x );
-    BOOST_CHECK( x != b->uiAtt );
-    BOOST_CHECK( b->uiAtt != x );
-
-    x = 60;
-    // x > uiAtt
-    BOOST_CHECK( x > b->uiAtt );
-    BOOST_CHECK( b->uiAtt < x );
-    BOOST_CHECK( x >= b->uiAtt );
-    BOOST_CHECK( b->uiAtt <= x );
-    BOOST_CHECK( x != b->uiAtt );
-    BOOST_CHECK( b->uiAtt != x );
-
-    x = 50;
-    // x == uiAtt
-    BOOST_CHECK( x == b->uiAtt );
-    BOOST_CHECK( b->uiAtt == x );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -97,6 +97,12 @@ public:
         owner -> Register( name, this );
     }
 
+#if 1 // ### TODO
+    Attribute& operator = ( const Attribute& a ) { value = a.value;  return *this; }
+
+    Attribute& operator = ( const T& v ) { value = v;  return *this; }
+#endif
+
     /** Assign a value to the Attribute using a string as representation
      * @param v the string representation of the value
      * @throw WrongType if v cannot be converted to T
@@ -116,12 +122,22 @@ public:
      */
     operator T () const { return value; }
 
+    Attribute& operator++( ) { ++value; return *this; }
+    T operator++( int ) { T tmp( value ); operator++(); return tmp; }
+
+    Attribute& operator--() { --value; return *this; }
+    T operator--( int ) { T tmp( value ); operator--(); return tmp; }
+
+    Attribute& operator+=( const T& rhs ) { value += rhs; return *this; }
+    Attribute& operator-=( const T& rhs ) { value -= rhs; return *this; }
+    Attribute& operator*=( const T& rhs ) { value *= rhs; return *this; }
+    Attribute& operator/=( const T& rhs ) { value /= rhs; return *this; }
+
 private:
     T value; // here we store the real attribute value
 
-    // copy ctor and assignment operator disabled
+    // copy ctor disabled
     Attribute( const Attribute& );
-    Attribute& operator = ( const Attribute& );
 
     // friend operators:
     template < typename T > friend bool operator == ( const Attribute< T >& lhs, const T& rhs );
@@ -129,26 +145,26 @@ private:
 };
 
 
-// binary operators with lhs Attribute<T> and rhs T:
+// binary rel operators with lhs Attribute<T> and rhs T:
 
 template < typename T > bool operator == ( const Attribute< T >& lhs, const T& rhs ) { return lhs.value == rhs; }
-template < typename T > bool operator != ( const Attribute< T >& lhs, const T& rhs ) { return !( lhs == rhs ); }
+template < typename T > bool operator != ( const Attribute< T >& lhs, const T& rhs ) { return !operator==( lhs, rhs ); }
 
 template < typename T > bool operator < ( const Attribute< T >& lhs, const T& rhs ){ return lhs.value < rhs; }
-template < typename T > bool operator > ( const Attribute< T >& lhs, const T& rhs ){ return !( lhs <= rhs ); }
-template < typename T > bool operator <= ( const Attribute< T >& lhs, const T& rhs ){ return ( lhs < rhs ) || ( lhs == rhs ); }
-template < typename T > bool operator >= ( const Attribute< T >& lhs, const T& rhs ){ return !( lhs < rhs ); }
+template < typename T > bool operator > ( const Attribute< T >& lhs, const T& rhs ){ return !operator<=( lhs, rhs ); }
+template < typename T > bool operator <= ( const Attribute< T >& lhs, const T& rhs ){ return operator<( lhs, rhs ) || operator==( lhs, rhs ); }
+template < typename T > bool operator >= ( const Attribute< T >& lhs, const T& rhs ){ return !operator<( lhs, rhs ); }
 
 
-// binary operators with lhs T and rhs Attribute<T>:
+// binary rel operators with lhs T and rhs Attribute<T>:
 
-template < typename T > bool operator == ( const T& lhs, const Attribute< T >& rhs ) { return rhs == lhs; }
-template < typename T > bool operator != ( const T& lhs, const Attribute< T >& rhs ) { return rhs != lhs; }
+template < typename T > bool operator == ( const T& lhs, const Attribute< T >& rhs ) { return operator==( rhs, lhs ); }
+template < typename T > bool operator != ( const T& lhs, const Attribute< T >& rhs ) { return operator!=( rhs, lhs ); }
 
-template < typename T > bool operator < ( const T& lhs, const Attribute< T >& rhs ){ return rhs > lhs; }
-template < typename T > bool operator > ( const T& lhs, const Attribute< T >& rhs ){ return rhs < lhs; }
-template < typename T > bool operator <= ( const T& lhs, const Attribute< T >& rhs ){ return !( lhs > rhs ); }
-template < typename T > bool operator >= ( const T& lhs, const Attribute< T >& rhs ){ return !( lhs < rhs ); }
+template < typename T > bool operator < ( const T& lhs, const Attribute< T >& rhs ){ return operator>( rhs, lhs ); }
+template < typename T > bool operator > ( const T& lhs, const Attribute< T >& rhs ){ return operator<( rhs, lhs ); }
+template < typename T > bool operator <= ( const T& lhs, const Attribute< T >& rhs ){ return !operator>( lhs, rhs ); }
+template < typename T > bool operator >= ( const T& lhs, const Attribute< T >& rhs ){ return !operator<( lhs, rhs ); }
 
 }
 
