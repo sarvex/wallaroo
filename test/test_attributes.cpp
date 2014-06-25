@@ -298,7 +298,7 @@ BOOST_AUTO_TEST_CASE( attributesKo )
     BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "does_not_exist" ] ).to( "foo" ), ElementNotFound );
     // attribute does not exist in the device
     BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( "foo" ), ElementNotFound );
-    BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( string( "foo" ) ), ElementNotFound );
+    BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( std::string( "foo" ) ), ElementNotFound );
     BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( true ), ElementNotFound );
 
     wallaroo_within( catalog )
@@ -357,7 +357,7 @@ static void TestContent( Catalog& catalog )
     BOOST_CHECK( b1->uliAtt == 999999999 );
     BOOST_CHECK( b1->fAtt == -1.0 );
     BOOST_CHECK( b1->dAtt == 2.0 );
-    BOOST_CHECK( b1->ldAtt == 123456.69 );
+    BOOST_CHECK( b1->ldAtt == 4.5 );
     BOOST_CHECK( b1->strAtt == std::string( "foo bar" ) );
     BOOST_CHECK( b1 -> boolAtt == false );
 }

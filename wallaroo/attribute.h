@@ -137,8 +137,8 @@ private:
     Attribute( const Attribute& );
 
     // friend operators:
-    template < typename T > friend bool operator == ( const Attribute< T >& lhs, const T& rhs );
-    template < typename T > friend bool operator < ( const Attribute< T >& lhs, const T& rhs );
+    template < typename U > friend bool operator == ( const Attribute< U >& lhs, const U& rhs );
+    template < typename U > friend bool operator < ( const Attribute< U >& lhs, const U& rhs );
 };
 
 

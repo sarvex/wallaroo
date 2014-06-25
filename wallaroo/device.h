@@ -96,24 +96,13 @@ public:
      *  @throw ElementNotFound if @attribute does not exist in this device.
      *  @throw WrongType if @c value has not a type compatible with the attribute.
      */
+    // NOTE: we pass value as const reference to allow the effective specialization of string
     template < typename T >
-    void SetAttribute( const std::string& attribute, T value )
+    void SetAttribute( const std::string& attribute, const T& value )
     {
         std::ostringstream stream;
         if ( !( stream << std::boolalpha << value ) ) throw WrongType();
         SetStringAttribute( attribute, stream.str() );
-    }
-
-    /** Assign a value to an attribute of type string of the device.
-    *  @param attribute the name of the attribute.
-    *  @param value the value to assign.
-    *  @throw ElementNotFound if @attribute does not exist in this device.
-    */
-    template <>
-    void SetAttribute( const std::string& attribute, const std::string& value )
-    {
-        // Optimization: with strings we don't need conversion
-        SetStringAttribute( attribute, value );
     }
 
    /** Check the multiplicity of its plugs.
@@ -165,8 +154,7 @@ private:
     // this method should only be invoked by the attributes of this device
     // to register itself into the attributes table.
     template < class T > friend class Attribute;
-    template < class T >
-    void Register( const std::string& id, Attribute< T >* attribute )
+    void Register( const std::string& id, DeserializableValue* attribute )
     {
         attributes[ id ] = attribute;
     }
@@ -189,6 +177,19 @@ private:
 
     cxx0x::shared_ptr< Plugin > plugin; // optional shared ptr to plugin, to release the shared library when is no more used
 };
+
+
+/** Assign a value to an attribute of type string of the device.
+ *  @param attribute the name of the attribute.
+ *  @param value the value to assign.
+ *  @throw ElementNotFound if @attribute does not exist in this device.
+ */
+template <>
+inline void Device::SetAttribute( const std::string& attribute, const std::string& value )
+{
+    // Optimization: with strings we don't need conversion
+    SetStringAttribute( attribute, value );
+}
 
 } // namespace
 
