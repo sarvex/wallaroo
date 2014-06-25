@@ -60,6 +60,18 @@ namespace wallaroo
     <device>
       <name>instance2</name>
       <class>className2</class>
+      <attribute>
+        <name>attr1_name</name>
+        <value>attr1_value</value>
+      </attribute>
+      <attribute>
+        <name>attr2_name</name>
+        <value>attr2_value</value>
+      </attribute>
+    </device>
+    <device>
+      <name>instance3</name>
+      <class>className3</class>
       <parameter1>
         <type>string</type>
         <value>mystring</value>
@@ -69,6 +81,7 @@ namespace wallaroo
         <value>34</value>
       </parameter2>
     </device>
+  </devices>
   </devices>
   <wiring>
     <wire>

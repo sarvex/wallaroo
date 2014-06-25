@@ -97,12 +97,6 @@ public:
         owner -> Register( name, this );
     }
 
-#if 1 // ### TODO
-    Attribute& operator = ( const Attribute& a ) { value = a.value;  return *this; }
-
-    Attribute& operator = ( const T& v ) { value = v;  return *this; }
-#endif
-
     /** Assign a value to the Attribute using a string as representation
      * @param v the string representation of the value
      * @throw WrongType if v cannot be converted to T
@@ -121,6 +115,9 @@ public:
      *  Const version.
      */
     operator T () const { return value; }
+
+    Attribute& operator = ( const Attribute& a ) { value = a.value;  return *this; }
+    Attribute& operator = ( const T& v ) { value = v;  return *this; }
 
     Attribute& operator++( ) { ++value; return *this; }
     T operator++( int ) { T tmp( value ); operator++(); return tmp; }
