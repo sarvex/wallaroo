@@ -152,42 +152,36 @@ class PtreeBasedCfg
 {
 public:
     // Create a PtreeBasedCfg using the boost::ptree passed as parameter.
-    explicit PtreeBasedCfg( const ptree& _tree ) :
-        tree( _tree )
-    {
-    }
+    explicit PtreeBasedCfg( const ptree& _tree ) : tree( _tree ) {}
 
     // Load the plugins specified in the ptree.
     // throw WrongFile if the ptree contains a semantic error.
     void LoadPlugins()
+    try
     {
-        try
-        {
-            Foreach( "wallaroo.plugins", boost::bind( &PtreeBasedCfg::ParsePlugin, this, _1 ) );
-        }
-        catch ( const ptree_error& e )
-        {
-            throw WrongFile( e.what() );
-        }
+        Foreach( "wallaroo.plugins", boost::bind( &PtreeBasedCfg::ParsePlugin, this, _1 ) );
+    }
+    catch ( const ptree_error& e )
+    {
+        throw WrongFile( e.what() );
     }
 
     // Fill the catalog with the objects and relations specified in the ptree.
     // throw WrongFile if the ptree contains a semantic error.
     void Fill( Catalog& catalog )
+    try
     {
-        try
-        {
-            Foreach( "wallaroo.devices", boost::bind( &PtreeBasedCfg::ParseObject, this, boost::ref( catalog ), _1 ) );
-            Foreach( "wallaroo.wiring", boost::bind( &PtreeBasedCfg::ParseRelation, this, boost::ref( catalog ), _1 ) );
-        }
-        catch ( const ptree_error& e )
-        {
-            throw WrongFile( e.what() );
-        }
+        Foreach( "wallaroo.devices", boost::bind( &PtreeBasedCfg::ParseObject, this, boost::ref( catalog ), _1 ) );
+        Foreach( "wallaroo.wiring", boost::bind( &PtreeBasedCfg::ParseRelation, this, boost::ref( catalog ), _1 ) );
+    }
+    catch ( const ptree_error& e )
+    {
+        throw WrongFile( e.what() );
     }
 
 private:
 
+    // Iterate over attributes "key" and apply the action "f" to each one
     template < typename F >
     void Foreach( const std::string& key, F f )
     {
@@ -304,6 +298,17 @@ private:
         else
         {
             catalog.Create( name, cl );
+        }
+
+        // parse attributes
+        BOOST_FOREACH( const ptree::value_type &node, v )
+        {
+            if ( node.first == "attribute" )
+            {
+                const std::string att_name = node.second.get< std::string >( "name" );
+                const std::string att_value = node.second.get< std::string >( "value" );
+                set( att_name ).of( catalog[name ] ).to( att_value );
+            }
         }
     }
 

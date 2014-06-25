@@ -32,11 +32,11 @@
 
 #include "rectangle.h"
 
-WALLAROO_REGISTER( Rectangle, unsigned int, unsigned int );
+WALLAROO_REGISTER( Rectangle );
 
-Rectangle::Rectangle( unsigned int _width, unsigned int _height ) :
-    width( _width ),
-    height( _height ),
+Rectangle::Rectangle() :
+    width( "width", RegistrationToken() ),
+    height( "height", RegistrationToken() ),
     xPos( 0 ),
     yPos( 0 )
 {

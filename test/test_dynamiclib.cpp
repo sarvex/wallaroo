@@ -46,7 +46,6 @@ BOOST_AUTO_TEST_CASE( DynamicLoadingFailure )
     BOOST_CHECK_THROW( { Plugin::Load( "unexistent.dll" ); }, WrongFile );
 }
 
-
 BOOST_AUTO_TEST_CASE( DynamicLoading )
 {
     try
@@ -65,6 +64,29 @@ BOOST_AUTO_TEST_CASE( DynamicLoading )
 
         obj = catalog[ "b" ];
         BOOST_CHECK( obj -> F() == 4 );
+    }
+    catch ( ... )
+    {
+        BOOST_ERROR( "exception thrown during shared library loading" );
+    }
+}
+
+BOOST_AUTO_TEST_CASE( DynamicLoadingAttributes )
+{
+    try
+    {
+        Plugin::Load( "plugin" + Plugin::Suffix( ) );
+        Catalog catalog;
+
+        BOOST_REQUIRE_NO_THROW( catalog.Create( "c", "C6" ) );
+        BOOST_REQUIRE_NO_THROW( catalog[ "c" ] );
+
+        BOOST_REQUIRE_NO_THROW( set( "att1" ).of( catalog[ "c" ] ).to( 100 ) );
+        BOOST_REQUIRE_NO_THROW( set( "att2" ).of( catalog[ "c" ] ).to( -58 ) );
+
+        cxx0x::shared_ptr< I6 > obj = catalog[ "c" ];
+
+        BOOST_CHECK( obj -> F() == 42 );
     }
     catch ( ... )
     {

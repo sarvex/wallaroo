@@ -30,26 +30,33 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef RECTANGLE_H_
-#define RECTANGLE_H_
+#ifndef WALLAROO_DESERIALIZABLEVALUE_H_
+#define WALLAROO_DESERIALIZABLEVALUE_H_
 
-#include "shape.h"
+#include "cxx0x.h"
+#include <string>
 
-using wallaroo::Attribute;
+namespace wallaroo
+{
 
-class Rectangle : public Shape
+/**
+ * This is the type of every class able to take a string representation
+ * and convert in its own internal type.
+ * It's used as base class for every Attribute template.
+ */
+class DeserializableValue
 {
 public:
-    Rectangle();
-    virtual Box BoundingBox() const;
-    virtual void Draw( cxx0x::shared_ptr< Canvas > canvas ) const;
-    virtual void MoveX( int delta );
-    virtual void MoveY( int delta );
-private:
-    const Attribute< unsigned int > width;
-    const Attribute< unsigned int > height;
-    int xPos;
-    int yPos;
+    virtual ~DeserializableValue() {}
+    /** Set this attribute value from a string representation.
+    * @param value A string representation ov the value to be assigned.
+    * @throw WrongType If the string representation is not valid for this object.
+    */
+    virtual void Value( const std::string& value ) = 0;
 };
+
+
+
+} // namespace
 
 #endif

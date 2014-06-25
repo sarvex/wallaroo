@@ -37,14 +37,16 @@
 #include <sstream>
 #include "canvas.h"
 
+using wallaroo::Attribute;
+
 class CsvFileCanvas : public Canvas
 {
 public:
-    CsvFileCanvas( const std::string& fileName );
+    CsvFileCanvas();
     virtual void Point( unsigned int x, unsigned int y );
     virtual void Show();
 private:
-    const std::string fileName;
+    const Attribute< std::string > fileName;
     std::ostringstream content;
 };
 

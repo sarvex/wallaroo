@@ -13,9 +13,9 @@
       {
         "name": "canvas",
         "class": "CsvFileCanvas",
-        "parameter1":
+        "attribute":
           {
-            "type": "string",
+            "name": "file_name",
             "value": "result.csv"
           }
       }

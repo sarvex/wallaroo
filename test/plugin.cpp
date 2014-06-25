@@ -51,6 +51,17 @@ public:
     ~B6() {}
 };
 
+class C6 : public I6
+{
+public:
+    virtual int F() { return att1 + att2; }
+    C6() : att1( "att1", RegistrationToken() ), att2( "att2", RegistrationToken() ) {}
+    ~C6() {}
+private:
+    wallaroo::Attribute< int > att1;
+    wallaroo::Attribute< unsigned int > att2;
+};
 
 WALLAROO_DYNLIB_REGISTER( A6 );
 WALLAROO_DYNLIB_REGISTER( B6 );
+WALLAROO_DYNLIB_REGISTER( C6 );

@@ -35,16 +35,18 @@
 
 #include "shape.h"
 
+using wallaroo::Attribute;
+
 class Circle : public Shape
 {
 public:
-    Circle( unsigned int radius );
+    Circle();
     virtual Box BoundingBox() const;
     virtual void Draw( cxx0x::shared_ptr< Canvas > canvas ) const;
     virtual void MoveX( int delta );
     virtual void MoveY( int delta );
 private:
-    const unsigned int radius;
+    const Attribute< unsigned int > radius;
     int xCenter;
     int yCenter;
 };

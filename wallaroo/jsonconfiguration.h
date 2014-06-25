@@ -68,6 +68,21 @@ namespace wallaroo
       {
         "name": "instance2",
         "class": "className2",
+        "attribute":
+          {
+            "name": "attr1_name",
+            "value": "attr1_string_value"
+          },
+        "attribute":
+          {
+            "name": "attr2_name",
+            "value": attr2_value
+          }
+      },
+      
+      {
+        "name": "instance3",
+        "class": "className3",
         "parameter1":
           {
             "type": "string",

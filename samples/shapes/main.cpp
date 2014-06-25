@@ -61,7 +61,6 @@ int main( int argc, char* argv[] )
 
         draft -> Align();
         draft -> Draw();
-
     }
     catch ( const WallarooError& e )
     {
