@@ -51,7 +51,7 @@ void CsvFileCanvas::Point( unsigned int x, unsigned int y )
 void CsvFileCanvas::Show()
 {
     cout << content.str() << endl;
-    ofstream of( fileName );
+    ofstream of( fileName.c_str() );
     of << content.str();
 }
 

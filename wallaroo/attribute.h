@@ -47,8 +47,7 @@ namespace wallaroo
 namespace detail
 {
     // Template function that converts a string into a value of type T
-    // It provides a couple of specialization to manage the case of
-    // type boolean and string.
+    // It provides a specialization to manage the case of type string
 
     // Generic conversion: try to convert v to type T and put the result in value
     // throw WrongType if v cannot be converted to T
@@ -116,6 +115,12 @@ public:
      */
     operator T () const { return value; }
 
+    /** Conversion to C style string.
+     *  It is available only when @c T is a @c std::string.
+     *  @return the internal representation of the string as a C style const string
+     */
+    const char* c_str() const { return value.c_str(); }
+
     Attribute& operator = ( const Attribute& a ) { value = a.value;  return *this; }
     Attribute& operator = ( const T& v ) { value = v;  return *this; }
 
@@ -135,19 +140,15 @@ private:
 
     // copy ctor disabled
     Attribute( const Attribute& );
-
-    // friend operators:
-    template < typename U > friend bool operator == ( const Attribute< U >& lhs, const U& rhs );
-    template < typename U > friend bool operator < ( const Attribute< U >& lhs, const U& rhs );
 };
 
 
 // binary rel operators with lhs Attribute<T> and rhs T:
 
-template < typename T > bool operator == ( const Attribute< T >& lhs, const T& rhs ) { return lhs.value == rhs; }
+template < typename T > bool operator == ( const Attribute< T >& lhs, const T& rhs ) { return static_cast< T >( lhs ) == rhs; }
 template < typename T > bool operator != ( const Attribute< T >& lhs, const T& rhs ) { return !operator==( lhs, rhs ); }
 
-template < typename T > bool operator < ( const Attribute< T >& lhs, const T& rhs ){ return lhs.value < rhs; }
+template < typename T > bool operator < ( const Attribute< T >& lhs, const T& rhs ){ return static_cast< T >( lhs ) < rhs; }
 template < typename T > bool operator > ( const Attribute< T >& lhs, const T& rhs ){ return !operator<=( lhs, rhs ); }
 template < typename T > bool operator <= ( const Attribute< T >& lhs, const T& rhs ){ return operator<( lhs, rhs ) || operator==( lhs, rhs ); }
 template < typename T > bool operator >= ( const Attribute< T >& lhs, const T& rhs ){ return !operator<( lhs, rhs ); }
@@ -162,6 +163,11 @@ template < typename T > bool operator < ( const T& lhs, const Attribute< T >& rh
 template < typename T > bool operator > ( const T& lhs, const Attribute< T >& rhs ){ return operator<( rhs, lhs ); }
 template < typename T > bool operator <= ( const T& lhs, const Attribute< T >& rhs ){ return !operator>( lhs, rhs ); }
 template < typename T > bool operator >= ( const T& lhs, const Attribute< T >& rhs ){ return !operator<( lhs, rhs ); }
+
+// concat operators
+template < typename T > T operator + ( const Attribute< T >& lhs, const Attribute< T >& rhs ) { return static_cast< T >( lhs ) + static_cast< T >( rhs ); }
+template < typename T > T operator + ( const Attribute< T >& lhs, const T& rhs ) { return static_cast< T >( lhs ) + rhs; }
+template < typename T > T operator + ( const T& lhs, const Attribute< T >& rhs ) { return lhs + static_cast< T >( rhs ); }
 
 }
 

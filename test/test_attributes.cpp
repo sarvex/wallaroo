@@ -56,7 +56,7 @@ struct A7 : public Device
     virtual ~A7() {}
 
     Attribute< std::string > strAtt;
-    Attribute< std::string > strAtt2; 
+    Attribute< std::string > strAtt2;
     const Attribute< int > cintAtt;
     Attribute< int > intAtt;
     Attribute< unsigned long > ulAtt;
@@ -281,6 +281,34 @@ BOOST_AUTO_TEST_CASE( attributeArithmeticOperators )
     BOOST_CHECK( a->ulAtt - x == 123333 );
 }
 
+BOOST_AUTO_TEST_CASE( attributeStringOperators )
+{
+    Catalog catalog;
+
+    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A7" ) );
+    BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
+
+    BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "foo" ) ) );
+    BOOST_REQUIRE_NO_THROW( set( "str_attr_2" ).of( catalog[ "a" ] ).to( "bar" ) );
+
+    shared_ptr< A7 > a = catalog[ "a" ];
+
+    // check values
+    BOOST_CHECK( a -> strAtt == std::string( "foo" ) );
+    BOOST_CHECK( a -> strAtt2 == std::string( "bar" ) );
+
+    // operators
+    BOOST_CHECK( ( a -> strAtt += std::string( "42" ) ) == std::string( "foo42" ) );
+    BOOST_CHECK( a -> strAtt == std::string( "foo42" ) );
+
+    BOOST_CHECK( ( a -> strAtt2 + std::string( "42" ) ) == std::string( "bar42" ) );
+    BOOST_CHECK( a -> strAtt2 == std::string( "bar" ) );
+
+    BOOST_CHECK( std::string( "42" ) + a -> strAtt2 == std::string( "42bar" ) );
+    BOOST_CHECK( a -> strAtt2 == std::string( "bar" ) );
+
+    BOOST_CHECK( a -> strAtt + a -> strAtt2 == std::string( "foo42bar" ) );
+}
 
 BOOST_AUTO_TEST_CASE( attributesKo )
 {
@@ -293,7 +321,7 @@ BOOST_AUTO_TEST_CASE( attributesKo )
     BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "a" ] ).to( "foo" ), WrongType );
     // BOOST_CHECK_THROW( set( "ul_attr" ).of( catalog[ "a" ] ).to( -100 ), WrongType ); // ### TODO
     BOOST_CHECK_THROW( set( "bool_attr" ).of( catalog[ "a" ] ).to( 100 ), WrongType );
-    
+
     // of does not exist in the catalog
     BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "does_not_exist" ] ).to( "foo" ), ElementNotFound );
     // attribute does not exist in the device
