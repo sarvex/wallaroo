@@ -30,27 +30,24 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
-CC = g++
-CFLAGS = -Wall -I../.. $(UCFLAGS)
-LFLAGS = $(ULFLAGS) -ldl
-DEPS = consoleplayer.h bet.h currency.h wheel.h game.h player.h
-OBJ = main.o consoleplayer.o wheel.o game.o
+override CXXFLAGS += -Wall -I../..
+override LDFLAGS += -ldl
 
-EXE = roulette
-PLUGINS = oddevenbet.so redblackbet.so straightbet.so
+OBJ := main.o consoleplayer.o wheel.o game.o
+EXE := roulette
+PLUGINS := oddevenbet.so redblackbet.so straightbet.so
+
+.PHONY: clean all
 
 all: $(EXE) $(PLUGINS)
 
-%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
 # NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(EXE): $(OBJ)
-	$(CC) -Wl,-E -o $@ $^ $(CFLAGS) $(LFLAGS)
+	$(LINK.cc) -Wl,-E -o $@ $^
 
 # NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 %.so: %.cpp %consolefactory.cpp %.h %consolefactory.h
-	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS) $(CFLAGS)
+	$(LINK.cc) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS) $(CFLAGS)
 
 clean:
-	rm -f *.o *~ core $(EXE) *.so
+	@- $(RM) *.o *~ core $(EXE) *.so

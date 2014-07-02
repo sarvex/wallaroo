@@ -30,18 +30,29 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
-CC = g++
-CFLAGS = -Wall -I../.. $(UCFLAGS)
-DEPS = alarm.h digitaloutput.h mineplant.h sumppump.h twolevelsumpprobe.h analoginput.h gasalarm.h pumpengine.h tablebasedanaloginput.h console.h gassensor.h quantitytable.h tablebaseddigitalinput.h continuoussumpprobe.h levelprobe.h safeengine.h tablebaseddigitaloutput.h digitalinput.h levelsensor.h sumpprobe.h thresholdgassensor.h
-OBJ = alarm.o gasalarm.o mineplant.o sumppump.o tablebaseddigitaloutput.o console.o levelsensor.o pumpengine.o tablebasedanaloginput.o thresholdgassensor.o continuoussumpprobe.o main.o safeengine.o tablebaseddigitalinput.o twolevelsumpprobe.o
+override CXXFLAGS += -Wall -I../..
+OBJ := alarm.o \
+       gasalarm.o \
+       mineplant.o \
+       sumppump.o \
+       tablebaseddigitaloutput.o \
+       console.o \
+       levelsensor.o \
+       pumpengine.o \
+       tablebasedanaloginput.o \
+       thresholdgassensor.o \
+       continuoussumpprobe.o \
+       main.o \
+       safeengine.o \
+       tablebaseddigitalinput.o \
+       twolevelsumpprobe.o
 
-EXE = mineplant
+EXE := mineplant
 
-%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+.PHONY: clean
 
 $(EXE): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(LINK.cc) $(OBJ) -o $(EXE)
 
 clean:
-	rm -f *.o *~ core $(EXE)
+	@- $(RM) *.o *~ core $(EXE)

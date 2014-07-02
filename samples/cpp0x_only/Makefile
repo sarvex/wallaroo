@@ -30,17 +30,15 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
-CC = g++
-CFLAGS = -Wall -I../.. -std=c++0x $(UCFLAGS)
-DEPS = interface.h base.h derived.h client.h
-OBJ = base.o derived.o client.o main.o
-EXE = cpp0x_only
+override CXXFLAGS += -Wall -I../.. -std=c++0x
+OBJ := base.o derived.o client.o main.o
+EXE := cpp0x_only
 
-%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+.PHONY: clean
 
 $(EXE): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(LINK.cc) $(OBJ) -o $(EXE)
 
 clean:
-	rm -f *.o *~ core $(EXE)
+	@- $(RM) *.o *~ core $(EXE)
+

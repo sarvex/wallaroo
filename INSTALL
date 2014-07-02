@@ -20,8 +20,8 @@ XmlConfiguration and JsonConfiguration features.
 Installation
 ============
 
-Wallaroo library is header-only: it consists entirely of header files 
-containing templates and inline functions, and require no separately-compiled 
+Wallaroo library is header-only: it consists entirely of header files
+containing templates and inline functions, and require no separately-compiled
 library binaries or special treatment when linking.
 
 Extract the archive wherever you want.
@@ -53,7 +53,7 @@ include the Boost Libraries path.
 Usage
 =====
 
-To build your own project, the compiler needs to know the include path of 
+To build your own project, the compiler needs to know the include path of
 the wallaroo and boost (optional) libraries.
 
 So, if you use gcc, you can use the following syntax:
@@ -65,18 +65,18 @@ If you use Visual Studio:
     cl /EHsc /I<wallaroo_path> /I<boost_path> /Fe<app_exe> *.cpp
 (you need the boost path only if you use visual studio 2008 or if you use
 one of XmlConfiguration or JsonConfiguration classes).
-    
-To compile anything in Wallaroo, you need a directory containing the wallaroo\ 
+
+To compile anything in Wallaroo, you need a directory containing the wallaroo\
 subdirectory in your #include path.
 
-Since all of Wallaroo's header files have the .h extension, and live in the 
-wallaroo\ subdirectory of the wallaroo root, your Wallaroo #include directives 
+Since all of Wallaroo's header files have the .h extension, and live in the
+wallaroo\ subdirectory of the wallaroo root, your Wallaroo #include directives
 will look like:
   #include <wallaroo/whatever.h>
 or
   #include "wallaroo/whatever.h"
-depending on your preference regarding the use of angle bracket includes. 
-Even Windows users can (and, for portability reasons, probably should) use 
+depending on your preference regarding the use of angle bracket includes.
+Even Windows users can (and, for portability reasons, probably should) use
 forward slashes in #include directives; your compiler doesn't care.
 
 
@@ -92,9 +92,9 @@ All methods require you to specify the boost library path. You can do it in
 the following ways:
 
 * GNU Make
-        make UCFLAGS=-I<boost_path>
+        make CXXFLAGS=-I<boost_path>
     example:
-        make UCFLAGS=-I/opt/boost_1_50_0/
+        make CXXFLAGS=-I/opt/boost_1_50_0/
 
 * Windows nmake
     Where needed, you must set the environment variable BOOST.

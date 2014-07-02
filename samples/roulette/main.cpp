@@ -46,10 +46,10 @@ int main( int argc, char* argv[] )
 {
     try
     {
-        // load classes in shared libraries:
-        Plugin::Load( "straightbet" + Plugin::Suffix() );
-        Plugin::Load( "oddevenbet" + Plugin::Suffix() );
-        Plugin::Load( "redblackbet" + Plugin::Suffix() );
+        // load classes in shared libraries (in the current dir):
+        Plugin::Load( "./straightbet" + Plugin::Suffix() );
+        Plugin::Load( "./oddevenbet" + Plugin::Suffix() );
+        Plugin::Load( "./redblackbet" + Plugin::Suffix() );
 
         // separate catalogs for application logic and bets
         Catalog logicCatalog;
