@@ -88,8 +88,8 @@ You can find some examples in the directory samples. Each example comes with:
 * Windows makefile (nmake)
 * Visual Studio 2013 Solution File
 
-All methods require you to specify the boost library path. You can do it in
-the following ways:
+Where needed (i.e., C++98 compiler or samples using XmlConfiguration/JsonConfiguration
+features) you can specify the boost library path in the following ways:
 
 * GNU Make
         make CXXFLAGS=-I<boost_path>
@@ -97,12 +97,12 @@ the following ways:
         make CXXFLAGS=-I/opt/boost_1_50_0/
 
 * Windows nmake
-    Where needed, you must set the environment variable BOOST.
+    Set the environment variable BOOST.
     Then, from a visual studio console, use the command:
         nmake /f makefile.win32
 
 * Visual Studio 2013 Solution File
-    You must set the environment variable BOOST.
+    Set the environment variable BOOST.
 
 Compilation of the Doxygen documentation
 ========================================

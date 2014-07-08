@@ -34,6 +34,9 @@
 EXE_NAME = mineplant.exe
 DIR_INCLUDE = /I..\.. /I%BOOST%
 COMPILE_FLAGS = /nologo /MD /EHsc
+LINK_FLAGS = /NOLOGO
+CPPFLAGS = $(COMPILE_FLAGS) $(DIR_INCLUDE)
+RM = del /F /Q 2> nul
 
 EXE_OBJ_FILES= \
     alarm.obj \
@@ -52,9 +55,7 @@ EXE_OBJ_FILES= \
     tablebaseddigitalinput.obj \
     twolevelsumpprobe.obj
 
-.cpp.obj ::
-    @echo Compiling...
-    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
+.PHONY: all app clean
  
 # clean and build application
 all: clean app
@@ -64,12 +65,11 @@ $(EXE_NAME) : $(EXE_OBJ_FILES)
     link $(LINK_FLAGS) /out:$(EXE_NAME) $(EXE_OBJ_FILES)
 
 # application
-
 app: $(EXE_NAME)
     
 # delete output files
 clean:
-    del *.obj
-    del $(EXE_NAME)
+    @-$(RM) *.obj
+    @-$(RM) $(EXE_NAME)
 
 

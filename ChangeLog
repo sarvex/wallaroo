@@ -1,6 +1,7 @@
 <date>: <Version>
 
-	* Bug fix: UNICODE on win32 (close issue #5)
+        * Attributes feature
+        * Bug fix: UNICODE on win32 (close issue #5)
 
 2014-03-11: Version 0.5.1
 
