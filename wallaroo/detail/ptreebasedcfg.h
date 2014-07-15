@@ -157,26 +157,30 @@ public:
     // Load the plugins specified in the ptree.
     // throw WrongFile if the ptree contains a semantic error.
     void LoadPlugins()
-    try
     {
-        Foreach( "wallaroo.plugins", boost::bind( &PtreeBasedCfg::ParsePlugin, this, _1 ) );
-    }
-    catch ( const ptree_error& e )
-    {
-        throw WrongFile( e.what() );
+        try
+        {
+            Foreach( "wallaroo.plugins", boost::bind( &PtreeBasedCfg::ParsePlugin, this, _1 ) );
+        }
+        catch ( const ptree_error& e )
+        {
+            throw WrongFile( e.what() );
+        }
     }
 
     // Fill the catalog with the objects and relations specified in the ptree.
     // throw WrongFile if the ptree contains a semantic error.
     void Fill( Catalog& catalog )
-    try
     {
-        Foreach( "wallaroo.devices", boost::bind( &PtreeBasedCfg::ParseObject, this, boost::ref( catalog ), _1 ) );
-        Foreach( "wallaroo.wiring", boost::bind( &PtreeBasedCfg::ParseRelation, this, boost::ref( catalog ), _1 ) );
-    }
-    catch ( const ptree_error& e )
-    {
-        throw WrongFile( e.what() );
+        try
+        {
+            Foreach( "wallaroo.devices", boost::bind( &PtreeBasedCfg::ParseObject, this, boost::ref( catalog ), _1 ) );
+            Foreach( "wallaroo.wiring", boost::bind( &PtreeBasedCfg::ParseRelation, this, boost::ref( catalog ), _1 ) );
+        }
+        catch ( const ptree_error& e )
+        {
+            throw WrongFile( e.what() );
+        }
     }
 
 private:
