@@ -35,6 +35,7 @@
 
 #include <string>
 #include <sstream>
+#include <iostream>
 #include "cxx0x.h"
 #include "device.h"
 #include "deserializable_value.h"
@@ -168,6 +169,14 @@ template < typename T > bool operator >= ( const T& lhs, const Attribute< T >& r
 template < typename T > T operator + ( const Attribute< T >& lhs, const Attribute< T >& rhs ) { return static_cast< T >( lhs ) + static_cast< T >( rhs ); }
 template < typename T > T operator + ( const Attribute< T >& lhs, const T& rhs ) { return static_cast< T >( lhs ) + rhs; }
 template < typename T > T operator + ( const T& lhs, const Attribute< T >& rhs ) { return lhs + static_cast< T >( rhs ); }
+
+// stream output operator
+template < typename T >
+std::ostream& operator << ( std::ostream& os, const Attribute< T >& att )
+{ 
+    os << static_cast< T >( att );
+    return os;
+}
 
 }
 
