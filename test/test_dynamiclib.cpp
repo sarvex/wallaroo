@@ -81,12 +81,12 @@ BOOST_AUTO_TEST_CASE( DynamicLoadingAttributes )
         BOOST_REQUIRE_NO_THROW( catalog.Create( "c", "C6" ) );
         BOOST_REQUIRE_NO_THROW( catalog[ "c" ] );
 
-        BOOST_REQUIRE_NO_THROW( set( "att1" ).of( catalog[ "c" ] ).to( 100 ) );
-        BOOST_REQUIRE_NO_THROW( set( "att2" ).of( catalog[ "c" ] ).to( -58 ) );
+        BOOST_REQUIRE_NO_THROW( set( "att1" ).of( catalog[ "c" ] ).to( -100 ) );
+        BOOST_REQUIRE_NO_THROW( set( "att2" ).of( catalog[ "c" ] ).to( 58 ) );
 
         cxx0x::shared_ptr< I6 > obj = catalog[ "c" ];
 
-        BOOST_CHECK( obj -> F() == 42 );
+        BOOST_CHECK( obj -> F() == -42 );
     }
     catch ( ... )
     {
