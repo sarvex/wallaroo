@@ -59,12 +59,15 @@ PLUGIN2 := plugin2.so
 
 all: $(EXE) $(PLUGIN) $(PLUGIN2) test
 
+# NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(EXE): $(OBJ)
-	$(LINK.cc) $(OBJ) -o $(EXE)
+	$(LINK.cc) -Wl,-E $(OBJ) -o $(EXE)
 
+# NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(PLUGIN): $(OBJ_PLUGIN)
 	$(LINK.cc) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^
 
+# NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(PLUGIN2): $(OBJ_PLUGIN2)
 	$(LINK.cc) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^
 
