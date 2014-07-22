@@ -120,8 +120,9 @@ BOOST_AUTO_TEST_SUITE( Attributes )
 BOOST_AUTO_TEST_CASE( values )
 {
     Catalog catalog;
+    shared_ptr< A7 > a;
 
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A7" ) );
+    BOOST_REQUIRE_NO_THROW( a = catalog.Create( "a", "A7" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
 
     BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "mystring" ) ) );
@@ -133,8 +134,6 @@ BOOST_AUTO_TEST_CASE( values )
         BOOST_REQUIRE_NO_THROW( set( "ul_attr" ).of( "a" ).to( 123456 ) );
         BOOST_REQUIRE_NO_THROW( set( "bool_attr" ).of( "a" ).to( false ) );
     }
-
-    shared_ptr< A7 > a = catalog[ "a" ];
 
     // check values
 

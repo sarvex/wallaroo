@@ -101,49 +101,55 @@ public:
     * @param className the name of the class to instantiate
     * @param p1 The first parameter of the class constructor
     * @param p2 The second parameter of the class constructor
+    * @return the element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
     template < class P1, class P2 >
-    void Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
+    detail::DeviceShell Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
     {
         typedef Class< P1, P2 > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance( p1, p2 );
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
+        return detail::DeviceShell( obj );
     }
 
     /** Instantiate a class having a 1 parameters constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
     * @param p The parameter of the class constructor
+    * @return the element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
     template < class P >
-    void Create( const std::string& id, const std::string& className, const P& p )
+    detail::DeviceShell Create( const std::string& id, const std::string& className, const P& p )
     {
         typedef Class< P, void > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance( p );
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
+        return detail::DeviceShell( obj );
     }
 
     /** Instantiate a class having a default constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
+    * @return the element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
-    void Create( const std::string& id, const std::string& className )
+    detail::DeviceShell Create( const std::string& id, const std::string& className )
     {
         typedef Class< void, void > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance();
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
+        return detail::DeviceShell( obj );
     }
 
     /** Check if the plugs wiring of the objects inside the container
