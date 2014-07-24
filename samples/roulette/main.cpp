@@ -57,7 +57,7 @@ int main( int argc, char* argv[] )
 
         logicCatalog.Create( "player", "ConsolePlayer" );
         logicCatalog.Create( "wheel", "Wheel" );
-        logicCatalog.Create( "game", "Game" );
+        shared_ptr< Game > game = logicCatalog.Create( "game", "Game" );
 
         betCatalog.Create( "straightbetconsolefactory", "StraightBetConsoleFactory" );
         betCatalog.Create( "oddevenbetconsolefactory", "OddEvenBetConsoleFactory" );
@@ -76,8 +76,6 @@ int main( int argc, char* argv[] )
         // check if all plugs are wired
         assert( logicCatalog.IsWiringOk() );
         assert( betCatalog.IsWiringOk() );
-
-        shared_ptr< Game > game = logicCatalog[ "game" ];
 
         std::cout << "Welcome to the roulette game" << std::endl;
         while ( true )

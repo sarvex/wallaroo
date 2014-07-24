@@ -351,7 +351,7 @@ public:
     {
         Catalog::Current() = previous;
     }
-    bool FirstTime()
+    bool FirstTime() const
     {
         return firstTime;
     }
