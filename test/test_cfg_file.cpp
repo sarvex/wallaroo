@@ -63,7 +63,7 @@ public:
     class name : public Base< p1, p2 > \
     { \
     public: \
-        name( const p1& _p1, const p2& _p2 ) : Base( _p1, _p2 ) {} \
+        name( const p1& _p1, const p2& _p2 ) : Base< p1, p2 >( _p1, _p2 ) {} \
     }; \
     WALLAROO_REGISTER( name, p1, p2 )
 
