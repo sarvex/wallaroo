@@ -70,7 +70,7 @@ private:
  * You can plug its connectors to other devices using the method Device::Wire
  * and assign a value to its attributes using the method SetAttribute, but
  * wallaroo provides mechanisms more flexible for these tasks
- * (i.e., the DSL constructs "use().as().of()" and "set().of().to()" and the
+ * (i.e., the DSL constructs "use().as().of()" and "set_attribute().of().to()" and the
  * configuration files).
  */
 class Device

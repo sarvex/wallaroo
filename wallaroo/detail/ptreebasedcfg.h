@@ -311,7 +311,7 @@ private:
             {
                 const std::string att_name = node.second.get< std::string >( "name" );
                 const std::string att_value = node.second.get< std::string >( "value" );
-                set( att_name ).of( catalog[name ] ).to( att_value );
+                set_attribute( att_name ).of( catalog[ name ] ).to( att_value );
             }
         }
     }

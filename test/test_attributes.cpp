@@ -125,14 +125,14 @@ BOOST_AUTO_TEST_CASE( values )
     BOOST_REQUIRE_NO_THROW( a = catalog.Create( "a", "A7" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
 
-    BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "mystring" ) ) );
-    BOOST_REQUIRE_NO_THROW( set( "str_attr_2" ).of( catalog[ "a" ] ).to( "mystring2" ) );
+    BOOST_REQUIRE_NO_THROW( set_attribute( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "mystring" ) ) );
+    BOOST_REQUIRE_NO_THROW( set_attribute( "str_attr_2" ).of( catalog[ "a" ] ).to( "mystring2" ) );
 
     wallaroo_within( catalog )
     {
-        BOOST_REQUIRE_NO_THROW( set( "int_attr" ).of( "a" ).to( -123 ) );
-        BOOST_REQUIRE_NO_THROW( set( "ul_attr" ).of( "a" ).to( 123456 ) );
-        BOOST_REQUIRE_NO_THROW( set( "bool_attr" ).of( "a" ).to( false ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "int_attr" ).of( "a" ).to( -123 ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "ul_attr" ).of( "a" ).to( 123456 ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "bool_attr" ).of( "a" ).to( false ) );
     }
 
     // check values
@@ -158,8 +158,8 @@ BOOST_AUTO_TEST_CASE( attributeRelationalOperators )
     Catalog catalog;
     BOOST_REQUIRE_NO_THROW( catalog.Create( "b", "B7" ) );
     BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A7" ) );
-    BOOST_REQUIRE_NO_THROW( set( "ui_attr" ).of( catalog[ "b" ] ).to( 50 ) );
-    BOOST_REQUIRE_NO_THROW( set( "ul_attr" ).of( catalog[ "a" ] ).to( 30 ) );
+    BOOST_REQUIRE_NO_THROW( set_attribute( "ui_attr" ).of( catalog[ "b" ] ).to( 50 ) );
+    BOOST_REQUIRE_NO_THROW( set_attribute( "ul_attr" ).of( catalog[ "a" ] ).to( 30 ) );
 
     shared_ptr< B7 > b = catalog[ "b" ];
     shared_ptr< A7 > a = catalog[ "a" ];
@@ -221,14 +221,14 @@ BOOST_AUTO_TEST_CASE( attributeArithmeticOperators )
     BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A7" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
 
-    BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "mystring" ) ) );
-    BOOST_REQUIRE_NO_THROW( set( "str_attr_2" ).of( catalog[ "a" ] ).to( "mystring2" ) );
+    BOOST_REQUIRE_NO_THROW( set_attribute( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "mystring" ) ) );
+    BOOST_REQUIRE_NO_THROW( set_attribute( "str_attr_2" ).of( catalog[ "a" ] ).to( "mystring2" ) );
 
     wallaroo_within( catalog )
     {
-        BOOST_REQUIRE_NO_THROW( set( "c_int_attr" ).of( "a" ).to( -123 ) );
-        BOOST_REQUIRE_NO_THROW( set( "ul_attr" ).of( "a" ).to( 123456 ) );
-        BOOST_REQUIRE_NO_THROW( set( "bool_attr" ).of( "a" ).to( false ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "c_int_attr" ).of( "a" ).to( -123 ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "ul_attr" ).of( "a" ).to( 123456 ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "bool_attr" ).of( "a" ).to( false ) );
     }
 
     shared_ptr< A7 > a = catalog[ "a" ];
@@ -287,8 +287,8 @@ BOOST_AUTO_TEST_CASE( attributeStringOperators )
     BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A7" ) );
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
 
-    BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "foo" ) ) );
-    BOOST_REQUIRE_NO_THROW( set( "str_attr_2" ).of( catalog[ "a" ] ).to( "bar" ) );
+    BOOST_REQUIRE_NO_THROW( set_attribute( "str_attr" ).of( catalog[ "a" ] ).to( std::string( "foo" ) ) );
+    BOOST_REQUIRE_NO_THROW( set_attribute( "str_attr_2" ).of( catalog[ "a" ] ).to( "bar" ) );
 
     shared_ptr< A7 > a = catalog[ "a" ];
 
@@ -317,27 +317,27 @@ BOOST_AUTO_TEST_CASE( attributesKo )
     BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
 
     // bad type
-    BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "a" ] ).to( "foo" ), WrongType );
-    // BOOST_CHECK_THROW( set( "ul_attr" ).of( catalog[ "a" ] ).to( -100 ), WrongType ); // ### TODO
-    BOOST_CHECK_THROW( set( "bool_attr" ).of( catalog[ "a" ] ).to( 100 ), WrongType );
+    BOOST_CHECK_THROW( set_attribute( "int_attr" ).of( catalog[ "a" ] ).to( "foo" ), WrongType );
+    // BOOST_CHECK_THROW( set_attribute( "ul_attr" ).of( catalog[ "a" ] ).to( -100 ), WrongType ); // ### TODO
+    BOOST_CHECK_THROW( set_attribute( "bool_attr" ).of( catalog[ "a" ] ).to( 100 ), WrongType );
 
     // of does not exist in the catalog
-    BOOST_CHECK_THROW( set( "int_attr" ).of( catalog[ "does_not_exist" ] ).to( "foo" ), ElementNotFound );
+    BOOST_CHECK_THROW( set_attribute( "int_attr" ).of( catalog[ "does_not_exist" ] ).to( "foo" ), ElementNotFound );
     // attribute does not exist in the device
-    BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( "foo" ), ElementNotFound );
-    BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( std::string( "foo" ) ), ElementNotFound );
-    BOOST_CHECK_THROW( set( "does_not_exist" ).of( catalog[ "a" ] ).to( true ), ElementNotFound );
+    BOOST_CHECK_THROW( set_attribute( "does_not_exist" ).of( catalog[ "a" ] ).to( "foo" ), ElementNotFound );
+    BOOST_CHECK_THROW( set_attribute( "does_not_exist" ).of( catalog[ "a" ] ).to( std::string( "foo" ) ), ElementNotFound );
+    BOOST_CHECK_THROW( set_attribute( "does_not_exist" ).of( catalog[ "a" ] ).to( true ), ElementNotFound );
 
     wallaroo_within( catalog )
     {
         // of does not exist in the catalog
-        BOOST_CHECK_THROW( set( "int_attr" ).of( "does_not_exist" ).to( "foo" ), ElementNotFound );
+        BOOST_CHECK_THROW( set_attribute( "int_attr" ).of( "does_not_exist" ).to( "foo" ), ElementNotFound );
         // attribute does not exist in the device
-        BOOST_CHECK_THROW( set( "does_not_exist" ).of( "a" ).to( "foo" ), ElementNotFound );
+        BOOST_CHECK_THROW( set_attribute( "does_not_exist" ).of( "a" ).to( "foo" ), ElementNotFound );
     }
 
     // no catalog selected:
-    BOOST_CHECK_THROW( set( "int_attr" ).of( "a" ).to( -123 ), CatalogNotSpecified );
+    BOOST_CHECK_THROW( set_attribute( "int_attr" ).of( "a" ).to( -123 ), CatalogNotSpecified );
 }
 
 BOOST_AUTO_TEST_CASE( stringAttributes )
@@ -349,11 +349,11 @@ BOOST_AUTO_TEST_CASE( stringAttributes )
 
     wallaroo_within( catalog )
     {
-        BOOST_REQUIRE_NO_THROW( set( "str_attr" ).of( "a" ).to( std::string( "mystring" ) ) );
-        BOOST_REQUIRE_NO_THROW( set( "str_attr_2" ).of( "a" ).to( "mystring2" ) );
-        BOOST_REQUIRE_NO_THROW( set( "int_attr" ).of( "a" ).to( "-123" ) );
-        BOOST_REQUIRE_NO_THROW( set( "ul_attr" ).of( "a" ).to( "123456" ) );
-        BOOST_REQUIRE_NO_THROW( set( "bool_attr" ).of( "a" ).to( "false" ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "str_attr" ).of( "a" ).to( std::string( "mystring" ) ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "str_attr_2" ).of( "a" ).to( "mystring2" ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "int_attr" ).of( "a" ).to( "-123" ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "ul_attr" ).of( "a" ).to( "123456" ) );
+        BOOST_REQUIRE_NO_THROW( set_attribute( "bool_attr" ).of( "a" ).to( "false" ) );
     }
 
     shared_ptr< A7 > a = catalog[ "a" ];
