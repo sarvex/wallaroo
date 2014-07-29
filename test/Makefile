@@ -60,8 +60,9 @@ PLUGIN2 := plugin2.so
 all: $(EXE) $(PLUGIN) $(PLUGIN2) test
 
 # NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
+# NOTE LDFLAGS is already contained in LINK.cc but we need it after the object files
 $(EXE): $(OBJ)
-	$(LINK.cc) -Wl,-E $(OBJ) -o $(EXE)
+	$(LINK.cc) -Wl,-E $(OBJ) -o $(EXE) $(LDFLAGS)
 
 # NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(PLUGIN): $(OBJ_PLUGIN)

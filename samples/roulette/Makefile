@@ -31,7 +31,6 @@
 ################################################################################
 
 override CXXFLAGS += -Wall -I../..
-override LDFLAGS += -ldl
 
 OBJ := main.o consoleplayer.o wheel.o game.o
 EXE := roulette
@@ -43,11 +42,11 @@ all: $(EXE) $(PLUGINS)
 
 # NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(EXE): $(OBJ)
-	$(LINK.cc) -Wl,-E -o $@ $^
+	$(LINK.cc) -Wl,-E -o $@ $^ -ldl
 
 # NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 %.so: %.cpp %consolefactory.cpp %.h %consolefactory.h
-	$(LINK.cc) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS) $(CFLAGS)
+	$(LINK.cc) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^
 
 clean:
 	@- $(RM) *.o *~ core $(EXE) *.so
