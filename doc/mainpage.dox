@@ -14,10 +14,13 @@ the site: http://wallaroo.googlecode.com/
 To register a class, you must derive it from wallaroo::Device and use
 the macro \ref WALLAROO_REGISTER in the implementation file.
 
+You can add dependencies and attributes to your registered classes
+by adding data member of type wallaroo::Plug and wallaroo::Attribute respectively.
+
 Then you can use the class wallaroo::Catalog to create and manage
 instances of registered classes.
 
-You can link the instances together (i.e. inject the dependencies) by using
+You can link the instances together (i.e., inject the dependencies) by using
 the syntax:
 \code{.cpp}
     use( catalog_1[ "target" ] ).as( "dependency" ).of( catalog_2[ "object" ] );
@@ -32,7 +35,22 @@ or, inside a clause \ref wallaroo_within, the syntax:
     }
 \endcode
 
-If you prefer, you can perform object creation and dependency injection from one (or many)
+You can set the attributes by using the syntax:
+\code{.cpp}
+    set_attribute( "attribute_name" ).of( catalog[ "object" ] ).to( value );
+\endcode
+or, inside a clause \ref wallaroo_within, the syntax:
+\code{.cpp}
+    wallaroo_within( myCatalog )
+    {
+        ...
+        set_attribute( "attribute_name" ).of( "object" ).to( value );
+        ...
+    }
+\endcode
+
+If you prefer, you can perform object creation, dependency injection and
+attribute setting from one (or many)
 external configuration file in XML or JSON format.
 See wallaroo::XmlConfiguration and wallaroo::JsonConfiguration.
 
