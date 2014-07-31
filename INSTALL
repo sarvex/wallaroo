@@ -60,7 +60,8 @@ So, if you use gcc, you can use the following syntax:
 	g++ -I<boost_path> -I<wallaroo_path> *.cpp -o <app_exe>
 or:
 	g++ -std=c++0x -I<wallaroo_path> *.cpp -o <app_exe>
-
+(You may need to add the linker -ldl option, if you use share libraries)
+    
 If you use Visual Studio:
     cl /EHsc /I<wallaroo_path> /I<boost_path> /Fe<app_exe> *.cpp
 (you need the boost path only if you use visual studio 2008 or if you use

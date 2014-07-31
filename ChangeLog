@@ -1,4 +1,4 @@
-<date>: <Version>
+2014-07-31: Version 0.6.0
 
         * Attributes feature
         * Bug fix: UNICODE on win32 (close issue #5)

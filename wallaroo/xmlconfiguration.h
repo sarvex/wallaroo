@@ -49,9 +49,11 @@ namespace wallaroo
 * The syntax of the xml file should be similar to:
 \code
 <wallaroo>
+
   <plugins>
     <shared>pluginName</shared>
   </plugins>
+ 
   <devices>
     <device>
       <name>instance1</name>
@@ -83,6 +85,7 @@ namespace wallaroo
     </device>
   </devices>
   </devices>
+
   <wiring>
     <wire>
       <source>sourceInstance</source>
@@ -95,6 +98,7 @@ namespace wallaroo
       <plug>plugName2</plug>
     </wire>
   </wiring>
+
 </wallaroo>
 \endcode
 */
