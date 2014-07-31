@@ -131,7 +131,7 @@
         "parameter2":
           {
             "type": "string",
-            "value": "foo"
+            "value": "foo bar"
           }
       },
 

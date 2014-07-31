@@ -31,36 +31,49 @@
 ################################################################################
 
 # usage:
-# make BOOST=<BOOST_DIR> 
+# make BOOST=<BOOST_DIR>
 # or
-# make BOOST=<BOOST_DIR> UCFLAGS=-std=c++0x
+# make BOOST=<BOOST_DIR> CXXFLAGS=-std=c++0x
 
-CC = g++
-CFLAGS = -Wall -I.. -DBOOST_TEST_DYN_LINK -I$(BOOST) $(UCFLAGS)
-LFLAGS = $(ULFLAGS) -L$(BOOST)/stage/lib -lboost_unit_test_framework -ldl
-OBJ = test_cfg_file.o test_multiplicitycheck.o test_wiring.o test_creation.o test_dynamiclib.o driver.o
-OBJ_PLUGIN = plugin.o
-OBJ_PLUGIN2 = plugin2.o
-EXE = test_suite
-PLUGIN = plugin.so
-PLUGIN2 = plugin2.so
+override RUN_OPT += --build_info --report_level=short
+
+override CXXFLAGS += -Wall -I.. -DBOOST_TEST_DYN_LINK -I$(BOOST)
+override LDFLAGS += -L$(BOOST)/stage/lib -lboost_unit_test_framework -ldl
+
+OBJ := test_cfg_file.o \
+       test_multiplicitycheck.o \
+       test_wiring.o \
+       test_creation.o \
+       test_dynamiclib.o \
+       test_attributes.o \
+       driver.o
+OBJ_PLUGIN := plugin.o
+OBJ_PLUGIN2 := plugin2.o
+
+EXE := test_suite
+PLUGIN := plugin.so
+PLUGIN2 := plugin2.so
+
+
+.PHONY: all test clean
 
 all: $(EXE) $(PLUGIN) $(PLUGIN2) test
 
-%.o: %.cpp
-	$(CC) -c -o $@ $< $(CFLAGS)
-
+# NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
+# NOTE LDFLAGS is already contained in LINK.cc but we need it after the object files
 $(EXE): $(OBJ)
-	$(CC) -Wl,-E -o $@ $^ $(LFLAGS)
+	$(LINK.cc) -Wl,-E $(OBJ) -o $(EXE) $(LDFLAGS)
 
+# NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(PLUGIN): $(OBJ_PLUGIN)
-	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
+	$(LINK.cc) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^
 
+# NOTE you need to pass -E to the linker to provide RTTI across process boundaries!
 $(PLUGIN2): $(OBJ_PLUGIN2)
-	$(CC) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^ $(LFLAGS)
+	$(LINK.cc) -fPIC -shared -Wl,-E -Wl,-soname,$@ -o $@ $^
 
 test:
-	export LD_LIBRARY_PATH=.:$(BOOST)/stage/lib ; ./$(EXE)
+	export LD_LIBRARY_PATH=.:$(BOOST)/stage/lib ; ./$(EXE) $(RUN_OPT)
 
 clean:
-	rm -f *.o *~ core $(EXE) *.so
+	@- $(RM) *.o *~ core $(EXE) *.so

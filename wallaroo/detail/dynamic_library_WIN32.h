@@ -49,7 +49,12 @@ public:
     // throw WrongFile if the file does not exist or its format is wrong.
     explicit PlatformSpecificDynamicLibrary( const std::string& fileName )
     {
+#ifdef _UNICODE
+        const std::wstring fn = std::wstring( fileName.begin(), fileName.end() );
+        libHandle = LoadLibrary( fn.c_str() );
+#else
         libHandle = LoadLibrary( fileName.c_str() );
+#endif
         if ( ! libHandle ) throw WrongFile( fileName );
     }
     // Release the OS library

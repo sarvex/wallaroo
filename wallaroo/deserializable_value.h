@@ -30,65 +30,33 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_DETAIL_EXPRESSIONS_H_
-#define WALLAROO_DETAIL_EXPRESSIONS_H_
+#ifndef WALLAROO_DESERIALIZABLEVALUE_H_
+#define WALLAROO_DESERIALIZABLEVALUE_H_
 
+#include "cxx0x.h"
 #include <string>
-#include "deviceshell.h"
-#include "wallaroo/cxx0x.h"
-#include "wallaroo/device.h"
 
 namespace wallaroo
 {
-namespace detail
-{
 
-// This is a helper class that provides the result of the use().as() function
-// useful to concatenate use().as() with of().
-class UseAsExpression
-{
-public:
-    UseAsExpression( detail::DeviceShell& _destClass, const std::string& _attribute ) :
-      destClass( _destClass ),
-      attribute( _attribute )
-    {
-    }
-    void of( const detail::DeviceShell& srcClass )
-    {
-        // perform the final assignment:
-        srcClass.Wire( attribute, destClass );
-    }
-    // throw CatalogNotSpecified if the current catalog has not been selected with wallaroo_within
-    void of ( const std::string& srcClass )
-    {
-        // default container case
-        Catalog* current = Catalog::Current();
-        if ( ! current ) throw CatalogNotSpecified();
-        of( ( *current )[ srcClass ] );
-    }
-private:
-    detail::DeviceShell destClass;
-    std::string attribute;
-};
-
-// This is a helper class that provides the result of the use() function
-// useful to concatenate use() with as().
-class UseExpression
+/**
+ * This is the type of every class able to take a string representation
+ * and convert in its own internal type.
+ * It's used as base class for every Attribute template.
+ */
+class DeserializableValue
 {
 public:
-    explicit UseExpression( const detail::DeviceShell& _destClass )
-        : destClass( _destClass )
-    {
-    }
-    UseAsExpression as( const std::string& attribute )
-    {
-        return UseAsExpression( destClass, attribute );
-    }
-private:
-    detail::DeviceShell destClass;
+    virtual ~DeserializableValue() {}
+    /** Set this attribute value from a string representation.
+    * @param value A string representation ov the value to be assigned.
+    * @throw WrongType If the string representation is not valid for this object.
+    */
+    virtual void Value( const std::string& value ) = 0;
 };
 
-} // namespace detail
+
+
 } // namespace
 
 #endif

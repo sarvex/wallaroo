@@ -36,7 +36,9 @@ PLUGIN1_NAME = plugin.dll
 PLUGIN2_NAME = plugin2.dll
 DIR_INCLUDE = /I..\.. /I%BOOST%
 COMPILE_FLAGS = /nologo /MD /EHsc
-LINK_FLAGS = /LIBPATH:%BOOST%\stage\lib /NOLOGO
+LINK_FLAGS = /NOLOGO
+CPPFLAGS = $(COMPILE_FLAGS) $(DIR_INCLUDE)
+RM = del /F /Q 2> nul
 
 EXE_OBJ_FILES= \
     main.obj \
@@ -49,16 +51,14 @@ PLUGINS= \
     redblackbet.dll \
     straightbet.dll
 
-.cpp.obj ::
-    @echo Compiling...
-    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
-
 .cpp.dll:
     @echo Creating DLL...
     cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
     cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $(<B)consolefactory.cpp
     link $(LINK_FLAGS) /DLL /out:$*.dll $(<B)consolefactory.obj $(<B).obj
-    
+   
+.PHONY: all mainapp clean
+   
 # clean and build application and plugins
 all: clean mainapp $(PLUGINS)
 
@@ -67,15 +67,14 @@ $(EXE_NAME) : $(EXE_OBJ_FILES)
     link $(LINK_FLAGS) /out:$(EXE_NAME) $(EXE_OBJ_FILES)
 
 # application
-
 mainapp: $(EXE_NAME)
     
 # delete output
 clean:
-    del *.obj
-    del *.exp
-    del *.lib
-    del $(EXE_NAME)
-    del $(PLUGINS)
+    @-$(RM) *.obj
+    @-$(RM) *.exp
+    @-$(RM) *.lib
+    @-$(RM) $(EXE_NAME)
+    @-$(RM) $(PLUGINS)
 
 

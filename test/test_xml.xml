@@ -144,7 +144,7 @@
       </parameter1>
       <parameter2>
         <type>string</type>
-        <value>foo</value>
+        <value>foo bar</value>
       </parameter2>
     </device>
 

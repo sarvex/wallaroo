@@ -21,7 +21,7 @@ and wiring of C++ classes
 With Wallaroo you will be able to separate the setup phase (object building
 and wiring) from the logic of your classes. In addition, you will be able to
 change the class of your objects without rebuilding anything: in this way you
-can change the behaviour of your application, or perform mock testing using
+can modify the behaviour of your application, or perform mock testing using
 the same executable.
 
 With Wallaroo you will be able to focus on the logic of your classes, without

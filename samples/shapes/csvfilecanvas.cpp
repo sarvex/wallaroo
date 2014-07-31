@@ -36,10 +36,10 @@
 
 using namespace std;
 
-WALLAROO_REGISTER( CsvFileCanvas, std::string );
+WALLAROO_REGISTER( CsvFileCanvas );
 
-CsvFileCanvas::CsvFileCanvas( const std::string& _fileName ) :
-    fileName( _fileName )
+CsvFileCanvas::CsvFileCanvas() :
+    fileName( "file_name", RegistrationToken() )
 {
 }
 

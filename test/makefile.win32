@@ -30,14 +30,44 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
+# usage:
+# set env var BOOST to boost lib path
+# nmake /f makefile.win32
+# or
+# nmake /f makefile.win32 DEBUG=1
+# or
+# nmake /f makefile.win32 UNICODE=1
+# or
+# nmake /f makefile.win32 DEBUG=1 UNICODE=1
+
 #define macros
 EXE_NAME = test_suite.exe
+DIR_INCLUDE = /I.. /I%BOOST%
+
+!ifdef DEBUG
+PLUGIN1_NAME = plugind.dll
+PLUGIN2_NAME = plugin2d.dll
+RUNTIME_LIB = /MDd
+!else
 PLUGIN1_NAME = plugin.dll
 PLUGIN2_NAME = plugin2.dll
-DIR_INCLUDE = /I.. /I%BOOST%
-COMPILE_FLAGS = /nologo /MD /EHsc /DBOOST_TEST_DYN_LINK
+RUNTIME_LIB = /MD
+!endif
+
+!ifdef UNICODE
+CHAR_SET = /D "_UNICODE" /D "UNICODE"
+!else
+CHAR_SET = /D "_MBCS"
+!endif
+
+RUN_OPT = --build_info --report_level=short
+COMPILE_FLAGS = /nologo /EHsc /DBOOST_TEST_DYN_LINK $(RUNTIME_LIB) $(CHAR_SET)
 LINK_FLAGS = /LIBPATH:%BOOST%\stage\lib /NOLOGO
 PATH = $(PATH);$(BOOST)\stage\lib\ # to run the test suite
+
+RM = del /F /Q 2> nul
+
+CPPFLAGS = $(COMPILE_FLAGS) $(DIR_INCLUDE)
 
 EXE_OBJ_FILES= \
     test_cfg_file.obj \
@@ -45,6 +75,7 @@ EXE_OBJ_FILES= \
     test_wiring.obj \
     test_creation.obj \
     test_dynamiclib.obj \
+    test_attributes.obj \
     driver.obj
 
 PLUGIN1_OBJ_FILES= \
@@ -53,10 +84,8 @@ PLUGIN1_OBJ_FILES= \
 PLUGIN2_OBJ_FILES= \
     plugin2.obj
 
-.cpp.obj ::
-    @echo Compiling...
-    cl /c $(COMPILE_FLAGS) $(DIR_INCLUDE) $<
- 
+.PHONY: all mainapp plugin1 plugin2 test clean
+
 # create directories and build application
 all: clean plugin1 plugin2 mainapp test
 
@@ -82,15 +111,15 @@ plugin2: $(PLUGIN2_NAME)
 
 # run the test
 test:
-    $(EXE_NAME)
+    $(EXE_NAME) $(RUN_OPT)
     
-# delete output directories
+# delete output files
 clean:
-    del *.obj
-    del *.exp
-    del *.lib
-    del $(EXE_NAME)
-    del $(PLUGIN1_NAME)
-    del $(PLUGIN2_NAME)
+    @-$(RM) *.obj
+    @-$(RM) *.exp
+    @-$(RM) *.lib
+    @-$(RM) $(EXE_NAME)
+    @-$(RM) $(PLUGIN1_NAME)
+    @-$(RM) $(PLUGIN2_NAME)
 
 

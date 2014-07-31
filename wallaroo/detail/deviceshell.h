@@ -63,6 +63,12 @@ public:
         device -> Wire( plugName, destination.device );
     }
 
+    template < class T >
+    void SetAttribute( const std::string& attribute, const T& value ) const
+    {
+        device -> SetAttribute( attribute, value );
+    }
+
     /** Convert the contained device to the type T
     * @return the converted device.
     * @throw WrongType if the contained device is not a subclass of T

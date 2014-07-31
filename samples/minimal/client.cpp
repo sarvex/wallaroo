@@ -64,7 +64,7 @@ void Client::G()
             std::cerr << "an element in relationList has been deleted!" << std::endl;
     }
 
-    for ( size_t i = 0; i < relationVector.size(); ++i )
+    for ( std::size_t i = 0; i < relationVector.size(); ++i )
     {
         cxx0x::shared_ptr< Interface > s = relationVector[ i ].lock();
         if ( s ) 

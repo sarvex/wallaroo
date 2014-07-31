@@ -1,3 +1,9 @@
+2014-07-31: Version 0.6.0
+
+        * Attributes feature
+        * Bug fix: UNICODE on win32 (close issue #5)
+        * Catalog::Create returns the new object
+
 2014-03-11: Version 0.5.1
 
         * Bug fix: protection error when unloading dll with visual studio 2012

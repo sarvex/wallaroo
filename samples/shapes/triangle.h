@@ -35,17 +35,19 @@
 
 #include "shape.h"
 
+using wallaroo::Attribute;
+
 class Triangle : public Shape
 {
 public:
-    Triangle( unsigned int base, unsigned int height );
+    Triangle();
     virtual Box BoundingBox() const;
     virtual void Draw( cxx0x::shared_ptr< Canvas > canvas ) const;
     virtual void MoveX( int delta );
     virtual void MoveY( int delta );
 private:
-    const unsigned int base;
-    const unsigned int height;
+    const Attribute< unsigned int > base;
+    const Attribute< unsigned int > height;
     int xPos;
     int yPos;
 };

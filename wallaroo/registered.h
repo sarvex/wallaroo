@@ -35,6 +35,7 @@
 
 #include "class.h"
 #include "plug.h"
+#include "attribute.h"
 #include "device.h"
 
 #endif

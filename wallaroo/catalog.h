@@ -93,8 +93,7 @@ public:
     {
         std::pair< Devices::iterator, bool > result = 
             devices.insert( std::make_pair( id, dev ) );
-        if ( ! result.second )
-            throw DuplicatedElement( id );
+        if ( ! result.second ) throw DuplicatedElement( id );
     }
 
     /** Instantiate a class having a 2 parameters constructor and add it to the catalog
@@ -102,49 +101,55 @@ public:
     * @param className the name of the class to instantiate
     * @param p1 The first parameter of the class constructor
     * @param p2 The second parameter of the class constructor
+    * @return the element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
     template < class P1, class P2 >
-    void Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
+    detail::DeviceShell Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
     {
         typedef Class< P1, P2 > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance( p1, p2 );
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
+        return detail::DeviceShell( obj );
     }
 
     /** Instantiate a class having a 1 parameters constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
     * @param p The parameter of the class constructor
+    * @return the element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
     template < class P >
-    void Create( const std::string& id, const std::string& className, const P& p )
+    detail::DeviceShell Create( const std::string& id, const std::string& className, const P& p )
     {
         typedef Class< P, void > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance( p );
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
+        return detail::DeviceShell( obj );
     }
 
     /** Instantiate a class having a default constructor and add it to the catalog
     * @param id the name of the element to create and add
     * @param className the name of the class to instantiate
+    * @return the element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
-    void Create( const std::string& id, const std::string& className )
+    detail::DeviceShell Create( const std::string& id, const std::string& className )
     {
         typedef Class< void, void > C;
         C c = C::ForName( className );
         cxx0x::shared_ptr< Device > obj = c.NewInstance();
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
+        return detail::DeviceShell( obj );
     }
 
     /** Check if the plugs wiring of the objects inside the container
@@ -163,8 +168,20 @@ public:
     void CheckWiring() const
     {
         const std::string wrongDevice = FindWrongMultiplicity();
-        if ( !wrongDevice.empty() )
-            throw WiringError( wrongDevice );
+        if ( !wrongDevice.empty() ) throw WiringError( wrongDevice );
+    }
+
+    /** This method calls Device::Init on every device it contains.
+     *  You can call it in the setup phase of your application to perform
+     *  the initialization required by each device before the run.
+     *  Ideally you should call it *after* wiring and attributes setting, so that
+     *  your objects already have dependencies and the right attribute values.
+     *  This method rethrows every exception thrown by the devices Init methodm called
+     */
+    void Init()
+    {
+        for ( Devices::const_iterator i = devices.begin(); i != devices.end(); ++i )
+            i -> second -> Init();
     }
 
 private:
@@ -177,10 +194,7 @@ private:
     // or the empty string if the test has success
     std::string FindWrongMultiplicity() const
     {
-        for(
-            Devices::const_iterator i = devices.begin();
-            i != devices.end();
-            ++i )
+        for( Devices::const_iterator i = devices.begin(); i != devices.end(); ++i )
         {
             if ( ! i -> second -> MultiplicitiesOk() )
                 return( i -> first );
@@ -193,6 +207,7 @@ private:
 
     friend class Context;
     friend class UseAsExpression;
+    friend class SetExpression;
     friend UseExpression use( const std::string& destClass );
     friend bool IsWiringOk();
     friend void CheckWiring();
@@ -230,8 +245,8 @@ public:
         of( ( *current )[ srcClass ] );
     }
 private:
-    detail::DeviceShell destClass;
-    std::string attribute;
+    const detail::DeviceShell destClass;
+    const std::string attribute;
 };
 
 // This is a helper class that provides the result of the use() function
@@ -274,6 +289,53 @@ inline UseExpression use( const std::string& destClass )
     return use( ( *current )[ destClass ] );
 }
 
+
+// This is a helper class that provides the result of the set_attribute().of() function
+// useful to concatenate set_attribute().of() with to().
+class SetOfExpression
+{
+public:
+    SetOfExpression( const detail::DeviceShell& _device, const std::string& _attribute ) :
+        device( _device ), attribute( _attribute ) {}
+    template < typename T >
+    void to( const T& value )
+    {
+        // perform the final assignment:
+        device.SetAttribute( attribute, value );
+    }
+private:
+    const detail::DeviceShell device;
+    const std::string attribute;
+};
+
+// This is a helper class that provides the result of the set_attribute() function
+// useful to concatenate set_attribute() with of().
+class SetExpression
+{
+public:
+    explicit SetExpression( const std::string& att ) : attribute( att ) {}
+    SetOfExpression of( const detail::DeviceShell& device ) { return SetOfExpression( device, attribute ); }
+    // throw CatalogNotSpecified if the current catalog has not been selected including
+    // this function in a wallaroo_within section
+    SetOfExpression of( const std::string& device )
+    {
+        // default container case
+        Catalog* current = Catalog::Current( );
+        if ( !current ) throw CatalogNotSpecified( );
+        return SetOfExpression( ( *current )[ device ], attribute );
+    }
+private:
+    const std::string attribute;
+};
+
+/**
+* This function provides the "set_attribute" part in the syntax @c set_attribute( "attribute" ).of( "device" ).to( value )
+* @throw CatalogNotSpecified if the current catalog has not been selected including
+* this function in a wallaroo_within section
+*/
+inline SetExpression set_attribute( const std::string& attribute ) { return SetExpression( attribute ); }
+
+
 // Helper class that changes the current catalog on the ctor and
 // restores the previous on the dtor
 class Context
@@ -289,7 +351,7 @@ public:
     {
         Catalog::Current() = previous;
     }
-    bool FirstTime()
+    bool FirstTime() const
     {
         return firstTime;
     }

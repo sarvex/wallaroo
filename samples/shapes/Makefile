@@ -30,17 +30,14 @@
 # DEALINGS IN THE SOFTWARE.
 ################################################################################
 
-CC = g++
-CFLAGS = -Wall -I../.. $(UCFLAGS)
-DEPS = box.h canvas.h circle.h consolecanvas.h csvfilecanvas.h draft.h rectangle.h shape.h triangle.h
-OBJ = circle.o consolecanvas.o csvfilecanvas.o draft.o main.o rectangle.o triangle.o
-EXE = shapes
+override CXXFLAGS += -Wall -I../..
+OBJ := circle.o consolecanvas.o csvfilecanvas.o draft.o main.o rectangle.o triangle.o
+EXE := shapes
 
-%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+.PHONY: clean
 
 $(EXE): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(LINK.cc) $(OBJ) -o $(EXE)
 
 clean:
-	rm -f *.o *~ core $(EXE)
+	@- $(RM) *.o *~ core $(EXE)

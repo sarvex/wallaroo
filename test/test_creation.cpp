@@ -103,10 +103,12 @@ BOOST_AUTO_TEST_CASE( duplicatedElement )
 BOOST_AUTO_TEST_CASE( retrieveOk )
 {
     Catalog catalog;
-    BOOST_REQUIRE_NO_THROW( catalog.Create( "a", "A1" ) );
-    BOOST_REQUIRE_NO_THROW( catalog[ "a" ] );
-    shared_ptr< A1 > a = catalog[ "a" ];
-    BOOST_CHECK( a -> F() == 5 );
+    shared_ptr< A1 > a1;
+    shared_ptr< A1 > a2;
+    BOOST_REQUIRE_NO_THROW( a1 = catalog.Create( "a", "A1" ) );
+    BOOST_REQUIRE_NO_THROW( a2 = catalog[ "a" ] );
+    BOOST_CHECK( a1 -> F() == 5 );
+    BOOST_CHECK( a1 == a2 );
 }
 
 BOOST_AUTO_TEST_CASE( retrieveKo )

@@ -152,10 +152,7 @@ class PtreeBasedCfg
 {
 public:
     // Create a PtreeBasedCfg using the boost::ptree passed as parameter.
-    explicit PtreeBasedCfg( const ptree& _tree ) :
-        tree( _tree )
-    {
-    }
+    explicit PtreeBasedCfg( const ptree& _tree ) : tree( _tree ) {}
 
     // Load the plugins specified in the ptree.
     // throw WrongFile if the ptree contains a semantic error.
@@ -188,6 +185,7 @@ public:
 
 private:
 
+    // Iterate over attributes "key" and apply the action "f" to each one
     template < typename F >
     void Foreach( const std::string& key, F f )
     {
@@ -304,6 +302,17 @@ private:
         else
         {
             catalog.Create( name, cl );
+        }
+
+        // parse attributes
+        BOOST_FOREACH( const ptree::value_type &node, v )
+        {
+            if ( node.first == "attribute" )
+            {
+                const std::string att_name = node.second.get< std::string >( "name" );
+                const std::string att_value = node.second.get< std::string >( "value" );
+                set_attribute( att_name ).of( catalog[ name ] ).to( att_value );
+            }
         }
     }
 

@@ -37,8 +37,8 @@ WALLAROO_REGISTER( ConsoleCanvas );
 
 ConsoleCanvas::ConsoleCanvas()
 {
-    for ( size_t x = 0; x < X_SIZE; ++x )
-        for ( size_t y = 0; y < Y_SIZE; ++y )
+    for ( std::size_t x = 0; x < X_SIZE; ++x )
+        for ( std::size_t y = 0; y < Y_SIZE; ++y )
             canvas[ x ][ y ] = EMPTY;
 }
 
@@ -51,9 +51,9 @@ void ConsoleCanvas::Point( unsigned int x, unsigned int y )
 
 void ConsoleCanvas::Show()
 {
-    for ( size_t y = 0; y < Y_SIZE; ++y )
+    for ( std::size_t y = 0; y < Y_SIZE; ++y )
     {
-        for ( size_t x = 0; x < X_SIZE; ++x )
+        for ( std::size_t x = 0; x < X_SIZE; ++x )
             std::cout << canvas[ x ][ y ];
         std::cout << std::endl;
     }
