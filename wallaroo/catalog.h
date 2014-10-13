@@ -77,9 +77,9 @@ public:
     * @return the element.
     * @throw ElementNotFound if the element does not exist in the catalog.
     */
-    detail::DeviceShell operator [] ( const std::string& itemId )
+    detail::DeviceShell operator [] ( const std::string& itemId ) const
     {
-        Devices::iterator i = devices.find( itemId );
+        Devices::const_iterator i = devices.find( itemId );
         if ( i == devices.end() ) throw ElementNotFound( itemId );
         return detail::DeviceShell( i -> second );
     }
