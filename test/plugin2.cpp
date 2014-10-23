@@ -30,8 +30,8 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#include "wallaroo/registered.h"
 #include "wallaroo/dynamic_lib.h"
+#include "wallaroo/dyn_registered.h"
 
 #include "plugin_interface.h"
 

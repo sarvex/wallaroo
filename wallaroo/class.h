@@ -253,16 +253,4 @@ public:
 
 } // wallaroo namespace
 
-
-/** This macro must be used in your implementation file (.cpp or .cc)
- * to register a class. When a class is registered, you can create an instance
- * using Catalog::Create(const std::string&,const std::string&,const P1&,const P2&).
- * @param C The class name
- * @param ... The type of the other parameters of the class constructor
- * @hideinitializer
- */
-#define WALLAROO_REGISTER( C, ... ) \
-    static const ::wallaroo::Registration< C, ##__VA_ARGS__ > C##r( #C ) ;
-// NOTE: the ## before __VA_ARGS__ removes the comma when no arguments are passed
-
 #endif // WALLAROO_CLASS_H_

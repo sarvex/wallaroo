@@ -30,26 +30,19 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#include "wallaroo/dynamic_lib.h"
 #include "wallaroo/dyn_registered.h"
 
 #include "plugin_interface.h"
 
-class A6: public I6
+class C6 : public I6
 {
 public:
-    virtual int F() { return 3; }
-    A6() {}
-    ~A6() {}
+    virtual int F() { return att1 + att2; }
+    C6() : att1( "att1", RegistrationToken() ), att2( "att2", RegistrationToken() ) {}
+    ~C6() {}
+private:
+    wallaroo::Attribute< int > att1;
+    wallaroo::Attribute< unsigned int > att2;
 };
 
-class B6: public I6
-{
-public:
-    virtual int F() { return 4; }
-    B6() {}
-    ~B6() {}
-};
-
-WALLAROO_DYNLIB_REGISTER( A6 );
-WALLAROO_DYNLIB_REGISTER( B6 );
+WALLAROO_DYNLIB_REGISTER( C6 );

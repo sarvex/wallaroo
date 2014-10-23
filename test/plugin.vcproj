@@ -177,6 +177,10 @@
 				RelativePath=".\plugin.cpp"
 				>
 			</File>
+          <File
+              RelativePath=".\plugin_ext.cpp"
+				>
+          </File>          
 		</Filter>
 		<Filter
 			Name="Header Files"

@@ -30,26 +30,30 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#include "wallaroo/dynamic_lib.h"
-#include "wallaroo/dyn_registered.h"
+#ifndef WALLAROO_DYN_REGISTERED_H_
+#define WALLAROO_DYN_REGISTERED_H_
 
-#include "plugin_interface.h"
+// facilities to define a wallaroo class
+#include "class.h"
+#include "plug.h"
+#include "attribute.h"
+#include "device.h"
 
-class A6: public I6
-{
-public:
-    virtual int F() { return 3; }
-    A6() {}
-    ~A6() {}
-};
+// for the macro
+#include "detail/dyn_class_descriptor.h"
+#include "detail/dyn_class_descriptor_impl.h"
 
-class B6: public I6
-{
-public:
-    virtual int F() { return 4; }
-    B6() {}
-    ~B6() {}
-};
+/** This macro must be used in the shared libraries
+ * to register a class. When a class is registered, you can create an instance
+ * using wallaroo::Catalog::Create().
+ * Please note you can put multiple registration clauses, if you have multiple classes
+ * defined in the same shared library.
+ * @param C The class name
+ * @hideinitializer
+ */
+#define WALLAROO_DYNLIB_REGISTER( C ) \
+    static wallaroo::detail::DynRegistration< C > C##p( #C );
 
-WALLAROO_DYNLIB_REGISTER( A6 );
-WALLAROO_DYNLIB_REGISTER( B6 );
+
+#endif // WALLAROO_DYN_REGISTERED_H_
+

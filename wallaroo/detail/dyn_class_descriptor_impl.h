@@ -65,7 +65,7 @@ void Descriptor::Insert( const std::string& className )
     DB().push_back( d );
 }
 
-std::vector< Descriptor >& Descriptor::DB()
+inline std::vector< Descriptor >& Descriptor::DB()
 {
     static std::vector< Descriptor > db;
     return db;

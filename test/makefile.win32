@@ -79,7 +79,8 @@ EXE_OBJ_FILES= \
     driver.obj
 
 PLUGIN1_OBJ_FILES= \
-    plugin.obj
+    plugin.obj \
+    plugin_ext.obj
 
 PLUGIN2_OBJ_FILES= \
     plugin2.obj

@@ -32,6 +32,7 @@
 
 #include <sstream>
 #include "wallaroo/dynamic_lib.h"
+#include "wallaroo/dyn_registered.h"
 #include "straightbetconsolefactory.h"
 #include "straightbet.h"
 
