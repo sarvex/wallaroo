@@ -33,6 +33,7 @@
 #ifndef WALLAROO_REGISTEREDCLASS_H_
 #define WALLAROO_REGISTEREDCLASS_H_
 
+// facilities to define a wallaroo class
 #include "class.h"
 #include "plug.h"
 #include "attribute.h"
@@ -45,8 +46,10 @@
 * @param ... The type of the other parameters of the class constructor
 * @hideinitializer
 */
+#define WALLAROO_TOKENPASTE_HELPER(x, y) x ## y
+#define WALLAROO_TOKENPASTE(x, y) WALLAROO_TOKENPASTE_HELPER(x, y)
 #define WALLAROO_REGISTER( C, ... ) \
-    static const ::wallaroo::Registration< C, ##__VA_ARGS__ > C##r( #C ) ;
+    static const ::wallaroo::Registration< C, ##__VA_ARGS__ > WALLAROO_TOKENPASTE(__reg__,__LINE__)( #C ) ;
 // NOTE: the ## before __VA_ARGS__ removes the comma when no arguments are passed
 
 #endif

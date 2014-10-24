@@ -33,11 +33,7 @@
 #ifndef WALLAROO_DYN_REGISTERED_H_
 #define WALLAROO_DYN_REGISTERED_H_
 
-// facilities to define a wallaroo class
-#include "class.h"
-#include "plug.h"
-#include "attribute.h"
-#include "device.h"
+#include "registered.h" // imports header with facilities to define wallaroo classes and WALLAROO_TOKENPASTE macro
 
 // for the macro
 #include "detail/dyn_class_descriptor.h"
@@ -52,7 +48,7 @@
  * @hideinitializer
  */
 #define WALLAROO_DYNLIB_REGISTER( C ) \
-    static wallaroo::detail::DynRegistration< C > C##p( #C );
+    static const ::wallaroo::detail::DynRegistration< C > WALLAROO_TOKENPASTE(__reg__,__LINE__)( #C ) ;
 
 
 #endif // WALLAROO_DYN_REGISTERED_H_

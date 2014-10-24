@@ -109,33 +109,36 @@ private:
 
 WALLAROO_REGISTER( C5, unsigned int )
 
-class D5 : public Device
+namespace Foo
 {
-public:
-    D5( const std::string& _s, int _i ) : 
-        container( "container", RegistrationToken() ),
-        s( _s ),
-        ii( _i )
+    class D5 : public Device
     {
-    }
-    std::string String() const { return s; }
-    int Int() const { return ii; }
-    int F() const
-    {
-        int sum = 0;
-        for ( Plug< I5, collection >::const_iterator i = container.begin(); i != container.end(); ++i )
+    public:
+        D5( const std::string& _s, int _i ) :
+            container( "container", RegistrationToken() ),
+            s( _s ),
+            ii( _i )
         {
-            sum += i -> lock() -> F();
         }
-        return sum;
-    }
-private:
-    Plug< I5, collection > container;
-    const std::string s;
-    const int ii;
-};
+        std::string String() const { return s; }
+        int Int() const { return ii; }
+        int F() const
+        {
+            int sum = 0;
+            for ( Plug< I5, collection >::const_iterator i = container.begin(); i != container.end(); ++i )
+            {
+                sum += i->lock()->F();
+            }
+            return sum;
+        }
+    private:
+        Plug< I5, collection > container;
+        const std::string s;
+        const int ii;
+    };
+}
 
-WALLAROO_REGISTER( D5, std::string, int )
+WALLAROO_REGISTER( Foo::D5, std::string, int )
 
 
 DEFINE_2PARAM_CLASS( E5, unsigned int, double )
@@ -145,6 +148,20 @@ DEFINE_2PARAM_CLASS( H5, double, double )
 DEFINE_2PARAM_CLASS( L5, int, std::string )
 DEFINE_2PARAM_CLASS( M5, long, char )
 DEFINE_2PARAM_CLASS( N5, char, unsigned char )
+
+template < typename T >
+class O5 : public Device
+{
+public:
+    O5() : x( 10 ) {}
+    int F() { return x;  }
+    virtual ~O5() {}
+private:
+    const int x;
+};
+
+WALLAROO_REGISTER( O5< double > )
+WALLAROO_REGISTER( O5< int > )
 
 // tests
 
@@ -170,7 +187,7 @@ static void TestContent( Catalog& catalog )
     shared_ptr< C5 > c2 = catalog[ "c2" ];
     BOOST_CHECK( c2 -> F() == 10 );
 
-    shared_ptr< D5 > d = catalog[ "d" ];
+    shared_ptr< Foo::D5 > d = catalog[ "d" ];
     BOOST_CHECK( d -> String() == "mystring" );
     BOOST_CHECK( d -> Int() == 34 );
     BOOST_CHECK( d -> F() == 15 );
@@ -208,6 +225,13 @@ static void TestContent( Catalog& catalog )
 
     shared_ptr< I6 > q = catalog[ "q" ];
     BOOST_CHECK( q -> F() == 8 );
+
+    shared_ptr< O5< double > > o_double = catalog[ "o_double" ];
+    BOOST_CHECK( o_double -> F() == 10 );
+
+    shared_ptr< O5< int > > o_int = catalog[ "o_int" ];
+    BOOST_CHECK( o_int->F() == 10 );
+
 }
 
 BOOST_AUTO_TEST_CASE( JsonOk )

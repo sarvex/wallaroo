@@ -72,7 +72,7 @@
 
     <device>
       <name>d</name>
-      <class>D5</class>
+      <class>Foo::D5</class>
       <parameter1>
         <type>string</type>
         <value>mystring</value>
@@ -174,6 +174,16 @@
       </parameter2>
     </device>
 
+    <device>
+      <name>o_double</name>
+      <class>O5&lt; double &gt;</class>
+    </device>
+
+    <device>
+      <name>o_int</name>
+      <class>O5&lt; int &gt;</class>
+    </device>
+    
     <device>
       <name>p</name>
       <class>P5</class>

@@ -46,3 +46,31 @@ private:
 };
 
 WALLAROO_DYNLIB_REGISTER( C6 );
+
+template < typename T >
+class D6 : public I6
+{
+public:
+    virtual int F() { return 4; }
+    D6() : x( 4 ) {}
+    ~D6() {}
+private:
+    const T x;
+};
+
+WALLAROO_DYNLIB_REGISTER( D6< double > );
+WALLAROO_DYNLIB_REGISTER( D6< int > );
+
+namespace Foo
+{
+    class E6 : public I6
+    {
+    public:
+        E6() : x( 9 ) {}
+        virtual int F() { return x;  }
+    private:
+        const int x;
+    };
+}
+
+WALLAROO_DYNLIB_REGISTER( Foo::E6 );
