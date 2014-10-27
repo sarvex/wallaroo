@@ -71,6 +71,34 @@ struct bounded_collection
         return ( s >= MIN && ( MAX == 0 || s <= MAX ) );
     }
 };
+// template specializations to avoid warning about "unsigned is always >= 0":
+template < std::size_t MAX >
+struct bounded_collection< 0, MAX >
+{
+    template < typename T >
+    static bool WiringOk( const T* t )
+    {
+        return ( t -> size() <= MAX );
+    }
+};
+template < std::size_t MIN >
+struct bounded_collection< MIN, 0 >
+{
+    template < typename T >
+    static bool WiringOk( const T* t )
+    {
+        return ( t -> size() >= MIN );
+    }
+};
+template <>
+struct bounded_collection< 0, 0 >
+{
+    template < typename T >
+    static bool WiringOk( const T* )
+    {
+        return true;
+    }
+};
 /// This type should be used as second template parameter in Plug class to specify the Plug is a collection
 /// and you can wire as many device to the plug as you want. Even zero.
 typedef bounded_collection<> collection;

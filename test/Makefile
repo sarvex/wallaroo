@@ -37,7 +37,8 @@
 
 override RUN_OPT += --build_info --report_level=short
 
-override CXXFLAGS += -Wall -I.. -DBOOST_TEST_DYN_LINK -I$(BOOST)
+# override CXXFLAGS += -Wall -I.. -DBOOST_TEST_DYN_LINK -I$(BOOST)
+override CXXFLAGS += -Wall -Wextra -Werror -I.. -DBOOST_TEST_DYN_LINK -isystem $(BOOST)
 override LDFLAGS += -L$(BOOST)/stage/lib -lboost_unit_test_framework -ldl
 
 OBJ := test_cfg_file.o \
