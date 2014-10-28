@@ -38,7 +38,7 @@
 #include "box.h"
 #include "canvas.h"
 
-class Shape : public wallaroo::Device
+class Shape : public wallaroo::Part
 {
 public:
     virtual ~Shape() {}

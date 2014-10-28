@@ -39,7 +39,7 @@
 // Wallaroo library is embedded in the wallaroo namespace
 using namespace wallaroo;
 
-class Interface : public Device
+class Interface : public Part
 {
 public:
     virtual ~Interface() {}

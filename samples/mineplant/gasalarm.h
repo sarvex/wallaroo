@@ -39,7 +39,7 @@
 
 using namespace wallaroo;
 
-class GasAlarm : public Device
+class GasAlarm : public Part
 {
 public:
     GasAlarm();

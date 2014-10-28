@@ -39,7 +39,7 @@
 
 using namespace wallaroo;
 
-class Draft : public Device
+class Draft : public Part
 {
 public:
     Draft();

@@ -54,12 +54,12 @@ namespace wallaroo
     <shared>pluginName</shared>
   </plugins>
  
-  <devices>
-    <device>
+  <parts>
+    <part>
       <name>instance1</name>
       <class>className1</class>
-    </device>
-    <device>
+    </part>
+    <part>
       <name>instance2</name>
       <class>className2</class>
       <attribute>
@@ -70,8 +70,8 @@ namespace wallaroo
         <name>attr2_name</name>
         <value>attr2_value</value>
       </attribute>
-    </device>
-    <device>
+    </part>
+    <part>
       <name>instance3</name>
       <class>className3</class>
       <parameter1>
@@ -82,9 +82,9 @@ namespace wallaroo
         <type>int</type>
         <value>34</value>
       </parameter2>
-    </device>
-  </devices>
-  </devices>
+    </part>
+  </parts>
+  </parts>
 
   <wiring>
     <wire>

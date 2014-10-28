@@ -36,7 +36,7 @@
 #include <string>
 #include "detail/factory.h"
 #include "cxx0x.h"
-#include "device.h"
+#include "part.h"
 
 namespace wallaroo
 {
@@ -46,7 +46,7 @@ class Plugin;
 
 /** This is the description of a class having a constructor that 
 * takes two parameters of type @c P1 and @c P2 and implements
-* the interface @c Device.
+* the interface @c Part.
 * The class provides a method to get an instance of the described class.
 * It also provides a static registry of the instances of this class,
 * and methods to register and retrieve them.
@@ -56,7 +56,7 @@ class Class
 {
     public :
 
-        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::shared_ptr< Part > Ptr;
         typedef cxx0x::function< Ptr( const P1& p1, const P2& p2 ) > FactoryMethod;
 
         /** Create an instance of the class described by this object.
@@ -106,7 +106,7 @@ class Class
 
 /** This is the description of a class having a constructor that
 * takes one parameter of type @c P and implements
-* the interface @c Device.
+* the interface @c Part.
 * The class provides a method to get an instance of the described class.
 * It also provides a static registry of the instances of this class,
 * and methods to register and retrieve them.
@@ -116,7 +116,7 @@ class Class< P, void >
 {
     public :
 
-        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::shared_ptr< Part > Ptr;
         typedef cxx0x::function< Ptr( const P& p ) > FactoryMethod;
 
         /** Create an instance of the class described by this object.
@@ -165,7 +165,7 @@ class Class< P, void >
 
 
 /** This is the description of a class having a constructor that
-* takes no parameters and implements the interface @c Device.
+* takes no parameters and implements the interface @c Part.
 * The class provides a method to get an instance of the described class.
 * It also provides a static registry of the instances of this class,
 * and methods to register and retrieve them.
@@ -175,7 +175,7 @@ class Class< void, void >
 {
     public :
 
-        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::shared_ptr< Part > Ptr;
         typedef cxx0x::function< Ptr() > FactoryMethod;
 
         /** Create an instance of the class described by this object.

@@ -104,7 +104,7 @@
     <ClInclude Include="..\wallaroo\connector.h" />
     <ClInclude Include="..\wallaroo\cxx0x.h" />
     <ClInclude Include="..\wallaroo\deserializable_value.h" />
-    <ClInclude Include="..\wallaroo\device.h" />
+    <ClInclude Include="..\wallaroo\part.h" />
     <ClInclude Include="..\wallaroo\dynamic_lib.h" />
     <ClInclude Include="..\wallaroo\dynamic_loader.h" />
     <ClInclude Include="..\wallaroo\exceptions.h" />

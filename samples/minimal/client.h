@@ -39,7 +39,7 @@
 
 using namespace wallaroo;
 
-class Client : public Device // we derive from Device to make this class registrable
+class Client : public Part // we derive from Part to make this class registrable
 {
 public:
     Client();

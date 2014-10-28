@@ -38,7 +38,7 @@
 
 using namespace wallaroo;
 
-class LevelSensor : public Device
+class LevelSensor : public Part
 {
 public:
     LevelSensor();

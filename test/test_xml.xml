@@ -36,41 +36,41 @@
     <shared>plugin2</shared>
   </plugins>
 
-  <devices>
+  <parts>
 
-    <device>
+    <part>
       <name>a</name>
       <class>A5</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>b</name>
       <class>B5</class>
       <parameter1>
         <type>int</type>
         <value>10</value>
     </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>c1</name>
       <class>C5</class>
       <parameter1>
         <type>unsigned int</type>
         <value>10</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>c2</name>
       <class>C5</class>
       <parameter1>
         <type>unsigned int</type>
         <value>10</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>d</name>
       <class>Foo::D5</class>
       <parameter1>
@@ -81,9 +81,9 @@
         <type>int</type>
         <value>34</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>e</name>
       <class>E5</class>
       <parameter1>
@@ -94,9 +94,9 @@
         <type>double</type>
         <value>3.14</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>f</name>
       <class>F5</class>
       <parameter1>
@@ -107,9 +107,9 @@
         <type>bool</type>
         <value>false</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>g</name>
       <class>G5</class>
       <parameter1>
@@ -120,9 +120,9 @@
         <type>bool</type>
         <value>true</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>h</name>
       <class>H5</class>
       <parameter1>
@@ -133,9 +133,9 @@
         <type>double</type>
         <value>-2.0</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>l</name>
       <class>L5</class>
       <parameter1>
@@ -146,9 +146,9 @@
         <type>string</type>
         <value>foo bar</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>m</name>
       <class>M5</class>
       <parameter1>
@@ -159,9 +159,9 @@
         <type>char</type>
         <value>a</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>n</name>
       <class>N5</class>
       <parameter1>
@@ -172,29 +172,29 @@
         <type>unsigned char</type>
         <value>200</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>o_double</name>
       <class>O5&lt; double &gt;</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>o_int</name>
       <class>O5&lt; int &gt;</class>
-    </device>
+    </part>
     
-    <device>
+    <part>
       <name>p</name>
       <class>P5</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>q</name>
       <class>Q5</class>
-    </device>
+    </part>
 
-  </devices>
+  </parts>
 
   <wiring>
 

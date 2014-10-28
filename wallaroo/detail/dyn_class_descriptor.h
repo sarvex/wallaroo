@@ -40,7 +40,7 @@
 namespace wallaroo
 {
 
-class Device; // forward declaration
+class Part; // forward declaration
 
 namespace detail
 {
@@ -55,7 +55,7 @@ struct Descriptor
     // Unique instance of Descriptor's DB
     static std::vector< Descriptor >& DB();
 
-    typedef cxx0x::shared_ptr< Device > Ptr;
+    typedef cxx0x::shared_ptr< Part > Ptr;
     // NOTE: when compiled with visual studio 2012, std::function gives protection error when
     //       the dll is unloaded. We must use a plain function pointer, instead. (thanks Lars Fiedler).
     //typedef cxx0x::function< Ptr() > FactoryMethod;

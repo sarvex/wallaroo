@@ -40,7 +40,7 @@ using namespace cxx0x;
 
 // some classes:
 
-class A1 : public Device
+class A1 : public Part
 {
 public:
     int F() { return 5; }
@@ -48,7 +48,7 @@ public:
 
 WALLAROO_REGISTER( A1 );
 
-class B1: public Device
+class B1: public Part
 {
 public:
     B1( int _x, const std::string& _y ) : x( _x ), y( _y ) {}
@@ -62,7 +62,7 @@ private:
 
 WALLAROO_REGISTER( B1, int, std::string );
 
-class C1: public Device
+class C1: public Part
 {
 public:
     C1( double _x ) : x( _x ) {}
@@ -74,7 +74,7 @@ private:
 WALLAROO_REGISTER( C1, double );
 
 template < typename T >
-class D1 : public Device
+class D1 : public Part
 {
 public:
     D1() : x( 3 ) {}
@@ -88,7 +88,7 @@ WALLAROO_REGISTER( D1< int > );
 
 namespace Foo
 {
-    class E1 : public Device
+    class E1 : public Part
     {
     public:
         E1() : x( 9 ) {}

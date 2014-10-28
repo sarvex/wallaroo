@@ -38,7 +38,7 @@
 
 using namespace wallaroo;
 
-class Game : public Device
+class Game : public Part
 {
 public:
     Game();

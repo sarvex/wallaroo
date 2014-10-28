@@ -39,22 +39,22 @@ namespace wallaroo
 {
 
 // forward declaration:
-class Device;
+class Part;
 
 /**
  * This represents the base class for every Plug template.
- * It can wire itself with a Device object and check if the wiring
+ * It can wire itself with a Part object and check if the wiring
  * satisfy its multiplicity constraints.
  */
 class Connector
 {
 public:
     virtual ~Connector() {}
-    /** Plug this Connector into a device
-    * @param dev The Device you want insert this Connector into
-    * @throw WrongType If this Connector could not be wire with device @c dev 
+    /** Plug this Connector into a part
+    * @param part The Part you want insert this Connector into
+    * @throw WrongType If this Connector could not be wire with part @c part 
     */
-    virtual void PlugInto( const cxx0x::shared_ptr< Device >& dev ) = 0;
+    virtual void PlugInto( const cxx0x::shared_ptr< Part >& part ) = 0;
     /** Check if this Connector is correctly wired according to the
     * constraints specified as template parameters in the derived class.
     * @return true If the check pass.

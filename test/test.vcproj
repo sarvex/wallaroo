@@ -226,7 +226,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\wallaroo\device.h"
+				RelativePath="..\wallaroo\part.h"
 				>
 			</File>
 			<File

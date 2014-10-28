@@ -30,14 +30,14 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_DETAIL_DEVICESHELL_H_
-#define WALLAROO_DETAIL_DEVICESHELL_H_
+#ifndef WALLAROO_DETAIL_PARTSHELL_H_
+#define WALLAROO_DETAIL_PARTSHELL_H_
 
 #include <string>
 #include <typeinfo>
 #include <cassert>
 #include "wallaroo/cxx0x.h"
-#include "wallaroo/device.h"
+#include "wallaroo/part.h"
 
 namespace wallaroo
 {
@@ -46,43 +46,43 @@ namespace detail
 
 
 // This class provides the conversion operator to the contained type.
-// In particular, the Catalog::operator[] returns a DeviceShell
+// In particular, the Catalog::operator[] returns a PartShell
 // that can be converted to the inner type.
-class DeviceShell
+class PartShell
 {
 public:
 
-    DeviceShell( const cxx0x::shared_ptr< Device >& dev ) :
-        device( dev ) 
+    PartShell( const cxx0x::shared_ptr< Part >& dev ) :
+        part( dev ) 
     {
-        assert( device );
+        assert( part );
     }
 
-    void Wire( const std::string& plugName, const DeviceShell& destination ) const
+    void Wire( const std::string& plugName, const PartShell& destination ) const
     {
-        device -> Wire( plugName, destination.device );
+        part -> Wire( plugName, destination.part );
     }
 
     template < class T >
     void SetAttribute( const std::string& attribute, const T& value ) const
     {
-        device -> SetAttribute( attribute, value );
+        part -> SetAttribute( attribute, value );
     }
 
-    /** Convert the contained device to the type T
-    * @return the converted device.
-    * @throw WrongType if the contained device is not a subclass of T
+    /** Convert the contained part to the type T
+    * @return the converted part.
+    * @throw WrongType if the contained part is not a subclass of T
     */
     template < class T >
     operator cxx0x::shared_ptr< T >()
     {
-        cxx0x::shared_ptr< T > result = cxx0x::dynamic_pointer_cast< T >( device );
+        cxx0x::shared_ptr< T > result = cxx0x::dynamic_pointer_cast< T >( part );
         if ( ! result ) throw WrongType();
         return result;
     }
 
 private:
-    cxx0x::shared_ptr< Device > device;
+    cxx0x::shared_ptr< Part > part;
 };
 
 } // namespace detail

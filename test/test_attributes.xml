@@ -32,18 +32,18 @@
 
 <wallaroo>
 
-  <devices>
+  <parts>
 
-    <device>
+    <part>
       <name>a1</name>
       <class>A7</class>
       <attribute>
         <name>int_attr</name>
         <value>-123</value>
       </attribute>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>a2</name>
       <class>A7</class>
       <attribute>
@@ -54,9 +54,9 @@
         <name>ul_attr</name>
         <value>123456</value>
       </attribute>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>b1</name>
       <class>B7</class>
       <attribute>
@@ -111,8 +111,8 @@
         <name>bool_attr</name>
         <value>false</value>
       </attribute>
-    </device>
+    </part>
     
-  </devices>
+  </parts>
 
 </wallaroo>

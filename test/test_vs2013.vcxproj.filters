@@ -50,7 +50,7 @@
     <ClInclude Include="..\wallaroo\cxx0x.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\wallaroo\device.h">
+    <ClInclude Include="..\wallaroo\part.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\wallaroo\dynamic_lib.h">

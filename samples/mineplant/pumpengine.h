@@ -38,7 +38,7 @@
 
 using namespace wallaroo;
 
-class PumpEngine : public Device
+class PumpEngine : public Part
 {
 public:
     PumpEngine();

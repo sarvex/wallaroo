@@ -59,19 +59,19 @@ public:
 };
 
 
-/** Error indicating that specified Device does not exist anymore because it has
+/** Error indicating that specified Part does not exist anymore because it has
 * been deleted. Derives from WallarooError.
 */
-class DeletedDeviceError : public WallarooError
+class DeletedPartError : public WallarooError
 {
 public:
-    /// Instantiate a DeletedDeviceError
-    DeletedDeviceError() :
-        WallarooError( "The device has been deleted" )
+    /// Instantiate a DeletedPartError
+    DeletedPartError() :
+        WallarooError( "The part has been deleted" )
     {
     }
 
-    ~DeletedDeviceError() throw()
+    ~DeletedPartError() throw()
     {
     }
 };

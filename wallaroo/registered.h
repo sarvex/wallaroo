@@ -37,7 +37,7 @@
 #include "class.h"
 #include "plug.h"
 #include "attribute.h"
-#include "device.h"
+#include "part.h"
 
 /** This macro must be used in your implementation file (.cpp or .cc)
 * to register a class. When a class is registered, you can create an instance

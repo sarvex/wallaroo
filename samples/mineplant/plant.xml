@@ -31,56 +31,56 @@
  -->
 
 <wallaroo>
-  <devices>
+  <parts>
 
-    <device>
+    <part>
       <name>lowLevelInput</name>
       <class>TableBasedDigitalInput</class>
       <parameter1>
         <type>string</type>
         <value>low</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>highLevelInput</name>
       <class>TableBasedDigitalInput</class>
       <parameter1>
         <type>string</type>
         <value>high</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>lowSensor</name>
       <class>LevelSensor</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>highSensor</name>
       <class>LevelSensor</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>probe</name>
       <class>TwoLevelSumpProbe</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>output</name>
       <class>TableBasedDigitalOutput</class>
       <parameter1>
         <type>string</type>
         <value>pump engine</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>engine</name>
       <class>SafeEngine</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>airFlowSensor</name>
       <class>ThresholdGasSensor</class>
       <parameter1>
@@ -91,9 +91,9 @@
         <type>bool</type>
         <value>false</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>COSensor</name>
       <class>ThresholdGasSensor</class>
       <parameter1>
@@ -104,9 +104,9 @@
         <type>bool</type>
         <value>true</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>methaneSensor</name>
       <class>ThresholdGasSensor</class>
       <parameter1>
@@ -117,70 +117,70 @@
         <type>bool</type>
         <value>true</value>
       </parameter2>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>airFlowInput</name>
       <class>TableBasedAnalogInput</class>
       <parameter1>
         <type>string</type>
         <value>air</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>COInput</name>
       <class>TableBasedAnalogInput</class>
       <parameter1>
         <type>string</type>
         <value>co</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>methaneInput</name>
       <class>TableBasedAnalogInput</class>
       <parameter1>
         <type>string</type>
         <value>methane</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>alarmOutput</name>
       <class>TableBasedDigitalOutput</class>
       <parameter1>
         <type>string</type>
         <value>alarm output</value>
       </parameter1>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>gasAlarm</name>
       <class>GasAlarm</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>alarm</name>
       <class>Alarm</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>pump</name>
       <class>SumpPump</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>plant</name>
       <class>MinePlant</class>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>console</name>
       <class>Console</class>
-    </device>
+    </part>
 
-  </devices>
+  </parts>
 
   <wiring>
 

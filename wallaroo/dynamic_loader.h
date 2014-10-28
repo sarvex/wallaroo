@@ -36,7 +36,7 @@
 #include <string>
 #include <vector>
 #include "cxx0x.h"
-#include "device.h"
+#include "part.h"
 #include "class.h"
 #include "exceptions.h"
 #include "detail/dyn_class_descriptor.h"

@@ -37,7 +37,7 @@
 #include <sstream>
 #include <iostream>
 #include "cxx0x.h"
-#include "device.h"
+#include "part.h"
 #include "deserializable_value.h"
 #include "exceptions.h"
 
@@ -72,10 +72,10 @@ namespace detail
 }
 
 /**
- * This is an attribute of a device. An attribute has a type T and
+ * This is an attribute of a part. An attribute has a type T and
  * you can set its value at runtime by code or from a configuration file.
  *
- * You can put an Attribute inside your device and read its value and use
+ * You can put an Attribute inside your part and read its value and use
  * it as if it were of type T.
  *
  * @tparam T The type of the value contained
@@ -86,14 +86,14 @@ class Attribute : public DeserializableValue
 public:
 
     /**
-    * Create a Attribute and register it to its device so that you can
+    * Create a Attribute and register it to its part so that you can
     * assign a value to it.
     * @param name the name of this attribute
-    * @param token the registration token got calling Device::RegistrationToken()
+    * @param token the registration token got calling Part::RegistrationToken()
     */
     Attribute( const std::string& name, const RegToken& token )
     {
-        Device* owner = token.GetDevice();
+        Part* owner = token.GetPart();
         owner -> Register( name, this );
     }
 

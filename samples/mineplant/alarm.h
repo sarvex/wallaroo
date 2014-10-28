@@ -38,7 +38,7 @@
 
 using namespace wallaroo;
 
-class Alarm : public Device
+class Alarm : public Part
 {
 public:
     Alarm();

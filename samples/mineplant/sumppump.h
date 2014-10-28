@@ -39,7 +39,7 @@
 
 using namespace wallaroo;
 
-class SumpPump : public Device
+class SumpPump : public Part
 {
 public:
     SumpPump();

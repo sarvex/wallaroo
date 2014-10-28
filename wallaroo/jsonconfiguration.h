@@ -58,7 +58,7 @@ namespace wallaroo
         "shared": "pluginName"
     },
 
-    "devices":
+    "parts":
     [
       {
         "name": "instance1",

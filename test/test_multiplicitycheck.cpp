@@ -40,7 +40,7 @@ using namespace cxx0x;
 
 // some classes:
 
-class A3 : public Device
+class A3 : public Part
 {
 public:
     virtual ~A3() {}
@@ -48,7 +48,7 @@ public:
 
 WALLAROO_REGISTER( A3 )
 
-class B3 : public Device
+class B3 : public Part
 {
 public:
     B3() : 
@@ -65,7 +65,7 @@ public:
 
 WALLAROO_REGISTER( B3 )
 
-class C3 : public Device
+class C3 : public Part
 {
 public:
     C3() :

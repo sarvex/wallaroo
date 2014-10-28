@@ -45,7 +45,7 @@ using namespace cxx0x;
 
 // some classes:
 
-class I2 : public Device
+class I2 : public Part
 {
 public:
     virtual int F() = 0;
@@ -70,7 +70,7 @@ public:
 
 WALLAROO_REGISTER( B2 )
 
-class C2 : public Device
+class C2 : public Part
 {
 public:
     C2() : x( "x", RegistrationToken() ) {}
@@ -82,7 +82,7 @@ private:
 
 WALLAROO_REGISTER( C2 )
 
-class D2 : public Device
+class D2 : public Part
 {
 public:
     D2() : x( "x", RegistrationToken() ) {}
@@ -103,7 +103,7 @@ private:
 
 WALLAROO_REGISTER( D2 )
 
-class E2 : public Device
+class E2 : public Part
 {
 public:
     E2() : 
@@ -140,7 +140,7 @@ private:
 
 WALLAROO_REGISTER( E2 )
 
-class F2 : public Device
+class F2 : public Part
 {
 public:
     F2() : plug( "plug", RegistrationToken() ) {}

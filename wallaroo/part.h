@@ -30,8 +30,8 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_DEVICE_H_
-#define WALLAROO_DEVICE_H_
+#ifndef WALLAROO_PART_H_
+#define WALLAROO_PART_H_
 
 #include <string>
 #include <sstream>
@@ -48,52 +48,52 @@ class Plugin;
 
 /**
  * This class is a token used to ensure that Plugs and Attributes 
- * can only be created as data members of Device.
- * The class carries also the device information.
+ * can only be created as data members of Part.
+ * The class carries also the part information.
  * This class should not be used directly: you can create an instace
- * by invoking the method Device::RegistrationToken() from a class
- * derived by Device.
+ * by invoking the method Part::RegistrationToken() from a class
+ * derived by Part.
  */
 class RegToken
 {
 public:
-    Device* GetDevice() const { return device; }
+    Part* GetPart() const { return part; }
 private:
-    friend class Device;
-    RegToken( Device* d ) : device( d ) {}
-    Device* device;
+    friend class Part;
+    RegToken( Part* d ) : part( d ) {}
+    Part* part;
 };
 
 /**
- * This class represents a "device" that owns connectors (dependencies) and
+ * This class represents a "part" that owns connectors (dependencies) and
  * attributes.
- * You can plug its connectors to other devices using the method Device::Wire
+ * You can plug its connectors to other parts using the method Part::Wire
  * and assign a value to its attributes using the method SetAttribute, but
  * wallaroo provides mechanisms more flexible for these tasks
  * (i.e., the DSL constructs "use().as().of()" and "set_attribute().of().to()" and the
  * configuration files).
  */
-class Device
+class Part
 {
 public:
-    // we need to make Device virtual, to use dynamic_cast
-    virtual ~Device() {}
+    // we need to make Part virtual, to use dynamic_cast
+    virtual ~Part() {}
 
-    /** Plug the connector @c connector of this device into the Device @c device.
-     *  @throw ElementNotFound if @c connector does not exist in this device.
-     *  @throw WrongType if @c device has not a type compatible with the connector.
+    /** Plug the connector @c connector of this part into the Part @c part.
+     *  @throw ElementNotFound if @c connector does not exist in this part.
+     *  @throw WrongType if @c part has not a type compatible with the connector.
      */
-    void Wire( const std::string& connector, const cxx0x::shared_ptr< Device >& device )
+    void Wire( const std::string& connector, const cxx0x::shared_ptr< Part >& part )
     {
         Connectors::iterator i = connectors.find( connector );
         if ( i == connectors.end() ) throw ElementNotFound( connector );
-        ( i -> second ) -> PlugInto( device );
+        ( i -> second ) -> PlugInto( part );
     }
 
-    /** Assign a value to an attribute of the device. 
+    /** Assign a value to an attribute of the part. 
      *  @param attribute the name of the attribute.
      *  @param value the value to assign.
-     *  @throw ElementNotFound if @attribute does not exist in this device.
+     *  @throw ElementNotFound if @attribute does not exist in this part.
      *  @throw WrongType if @c value has not a type compatible with the attribute.
      */
     // NOTE: we pass value as const reference to allow the effective specialization of string
@@ -143,7 +143,7 @@ private:
         plugin = p;
     }
 
-    // this method should only be invoked by the connectors of this device
+    // this method should only be invoked by the connectors of this part
     // to register itself into the connectors table.
     template < class T, class P, template < typename E, typename Allocator = std::allocator< E > > class Container > friend class Plug;
     void Register( const std::string& id, Connector* plug )
@@ -151,7 +151,7 @@ private:
         connectors[ id ] = plug;
     }
 
-    // this method should only be invoked by the attributes of this device
+    // this method should only be invoked by the attributes of this part
     // to register itself into the attributes table.
     template < class T > friend class Attribute;
     void Register( const std::string& id, DeserializableValue* attribute )
@@ -179,13 +179,13 @@ private:
 };
 
 
-/** Assign a value to an attribute of type string of the device.
+/** Assign a value to an attribute of type string of the part.
  *  @param attribute the name of the attribute.
  *  @param value the value to assign.
- *  @throw ElementNotFound if @attribute does not exist in this device.
+ *  @throw ElementNotFound if @attribute does not exist in this part.
  */
 template <>
-inline void Device::SetAttribute( const std::string& attribute, const std::string& value )
+inline void Part::SetAttribute( const std::string& attribute, const std::string& value )
 {
     // Optimization: with strings we don't need conversion
     SetStringAttribute( attribute, value );

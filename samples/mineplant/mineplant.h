@@ -39,7 +39,7 @@
 
 using namespace wallaroo;
 
-class MinePlant : public Device
+class MinePlant : public Part
 {
 public:
     MinePlant();
