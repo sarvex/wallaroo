@@ -42,7 +42,7 @@ namespace wallaroo
 class Part;
 
 /**
- * This represents the base class for every Plug template.
+ * This represents the base class for every Collaborator template.
  * It can wire itself with a Part object and check if the wiring
  * satisfy its multiplicity constraints.
  */

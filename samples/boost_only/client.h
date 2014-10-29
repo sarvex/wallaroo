@@ -46,11 +46,11 @@ public:
     virtual void G();
     virtual ~Client();
 private:
-    Plug< Interface > relation;
-    Plug< Interface, optional > optionalRelation;
-    Plug< Interface, collection > relationVector; // std::vector by default
-    Plug< Interface, collection, std::list > relationList; // you can specify a different container
-    Plug< Interface, bounded_collection< 1, 10 > > relationBoundedVector; // you can specify the range 
+    Collaborator< Interface > relation;
+    Collaborator< Interface, optional > optionalRelation;
+    Collaborator< Interface, collection > relationVector; // std::vector by default
+    Collaborator< Interface, collection, std::list > relationList; // you can specify a different container
+    Collaborator< Interface, bounded_collection< 1, 10 > > relationBoundedVector; // you can specify the range 
 };
 
 #endif

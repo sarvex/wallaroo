@@ -178,7 +178,7 @@ public:
     }
 };
 
-/** Error indicating that a plug has not been wired correctly.
+/** Error indicating that a collaborator has not been wired correctly.
 *   Derives from WallarooError.
 */
 class WiringError : public WallarooError

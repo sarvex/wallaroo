@@ -320,7 +320,7 @@ private:
     {
         const std::string& source = v.get< std::string >( "source" );
         const std::string& dest = v.get< std::string >( "dest" );
-        const std::string& role = v.get< std::string >( "plug" );
+        const std::string& role = v.get< std::string >( "collaborator" );
 
         use( catalog[ dest ] ).as( role ).of( catalog[ source ] );
     }

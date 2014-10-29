@@ -104,7 +104,7 @@ public:
     virtual int F() { return x -> F(); }
     virtual ~C5() {}
 private:
-    Plug< I5 > x;
+    Collaborator< I5 > x;
 };
 
 WALLAROO_REGISTER( C5, unsigned int )
@@ -125,14 +125,14 @@ namespace Foo
         int F() const
         {
             int sum = 0;
-            for ( Plug< I5, collection >::const_iterator i = container.begin(); i != container.end(); ++i )
+            for ( Collaborator< I5, collection >::const_iterator i = container.begin(); i != container.end(); ++i )
             {
                 sum += i->lock()->F();
             }
             return sum;
         }
     private:
-        Plug< I5, collection > container;
+        Collaborator< I5, collection > container;
         const std::string s;
         const int ii;
     };

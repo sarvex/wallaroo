@@ -46,7 +46,7 @@ public:
     virtual void Off();
     virtual ~PumpEngine();
 private:
-    Plug< DigitalOutput > output;
+    Collaborator< DigitalOutput > output;
 };
 
 #endif

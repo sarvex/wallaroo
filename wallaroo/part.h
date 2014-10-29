@@ -47,7 +47,7 @@ namespace wallaroo
 class Plugin;
 
 /**
- * This class is a token used to ensure that Plugs and Attributes 
+ * This class is a token used to ensure that Collaborators and Attributes 
  * can only be created as data members of Part.
  * The class carries also the part information.
  * This class should not be used directly: you can create an instace
@@ -105,7 +105,7 @@ public:
         SetStringAttribute( attribute, stream.str() );
     }
 
-   /** Check the multiplicity of its plugs.
+   /** Check the multiplicity of its collaborators.
     *  @return true if the check pass
     */
     bool MultiplicitiesOk() const
@@ -123,7 +123,7 @@ public:
     /** This method get called by Catalog::Init().
      *  If you have work to be done for the initialization of your
      *  class, you should implement this method in the derived class.
-     *  This is useful if you want to do your initialization after plugs
+     *  This is useful if you want to do your initialization after collaborators
      *  are been wired and attributes set. Keep in mind that in the constructor
      *  the wiring has not be performed yet.
      */
@@ -145,10 +145,10 @@ private:
 
     // this method should only be invoked by the connectors of this part
     // to register itself into the connectors table.
-    template < class T, class P, template < typename E, typename Allocator = std::allocator< E > > class Container > friend class Plug;
-    void Register( const std::string& id, Connector* plug )
+    template < class T, class P, template < typename E, typename Allocator = std::allocator< E > > class Container > friend class Collaborator;
+    void Register( const std::string& id, Connector* c )
     {
-        connectors[ id ] = plug;
+        connectors[ id ] = c;
     }
 
     // this method should only be invoked by the attributes of this part

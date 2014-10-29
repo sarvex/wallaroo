@@ -101,13 +101,13 @@ namespace wallaroo
       {
         "source": "sourceInstance",
         "dest": "targetInstance",
-        "plug": "plugName"
+        "collaborator": "collaboratorName"
       },
 
       {
         "source": "sourceInstance2",
         "dest": "targetInstance2",
-        "plug": "plugName2"
+        "collaborator": "collaboratorName2"
       }
     ]
 

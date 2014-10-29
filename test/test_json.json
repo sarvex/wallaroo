@@ -192,25 +192,25 @@
       {
         "source": "c1",
         "dest": "a",
-        "plug": "x"
+        "collaborator": "x"
       },
 
       {
         "source": "c2",
         "dest": "b",
-        "plug": "x"
+        "collaborator": "x"
       },
 
       {
         "source": "d",
         "dest": "a",
-        "plug": "container"
+        "collaborator": "container"
       },
 
       {
         "source": "d",
         "dest": "b",
-        "plug": "container"
+        "collaborator": "container"
       }
     ]
 

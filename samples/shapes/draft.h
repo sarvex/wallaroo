@@ -46,8 +46,8 @@ public:
     void Align();
     void Draw();
 private:
-    Plug< Canvas > canvas;
-    Plug< Shape, collection > shapes;
+    Collaborator< Canvas > canvas;
+    Collaborator< Shape, collection > shapes;
 };
 
 #endif

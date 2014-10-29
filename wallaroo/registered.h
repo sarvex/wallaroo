@@ -35,7 +35,7 @@
 
 // facilities to define a wallaroo class
 #include "class.h"
-#include "plug.h"
+#include "collaborator.h"
 #include "attribute.h"
 #include "part.h"
 

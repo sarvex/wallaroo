@@ -58,9 +58,9 @@ public:
         assert( part );
     }
 
-    void Wire( const std::string& plugName, const PartShell& destination ) const
+    void Wire( const std::string& collaboratorName, const PartShell& destination ) const
     {
-        part -> Wire( plugName, destination.part );
+        part -> Wire( collaboratorName, destination.part );
     }
 
     template < class T >

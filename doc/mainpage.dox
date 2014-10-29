@@ -15,7 +15,7 @@ To register a class, you must derive it from wallaroo::Part and use
 the macro \ref WALLAROO_REGISTER in the implementation file.
 
 You can add dependencies and attributes to your registered classes
-by adding data member of type wallaroo::Plug and wallaroo::Attribute respectively.
+by adding data member of type wallaroo::Collaborator and wallaroo::Attribute respectively.
 
 Then you can use the class wallaroo::Catalog to create and manage
 instances of registered classes.

@@ -46,8 +46,8 @@ public:
     virtual bool MustDrain();
     virtual ~TwoLevelSumpProbe();
 private:
-    Plug< LevelSensor > lowSensor;
-    Plug< LevelSensor > highSensor;
+    Collaborator< LevelSensor > lowSensor;
+    Collaborator< LevelSensor > highSensor;
     bool mustDrain;
 };
 

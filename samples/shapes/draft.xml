@@ -106,30 +106,30 @@ Feel free to try and modify it :-)
     <wire>
       <source>draft</source>
       <dest>rec1</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
 
     <wire>
       <source>draft</source>
       <dest>rec2</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
 
     <wire>
       <source>draft</source>
       <dest>circle</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
     
     <wire>
       <source>draft</source>
       <dest>triangle1</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
    <wire>
       <source>draft</source>
       <dest>triangle2</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
 
   </wiring>

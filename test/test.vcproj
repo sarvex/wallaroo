@@ -246,7 +246,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\wallaroo\plug.h"
+				RelativePath="..\wallaroo\collaborator.h"
 				>
 			</File>
 			<File

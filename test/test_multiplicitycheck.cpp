@@ -58,9 +58,9 @@ public:
     {}
     virtual ~B3() {}
 public:
-    Plug< A3 > mandatoryAttribute;
-    Plug< A3, optional > optionalAttribute;
-    Plug< A3, collection > collectionAttribute;
+    Collaborator< A3 > mandatoryAttribute;
+    Collaborator< A3, optional > optionalAttribute;
+    Collaborator< A3, collection > collectionAttribute;
 };
 
 WALLAROO_REGISTER( B3 )
@@ -75,9 +75,9 @@ public:
     {}
     virtual ~C3() {}
 private:
-    Plug< A3, bounded_collection< 1 > > collectionAttribute1;
-    Plug< A3, bounded_collection< 1, 3 > > collectionAttribute13;
-    Plug< A3, bounded_collection< 3, 3 > > collectionAttribute33;
+    Collaborator< A3, bounded_collection< 1 > > collectionAttribute1;
+    Collaborator< A3, bounded_collection< 1, 3 > > collectionAttribute13;
+    Collaborator< A3, bounded_collection< 3, 3 > > collectionAttribute33;
 };
 
 WALLAROO_REGISTER( C3 )
@@ -268,7 +268,7 @@ BOOST_AUTO_TEST_CASE( checkCollectionMultiplicityKo3 )
     BOOST_REQUIRE( !catalog.IsWiringOk() );
 }
 
-BOOST_AUTO_TEST_CASE( checkPlugTest )
+BOOST_AUTO_TEST_CASE( checkCollaboratorTest )
 {
     Catalog catalog;
 

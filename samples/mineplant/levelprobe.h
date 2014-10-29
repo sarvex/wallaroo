@@ -51,7 +51,7 @@ public:
     }
     virtual ~LevelProbe() {}
 private:
-    Plug< AnalogInput > input;
+    Collaborator< AnalogInput > input;
 };
 
 #endif

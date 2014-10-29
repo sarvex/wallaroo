@@ -187,151 +187,151 @@
     <wire>
       <source>lowSensor</source>
       <dest>lowLevelInput</dest>
-      <plug>input</plug>
+      <collaborator>input</collaborator>
     </wire>
 
     <wire>
       <source>highSensor</source>
       <dest>highLevelInput</dest>
-      <plug>input</plug>
+      <collaborator>input</collaborator>
     </wire>
 
     <wire>
       <source>probe</source>
       <dest>lowSensor</dest>
-      <plug>lowSensor</plug>
+      <collaborator>lowSensor</collaborator>
     </wire>
 
     <wire>
       <source>probe</source>
       <dest>highSensor</dest>
-      <plug>highSensor</plug>
+      <collaborator>highSensor</collaborator>
     </wire>
 
     <wire>
       <source>engine</source>
       <dest>output</dest>
-      <plug>output</plug>
+      <collaborator>output</collaborator>
     </wire>
 
     <wire>
       <source>airFlowSensor</source>
       <dest>airFlowInput</dest>
-      <plug>input</plug>
+      <collaborator>input</collaborator>
     </wire>
 
     <wire>
       <source>COSensor</source>
       <dest>COInput</dest>
-      <plug>input</plug>
+      <collaborator>input</collaborator>
     </wire>
 
     <wire>
       <source>methaneSensor</source>
       <dest>methaneInput</dest>
-      <plug>input</plug>
+      <collaborator>input</collaborator>
     </wire>
 
     <wire>
       <source>engine</source>
       <dest>methaneSensor</dest>
-      <plug>sensor</plug>
+      <collaborator>sensor</collaborator>
     </wire>
 
     <wire>
       <source>alarm</source>
       <dest>alarmOutput</dest>
-      <plug>output</plug>
+      <collaborator>output</collaborator>
     </wire>
 
     <wire>
       <source>gasAlarm</source>
       <dest>airFlowSensor</dest>
-      <plug>sensors</plug>
+      <collaborator>sensors</collaborator>
     </wire>
 
     <wire>
       <source>gasAlarm</source>
       <dest>COSensor</dest>
-      <plug>sensors</plug>
+      <collaborator>sensors</collaborator>
     </wire>
 
     <wire>
       <source>gasAlarm</source>
       <dest>methaneSensor</dest>
-      <plug>sensors</plug>
+      <collaborator>sensors</collaborator>
     </wire>
 
     <wire>
       <source>gasAlarm</source>
       <dest>alarm</dest>
-      <plug>alarm</plug>
+      <collaborator>alarm</collaborator>
     </wire>
 
     <wire>
       <source>pump</source>
       <dest>probe</dest>
-      <plug>probe</plug>
+      <collaborator>probe</collaborator>
     </wire>
 
     <wire>
       <source>pump</source>
       <dest>engine</dest>
-      <plug>engine</plug>
+      <collaborator>engine</collaborator>
     </wire>
 
     <wire>
       <source>plant</source>
       <dest>pump</dest>
-      <plug>pump</plug>
+      <collaborator>pump</collaborator>
     </wire>
 
     <wire>
       <source>plant</source>
       <dest>gasAlarm</dest>
-      <plug>gasAlarm</plug>
+      <collaborator>gasAlarm</collaborator>
     </wire>
 
     <wire>
       <source>airFlowInput</source>
       <dest>console</dest>
-      <plug>table</plug>
+      <collaborator>table</collaborator>
     </wire>
 
     <wire>
       <source>COInput</source>
       <dest>console</dest>
-      <plug>table</plug>
+      <collaborator>table</collaborator>
     </wire>
 
     <wire>
       <source>methaneInput</source>
       <dest>console</dest>
-      <plug>table</plug>
+      <collaborator>table</collaborator>
     </wire>
 
     <wire>
       <source>lowLevelInput</source>
       <dest>console</dest>
-      <plug>table</plug>
+      <collaborator>table</collaborator>
     </wire>
 
     <wire>
       <source>highLevelInput</source>
       <dest>console</dest>
-      <plug>table</plug>
+      <collaborator>table</collaborator>
     </wire>
 
     <wire>
       <source>output</source>
       <dest>console</dest>
-      <plug>table</plug>
+      <collaborator>table</collaborator>
     </wire>
 
     <wire>
       <source>alarmOutput</source>
       <dest>console</dest>
-      <plug>table</plug>
+      <collaborator>table</collaborator>
     </wire>
 
   </wiring>

@@ -152,8 +152,8 @@ public:
         return detail::PartShell( obj );
     }
 
-    /** Check if the plugs wiring of the objects inside the container
-    * is correct according to the multiplicity declared in the plug definition.
+    /** Check if the collaborators wiring of the objects inside the container
+    * is correct according to the multiplicity declared in the collaborator definition.
     * @return false if the wiring does not match with the multiplicity declared.
     */
     bool IsWiringOk() const
@@ -161,8 +161,8 @@ public:
         return FindWrongMultiplicity().empty();
     }
 
-    /** Check if the plugs wiring of the objects inside the container
-    * is correct according to the multiplicity declared in the plug definition.
+    /** Check if the collaborators wiring of the objects inside the container
+    * is correct according to the multiplicity declared in the collaborator definition.
     * @throw WiringError if the wiring does not match with the multiplicity declared.
     */
     void CheckWiring() const
@@ -269,7 +269,7 @@ private:
 
 /**
  * This function provides the "use" part in the syntax 
- * @c use( catalog[ "part1" ] ).as( "plug" ).of( catalog[ "part2" ] )
+ * @c use( catalog[ "part1" ] ).as( "collaborator" ).of( catalog[ "part2" ] )
  */
 inline UseExpression use( const detail::PartShell& destClass )
 {
@@ -277,7 +277,7 @@ inline UseExpression use( const detail::PartShell& destClass )
 }
 
 /**
- * This function provides the "use" part in the syntax @c use( "part1" ).as( "plug" ).of( "part2" )
+ * This function provides the "use" part in the syntax @c use( "part1" ).as( "collaborator" ).of( "part2" )
  * @throw CatalogNotSpecified if the current catalog has not been selected including
  * this function in a wallaroo_within section
  */

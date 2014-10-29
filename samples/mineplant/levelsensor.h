@@ -45,7 +45,7 @@ public:
     virtual bool IsOn() const;
     virtual ~LevelSensor();
 private:
-    Plug< DigitalInput > input;
+    Collaborator< DigitalInput > input;
 };
 
 #endif

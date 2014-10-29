@@ -45,7 +45,7 @@ public:
     virtual void On();
     virtual void Off();
 private:
-    Plug< DigitalOutput > output;
+    Collaborator< DigitalOutput > output;
 };
 
 

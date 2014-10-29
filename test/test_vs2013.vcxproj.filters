@@ -65,7 +65,7 @@
     <ClInclude Include="..\wallaroo\jsonconfiguration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\wallaroo\plug.h">
+    <ClInclude Include="..\wallaroo\collaborator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\wallaroo\registered.h">

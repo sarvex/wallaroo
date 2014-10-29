@@ -22,7 +22,7 @@
       {
         "source": "draft",
         "dest": "canvas",
-        "plug": "canvas"
+        "collaborator": "canvas"
       }
 
     ]

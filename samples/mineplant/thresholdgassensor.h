@@ -46,7 +46,7 @@ public:
     virtual bool IsCritical() const;
     virtual ~ThresholdGasSensor();
 private:
-    Plug< AnalogInput > input;
+    Collaborator< AnalogInput > input;
     const unsigned int threshold;
     const bool criticalIfAbove;
 };

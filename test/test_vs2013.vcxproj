@@ -109,7 +109,7 @@
     <ClInclude Include="..\wallaroo\dynamic_loader.h" />
     <ClInclude Include="..\wallaroo\exceptions.h" />
     <ClInclude Include="..\wallaroo\jsonconfiguration.h" />
-    <ClInclude Include="..\wallaroo\plug.h" />
+    <ClInclude Include="..\wallaroo\collaborator.h" />
     <ClInclude Include="..\wallaroo\registered.h" />
     <ClInclude Include="..\wallaroo\xmlconfiguration.h" />
   </ItemGroup>

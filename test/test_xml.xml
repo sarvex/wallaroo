@@ -201,25 +201,25 @@
     <wire>
       <source>c1</source>
       <dest>a</dest>
-      <plug>x</plug>
+      <collaborator>x</collaborator>
     </wire>
 
     <wire>
       <source>c2</source>
       <dest>b</dest>
-      <plug>x</plug>
+      <collaborator>x</collaborator>
     </wire>
 
     <wire>
       <source>d</source>
       <dest>a</dest>
-      <plug>container</plug>
+      <collaborator>container</collaborator>
     </wire>
 
     <wire>
       <source>d</source>
       <dest>b</dest>
-      <plug>container</plug>
+      <collaborator>container</collaborator>
     </wire>
 
   </wiring>

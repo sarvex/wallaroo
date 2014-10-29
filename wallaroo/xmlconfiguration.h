@@ -90,12 +90,12 @@ namespace wallaroo
     <wire>
       <source>sourceInstance</source>
       <dest>targetInstance</dest>
-      <plug>plugName</plug>
+      <collaborator>plugName</collaborator>
     </wire>
     <wire>
       <source>sourceInstance2</source>
       <dest>targetInstance2</dest>
-      <plug>plugName2</plug>
+      <collaborator>plugName2</collaborator>
     </wire>
   </wiring>
 

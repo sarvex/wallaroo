@@ -30,8 +30,8 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_PLUG_H_
-#define WALLAROO_PLUG_H_
+#ifndef WALLAROO_COLLABORATOR_H_
+#define WALLAROO_COLLABORATOR_H_
 
 #include <string>
 #include <typeinfo>
@@ -44,22 +44,22 @@
 namespace wallaroo
 {
 
-/// This type should be used as second template parameter in Plug class to specify the Plug is optional
-/// (i.e.: you can omit to wire a part to the plug)
+/// This type should be used as second template parameter in Collaborator class to specify the Collaborator is optional
+/// (i.e.: you can omit to wire a part to the collaborator)
 struct optional
 {
     template < typename T >
     static bool WiringOk( const cxx0x::weak_ptr< T >& ) { return true; }
 };
-/// This type should be used as second template parameter in Plug class to specify the Plug is mandatory
-/// (i.e.: you cannot omit to wire a part to the plug)
+/// This type should be used as second template parameter in Collaborator class to specify the Collaborator is mandatory
+/// (i.e.: you cannot omit to wire a part to the collaborator)
 struct mandatory
 {
     template < typename T >
     static bool WiringOk( const cxx0x::weak_ptr< T >& t ) { return !t.expired(); }
 };
-/// This type should be used as second template parameter in Plug class to specify the Plug is a collection
-/// and you can wire to the plug a number of parts greater or equal to @c MIN
+/// This type should be used as second template parameter in Collaborator class to specify the Collaborator is a collection
+/// and you can wire to the collaborator a number of parts greater or equal to @c MIN
 /// and lesser or equal to @c MAX
 template < std::size_t MIN = 0, std::size_t MAX = 0 >
 struct bounded_collection
@@ -99,47 +99,47 @@ struct bounded_collection< 0, 0 >
         return true;
     }
 };
-/// This type should be used as second template parameter in Plug class to specify the Plug is a collection
-/// and you can wire as many parts to the plug as you want. Even zero.
+/// This type should be used as second template parameter in Collaborator class to specify the Collaborator is a collection
+/// and you can wire as many parts to the collaborator as you want. Even zero.
 typedef bounded_collection<> collection;
 
 /**
- * This represents a "plug" of a "part" that
- * you can "plug" into another "part".
+ * This represents a "collaborator" of a "part" that
+ * you can "collaborator" into another "part".
  *
- * If the part1 has the plug1 plugged to part2, part1 will
+ * If the part1 has the collaborator1 plugged to part2, part1 will
  * basically get a pointer to part2.
  *
  * @tparam T The type of the Part contained
- * @tparam P This represents the kind of Plug (@ref mandatory if you must wire a part,
- *           @ref optional if you can leave this plug unwired, 
- *           @ref collection if you can wire many parts to this plug)
- * @tparam Container If P = @ref collection, this represents the std container the Plug will derive from.
+ * @tparam P This represents the kind of Collaborator (@ref mandatory if you must wire a part,
+ *           @ref optional if you can leave this collaborator unwired, 
+ *           @ref collection if you can wire many parts to this collaborator)
+ * @tparam Container If P = @ref collection, this represents the std container the Collaborator will derive from.
  */
 template <
     typename T,
     typename P = mandatory,
     template < typename E, typename Allocator = std::allocator< E > > class Container = std::vector
 >
-class Plug  : public Connector
+class Collaborator  : public Connector
 {
 public:
 
     typedef cxx0x::weak_ptr< T > WeakPtr;
     typedef cxx0x::shared_ptr< T > SharedPtr;
 
-    /** Create a Plug and register it to its part for future wiring.
-    * @param name the name of this plug
+    /** Create a Collaborator and register it to its part for future wiring.
+    * @param name the name of this collaborator
     * @param token the registration token got calling Part::RegistrationToken()
     */
-    Plug( const std::string& name, const RegToken& token )
+    Collaborator( const std::string& name, const RegToken& token )
     {
         Part* owner = token.GetPart();
         owner -> Register( name, this );
     }
 
-    /** Plug this plug into a part
-    * @param dev The part you want insert this plug into
+    /** Collaborator this collaborator into a part
+    * @param dev The part you want insert this collaborator into
     * @throw WrongType If @c dev is not a subclass of @c T
     */
     void PlugInto( const cxx0x::shared_ptr< Part >& dev )
@@ -195,7 +195,7 @@ public:
         return result;
     }
     
-    /** Returns true if the plug has been wired and the embedded
+    /** Returns true if the collaborator has been wired and the embedded
     * part has not been deleted.
     * @return true If the embedded part exists.
     */
@@ -204,7 +204,7 @@ public:
         return !part.expired();
     }
 
-   /** Check if this Plug is correctly wired according to the
+   /** Check if this Collaborator is correctly wired according to the
     * P template parameter policy.
     * @return true If the check pass.
     */
@@ -217,8 +217,8 @@ private:
     WeakPtr part;
 
     // copy ctor and assignment operator disabled
-    Plug( const Plug& );
-    Plug& operator = ( const Plug& );
+    Collaborator( const Collaborator& );
+    Collaborator& operator = ( const Collaborator& );
 };
 
 
@@ -229,24 +229,24 @@ template <
     std::size_t MIN,
     std::size_t MAX
 >
-class Plug< T, bounded_collection< MIN, MAX >, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
+class Collaborator< T, bounded_collection< MIN, MAX >, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
 {
 private:
     typedef Container< cxx0x::weak_ptr< T > > C;
 
 public:
 
-    /** Create a Plug and register it to its part for future wiring.
-    * @param name the name of this plug
+    /** Create a Collaborator and register it to its part for future wiring.
+    * @param name the name of this collaborator
     * @param token the registration token got calling Part::RegistrationToken()
     */
-    Plug( const std::string& name, const RegToken& token )
+    Collaborator( const std::string& name, const RegToken& token )
     {
         Part* owner = token.GetPart();
         owner -> Register( name, this );
     }
 
-    /** Connect a part into this multiple plug
+    /** Connect a part into this multiple collaborator
     * @param part The part to connect
     * @throw WrongType If @c part is not a subclass of @c T
     */
@@ -259,7 +259,7 @@ public:
             C::push_back( obj );
     }
 
-    /** Check if this Plug is correctly wired (i.e. the size of the collection
+    /** Check if this Collaborator is correctly wired (i.e. the size of the collection
     * must be comprise in the interval [MIN, MAX])
     * @return true If the check pass.
     */
@@ -270,8 +270,8 @@ public:
 
 private:
     // copy ctor and assignment operator disabled
-    Plug( const Plug& );
-    Plug& operator = ( const Plug& );
+    Collaborator( const Collaborator& );
+    Collaborator& operator = ( const Collaborator& );
 };
 
 }

@@ -53,7 +53,7 @@ void Client::G()
     relation -> F();
 
     for ( 
-        Plug< Interface, collection, std::list >::iterator i = relationList.begin();
+        Collaborator< Interface, collection, std::list >::iterator i = relationList.begin();
         i != relationList.end();
         ++i )
     {
