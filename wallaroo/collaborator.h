@@ -274,6 +274,10 @@ private:
     Collaborator& operator = ( const Collaborator& );
 };
 
+#ifndef WALLAROO_REMOVE_DEPRECATED
+#define Plug Collaborator
+#endif
+
 }
 
 #endif

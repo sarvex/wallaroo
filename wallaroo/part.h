@@ -191,6 +191,10 @@ inline void Part::SetAttribute( const std::string& attribute, const std::string&
     SetStringAttribute( attribute, value );
 }
 
+#ifndef WALLAROO_REMOVE_DEPRECATED
+#define Device Part
+#endif
+
 } // namespace
 
 #endif
