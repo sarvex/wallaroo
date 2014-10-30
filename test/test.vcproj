@@ -218,7 +218,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\wallaroo\connector.h"
+				RelativePath="..\wallaroo\dependency.h"
 				>
 			</File>
 			<File

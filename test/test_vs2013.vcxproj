@@ -101,7 +101,7 @@
     <ClInclude Include="..\wallaroo\attribute.h" />
     <ClInclude Include="..\wallaroo\catalog.h" />
     <ClInclude Include="..\wallaroo\class.h" />
-    <ClInclude Include="..\wallaroo\connector.h" />
+    <ClInclude Include="..\wallaroo\dependency.h" />
     <ClInclude Include="..\wallaroo\cxx0x.h" />
     <ClInclude Include="..\wallaroo\deserializable_value.h" />
     <ClInclude Include="..\wallaroo\part.h" />

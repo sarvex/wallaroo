@@ -37,7 +37,7 @@
 #include <typeinfo>
 #include <vector>
 #include "cxx0x.h"
-#include "connector.h"
+#include "dependency.h"
 #include "part.h"
 #include "exceptions.h"
 
@@ -121,7 +121,7 @@ template <
     typename P = mandatory,
     template < typename E, typename Allocator = std::allocator< E > > class Container = std::vector
 >
-class Collaborator  : public Connector
+class Collaborator  : public Dependency
 {
 public:
 
@@ -229,7 +229,7 @@ template <
     std::size_t MIN,
     std::size_t MAX
 >
-class Collaborator< T, bounded_collection< MIN, MAX >, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
+class Collaborator< T, bounded_collection< MIN, MAX >, Container > : public Dependency, public Container< cxx0x::weak_ptr< T > >
 {
 private:
     typedef Container< cxx0x::weak_ptr< T > > C;

@@ -37,7 +37,7 @@
 #include <sstream>
 #include "exceptions.h"
 #include "cxx0x.h"
-#include "connector.h"
+#include "dependency.h"
 #include "deserializable_value.h"
 
 namespace wallaroo
@@ -65,9 +65,9 @@ private:
 };
 
 /**
- * This class represents a "part" that owns connectors (dependencies) and
+ * This class represents a "part" that owns dependencies (collaborators) and
  * attributes.
- * You can plug its connectors to other parts using the method Part::Wire
+ * You can plug its dependencies to other parts using the method Part::Wire
  * and assign a value to its attributes using the method SetAttribute, but
  * wallaroo provides mechanisms more flexible for these tasks
  * (i.e., the DSL constructs "use().as().of()" and "set_attribute().of().to()" and the
@@ -79,14 +79,14 @@ public:
     // we need to make Part virtual, to use dynamic_cast
     virtual ~Part() {}
 
-    /** Plug the connector @c connector of this part into the Part @c part.
-     *  @throw ElementNotFound if @c connector does not exist in this part.
-     *  @throw WrongType if @c part has not a type compatible with the connector.
+    /** Plug the dependency @c dependency of this part into the Part @c part.
+     *  @throw ElementNotFound if @c dependency does not exist in this part.
+     *  @throw WrongType if @c part has not a type compatible with the dependency.
      */
-    void Wire( const std::string& connector, const cxx0x::shared_ptr< Part >& part )
+    void Wire( const std::string& dependency, const cxx0x::shared_ptr< Part >& part )
     {
-        Connectors::iterator i = connectors.find( connector );
-        if ( i == connectors.end() ) throw ElementNotFound( connector );
+        Dependencies::iterator i = dependencies.find( dependency );
+        if ( i == dependencies.end() ) throw ElementNotFound( dependency );
         ( i -> second ) -> PlugInto( part );
     }
 
@@ -111,8 +111,8 @@ public:
     bool MultiplicitiesOk() const
     {
         for ( 
-            Connectors::const_iterator i = connectors.begin();
-            i != connectors.end();
+            Dependencies::const_iterator i = dependencies.begin();
+            i != dependencies.end();
             ++i
         )
             if ( ! i -> second -> WiringOk() )
@@ -143,12 +143,12 @@ private:
         plugin = p;
     }
 
-    // this method should only be invoked by the connectors of this part
-    // to register itself into the connectors table.
+    // this method should only be invoked by the dependencies of this part
+    // to register itself into the dependencies table.
     template < class T, class P, template < typename E, typename Allocator = std::allocator< E > > class Container > friend class Collaborator;
-    void Register( const std::string& id, Connector* c )
+    void Register( const std::string& id, Dependency* c )
     {
-        connectors[ id ] = c;
+        dependencies[ id ] = c;
     }
 
     // this method should only be invoked by the attributes of this part
@@ -169,8 +169,8 @@ private:
         ( i -> second ) -> Value( value );
     }
 
-    typedef cxx0x::unordered_map< std::string, Connector* > Connectors;
-    Connectors connectors;
+    typedef cxx0x::unordered_map< std::string, Dependency* > Dependencies;
+    Dependencies dependencies;
 
     typedef cxx0x::unordered_map< std::string, DeserializableValue* > Attributes;
     Attributes attributes;
