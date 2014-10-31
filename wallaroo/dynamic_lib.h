@@ -30,6 +30,11 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
+ /**
+ * @file
+ * This header file must be included only *once* in every shared library.
+ */
+ 
 #ifndef WALLAROO_DYNAMIC_LIB_H_
 #define WALLAROO_DYNAMIC_LIB_H_
 
