@@ -30,6 +30,11 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
+ /**
+ * @file
+ * This header file must be included in *every* source file of a shared library.
+ */
+ 
 #ifndef WALLAROO_DYN_REGISTERED_H_
 #define WALLAROO_DYN_REGISTERED_H_
 

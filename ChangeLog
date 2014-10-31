@@ -1,5 +1,6 @@
-<date>: <version>
+2014-10-31: Version 0.7.0
 
+        * Changed Syntax: Device -> Part, Plug -> Collaborator (close issue #1)
         * Bug fix: shared lib from multiple sources (close issue #7)
         * Template and namespace classes registration (close issue #8)
 

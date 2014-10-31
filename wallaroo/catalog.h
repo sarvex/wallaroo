@@ -75,10 +75,10 @@ public:
     * \code{.cpp}
     *     shared_ptr< Foo > foo = catalog[ "foo" ];
     * \endcode
-    * @param id the name of the element
-    * @return the element.
-    * @throw ElementNotFound if the element does not exist in the catalog.
-    * @throw ElementNotFound if an element with key @c id cannot be found
+    * @param id The name of the element
+    * @return The element.
+    * @throw ElementNotFound If the element does not exist in the catalog.
+    * @throw ElementNotFound If an element with key @c id cannot be found
     *                        in the catalog.
     */
     detail::PartShell operator [] ( const std::string& id ) const
@@ -89,9 +89,9 @@ public:
     }
 
     /** Add an element to the catalog
-    * @param id the name of the element to add
-    * @param dev the element to add (its class must derive from wallaroo::Part)
-    * @throw DuplicatedElement if a part with the name @c id is already in the catalog
+    * @param id The name of the element to add
+    * @param dev The element to add (its class must derive from wallaroo::Part)
+    * @throw DuplicatedElement If a part with the name @c id is already in the catalog
     */
     void Add( const std::string& id, const cxx0x::shared_ptr< Part >& dev )
     {
@@ -106,8 +106,8 @@ public:
     * @param p1 The first parameter of the class constructor
     * @param p2 The second parameter of the class constructor
     * @return The element created.
-    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
-    * @throw ElementNotFound if @c className class has not been registered
+    * @throw DuplicatedElement If an element with the name @c id is already in the catalog
+    * @throw ElementNotFound If @c className class has not been registered
     */
     template < class P1, class P2 >
     detail::PartShell Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
@@ -125,8 +125,8 @@ public:
     * @param className The name of the class to instantiate (must derive from wallaroo::Part)
     * @param p The parameter of the class constructor
     * @return The element created.
-    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
-    * @throw ElementNotFound if @c className class has not been registered
+    * @throw DuplicatedElement If an element with the name @c id is already in the catalog
+    * @throw ElementNotFound If @c className class has not been registered
     */
     template < class P >
     detail::PartShell Create( const std::string& id, const std::string& className, const P& p )
@@ -143,8 +143,8 @@ public:
     * @param id The name of the element to create and add
     * @param className The name of the class to instantiate (must derive from wallaroo::Part)
     * @return The element created.
-    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
-    * @throw ElementNotFound if @c className class has not been registered
+    * @throw DuplicatedElement If an element with the name @c id is already in the catalog
+    * @throw ElementNotFound If @c className class has not been registered
     */
     detail::PartShell Create( const std::string& id, const std::string& className )
     {
@@ -158,7 +158,7 @@ public:
 
     /** Check if the wiring of the objects inside the container
     * is correct according to the multiplicity declared in the Collaborator definition.
-    * @return false if the wiring does not match with the multiplicity declared.
+    * @return false If the wiring does not match with the multiplicity declared.
     */
     bool IsWiringOk() const
     {
@@ -167,7 +167,7 @@ public:
 
     /** Check if the wiring of the objects inside the container
     * is correct according to the multiplicity declared in the Collaborator definition.
-    * @throw WiringError if the wiring does not match with the multiplicity declared.
+    * @throw WiringError If the wiring does not match with the multiplicity declared.
     */
     void CheckWiring() const
     {
