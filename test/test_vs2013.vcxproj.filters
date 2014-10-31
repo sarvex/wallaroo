@@ -44,13 +44,13 @@
     <ClInclude Include="..\wallaroo\class.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\wallaroo\connector.h">
+    <ClInclude Include="..\wallaroo\dependency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\wallaroo\cxx0x.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\wallaroo\device.h">
+    <ClInclude Include="..\wallaroo\part.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\wallaroo\dynamic_lib.h">
@@ -65,7 +65,7 @@
     <ClInclude Include="..\wallaroo\jsonconfiguration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\wallaroo\plug.h">
+    <ClInclude Include="..\wallaroo\collaborator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\wallaroo\registered.h">

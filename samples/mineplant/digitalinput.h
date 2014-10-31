@@ -37,7 +37,7 @@
 
 using namespace wallaroo;
 
-class DigitalInput : public Device
+class DigitalInput : public Part
 {
 public:
     virtual bool Read() const = 0;

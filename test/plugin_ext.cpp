@@ -30,62 +30,47 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_DETAIL_DEVICESHELL_H_
-#define WALLAROO_DETAIL_DEVICESHELL_H_
+#include "wallaroo/dyn_registered.h"
 
-#include <string>
-#include <typeinfo>
-#include <cassert>
-#include "wallaroo/cxx0x.h"
-#include "wallaroo/device.h"
+#include "plugin_interface.h"
 
-namespace wallaroo
-{
-namespace detail
-{
-
-
-// This class provides the conversion operator to the contained type.
-// In particular, the Catalog::operator[] returns a DeviceShell
-// that can be converted to the inner type.
-class DeviceShell
+class C6 : public I6
 {
 public:
-
-    DeviceShell( const cxx0x::shared_ptr< Device >& dev ) :
-        device( dev ) 
-    {
-        assert( device );
-    }
-
-    void Wire( const std::string& plugName, const DeviceShell& destination ) const
-    {
-        device -> Wire( plugName, destination.device );
-    }
-
-    template < class T >
-    void SetAttribute( const std::string& attribute, const T& value ) const
-    {
-        device -> SetAttribute( attribute, value );
-    }
-
-    /** Convert the contained device to the type T
-    * @return the converted device.
-    * @throw WrongType if the contained device is not a subclass of T
-    */
-    template < class T >
-    operator cxx0x::shared_ptr< T >()
-    {
-        cxx0x::shared_ptr< T > result = cxx0x::dynamic_pointer_cast< T >( device );
-        if ( ! result ) throw WrongType();
-        return result;
-    }
-
+    virtual int F() { return att1 + att2; }
+    C6() : att1( "att1", RegistrationToken() ), att2( "att2", RegistrationToken() ) {}
+    ~C6() {}
 private:
-    cxx0x::shared_ptr< Device > device;
+    wallaroo::Attribute< int > att1;
+    wallaroo::Attribute< unsigned int > att2;
 };
 
-} // namespace detail
-} // namespace wallaroo
+WALLAROO_DYNLIB_REGISTER( C6 );
 
-#endif
+template < typename T >
+class D6 : public I6
+{
+public:
+    virtual int F() { return 4; }
+    D6() : x( 4 ) {}
+    ~D6() {}
+private:
+    const T x;
+};
+
+WALLAROO_DYNLIB_REGISTER( D6< double > );
+WALLAROO_DYNLIB_REGISTER( D6< int > );
+
+namespace Foo
+{
+    class E6 : public I6
+    {
+    public:
+        E6() : x( 9 ) {}
+        virtual int F() { return x;  }
+    private:
+        const int x;
+    };
+}
+
+WALLAROO_DYNLIB_REGISTER( Foo::E6 );

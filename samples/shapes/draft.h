@@ -39,15 +39,15 @@
 
 using namespace wallaroo;
 
-class Draft : public Device
+class Draft : public Part
 {
 public:
     Draft();
     void Align();
     void Draw();
 private:
-    Plug< Canvas > canvas;
-    Plug< Shape, collection > shapes;
+    Collaborator< Canvas > canvas;
+    Collaborator< Shape, collection > shapes;
 };
 
 #endif

@@ -30,26 +30,31 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#include "wallaroo/dynamic_lib.h"
-#include "wallaroo/dyn_registered.h"
+ /**
+ * @file
+ * This header file must be included in *every* source file of a shared library.
+ */
+ 
+#ifndef WALLAROO_DYN_REGISTERED_H_
+#define WALLAROO_DYN_REGISTERED_H_
 
-#include "plugin_interface.h"
+#include "registered.h" // imports header with facilities to define wallaroo classes and WALLAROO_TOKENPASTE macro
 
-class A6: public I6
-{
-public:
-    virtual int F() { return 3; }
-    A6() {}
-    ~A6() {}
-};
+// for the macro
+#include "detail/dyn_class_descriptor.h"
+#include "detail/dyn_class_descriptor_impl.h"
 
-class B6: public I6
-{
-public:
-    virtual int F() { return 4; }
-    B6() {}
-    ~B6() {}
-};
+/** This macro must be used in the shared libraries
+ * to register a class. When a class is registered, you can create an instance
+ * using wallaroo::Catalog::Create().
+ * Please note you can put multiple registration clauses, if you have multiple classes
+ * defined in the same shared library.
+ * @param C The class name
+ * @hideinitializer
+ */
+#define WALLAROO_DYNLIB_REGISTER( C ) \
+    static const ::wallaroo::detail::DynRegistration< C > WALLAROO_TOKENPASTE(__reg__,__LINE__)( #C ) ;
 
-WALLAROO_DYNLIB_REGISTER( A6 );
-WALLAROO_DYNLIB_REGISTER( B6 );
+
+#endif // WALLAROO_DYN_REGISTERED_H_
+

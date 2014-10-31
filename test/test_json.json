@@ -8,7 +8,7 @@
         "shared": "plugin2"
     },
 
-    "devices":
+    "parts":
     [
       {
         "name": "a",
@@ -47,7 +47,7 @@
 
       {
         "name": "d",
-        "class": "D5",
+        "class": "Foo::D5",
         "parameter1":
           {
             "type": "string",
@@ -164,6 +164,16 @@
             "value": 200
           }
       },
+
+      {
+        "name": "o_double",
+        "class": "O5< double >"
+      },
+
+      {
+        "name": "o_int",
+        "class": "O5< int >"
+      },
       
       {
         "name": "p",
@@ -182,25 +192,25 @@
       {
         "source": "c1",
         "dest": "a",
-        "plug": "x"
+        "collaborator": "x"
       },
 
       {
         "source": "c2",
         "dest": "b",
-        "plug": "x"
+        "collaborator": "x"
       },
 
       {
         "source": "d",
         "dest": "a",
-        "plug": "container"
+        "collaborator": "container"
       },
 
       {
         "source": "d",
         "dest": "b",
-        "plug": "container"
+        "collaborator": "container"
       }
     ]
 

@@ -37,7 +37,7 @@
 
 using namespace wallaroo;
 
-class DigitalOutput : public Device
+class DigitalOutput : public Part
 {
 public:
     virtual void Write( bool value ) = 0;

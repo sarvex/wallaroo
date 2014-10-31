@@ -30,24 +30,17 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
+ /**
+ * @file
+ * This header file must be included only *once* in every shared library.
+ */
+ 
 #ifndef WALLAROO_DYNAMIC_LIB_H_
 #define WALLAROO_DYNAMIC_LIB_H_
 
 #include <vector>
 #include "detail/dyn_class_descriptor.h"
-#include "detail/dyn_class_descriptor_impl.h"
 #include "detail/platform_specific_lib_macros.h"
-
-/** This macro must be used in the shared libraries
- * to register a class. When a class is registered, you can create an instance
- * using wallaroo::Catalog::Create().
- * Please note you can put multiple registration clauses, if you have multiple classes
- * defined in the same shared library.
- * @param C The class name
- * @hideinitializer
- */
-#define WALLAROO_DYNLIB_REGISTER( C ) \
-    static wallaroo::detail::DynRegistration< C > C##p( #C );
 
 // This function is exported by the shared library when you include this header
 // file. It provides a container of descriptors of the classes exported by

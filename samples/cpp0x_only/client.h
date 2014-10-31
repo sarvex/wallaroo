@@ -39,18 +39,18 @@
 
 using namespace wallaroo;
 
-class Client : public Device // we derive from Device to make this class registrable
+class Client : public Part // we derive from Part to make this class registrable
 {
 public:
     Client();
     virtual void G();
     virtual ~Client();
 private:
-    Plug< Interface > relation;
-    Plug< Interface, optional > optionalRelation;
-    Plug< Interface, collection > relationVector; // std::vector by default
-    Plug< Interface, collection, std::list > relationList; // you can specify a different container
-    Plug< Interface, bounded_collection< 1, 10 > > relationBoundedVector; // you can specify the range 
+    Collaborator< Interface > relation;
+    Collaborator< Interface, optional > optionalRelation;
+    Collaborator< Interface, collection > relationVector; // std::vector by default
+    Collaborator< Interface, collection, std::list > relationList; // you can specify a different container
+    Collaborator< Interface, bounded_collection< 1, 10 > > relationBoundedVector; // you can specify the range 
 };
 
 #endif

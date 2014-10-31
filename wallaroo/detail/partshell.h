@@ -30,26 +30,61 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#include "wallaroo/dynamic_lib.h"
-#include "wallaroo/dyn_registered.h"
+#ifndef WALLAROO_DETAIL_PARTSHELL_H_
+#define WALLAROO_DETAIL_PARTSHELL_H_
 
-#include "plugin_interface.h"
+#include <string>
+#include <typeinfo>
+#include <cassert>
+#include "wallaroo/cxx0x.h"
+#include "wallaroo/part.h"
 
-class A6: public I6
+namespace wallaroo
+{
+namespace detail
+{
+
+
+// This class provides the conversion operator to the contained type.
+// In particular, the Catalog::operator[] returns a PartShell
+// that can be converted to the inner type.
+class PartShell
 {
 public:
-    virtual int F() { return 3; }
-    A6() {}
-    ~A6() {}
+
+    PartShell( const cxx0x::shared_ptr< Part >& dev ) : part( dev ) 
+    {
+        assert( part );
+    }
+
+    void Wire( const std::string& collaboratorName, const PartShell& destination ) const
+    {
+        part -> Wire( collaboratorName, destination.part );
+    }
+
+    template < class T >
+    void SetAttribute( const std::string& attribute, const T& value ) const
+    {
+        part -> SetAttribute( attribute, value );
+    }
+
+    /** Convert the contained part to the type T
+    * @return the converted part.
+    * @throw WrongType if the contained part is not a subclass of T
+    */
+    template < class T >
+    operator cxx0x::shared_ptr< T >()
+    {
+        cxx0x::shared_ptr< T > result = cxx0x::dynamic_pointer_cast< T >( part );
+        if ( ! result ) throw WrongType();
+        return result;
+    }
+
+private:
+    cxx0x::shared_ptr< Part > part;
 };
 
-class B6: public I6
-{
-public:
-    virtual int F() { return 4; }
-    B6() {}
-    ~B6() {}
-};
+} // namespace detail
+} // namespace wallaroo
 
-WALLAROO_DYNLIB_REGISTER( A6 );
-WALLAROO_DYNLIB_REGISTER( B6 );
+#endif

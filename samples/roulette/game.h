@@ -38,14 +38,14 @@
 
 using namespace wallaroo;
 
-class Game : public Device
+class Game : public Part
 {
 public:
     Game();
     void Play();
 private:
-    Plug< Player > player;
-    Plug< Wheel > wheel;
+    Collaborator< Player > player;
+    Collaborator< Wheel > wheel;
 };
 
 #endif

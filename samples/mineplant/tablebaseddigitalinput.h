@@ -48,7 +48,7 @@ public:
     virtual ~TableBasedDigitalInput();
 private:
     const std::string key;
-    Plug< QuantityTable > table;
+    Collaborator< QuantityTable > table;
 };
 
 #endif

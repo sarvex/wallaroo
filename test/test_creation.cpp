@@ -40,16 +40,15 @@ using namespace cxx0x;
 
 // some classes:
 
-class A1 : public Device
+class A1 : public Part
 {
 public:
     int F() { return 5; }
 };
 
 WALLAROO_REGISTER( A1 );
-//static const Registration< A1 > r( "A1" );
 
-class B1: public Device
+class B1: public Part
 {
 public:
     B1( int _x, const std::string& _y ) : x( _x ), y( _y ) {}
@@ -62,9 +61,8 @@ private:
 };
 
 WALLAROO_REGISTER( B1, int, std::string );
-//static const Registration< B1, int, std::string > r2( "B1" );
 
-class C1: public Device
+class C1: public Part
 {
 public:
     C1( double _x ) : x( _x ) {}
@@ -74,7 +72,33 @@ private:
 };
 
 WALLAROO_REGISTER( C1, double );
-//static const Registration< C1, double > r3( "C1" );
+
+template < typename T >
+class D1 : public Part
+{
+public:
+    D1() : x( 3 ) {}
+    T GetX() const { return x; }
+private:
+    T x;
+};
+
+WALLAROO_REGISTER( D1< double > );
+WALLAROO_REGISTER( D1< int > );
+
+namespace Foo
+{
+    class E1 : public Part
+    {
+    public:
+        E1() : x( 9 ) {}
+        int GetX() const { return x; }
+    private:
+        const int x;
+    };
+}
+
+WALLAROO_REGISTER( Foo::E1 );
 
 // tests
 
@@ -141,5 +165,36 @@ BOOST_AUTO_TEST_CASE( stringCtor )
     BOOST_REQUIRE_NO_THROW( catalog[ "b" ] );
 }
 #endif
+
+BOOST_AUTO_TEST_CASE( templateRegistration )
+{
+    Catalog catalog;
+    shared_ptr< D1< double > > d1_double;
+    shared_ptr< D1< int > > d1_int;
+    // existent classes:
+    BOOST_REQUIRE_NO_THROW( d1_double = catalog.Create( "d1_double", "D1< double >" ) );
+    BOOST_REQUIRE_NO_THROW( d1_int = catalog.Create( "d1_int", "D1< int >" ) );
+    // unexistent class
+    BOOST_CHECK_THROW( catalog.Create( "d1_string", "D1< string >" ), ElementNotFound );
+    // retrieve
+    shared_ptr< D1< double > > d1_double_bis;
+    BOOST_REQUIRE_NO_THROW( d1_double_bis = catalog[ "d1_double" ] );
+    BOOST_CHECK( d1_double -> GetX() == 3.0 );
+    BOOST_CHECK( d1_double == d1_double_bis );
+}
+
+BOOST_AUTO_TEST_CASE( namespaceRegistration )
+{
+    Catalog catalog;
+    shared_ptr< Foo::E1 > e;
+
+    // existent classes:
+    BOOST_REQUIRE_NO_THROW( e = catalog.Create( "e", "Foo::E1" ) );
+    // retrieve
+    shared_ptr< Foo::E1 > e_bis;
+    BOOST_REQUIRE_NO_THROW( e_bis = catalog[ "e" ] );
+    BOOST_CHECK( e -> GetX() == 9 );
+    BOOST_CHECK( e == e_bis );
+}
 
 BOOST_AUTO_TEST_SUITE_END()

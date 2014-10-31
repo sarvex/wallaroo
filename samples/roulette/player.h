@@ -39,7 +39,7 @@
 // forward declaration
 class Bet;
 
-class Player : public wallaroo::Device
+class Player : public wallaroo::Part
 {
 public:
     virtual ~Player() {}

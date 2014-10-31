@@ -49,9 +49,9 @@ void Deleter( T* obj )
 }
 
 template < typename T >
-cxx0x::shared_ptr< Device > Builder()
+cxx0x::shared_ptr< Part > Builder()
 {
-    return cxx0x::shared_ptr< Device >( new T, Deleter< T > );
+    return cxx0x::shared_ptr< Part >( new T, Deleter< T > );
 }
 
 }
@@ -65,7 +65,7 @@ void Descriptor::Insert( const std::string& className )
     DB().push_back( d );
 }
 
-std::vector< Descriptor >& Descriptor::DB()
+inline std::vector< Descriptor >& Descriptor::DB()
 {
     static std::vector< Descriptor > db;
     return db;

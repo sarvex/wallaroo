@@ -35,7 +35,7 @@
 
 #include "wallaroo/registered.h"
 
-class Canvas : public wallaroo::Device
+class Canvas : public wallaroo::Part
 {
 public:
     virtual ~Canvas() {}

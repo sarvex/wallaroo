@@ -39,14 +39,14 @@
 
 using namespace wallaroo;
 
-class SumpPump : public Device
+class SumpPump : public Part
 {
 public:
     SumpPump();
     virtual void Drain();
 private:
-    Plug< SumpProbe > probe;
-    Plug< PumpEngine > engine;
+    Collaborator< SumpProbe > probe;
+    Collaborator< PumpEngine > engine;
 };
 
 

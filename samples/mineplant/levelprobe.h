@@ -38,7 +38,7 @@
 
 using namespace wallaroo;
 
-class LevelProbe : public Device
+class LevelProbe : public Part
 {
 public:
     LevelProbe() :
@@ -51,7 +51,7 @@ public:
     }
     virtual ~LevelProbe() {}
 private:
-    Plug< AnalogInput > input;
+    Collaborator< AnalogInput > input;
 };
 
 #endif

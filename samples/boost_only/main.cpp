@@ -80,7 +80,7 @@ int main( int argc, char* argv[] )
             use ( "derived2" ).as( "relationBoundedVector" ).of( "c2" );
         }
 
-        // check if all plugs are wired according to their specification
+        // check if all collaborators are wired according to their specification
         assert( catalog.IsWiringOk() );
 
         // You can retrieve an object from the catalog using

@@ -36,9 +36,9 @@ Feel free to try and modify it :-)
 -->
 
 <wallaroo>
-  <devices>
+  <parts>
 
-    <device>
+    <part>
       <name>rec1</name>
       <class>Rectangle</class>
       <attribute>
@@ -49,9 +49,9 @@ Feel free to try and modify it :-)
         <name>height</name>
         <value>10</value>
       </attribute>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>rec2</name>
       <class>Rectangle</class>
       <attribute>
@@ -62,18 +62,18 @@ Feel free to try and modify it :-)
         <name>height</name>
         <value>3</value>
       </attribute>
-    </device>
+    </part>
     
-    <device>
+    <part>
       <name>circle</name>
       <class>Circle</class>
       <attribute>
         <name>radius</name>
         <value>10</value>
       </attribute>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>triangle1</name>
       <class>Triangle</class>
       <attribute>
@@ -84,9 +84,9 @@ Feel free to try and modify it :-)
         <name>height</name>
         <value>10</value>
       </attribute>
-    </device>
+    </part>
 
-    <device>
+    <part>
       <name>triangle2</name>
       <class>Triangle</class>
       <attribute>
@@ -97,39 +97,39 @@ Feel free to try and modify it :-)
         <name>height</name>
         <value>10</value>
       </attribute>
-    </device>
+    </part>
 
-  </devices>
+  </parts>
 
   <wiring>
 
     <wire>
       <source>draft</source>
       <dest>rec1</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
 
     <wire>
       <source>draft</source>
       <dest>rec2</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
 
     <wire>
       <source>draft</source>
       <dest>circle</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
     
     <wire>
       <source>draft</source>
       <dest>triangle1</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
    <wire>
       <source>draft</source>
       <dest>triangle2</dest>
-      <plug>shapes</plug>
+      <collaborator>shapes</collaborator>
     </wire>
 
   </wiring>

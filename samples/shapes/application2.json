@@ -3,7 +3,7 @@
   "wallaroo":
   {
 
-    "devices":
+    "parts":
     [
       {
         "name": "draft",
@@ -26,7 +26,7 @@
       {
         "source": "draft",
         "dest": "canvas",
-        "plug": "canvas"
+        "collaborator": "canvas"
       }
 
     ]

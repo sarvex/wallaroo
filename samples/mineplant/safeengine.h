@@ -47,7 +47,7 @@ public:
     virtual void Off();
     virtual ~SafeEngine();
 private:
-    Plug< GasSensor > sensor;
+    Collaborator< GasSensor > sensor;
 };
 
 #endif

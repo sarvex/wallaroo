@@ -36,9 +36,9 @@
 #include <string>
 #include <typeinfo>
 #include <cassert>
-#include "detail/deviceshell.h"
+#include "detail/partshell.h"
 #include "cxx0x.h"
-#include "device.h"
+#include "part.h"
 #include "class.h"
 
 namespace wallaroo
@@ -50,12 +50,14 @@ class UseAsExpression;
 class UseExpression;
 
 /**
- * Catalog of devices available for the application.
+ * Catalog of parts available for the application.
  *
  * It can create the instances from the name of a class 
  * previously registered with one of the macros
- * WALLAROO_REGISTER(C), WALLAROO_DYNLIB_REGISTER(C)
- * or add the instances.
+ * WALLAROO_REGISTER(C), WALLAROO_DYNLIB_REGISTER(C).
+ *
+ * Alternatively, you can add an instance, provided that
+ * its class derives from wallaroo::Part.
  *
  * Each item in the catalog is identified by a @c id, with which
  * you can perform a lookup.
@@ -64,123 +66,125 @@ class Catalog
 {
 public:
 
-    /** Default ctor: build an empty catalog.
+    /** Build an empty catalog.
     */
     Catalog() {}
 
-    /** Look for the element @c itemId in the catalog. It returns a class that
+    /** Look for the element @c id in the catalog. It returns a class that
     * provides conversion operator so that you can write eg:
     * \code{.cpp}
     *     shared_ptr< Foo > foo = catalog[ "foo" ];
     * \endcode
-    * @param itemId the name of the element
-    * @return the element.
-    * @throw ElementNotFound if the element does not exist in the catalog.
+    * @param id The name of the element
+    * @return The element.
+    * @throw ElementNotFound If the element does not exist in the catalog.
+    * @throw ElementNotFound If an element with key @c id cannot be found
+    *                        in the catalog.
     */
-    detail::DeviceShell operator [] ( const std::string& itemId )
+    detail::PartShell operator [] ( const std::string& id ) const
     {
-        Devices::iterator i = devices.find( itemId );
-        if ( i == devices.end() ) throw ElementNotFound( itemId );
-        return detail::DeviceShell( i -> second );
+        Parts::const_iterator i = parts.find( id );
+        if ( i == parts.end() ) throw ElementNotFound( id );
+        return detail::PartShell( i -> second );
     }
 
-    /** Add a device to the catalog
-    * @param id the name of the device to add
-    * @param dev the device to add
-    * @throw DuplicatedElement if a device with the name @c id is already in the catalog
+    /** Add an element to the catalog
+    * @param id The name of the element to add
+    * @param dev The element to add (its class must derive from wallaroo::Part)
+    * @throw DuplicatedElement If a part with the name @c id is already in the catalog
     */
-    void Add( const std::string& id, const cxx0x::shared_ptr< Device >& dev )
+    void Add( const std::string& id, const cxx0x::shared_ptr< Part >& dev )
     {
-        std::pair< Devices::iterator, bool > result = 
-            devices.insert( std::make_pair( id, dev ) );
+        std::pair< Parts::iterator, bool > result = 
+            parts.insert( std::make_pair( id, dev ) );
         if ( ! result.second ) throw DuplicatedElement( id );
     }
 
     /** Instantiate a class having a 2 parameters constructor and add it to the catalog
-    * @param id the name of the element to create and add
-    * @param className the name of the class to instantiate
+    * @param id The name of the element to create and add
+    * @param className The name of the class to instantiate (must derive from wallaroo::Part)
     * @param p1 The first parameter of the class constructor
     * @param p2 The second parameter of the class constructor
-    * @return the element created.
-    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
-    * @throw ElementNotFound if @c className class has not been registered
+    * @return The element created.
+    * @throw DuplicatedElement If an element with the name @c id is already in the catalog
+    * @throw ElementNotFound If @c className class has not been registered
     */
     template < class P1, class P2 >
-    detail::DeviceShell Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
+    detail::PartShell Create( const std::string& id, const std::string& className, const P1& p1, const P2& p2 )
     {
         typedef Class< P1, P2 > C;
         C c = C::ForName( className );
-        cxx0x::shared_ptr< Device > obj = c.NewInstance( p1, p2 );
+        cxx0x::shared_ptr< Part > obj = c.NewInstance( p1, p2 );
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
-        return detail::DeviceShell( obj );
+        return detail::PartShell( obj );
     }
 
     /** Instantiate a class having a 1 parameters constructor and add it to the catalog
-    * @param id the name of the element to create and add
-    * @param className the name of the class to instantiate
+    * @param id The name of the element to create and add
+    * @param className The name of the class to instantiate (must derive from wallaroo::Part)
     * @param p The parameter of the class constructor
-    * @return the element created.
-    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
-    * @throw ElementNotFound if @c className class has not been registered
+    * @return The element created.
+    * @throw DuplicatedElement If an element with the name @c id is already in the catalog
+    * @throw ElementNotFound If @c className class has not been registered
     */
     template < class P >
-    detail::DeviceShell Create( const std::string& id, const std::string& className, const P& p )
+    detail::PartShell Create( const std::string& id, const std::string& className, const P& p )
     {
         typedef Class< P, void > C;
         C c = C::ForName( className );
-        cxx0x::shared_ptr< Device > obj = c.NewInstance( p );
+        cxx0x::shared_ptr< Part > obj = c.NewInstance( p );
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
-        return detail::DeviceShell( obj );
+        return detail::PartShell( obj );
     }
 
     /** Instantiate a class having a default constructor and add it to the catalog
-    * @param id the name of the element to create and add
-    * @param className the name of the class to instantiate
-    * @return the element created.
-    * @throw DuplicatedElement if an element with the name @c id is already in the catalog
-    * @throw ElementNotFound if @c className class has not been registered
+    * @param id The name of the element to create and add
+    * @param className The name of the class to instantiate (must derive from wallaroo::Part)
+    * @return The element created.
+    * @throw DuplicatedElement If an element with the name @c id is already in the catalog
+    * @throw ElementNotFound If @c className class has not been registered
     */
-    detail::DeviceShell Create( const std::string& id, const std::string& className )
+    detail::PartShell Create( const std::string& id, const std::string& className )
     {
         typedef Class< void, void > C;
         C c = C::ForName( className );
-        cxx0x::shared_ptr< Device > obj = c.NewInstance();
+        cxx0x::shared_ptr< Part > obj = c.NewInstance();
         if ( obj.get() == NULL ) throw ElementNotFound( className );
         Add( id, obj );
-        return detail::DeviceShell( obj );
+        return detail::PartShell( obj );
     }
 
-    /** Check if the plugs wiring of the objects inside the container
-    * is correct according to the multiplicity declared in the plug definition.
-    * @return false if the wiring does not match with the multiplicity declared.
+    /** Check if the wiring of the objects inside the container
+    * is correct according to the multiplicity declared in the Collaborator definition.
+    * @return false If the wiring does not match with the multiplicity declared.
     */
     bool IsWiringOk() const
     {
         return FindWrongMultiplicity().empty();
     }
 
-    /** Check if the plugs wiring of the objects inside the container
-    * is correct according to the multiplicity declared in the plug definition.
-    * @throw WiringError if the wiring does not match with the multiplicity declared.
+    /** Check if the wiring of the objects inside the container
+    * is correct according to the multiplicity declared in the Collaborator definition.
+    * @throw WiringError If the wiring does not match with the multiplicity declared.
     */
     void CheckWiring() const
     {
-        const std::string wrongDevice = FindWrongMultiplicity();
-        if ( !wrongDevice.empty() ) throw WiringError( wrongDevice );
+        const std::string wrongPart = FindWrongMultiplicity();
+        if ( !wrongPart.empty() ) throw WiringError( wrongPart );
     }
 
-    /** This method calls Device::Init on every device it contains.
+    /** This method calls Part::Init on every Part contained.
      *  You can call it in the setup phase of your application to perform
-     *  the initialization required by each device before the run.
+     *  the initialization required by each part before the run.
      *  Ideally you should call it *after* wiring and attributes setting, so that
      *  your objects already have dependencies and the right attribute values.
-     *  This method rethrows every exception thrown by the devices Init methodm called
+     *  This method rethrows every exception thrown by each Part::Init.
      */
     void Init()
     {
-        for ( Devices::const_iterator i = devices.begin(); i != devices.end(); ++i )
+        for ( Parts::const_iterator i = parts.begin(); i != parts.end(); ++i )
             i -> second -> Init();
     }
 
@@ -190,11 +194,11 @@ private:
     Catalog( const Catalog& );
     Catalog& operator = ( const Catalog& );
 
-    // returns the name of the first devices with wrong multiplicity
+    // returns the name of the first parts with wrong multiplicity
     // or the empty string if the test has success
     std::string FindWrongMultiplicity() const
     {
-        for( Devices::const_iterator i = devices.begin(); i != devices.end(); ++i )
+        for( Parts::const_iterator i = parts.begin(); i != parts.end(); ++i )
         {
             if ( ! i -> second -> MultiplicitiesOk() )
                 return( i -> first );
@@ -202,8 +206,8 @@ private:
         return std::string();
     }
 
-    typedef cxx0x::unordered_map< std::string, cxx0x::shared_ptr< Device > > Devices;
-    Devices devices;
+    typedef cxx0x::unordered_map< std::string, cxx0x::shared_ptr< Part > > Parts;
+    Parts parts;
 
     friend class Context;
     friend class UseAsExpression;
@@ -226,12 +230,12 @@ private:
 class UseAsExpression
 {
 public:
-    UseAsExpression( detail::DeviceShell& _destClass, const std::string& _attribute ) :
+    UseAsExpression( detail::PartShell& _destClass, const std::string& _attribute ) :
       destClass( _destClass ),
       attribute( _attribute )
     {
     }
-    void of( const detail::DeviceShell& srcClass )
+    void of( const detail::PartShell& srcClass )
     {
         // perform the final assignment:
         srcClass.Wire( attribute, destClass );
@@ -245,7 +249,7 @@ public:
         of( ( *current )[ srcClass ] );
     }
 private:
-    const detail::DeviceShell destClass;
+    const detail::PartShell destClass;
     const std::string attribute;
 };
 
@@ -254,7 +258,7 @@ private:
 class UseExpression
 {
 public:
-    explicit UseExpression( const detail::DeviceShell& _destClass )
+    explicit UseExpression( const detail::PartShell& _destClass )
         : destClass( _destClass )
     {
     }
@@ -263,21 +267,21 @@ public:
         return UseAsExpression( destClass, attribute );
     }
 private:
-    detail::DeviceShell destClass;
+    detail::PartShell destClass;
 };
 
 
 /**
  * This function provides the "use" part in the syntax 
- * @c use( catalog[ "device1" ] ).as( "plug" ).of( catalog[ "device2" ] )
+ * @c use( catalog[ "part1" ] ).as( "collaborator" ).of( catalog[ "part2" ] )
  */
-inline UseExpression use( const detail::DeviceShell& destClass )
+inline UseExpression use( const detail::PartShell& destClass )
 {
     return UseExpression( destClass );
 }
 
 /**
- * This function provides the "use" part in the syntax @c use( "device1" ).as( "plug" ).of( "device2" )
+ * This function provides the "use" part in the syntax @c use( "part1" ).as( "collaborator" ).of( "part2" )
  * @throw CatalogNotSpecified if the current catalog has not been selected including
  * this function in a wallaroo_within section
  */
@@ -295,16 +299,16 @@ inline UseExpression use( const std::string& destClass )
 class SetOfExpression
 {
 public:
-    SetOfExpression( const detail::DeviceShell& _device, const std::string& _attribute ) :
-        device( _device ), attribute( _attribute ) {}
+    SetOfExpression( const detail::PartShell& _part, const std::string& _attribute ) :
+        part( _part ), attribute( _attribute ) {}
     template < typename T >
     void to( const T& value )
     {
         // perform the final assignment:
-        device.SetAttribute( attribute, value );
+        part.SetAttribute( attribute, value );
     }
 private:
-    const detail::DeviceShell device;
+    const detail::PartShell part;
     const std::string attribute;
 };
 
@@ -314,22 +318,22 @@ class SetExpression
 {
 public:
     explicit SetExpression( const std::string& att ) : attribute( att ) {}
-    SetOfExpression of( const detail::DeviceShell& device ) { return SetOfExpression( device, attribute ); }
+    SetOfExpression of( const detail::PartShell& part ) { return SetOfExpression( part, attribute ); }
     // throw CatalogNotSpecified if the current catalog has not been selected including
     // this function in a wallaroo_within section
-    SetOfExpression of( const std::string& device )
+    SetOfExpression of( const std::string& part )
     {
         // default container case
         Catalog* current = Catalog::Current( );
         if ( !current ) throw CatalogNotSpecified( );
-        return SetOfExpression( ( *current )[ device ], attribute );
+        return SetOfExpression( ( *current )[ part ], attribute );
     }
 private:
     const std::string attribute;
 };
 
 /**
-* This function provides the "set_attribute" part in the syntax @c set_attribute( "attribute" ).of( "device" ).to( value )
+* This function provides the "set_attribute" part in the syntax @c set_attribute( "attribute" ).of( "part" ).to( value )
 * @throw CatalogNotSpecified if the current catalog has not been selected including
 * this function in a wallaroo_within section
 */

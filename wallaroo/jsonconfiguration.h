@@ -58,7 +58,7 @@ namespace wallaroo
         "shared": "pluginName"
     },
 
-    "devices":
+    "parts":
     [
       {
         "name": "instance1",
@@ -101,13 +101,13 @@ namespace wallaroo
       {
         "source": "sourceInstance",
         "dest": "targetInstance",
-        "plug": "plugName"
+        "collaborator": "collaboratorName"
       },
 
       {
         "source": "sourceInstance2",
         "dest": "targetInstance2",
-        "plug": "plugName2"
+        "collaborator": "collaboratorName2"
       }
     ]
 
@@ -120,8 +120,8 @@ class JsonConfiguration : private detail::PtreeBasedCfg
 {
 public:
     /** Create a JsonConfiguration from the path specified as parameter.
-    * @param fileName the path of the file to parse
-    * @throw WrongFile if the file does not exist or its format is wrong.
+    * @param fileName The path of the file to parse
+    * @throw WrongFile If the file does not exist or its format is wrong.
     */
     explicit JsonConfiguration( const std::string& fileName ) :
         detail::PtreeBasedCfg( tree )
@@ -137,7 +137,7 @@ public:
     }
 
     /** Load the plugins (shared libraries) specified in the file.
-     * @throw WrongFile if the file contains a semantic error.
+     * @throw WrongFile If the file contains a semantic error.
      */
     void LoadPlugins()
     {
@@ -146,7 +146,7 @@ public:
 
     /** Fill the @c catalog with the objects and relations specified in the file.
     * @param catalog The catalog target of the new items of the file.
-    * @throw WrongFile if the file contains a semantic error.
+    * @throw WrongFile If the file contains a semantic error.
     */
     void Fill( Catalog& catalog )
     {

@@ -94,5 +94,43 @@ BOOST_AUTO_TEST_CASE( DynamicLoadingAttributes )
     }
 }
 
+BOOST_AUTO_TEST_CASE( DynamicLoadingTemplate )
+{
+    try
+    {
+        Plugin::Load( "plugin" + Plugin::Suffix() );
+        Catalog catalog;
+
+        BOOST_REQUIRE_NO_THROW( catalog.Create( "d_double", "D6< double >" ) );
+        BOOST_REQUIRE_NO_THROW( catalog[ "d_double" ] );
+
+        cxx0x::shared_ptr< I6 > obj = catalog[ "d_double" ];
+        BOOST_CHECK( obj -> F() == 4 );
+
+        BOOST_REQUIRE_NO_THROW( catalog.Create( "d_int", "D6< int >" ) );
+        BOOST_REQUIRE_NO_THROW( catalog[ "d_int" ] );
+
+        obj = catalog[ "d_int" ];
+        BOOST_CHECK( obj ->F () == 4 );
+    }
+    catch ( ... )
+    {
+        BOOST_ERROR( "exception thrown during shared library loading" );
+    }
+}
+
+BOOST_AUTO_TEST_CASE( DynamicLoadingNamespace )
+{
+    Catalog catalog;
+    cxx0x::shared_ptr< I6 > e;
+
+    // existent classes:
+    BOOST_REQUIRE_NO_THROW( e = catalog.Create( "e", "Foo::E6" ) );
+    // retrieve
+    cxx0x::shared_ptr< I6 > e_bis;
+    BOOST_REQUIRE_NO_THROW( e_bis = catalog[ "e" ] );
+    BOOST_CHECK( e -> F() == 9 );
+    BOOST_CHECK( e == e_bis );
+}
 
 BOOST_AUTO_TEST_SUITE_END()

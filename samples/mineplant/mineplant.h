@@ -39,15 +39,15 @@
 
 using namespace wallaroo;
 
-class MinePlant : public Device
+class MinePlant : public Part
 {
 public:
     MinePlant();
     virtual void Run();
     virtual ~MinePlant() {}
 private:
-    Plug< SumpPump > pump;
-    Plug< GasAlarm, optional > gasAlarm;
+    Collaborator< SumpPump > pump;
+    Collaborator< GasAlarm, optional > gasAlarm;
 };
 
 #endif

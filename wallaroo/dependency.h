@@ -30,8 +30,8 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_CONNECTOR_H_
-#define WALLAROO_CONNECTOR_H_
+#ifndef WALLAROO_DEPENDENCY_H_
+#define WALLAROO_DEPENDENCY_H_
 
 #include "cxx0x.h"
 
@@ -39,23 +39,23 @@ namespace wallaroo
 {
 
 // forward declaration:
-class Device;
+class Part;
 
 /**
- * This represents the base class for every Plug template.
- * It can wire itself with a Device object and check if the wiring
- * satisfy its multiplicity constraints.
+ * This represents the base class for every Collaborator template.
+ * It can link itself with a Part object and check if the wiring
+ * satisfies its multiplicity constraints.
  */
-class Connector
+class Dependency
 {
 public:
-    virtual ~Connector() {}
-    /** Plug this Connector into a device
-    * @param dev The Device you want insert this Connector into
-    * @throw WrongType If this Connector could not be wire with device @c dev 
+    virtual ~Dependency() {}
+    /** Link this Dependency with a Part.
+    * @param part The Part you want to link with this Dependency.
+    * @throw WrongType If this Dependency could not be wire with Part @c part 
     */
-    virtual void PlugInto( const cxx0x::shared_ptr< Device >& dev ) = 0;
-    /** Check if this Connector is correctly wired according to the
+    virtual void Link( const cxx0x::shared_ptr< Part >& part ) = 0;
+    /** Check if this Dependency is correctly wired according to the
     * constraints specified as template parameters in the derived class.
     * @return true If the check pass.
     */

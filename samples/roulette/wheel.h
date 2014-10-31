@@ -37,7 +37,7 @@
 #include "bin.h"
 #include "wallaroo/registered.h"
 
-class Wheel : public wallaroo::Device
+class Wheel : public wallaroo::Part
 {
 public:
     Wheel();
