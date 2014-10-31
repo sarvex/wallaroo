@@ -174,7 +174,10 @@ public:
     {
         try
         {
+            Foreach( "wallaroo.parts", boost::bind( &PtreeBasedCfg::ParseObject, this, boost::ref( catalog ), _1 ) );
+#ifndef WALLAROO_REMOVE_DEPRECATED
             Foreach( "wallaroo.devices", boost::bind( &PtreeBasedCfg::ParseObject, this, boost::ref( catalog ), _1 ) );
+#endif
             Foreach( "wallaroo.wiring", boost::bind( &PtreeBasedCfg::ParseRelation, this, boost::ref( catalog ), _1 ) );
         }
         catch ( const ptree_error& e )
@@ -320,7 +323,12 @@ private:
     {
         const std::string& source = v.get< std::string >( "source" );
         const std::string& dest = v.get< std::string >( "dest" );
-        const std::string& role = v.get< std::string >( "plug" );
+#ifdef WALLAROO_REMOVE_DEPRECATED
+        const std::string& role = v.get< std::string >( "collaborator" );
+#else
+        boost::optional< std::string > opt_role = v.get_optional< std::string >( "collaborator" );
+        const std::string role = ( opt_role ? *opt_role : v.get< std::string >( "plug" ) );
+#endif
 
         use( catalog[ dest ] ).as( role ).of( catalog[ source ] );
     }

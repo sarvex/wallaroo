@@ -37,7 +37,7 @@
 
 using namespace wallaroo;
 
-class AnalogInput : public Device
+class AnalogInput : public Part
 {
 public:
     virtual unsigned int Read() const = 0;

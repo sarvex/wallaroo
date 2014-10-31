@@ -49,7 +49,7 @@ namespace
 {
 
 template < typename P1, typename P2 >
-class Base : public Device
+class Base : public Part
 {
 public:
     Base( const P1& _p1, const P2& _p2 ) : p1( _p1 ), p2( _p2 ) {}
@@ -69,7 +69,7 @@ public:
 
 // some classes:
 
-class I5 : public Device
+class I5 : public Part
 {
 public:
     virtual int F() = 0;
@@ -97,21 +97,21 @@ private:
 
 WALLAROO_REGISTER( B5, int )
 
-class C5 : public Device
+class C5 : public Part
 {
 public:
     C5( unsigned int ) : x( "x", RegistrationToken() ) {}
     virtual int F() { return x -> F(); }
     virtual ~C5() {}
 private:
-    Plug< I5 > x;
+    Collaborator< I5 > x;
 };
 
 WALLAROO_REGISTER( C5, unsigned int )
 
 namespace Foo
 {
-    class D5 : public Device
+    class D5 : public Part
     {
     public:
         D5( const std::string& _s, int _i ) :
@@ -125,14 +125,14 @@ namespace Foo
         int F() const
         {
             int sum = 0;
-            for ( Plug< I5, collection >::const_iterator i = container.begin(); i != container.end(); ++i )
+            for ( Collaborator< I5, collection >::const_iterator i = container.begin(); i != container.end(); ++i )
             {
                 sum += i->lock()->F();
             }
             return sum;
         }
     private:
-        Plug< I5, collection > container;
+        Collaborator< I5, collection > container;
         const std::string s;
         const int ii;
     };
@@ -150,7 +150,7 @@ DEFINE_2PARAM_CLASS( M5, long, char )
 DEFINE_2PARAM_CLASS( N5, char, unsigned char )
 
 template < typename T >
-class O5 : public Device
+class O5 : public Part
 {
 public:
     O5() : x( 10 ) {}

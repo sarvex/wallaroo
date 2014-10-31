@@ -39,15 +39,15 @@
 
 using namespace wallaroo;
 
-class GasAlarm : public Device
+class GasAlarm : public Part
 {
 public:
     GasAlarm();
     virtual void Watch();
 private:
-    typedef Plug< GasSensor, collection > SensorList;
+    typedef Collaborator< GasSensor, collection > SensorList;
     SensorList sensors;
-    Plug< Alarm > alarm;
+    Collaborator< Alarm > alarm;
 };
 
 

@@ -38,14 +38,14 @@
 
 using namespace wallaroo;
 
-class LevelSensor : public Device
+class LevelSensor : public Part
 {
 public:
     LevelSensor();
     virtual bool IsOn() const;
     virtual ~LevelSensor();
 private:
-    Plug< DigitalInput > input;
+    Collaborator< DigitalInput > input;
 };
 
 #endif

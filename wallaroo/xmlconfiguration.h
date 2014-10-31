@@ -54,12 +54,12 @@ namespace wallaroo
     <shared>pluginName</shared>
   </plugins>
  
-  <devices>
-    <device>
+  <parts>
+    <part>
       <name>instance1</name>
       <class>className1</class>
-    </device>
-    <device>
+    </part>
+    <part>
       <name>instance2</name>
       <class>className2</class>
       <attribute>
@@ -70,8 +70,8 @@ namespace wallaroo
         <name>attr2_name</name>
         <value>attr2_value</value>
       </attribute>
-    </device>
-    <device>
+    </part>
+    <part>
       <name>instance3</name>
       <class>className3</class>
       <parameter1>
@@ -82,20 +82,20 @@ namespace wallaroo
         <type>int</type>
         <value>34</value>
       </parameter2>
-    </device>
-  </devices>
-  </devices>
+    </part>
+  </parts>
+  </parts>
 
   <wiring>
     <wire>
       <source>sourceInstance</source>
       <dest>targetInstance</dest>
-      <plug>plugName</plug>
+      <collaborator>plugName</collaborator>
     </wire>
     <wire>
       <source>sourceInstance2</source>
       <dest>targetInstance2</dest>
-      <plug>plugName2</plug>
+      <collaborator>plugName2</collaborator>
     </wire>
   </wiring>
 
@@ -106,8 +106,8 @@ class XmlConfiguration : private detail::PtreeBasedCfg
 {
 public:
     /** Create a XmlConfiguration from the path specified as parameter.
-    * @param fileName the path of the file to parse
-    * @throw WrongFile if the file does not exist or its format is wrong.
+    * @param fileName The path of the file to parse
+    * @throw WrongFile If the file does not exist or its format is wrong.
     */
     explicit XmlConfiguration( const std::string& fileName ) :
         detail::PtreeBasedCfg( tree )
@@ -132,7 +132,7 @@ public:
 
     /** Fill the @c catalog with the objects and relations specified in the file.
      * @param catalog The catalog target of the new items of the file.
-     * @throw WrongFile if the file contains a semantic error.
+     * @throw WrongFile If the file contains a semantic error.
      */
     void Fill( Catalog& catalog )
     {

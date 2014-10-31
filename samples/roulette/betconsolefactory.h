@@ -40,7 +40,7 @@
 // This interface describes the factory classes that can
 // create a Bet starting from a cmd line string with a
 // specific syntax.
-class BetConsoleFactory : public wallaroo::Device
+class BetConsoleFactory : public wallaroo::Part
 {
 public:
     virtual ~BetConsoleFactory() {}

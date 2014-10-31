@@ -38,7 +38,7 @@
 
 using namespace wallaroo;
 
-class Derived : public Base // Base already derives from Device
+class Derived : public Base // Base already derives from Part
 {
 public:
     Derived();

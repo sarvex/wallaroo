@@ -37,7 +37,7 @@
 
 using namespace wallaroo;
 
-class SumpProbe : public Device
+class SumpProbe : public Part
 {
 public:
     virtual bool MustDrain() = 0;

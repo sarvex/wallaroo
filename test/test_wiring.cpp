@@ -45,7 +45,7 @@ using namespace cxx0x;
 
 // some classes:
 
-class I2 : public Device
+class I2 : public Part
 {
 public:
     virtual int F() = 0;
@@ -70,19 +70,19 @@ public:
 
 WALLAROO_REGISTER( B2 )
 
-class C2 : public Device
+class C2 : public Part
 {
 public:
     C2() : x( "x", RegistrationToken() ) {}
     virtual int F() { return x -> F(); }
     virtual ~C2() {}
 private:
-    Plug< I2 > x;
+    Collaborator< I2 > x;
 };
 
 WALLAROO_REGISTER( C2 )
 
-class D2 : public Device
+class D2 : public Part
 {
 public:
     D2() : x( "x", RegistrationToken() ) {}
@@ -97,13 +97,13 @@ public:
     }
     virtual ~D2() {}
 private:
-    typedef Plug< I2, collection > Container;
+    typedef Collaborator< I2, collection > Container;
     Container x;
 };
 
 WALLAROO_REGISTER( D2 )
 
-class E2 : public Device
+class E2 : public Part
 {
 public:
     E2() : 
@@ -130,9 +130,9 @@ public:
     }
     virtual ~E2() {}
 private:
-    typedef Plug< I2, collection, std::list > Container1;
-    typedef Plug< I2, collection, std::vector > Container2;
-    typedef Plug< I2, collection, std::deque > Container3;
+    typedef Collaborator< I2, collection, std::list > Container1;
+    typedef Collaborator< I2, collection, std::vector > Container2;
+    typedef Collaborator< I2, collection, std::deque > Container3;
     Container1 x1;
     Container2 x2;
     Container3 x3;
@@ -140,11 +140,11 @@ private:
 
 WALLAROO_REGISTER( E2 )
 
-class F2 : public Device
+class F2 : public Part
 {
 public:
-    F2() : plug( "plug", RegistrationToken() ) {}
-    Plug< I2 > plug;
+    F2() : collaborator( "collaborator", RegistrationToken() ) {}
+    Collaborator< I2 > collaborator;
 };
 
 WALLAROO_REGISTER( F2 )
@@ -361,16 +361,16 @@ BOOST_AUTO_TEST_CASE( containersWiring )
     using std::list;
     typedef weak_ptr< I2 > I2Ptr;
 
-    BOOST_STATIC_ASSERT((is_base_of< deque< I2Ptr >, Plug< I2, collection, deque > >::value));
-    BOOST_STATIC_ASSERT((is_base_of< list< I2Ptr >, Plug< I2, collection, list > >::value));
-    BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Plug< I2, collection, vector > >::value));
-    BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Plug< I2, collection > >::value)); // the default is std::vector
+    BOOST_STATIC_ASSERT((is_base_of< deque< I2Ptr >, Collaborator< I2, collection, deque > >::value));
+    BOOST_STATIC_ASSERT((is_base_of< list< I2Ptr >, Collaborator< I2, collection, list > >::value));
+    BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Collaborator< I2, collection, vector > >::value));
+    BOOST_STATIC_ASSERT((is_base_of< vector< I2Ptr >, Collaborator< I2, collection > >::value)); // the default is std::vector
 }
 
 BOOST_AUTO_TEST_CASE( checkCast )
 {
-    BOOST_STATIC_ASSERT((cxx0x::is_convertible< Plug< I2 >, shared_ptr< I2 > >::value));
-    BOOST_STATIC_ASSERT((cxx0x::is_convertible< Plug< I2 >, const shared_ptr< I2 > >::value));
+    BOOST_STATIC_ASSERT((cxx0x::is_convertible< Collaborator< I2 >, shared_ptr< I2 > >::value));
+    BOOST_STATIC_ASSERT((cxx0x::is_convertible< Collaborator< I2 >, const shared_ptr< I2 > >::value));
 
     Catalog catalog;
 
@@ -381,17 +381,17 @@ BOOST_AUTO_TEST_CASE( checkCast )
 
     wallaroo_within( catalog )
     {
-        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "plug" ).of( "f1" ) );
-        BOOST_REQUIRE_NO_THROW( use( "b" ).as( "plug" ).of( "f2" ) );
+        BOOST_REQUIRE_NO_THROW( use( "a" ).as( "collaborator" ).of( "f1" ) );
+        BOOST_REQUIRE_NO_THROW( use( "b" ).as( "collaborator" ).of( "f2" ) );
     }
 
     shared_ptr< F2 > f1 = catalog[ "f1" ];
     shared_ptr< F2 > f2 = catalog[ "f2" ];
 
-    BOOST_REQUIRE_NO_THROW( static_cast< shared_ptr< I2 > >( f1 -> plug ) );
-    BOOST_REQUIRE_NO_THROW( static_cast< const shared_ptr< I2 > >( f1 -> plug ) );
-    BOOST_REQUIRE_NO_THROW( static_cast< shared_ptr< I2 > >( f2 -> plug ) );
-    BOOST_REQUIRE_NO_THROW( static_cast< const shared_ptr< I2 > >( f2 -> plug ) );
+    BOOST_REQUIRE_NO_THROW( static_cast< shared_ptr< I2 > >( f1 -> collaborator ) );
+    BOOST_REQUIRE_NO_THROW( static_cast< const shared_ptr< I2 > >( f1 -> collaborator ) );
+    BOOST_REQUIRE_NO_THROW( static_cast< shared_ptr< I2 > >( f2 -> collaborator ) );
+    BOOST_REQUIRE_NO_THROW( static_cast< const shared_ptr< I2 > >( f2 -> collaborator ) );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

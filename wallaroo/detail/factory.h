@@ -34,7 +34,7 @@
 #define WALLAROO_DETAIL_FACTORY_H_
 
 #include "wallaroo/cxx0x.h"
-#include "wallaroo/device.h"
+#include "wallaroo/part.h"
 
 namespace wallaroo
 {
@@ -47,7 +47,7 @@ template < class T, class P1, class P2 >
 class Factory
 {
 public:
-    static cxx0x::shared_ptr< Device > Create( const P1& p1, const P2& p2 )
+    static cxx0x::shared_ptr< Part > Create( const P1& p1, const P2& p2 )
     {
         return cxx0x::make_shared< T >( p1, p2 );
     }
@@ -57,7 +57,7 @@ template < class T, class P >
 class Factory< T, P, void >
 {
 public:
-    static cxx0x::shared_ptr< Device > Create( const P& p )
+    static cxx0x::shared_ptr< Part > Create( const P& p )
     {
         return cxx0x::make_shared< T >( p );
     }
@@ -67,7 +67,7 @@ template < class T >
 class Factory< T, void, void >
 {
 public:
-    static cxx0x::shared_ptr< Device > Create()
+    static cxx0x::shared_ptr< Part > Create()
     {
         return cxx0x::make_shared< T >();
     }

@@ -36,7 +36,7 @@
 #include <string>
 #include "detail/factory.h"
 #include "cxx0x.h"
-#include "device.h"
+#include "part.h"
 
 namespace wallaroo
 {
@@ -44,11 +44,10 @@ namespace wallaroo
 // forward declarations
 class Plugin;
 
-/** This is the description of a class having a constructor that 
-* takes two parameters of type @c P1 and @c P2 and implements
-* the interface @c Device.
+/** This is the description of a class derived from @c wallaroo::Part
+* having a constructor that takes two parameters of type @c P1 and @c P2.
 * The class provides a method to get an instance of the described class.
-* It also provides a static registry of the instances of this class,
+* It also provides a static registry containing all the instances of this class,
 * and methods to register and retrieve them.
 */
 template < class P1, class P2 >
@@ -56,13 +55,13 @@ class Class
 {
     public :
 
-        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::shared_ptr< Part > Ptr;
         typedef cxx0x::function< Ptr( const P1& p1, const P2& p2 ) > FactoryMethod;
 
         /** Create an instance of the class described by this object.
         * @param p1 The first parameter to pass to the constructor
         * @param p2 The second parameter to pass to the constructor
-        * @return a shared_ptr to the new instance (or the empty 
+        * @return A shared_ptr to the new instance (or the empty 
         * shared_ptr if the descriptor is not valid)
         */
         Ptr NewInstance( const P1& p1, const P2& p2 ) const
@@ -104,11 +103,10 @@ class Class
         }
 };
 
-/** This is the description of a class having a constructor that
-* takes one parameter of type @c P and implements
-* the interface @c Device.
+/** This is the description of a class derived from @c wallaroo::Part
+* having a constructor that takes one parameter of type @c P.
 * The class provides a method to get an instance of the described class.
-* It also provides a static registry of the instances of this class,
+* It also provides a static registry containing all the instances of this class,
 * and methods to register and retrieve them.
 */
 template < class P >
@@ -116,7 +114,7 @@ class Class< P, void >
 {
     public :
 
-        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::shared_ptr< Part > Ptr;
         typedef cxx0x::function< Ptr( const P& p ) > FactoryMethod;
 
         /** Create an instance of the class described by this object.
@@ -164,10 +162,10 @@ class Class< P, void >
 };
 
 
-/** This is the description of a class having a constructor that
-* takes no parameters and implements the interface @c Device.
+/** This is the description of a class derived from @c wallaroo::Part
+* having a default constructor.
 * The class provides a method to get an instance of the described class.
-* It also provides a static registry of the instances of this class,
+* It also provides a static registry containing all the instances of this class,
 * and methods to register and retrieve them.
 */
 template <>
@@ -175,7 +173,7 @@ class Class< void, void >
 {
     public :
 
-        typedef cxx0x::shared_ptr< Device > Ptr;
+        typedef cxx0x::shared_ptr< Part > Ptr;
         typedef cxx0x::function< Ptr() > FactoryMethod;
 
         /** Create an instance of the class described by this object.
@@ -239,6 +237,9 @@ class Class< void, void >
 
 /** This class registers on its constructor a class @c T
 *   with its factory method.
+*   Users of wallaroo library don't need to use it explicitly,
+*   they should use one of the macros WALLAROO_REGISTER or
+*   WALLAROO_DYNLIB_REGISTER, instead.
 */
 template < class T, class P1 = void, class P2 = void >
 class Registration

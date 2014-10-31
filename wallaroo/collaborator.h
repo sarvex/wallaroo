@@ -30,37 +30,37 @@
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-#ifndef WALLAROO_PLUG_H_
-#define WALLAROO_PLUG_H_
+#ifndef WALLAROO_COLLABORATOR_H_
+#define WALLAROO_COLLABORATOR_H_
 
 #include <string>
 #include <typeinfo>
 #include <vector>
 #include "cxx0x.h"
-#include "connector.h"
-#include "device.h"
+#include "dependency.h"
+#include "part.h"
 #include "exceptions.h"
 
 namespace wallaroo
 {
 
-/// This type should be used as second template parameter in Plug class to specify the Plug is optional
-/// (i.e.: you can omit to wire a device to the plug)
+/// This type should be used as second template parameter in Collaborator class to specify 
+/// that the Collaborator is optional (i.e.: you can omit to link a part to the collaborator)
 struct optional
 {
     template < typename T >
     static bool WiringOk( const cxx0x::weak_ptr< T >& ) { return true; }
 };
-/// This type should be used as second template parameter in Plug class to specify the Plug is mandatory
-/// (i.e.: you cannot omit to wire a device to the plug)
+/// This type should be used as second template parameter in Collaborator class to specify
+/// that the Collaborator is mandatory (i.e.: you cannot omit to link a part to the collaborator)
 struct mandatory
 {
     template < typename T >
     static bool WiringOk( const cxx0x::weak_ptr< T >& t ) { return !t.expired(); }
 };
-/// This type should be used as second template parameter in Plug class to specify the Plug is a collection
-/// and you can wire to the plug a number of devices greater or equal to @c MIN
-/// and lesser or equal to @c MAX
+/// This type should be used as second template parameter in Collaborator class to specify
+/// that the Collaborator is a collection and you can wire the collaborator with a number 
+/// of parts greater or equal to @c MIN and lesser or equal to @c MAX
 template < std::size_t MIN = 0, std::size_t MAX = 0 >
 struct bounded_collection
 {
@@ -99,126 +99,128 @@ struct bounded_collection< 0, 0 >
         return true;
     }
 };
-/// This type should be used as second template parameter in Plug class to specify the Plug is a collection
-/// and you can wire as many device to the plug as you want. Even zero.
+/// This type should be used as second template parameter in Collaborator class
+/// to specify that the Collaborator is a collection and you can wire as many 
+/// parts to the collaborator as you want. Even zero.
 typedef bounded_collection<> collection;
 
 /**
- * This represents a "plug" of a "device" that
- * you can "plug" into another "device".
+ * This represents a "collaborator" of a "part" that
+ * you can link with another "part".
  *
- * If the device1 has the plug1 plugged to device2, device1 will
- * basically get a pointer to device2.
+ * If the part1 has the collaborator1 linked to part2, part1 will
+ * basically get a pointer to part2.
  *
- * @tparam T The type of the Device contained
- * @tparam P This represents the kind of Plug (@ref mandatory if you must wire a device,
- *           @ref optional if you can leave this plug unwired, 
- *           @ref collection if you can wire many devices to this plug)
- * @tparam Container If P = @ref collection, this represents the std container the Plug will derive from.
+ * @tparam T The type of the Part contained
+ * @tparam P This represents the kind of Collaborator (@ref mandatory if you must link a part,
+ *           @ref optional if you can leave this collaborator unlinked,
+ *           @ref collection if you can link many parts to this collaborator)
+ * @tparam Container If P = @ref collection, this represents the std container
+ *           the Collaborator will derive from.
  */
 template <
     typename T,
     typename P = mandatory,
     template < typename E, typename Allocator = std::allocator< E > > class Container = std::vector
 >
-class Plug  : public Connector
+class Collaborator  : public Dependency
 {
 public:
 
     typedef cxx0x::weak_ptr< T > WeakPtr;
     typedef cxx0x::shared_ptr< T > SharedPtr;
 
-    /** Create a Plug and register it to its device for future wiring.
-    * @param name the name of this plug
-    * @param token the registration token got calling Device::RegistrationToken()
+    /** Create a Collaborator and register it to its Part for later wiring.
+    * @param name The name of this collaborator
+    * @param token The registration token you can get by calling Part::RegistrationToken()
     */
-    Plug( const std::string& name, const RegToken& token )
+    Collaborator( const std::string& name, const RegToken& token )
     {
-        Device* owner = token.GetDevice();
+        Part* owner = token.GetPart();
         owner -> Register( name, this );
     }
 
-    /** Plug this plug into a device
-    * @param dev The device you want insert this plug into
+    /** Link this collaborator with a Part
+    * @param dev The part you want link with this collaborator
     * @throw WrongType If @c dev is not a subclass of @c T
     */
-    void PlugInto( const cxx0x::shared_ptr< Device >& dev )
+    void Link( const cxx0x::shared_ptr< Part >& dev )
     {
         cxx0x::shared_ptr< T > _dev = cxx0x::dynamic_pointer_cast< T >( dev );
         if ( ! _dev ) // bad type!
             throw WrongType();
         else
-            device = _dev;
+            part = _dev;
     }
 
-    /** Give access to the embedded device.
-    * @throw DeletedDeviceError If the embedded device has been deleted.
+    /** Give access to the embedded part.
+    * @throw DeletedPartError If the embedded part has been deleted.
     */
     SharedPtr operator -> ()
     {
-        SharedPtr result = device.lock();
+        SharedPtr result = part.lock();
         if ( ! result ) 
-            throw DeletedDeviceError();
+            throw DeletedPartError();
         return result;
     }
 
-    /** Give access to the embedded device as const.
-    * @throw DeletedDeviceError If the embedded device has been deleted.
+    /** Give access to the embedded part as const.
+    * @throw DeletedPartError If the embedded part has been deleted.
     */
     const SharedPtr operator -> () const
     {
-        const SharedPtr result = device.lock();
+        const SharedPtr result = part.lock();
         if ( ! result )
-            throw DeletedDeviceError();
+            throw DeletedPartError();
         return result;
     }
 
     /** Convert to a shared ptr.
-    * @throw DeletedDeviceError If the embedded device has been deleted.
+    * @throw DeletedPartError If the embedded part has been deleted.
     */
     operator SharedPtr()
     {
-        SharedPtr result = device.lock();
+        SharedPtr result = part.lock();
         if ( ! result )
-            throw DeletedDeviceError();
+            throw DeletedPartError();
         return result;
     }
 
     /** Convert to a const shared ptr.
-    * @throw DeletedDeviceError If the embedded device has been deleted.
+    * @throw DeletedPartError If the embedded part has been deleted.
     */
     operator const SharedPtr() const
     {
-        const SharedPtr result = device.lock();
+        const SharedPtr result = part.lock();
         if ( ! result )
-            throw DeletedDeviceError();
+            throw DeletedPartError();
         return result;
     }
     
-    /** Returns true if the plug has been wired and the embedded
-    * device has not been deleted.
-    * @return true If the embedded device exists.
+    /** Returns true if the collaborator has been wired and the embedded
+    * part has not been deleted.
+    * @return true If the embedded part exists.
     */
     operator bool() const
     {
-        return !device.expired();
+        return !part.expired();
     }
 
-   /** Check if this Plug is correctly wired according to the
+   /** Check if this Collaborator is correctly wired according to the
     * P template parameter policy.
     * @return true If the check pass.
     */
     virtual bool WiringOk() const
     {
-        return P::WiringOk( device );
+        return P::WiringOk( part );
     }
 
 private:
-    WeakPtr device;
+    WeakPtr part;
 
     // copy ctor and assignment operator disabled
-    Plug( const Plug& );
-    Plug& operator = ( const Plug& );
+    Collaborator( const Collaborator& );
+    Collaborator& operator = ( const Collaborator& );
 };
 
 
@@ -229,37 +231,37 @@ template <
     std::size_t MIN,
     std::size_t MAX
 >
-class Plug< T, bounded_collection< MIN, MAX >, Container > : public Connector, public Container< cxx0x::weak_ptr< T > >
+class Collaborator< T, bounded_collection< MIN, MAX >, Container > : public Dependency, public Container< cxx0x::weak_ptr< T > >
 {
 private:
     typedef Container< cxx0x::weak_ptr< T > > C;
 
 public:
 
-    /** Create a Plug and register it to its device for future wiring.
-    * @param name the name of this plug
-    * @param token the registration token got calling Device::RegistrationToken()
+    /** Create a Collaborator and register it to its Part for future wiring.
+    * @param name The name of this collaborator
+    * @param token The registration token you can get by calling Part::RegistrationToken()
     */
-    Plug( const std::string& name, const RegToken& token )
+    Collaborator( const std::string& name, const RegToken& token )
     {
-        Device* owner = token.GetDevice();
+        Part* owner = token.GetPart();
         owner -> Register( name, this );
     }
 
-    /** Connect a device into this multiple plug
-    * @param device The device to connect
-    * @throw WrongType If @c device is not a subclass of @c T
+    /** Add a Part into this (collection) collaborator
+    * @param part The part to connect
+    * @throw WrongType If @c part is not a subclass of @c T
     */
-    void PlugInto( const cxx0x::shared_ptr< Device >& device )
+    void Link( const cxx0x::shared_ptr< Part >& part )
     {
-        cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( device );
+        cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( part );
         if ( ! obj ) // bad type!
             throw WrongType();
         else
             C::push_back( obj );
     }
 
-    /** Check if this Plug is correctly wired (i.e. the size of the collection
+    /** Check if this Collaborator is correctly wired (i.e. the size of the collection
     * must be comprise in the interval [MIN, MAX])
     * @return true If the check pass.
     */
@@ -270,9 +272,13 @@ public:
 
 private:
     // copy ctor and assignment operator disabled
-    Plug( const Plug& );
-    Plug& operator = ( const Plug& );
+    Collaborator( const Collaborator& );
+    Collaborator& operator = ( const Collaborator& );
 };
+
+#ifndef WALLAROO_REMOVE_DEPRECATED
+#define Plug Collaborator
+#endif
 
 }
 

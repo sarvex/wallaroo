@@ -38,7 +38,7 @@
 
 using namespace wallaroo;
 
-class QuantityTable : public Device
+class QuantityTable : public Part
 {
 public:
     virtual int GetMeasure( const std::string& sensor ) = 0;

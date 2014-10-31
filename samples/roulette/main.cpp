@@ -73,7 +73,7 @@ int main( int argc, char* argv[] )
         use( betCatalog[ "oddevenbetconsolefactory" ] ).as( "availableBets" ).of( logicCatalog[ "player" ] );
         use( betCatalog[ "redblackbetconsolefactory" ] ).as( "availableBets" ).of( logicCatalog[ "player" ] );
 
-        // check if all plugs are wired
+        // check if all collaborators are wired
         assert( logicCatalog.IsWiringOk() );
         assert( betCatalog.IsWiringOk() );
 

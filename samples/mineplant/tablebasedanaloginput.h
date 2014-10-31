@@ -48,7 +48,7 @@ public:
     virtual ~TableBasedAnalogInput();
 private:
     const std::string key;
-    Plug< QuantityTable, mandatory > table;
+    Collaborator< QuantityTable, mandatory > table;
 };
 
 #endif

@@ -35,9 +35,14 @@
 
 // facilities to define a wallaroo class
 #include "class.h"
-#include "plug.h"
+#include "collaborator.h"
 #include "attribute.h"
-#include "device.h"
+#include "part.h"
+
+/// @cond DOC_WALLAROO_TOKENPASTE
+#define WALLAROO_TOKENPASTE_HELPER(x, y) x ## y
+#define WALLAROO_TOKENPASTE(x, y) WALLAROO_TOKENPASTE_HELPER(x, y)
+/// @endcond
 
 /** This macro must be used in your implementation file (.cpp or .cc)
 * to register a class. When a class is registered, you can create an instance
@@ -46,8 +51,6 @@
 * @param ... The type of the other parameters of the class constructor
 * @hideinitializer
 */
-#define WALLAROO_TOKENPASTE_HELPER(x, y) x ## y
-#define WALLAROO_TOKENPASTE(x, y) WALLAROO_TOKENPASTE_HELPER(x, y)
 #define WALLAROO_REGISTER( C, ... ) \
     static const ::wallaroo::Registration< C, ##__VA_ARGS__ > WALLAROO_TOKENPASTE(__reg__,__LINE__)( #C ) ;
 // NOTE: the ## before __VA_ARGS__ removes the comma when no arguments are passed

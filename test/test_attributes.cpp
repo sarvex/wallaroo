@@ -43,7 +43,7 @@ using namespace cxx0x;
 
 // class with attributes:
 
-struct A7 : public Device
+struct A7 : public Part
 {
     A7() :
         strAtt( "str_attr", RegistrationToken() ),
@@ -66,7 +66,7 @@ struct A7 : public Device
 WALLAROO_REGISTER( A7 )
 
 
-struct B7 : public Device
+struct B7 : public Part
 {
     B7() :
         schAtt( "schar_attr", RegistrationToken() ),
@@ -102,8 +102,8 @@ struct B7 : public Device
 
 WALLAROO_REGISTER( B7 )
 
-// class to test the Device::Init method
-struct C7 : public Device
+// class to test the Part::Init method
+struct C7 : public Part
 {
     C7() : ready( false ) {}
     virtual ~C7() {}
@@ -323,7 +323,7 @@ BOOST_AUTO_TEST_CASE( attributesKo )
 
     // of does not exist in the catalog
     BOOST_CHECK_THROW( set_attribute( "int_attr" ).of( catalog[ "does_not_exist" ] ).to( "foo" ), ElementNotFound );
-    // attribute does not exist in the device
+    // attribute does not exist in the part
     BOOST_CHECK_THROW( set_attribute( "does_not_exist" ).of( catalog[ "a" ] ).to( "foo" ), ElementNotFound );
     BOOST_CHECK_THROW( set_attribute( "does_not_exist" ).of( catalog[ "a" ] ).to( std::string( "foo" ) ), ElementNotFound );
     BOOST_CHECK_THROW( set_attribute( "does_not_exist" ).of( catalog[ "a" ] ).to( true ), ElementNotFound );
@@ -332,7 +332,7 @@ BOOST_AUTO_TEST_CASE( attributesKo )
     {
         // of does not exist in the catalog
         BOOST_CHECK_THROW( set_attribute( "int_attr" ).of( "does_not_exist" ).to( "foo" ), ElementNotFound );
-        // attribute does not exist in the device
+        // attribute does not exist in the part
         BOOST_CHECK_THROW( set_attribute( "does_not_exist" ).of( "a" ).to( "foo" ), ElementNotFound );
     }
 

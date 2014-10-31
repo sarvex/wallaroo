@@ -46,7 +46,7 @@ public:
     virtual bool MustDrain();
     virtual ~ContinuousSumpProbe();
 private:
-    Plug< LevelProbe > probe;
+    Collaborator< LevelProbe > probe;
     const unsigned int lowLevel;
     const unsigned int highLevel;
     bool mustDrain;

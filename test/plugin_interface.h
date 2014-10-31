@@ -35,7 +35,7 @@
 
 #include "wallaroo/registered.h"
 
-class I6 : public wallaroo::Device
+class I6 : public wallaroo::Part
 {
 public:
     virtual int F() = 0;

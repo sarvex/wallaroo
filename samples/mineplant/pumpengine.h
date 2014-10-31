@@ -38,7 +38,7 @@
 
 using namespace wallaroo;
 
-class PumpEngine : public Device
+class PumpEngine : public Part
 {
 public:
     PumpEngine();
@@ -46,7 +46,7 @@ public:
     virtual void Off();
     virtual ~PumpEngine();
 private:
-    Plug< DigitalOutput > output;
+    Collaborator< DigitalOutput > output;
 };
 
 #endif
