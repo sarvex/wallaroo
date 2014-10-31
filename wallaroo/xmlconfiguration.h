@@ -106,8 +106,8 @@ class XmlConfiguration : private detail::PtreeBasedCfg
 {
 public:
     /** Create a XmlConfiguration from the path specified as parameter.
-    * @param fileName the path of the file to parse
-    * @throw WrongFile if the file does not exist or its format is wrong.
+    * @param fileName The path of the file to parse
+    * @throw WrongFile If the file does not exist or its format is wrong.
     */
     explicit XmlConfiguration( const std::string& fileName ) :
         detail::PtreeBasedCfg( tree )
@@ -132,7 +132,7 @@ public:
 
     /** Fill the @c catalog with the objects and relations specified in the file.
      * @param catalog The catalog target of the new items of the file.
-     * @throw WrongFile if the file contains a semantic error.
+     * @throw WrongFile If the file contains a semantic error.
      */
     void Fill( Catalog& catalog )
     {

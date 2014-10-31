@@ -52,8 +52,7 @@ class PartShell
 {
 public:
 
-    PartShell( const cxx0x::shared_ptr< Part >& dev ) :
-        part( dev ) 
+    PartShell( const cxx0x::shared_ptr< Part >& dev ) : part( dev ) 
     {
         assert( part );
     }

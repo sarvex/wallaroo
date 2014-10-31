@@ -67,7 +67,7 @@ private:
 /**
  * This class represents a "part" that owns dependencies (collaborators) and
  * attributes.
- * You can plug its dependencies to other parts using the method Part::Wire
+ * You can link its dependencies to other parts using the method Part::Wire
  * and assign a value to its attributes using the method SetAttribute, but
  * wallaroo provides mechanisms more flexible for these tasks
  * (i.e., the DSL constructs "use().as().of()" and "set_attribute().of().to()" and the
@@ -79,22 +79,22 @@ public:
     // we need to make Part virtual, to use dynamic_cast
     virtual ~Part() {}
 
-    /** Plug the dependency @c dependency of this part into the Part @c part.
-     *  @throw ElementNotFound if @c dependency does not exist in this part.
-     *  @throw WrongType if @c part has not a type compatible with the dependency.
+    /** Link the dependency @c dependency of this part into the Part @c part.
+     *  @throw ElementNotFound If @c dependency does not exist in this part.
+     *  @throw WrongType If @c part has not a type compatible with the dependency.
      */
     void Wire( const std::string& dependency, const cxx0x::shared_ptr< Part >& part )
     {
         Dependencies::iterator i = dependencies.find( dependency );
         if ( i == dependencies.end() ) throw ElementNotFound( dependency );
-        ( i -> second ) -> PlugInto( part );
+        ( i -> second ) -> Link( part );
     }
 
-    /** Assign a value to an attribute of the part. 
-     *  @param attribute the name of the attribute.
-     *  @param value the value to assign.
-     *  @throw ElementNotFound if @attribute does not exist in this part.
-     *  @throw WrongType if @c value has not a type compatible with the attribute.
+    /** Assign a value to an attribute of the Part. 
+     *  @param attribute The name of the attribute.
+     *  @param value The value to assign.
+     *  @throw ElementNotFound If @c attribute does not exist in this part.
+     *  @throw WrongType If @c value has not a type compatible with the attribute.
      */
     // NOTE: we pass value as const reference to allow the effective specialization of string
     template < typename T >
@@ -106,7 +106,7 @@ public:
     }
 
    /** Check the multiplicity of its collaborators.
-    *  @return true if the check pass
+    *  @return true If the check pass
     */
     bool MultiplicitiesOk() const
     {
@@ -179,10 +179,10 @@ private:
 };
 
 
-/** Assign a value to an attribute of type string of the part.
- *  @param attribute the name of the attribute.
- *  @param value the value to assign.
- *  @throw ElementNotFound if @attribute does not exist in this part.
+/** Assign a value to a string attribute of the part.
+ *  @param attribute The name of the attribute.
+ *  @param value The value to assign.
+ *  @throw ElementNotFound If @c attribute does not exist in this part.
  */
 template <>
 inline void Part::SetAttribute( const std::string& attribute, const std::string& value )

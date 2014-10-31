@@ -43,18 +43,18 @@ class Part;
 
 /**
  * This represents the base class for every Collaborator template.
- * It can wire itself with a Part object and check if the wiring
- * satisfy its multiplicity constraints.
+ * It can link itself with a Part object and check if the wiring
+ * satisfies its multiplicity constraints.
  */
 class Dependency
 {
 public:
     virtual ~Dependency() {}
-    /** Plug this Dependency into a part
-    * @param part The Part you want insert this Dependency into
-    * @throw WrongType If this Dependency could not be wire with part @c part 
+    /** Link this Dependency with a Part.
+    * @param part The Part you want to link with this Dependency.
+    * @throw WrongType If this Dependency could not be wire with Part @c part 
     */
-    virtual void PlugInto( const cxx0x::shared_ptr< Part >& part ) = 0;
+    virtual void Link( const cxx0x::shared_ptr< Part >& part ) = 0;
     /** Check if this Dependency is correctly wired according to the
     * constraints specified as template parameters in the derived class.
     * @return true If the check pass.

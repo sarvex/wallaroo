@@ -89,7 +89,8 @@ public:
     * Create a Attribute and register it to its part so that you can
     * assign a value to it.
     * @param name the name of this attribute
-    * @param token the registration token got calling Part::RegistrationToken()
+    * @param token the registration token. You get an instance
+    *              by calling Part::RegistrationToken()
     */
     Attribute( const std::string& name, const RegToken& token )
     {

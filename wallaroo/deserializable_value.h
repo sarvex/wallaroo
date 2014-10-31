@@ -40,7 +40,7 @@ namespace wallaroo
 {
 
 /**
- * This is the type of every class able to take a string representation
+ * This is the type of every class that can take a string representation
  * and convert in its own internal type.
  * It's used as base class for every Attribute template.
  */
@@ -49,7 +49,7 @@ class DeserializableValue
 public:
     virtual ~DeserializableValue() {}
     /** Set this attribute value from a string representation.
-    * @param value A string representation ov the value to be assigned.
+    * @param value A string representation of the value to be assigned.
     * @throw WrongType If the string representation is not valid for this object.
     */
     virtual void Value( const std::string& value ) = 0;

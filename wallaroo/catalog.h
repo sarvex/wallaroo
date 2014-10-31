@@ -54,8 +54,10 @@ class UseExpression;
  *
  * It can create the instances from the name of a class 
  * previously registered with one of the macros
- * WALLAROO_REGISTER(C), WALLAROO_DYNLIB_REGISTER(C)
- * or add the instances.
+ * WALLAROO_REGISTER(C), WALLAROO_DYNLIB_REGISTER(C).
+ *
+ * Alternatively, you can add an instance, provided that
+ * its class derives from wallaroo::Part.
  *
  * Each item in the catalog is identified by a @c id, with which
  * you can perform a lookup.
@@ -64,29 +66,31 @@ class Catalog
 {
 public:
 
-    /** Default ctor: build an empty catalog.
+    /** Build an empty catalog.
     */
     Catalog() {}
 
-    /** Look for the element @c itemId in the catalog. It returns a class that
+    /** Look for the element @c id in the catalog. It returns a class that
     * provides conversion operator so that you can write eg:
     * \code{.cpp}
     *     shared_ptr< Foo > foo = catalog[ "foo" ];
     * \endcode
-    * @param itemId the name of the element
+    * @param id the name of the element
     * @return the element.
     * @throw ElementNotFound if the element does not exist in the catalog.
+    * @throw ElementNotFound if an element with key @c id cannot be found
+    *                        in the catalog.
     */
-    detail::PartShell operator [] ( const std::string& itemId ) const
+    detail::PartShell operator [] ( const std::string& id ) const
     {
-        Parts::const_iterator i = parts.find( itemId );
-        if ( i == parts.end() ) throw ElementNotFound( itemId );
+        Parts::const_iterator i = parts.find( id );
+        if ( i == parts.end() ) throw ElementNotFound( id );
         return detail::PartShell( i -> second );
     }
 
-    /** Add a part to the catalog
-    * @param id the name of the part to add
-    * @param dev the part to add
+    /** Add an element to the catalog
+    * @param id the name of the element to add
+    * @param dev the element to add (its class must derive from wallaroo::Part)
     * @throw DuplicatedElement if a part with the name @c id is already in the catalog
     */
     void Add( const std::string& id, const cxx0x::shared_ptr< Part >& dev )
@@ -97,11 +101,11 @@ public:
     }
 
     /** Instantiate a class having a 2 parameters constructor and add it to the catalog
-    * @param id the name of the element to create and add
-    * @param className the name of the class to instantiate
+    * @param id The name of the element to create and add
+    * @param className The name of the class to instantiate (must derive from wallaroo::Part)
     * @param p1 The first parameter of the class constructor
     * @param p2 The second parameter of the class constructor
-    * @return the element created.
+    * @return The element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
@@ -117,10 +121,10 @@ public:
     }
 
     /** Instantiate a class having a 1 parameters constructor and add it to the catalog
-    * @param id the name of the element to create and add
-    * @param className the name of the class to instantiate
+    * @param id The name of the element to create and add
+    * @param className The name of the class to instantiate (must derive from wallaroo::Part)
     * @param p The parameter of the class constructor
-    * @return the element created.
+    * @return The element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
@@ -136,9 +140,9 @@ public:
     }
 
     /** Instantiate a class having a default constructor and add it to the catalog
-    * @param id the name of the element to create and add
-    * @param className the name of the class to instantiate
-    * @return the element created.
+    * @param id The name of the element to create and add
+    * @param className The name of the class to instantiate (must derive from wallaroo::Part)
+    * @return The element created.
     * @throw DuplicatedElement if an element with the name @c id is already in the catalog
     * @throw ElementNotFound if @c className class has not been registered
     */
@@ -152,8 +156,8 @@ public:
         return detail::PartShell( obj );
     }
 
-    /** Check if the collaborators wiring of the objects inside the container
-    * is correct according to the multiplicity declared in the collaborator definition.
+    /** Check if the wiring of the objects inside the container
+    * is correct according to the multiplicity declared in the Collaborator definition.
     * @return false if the wiring does not match with the multiplicity declared.
     */
     bool IsWiringOk() const
@@ -161,8 +165,8 @@ public:
         return FindWrongMultiplicity().empty();
     }
 
-    /** Check if the collaborators wiring of the objects inside the container
-    * is correct according to the multiplicity declared in the collaborator definition.
+    /** Check if the wiring of the objects inside the container
+    * is correct according to the multiplicity declared in the Collaborator definition.
     * @throw WiringError if the wiring does not match with the multiplicity declared.
     */
     void CheckWiring() const
@@ -171,12 +175,12 @@ public:
         if ( !wrongPart.empty() ) throw WiringError( wrongPart );
     }
 
-    /** This method calls Part::Init on every part it contains.
+    /** This method calls Part::Init on every Part contained.
      *  You can call it in the setup phase of your application to perform
      *  the initialization required by each part before the run.
      *  Ideally you should call it *after* wiring and attributes setting, so that
      *  your objects already have dependencies and the right attribute values.
-     *  This method rethrows every exception thrown by the parts Init methodm called
+     *  This method rethrows every exception thrown by each Part::Init.
      */
     void Init()
     {

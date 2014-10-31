@@ -44,23 +44,23 @@
 namespace wallaroo
 {
 
-/// This type should be used as second template parameter in Collaborator class to specify the Collaborator is optional
-/// (i.e.: you can omit to wire a part to the collaborator)
+/// This type should be used as second template parameter in Collaborator class to specify 
+/// that the Collaborator is optional (i.e.: you can omit to link a part to the collaborator)
 struct optional
 {
     template < typename T >
     static bool WiringOk( const cxx0x::weak_ptr< T >& ) { return true; }
 };
-/// This type should be used as second template parameter in Collaborator class to specify the Collaborator is mandatory
-/// (i.e.: you cannot omit to wire a part to the collaborator)
+/// This type should be used as second template parameter in Collaborator class to specify
+/// that the Collaborator is mandatory (i.e.: you cannot omit to link a part to the collaborator)
 struct mandatory
 {
     template < typename T >
     static bool WiringOk( const cxx0x::weak_ptr< T >& t ) { return !t.expired(); }
 };
-/// This type should be used as second template parameter in Collaborator class to specify the Collaborator is a collection
-/// and you can wire to the collaborator a number of parts greater or equal to @c MIN
-/// and lesser or equal to @c MAX
+/// This type should be used as second template parameter in Collaborator class to specify
+/// that the Collaborator is a collection and you can wire the collaborator with a number 
+/// of parts greater or equal to @c MIN and lesser or equal to @c MAX
 template < std::size_t MIN = 0, std::size_t MAX = 0 >
 struct bounded_collection
 {
@@ -99,22 +99,24 @@ struct bounded_collection< 0, 0 >
         return true;
     }
 };
-/// This type should be used as second template parameter in Collaborator class to specify the Collaborator is a collection
-/// and you can wire as many parts to the collaborator as you want. Even zero.
+/// This type should be used as second template parameter in Collaborator class
+/// to specify that the Collaborator is a collection and you can wire as many 
+/// parts to the collaborator as you want. Even zero.
 typedef bounded_collection<> collection;
 
 /**
  * This represents a "collaborator" of a "part" that
- * you can "collaborator" into another "part".
+ * you can link with another "part".
  *
- * If the part1 has the collaborator1 plugged to part2, part1 will
+ * If the part1 has the collaborator1 linked to part2, part1 will
  * basically get a pointer to part2.
  *
  * @tparam T The type of the Part contained
- * @tparam P This represents the kind of Collaborator (@ref mandatory if you must wire a part,
- *           @ref optional if you can leave this collaborator unwired, 
- *           @ref collection if you can wire many parts to this collaborator)
- * @tparam Container If P = @ref collection, this represents the std container the Collaborator will derive from.
+ * @tparam P This represents the kind of Collaborator (@ref mandatory if you must link a part,
+ *           @ref optional if you can leave this collaborator unlinked,
+ *           @ref collection if you can link many parts to this collaborator)
+ * @tparam Container If P = @ref collection, this represents the std container
+ *           the Collaborator will derive from.
  */
 template <
     typename T,
@@ -128,9 +130,9 @@ public:
     typedef cxx0x::weak_ptr< T > WeakPtr;
     typedef cxx0x::shared_ptr< T > SharedPtr;
 
-    /** Create a Collaborator and register it to its part for future wiring.
-    * @param name the name of this collaborator
-    * @param token the registration token got calling Part::RegistrationToken()
+    /** Create a Collaborator and register it to its Part for later wiring.
+    * @param name The name of this collaborator
+    * @param token The registration token you can get by calling Part::RegistrationToken()
     */
     Collaborator( const std::string& name, const RegToken& token )
     {
@@ -138,11 +140,11 @@ public:
         owner -> Register( name, this );
     }
 
-    /** Collaborator this collaborator into a part
-    * @param dev The part you want insert this collaborator into
+    /** Link this collaborator with a Part
+    * @param dev The part you want link with this collaborator
     * @throw WrongType If @c dev is not a subclass of @c T
     */
-    void PlugInto( const cxx0x::shared_ptr< Part >& dev )
+    void Link( const cxx0x::shared_ptr< Part >& dev )
     {
         cxx0x::shared_ptr< T > _dev = cxx0x::dynamic_pointer_cast< T >( dev );
         if ( ! _dev ) // bad type!
@@ -236,9 +238,9 @@ private:
 
 public:
 
-    /** Create a Collaborator and register it to its part for future wiring.
-    * @param name the name of this collaborator
-    * @param token the registration token got calling Part::RegistrationToken()
+    /** Create a Collaborator and register it to its Part for future wiring.
+    * @param name The name of this collaborator
+    * @param token The registration token you can get by calling Part::RegistrationToken()
     */
     Collaborator( const std::string& name, const RegToken& token )
     {
@@ -246,11 +248,11 @@ public:
         owner -> Register( name, this );
     }
 
-    /** Connect a part into this multiple collaborator
+    /** Add a Part into this (collection) collaborator
     * @param part The part to connect
     * @throw WrongType If @c part is not a subclass of @c T
     */
-    void PlugInto( const cxx0x::shared_ptr< Part >& part )
+    void Link( const cxx0x::shared_ptr< Part >& part )
     {
         cxx0x::shared_ptr< T > obj = cxx0x::dynamic_pointer_cast< T >( part );
         if ( ! obj ) // bad type!
